@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import { useSWRConfig } from "swr";
+import useSWR from "swr";
 
 type FormValues = {
   category: string;
@@ -21,8 +22,16 @@ export const CategoryForm = () => {
       method: "POST",
       body: JSON.stringify(postData),
     });
+    // mutate(`users/8kkpegiVDFB23pIp1dnL`);
+    // mutate([`users/8kkpegiVDFB23pIp1dnL`, "categories"]);
 
-    mutate("categories");
+    // useSWR(`/api/categories/create`, (url) => {
+    //   fetch(url, {
+    //     method: "POST",
+    //     body: JSON.stringify(postData),
+    //   });
+    // });
+    mutate(`/api/categories`);
   };
 
   useEffect(() => {

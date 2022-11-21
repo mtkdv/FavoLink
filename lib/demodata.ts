@@ -1,37 +1,40 @@
 const users = [
   {
-    categories: ["bgm", "game", "dev"],
+    // categories: [{ title: "bgm" }, { title: "game" }, { title: "dev" }],
     links: [
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryId: "bgm",
+        categoryTitle: "bgm",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryId: "game",
+        categoryTitle: "game",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryId: "game",
+        categoryTitle: "game",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryId: "bgm",
+        categoryTitle: "bgm",
       },
     ],
-    email: "",
-    categorySort: [
-      { categoryId: "bgm", index: "0" },
-      { categoryId: "game", index: "1" },
+    categories: [
+      { title: "bgm", index: "0" },
+      { title: "game", index: "1" },
     ],
+    // categorySort: [
+    //   { categoryId: "bgmbgmbgmbgm", index: "0" },
+    //   { categoryId: "gamegamegame", index: "1" },
+    // ],
     linkSort: [
       { linkId: "", index: "" },
       { linkId: "", index: "" },
@@ -41,19 +44,19 @@ const users = [
   },
 ];
 
-const categolizedFavolinks = [
+const categorizedFavolinks = [
   [
     {
       title: "",
       url: "",
       thumbnailUrl: "",
-      categoryId: "bgm",
+      categoryTitle: "bgm",
     },
     {
       title: "",
       url: "",
       thumbnailUrl: "",
-      categoryId: "bgm",
+      categoryTitle: "bgm",
     },
   ],
   [
@@ -61,13 +64,13 @@ const categolizedFavolinks = [
       title: "",
       url: "",
       thumbnailUrl: "",
-      categoryId: "game",
+      categoryTitle: "game",
     },
     {
       title: "",
       url: "",
       thumbnailUrl: "",
-      categoryId: "game",
+      categoryTitle: "game",
     },
   ],
 ];

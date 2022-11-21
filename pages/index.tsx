@@ -30,21 +30,21 @@ export default function Home() {
         </nav>
       </header>
       <main>
-        <h1 className="text-white text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
-        <h1 className="text-white mt-14 text-7xl">Dynamic without limits</h1>
+        <h1 className="text-white text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
       </main>
       <footer></footer>
     </>

@@ -22,7 +22,7 @@ export const AddFavolinkForm = () => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const postData = {
       url: data.favolink,
-      categoryId: data.category,
+      categoryTitle: data.category,
     };
     await fetch(`/api/favolinks/create`, {
       method: "POST",
@@ -30,7 +30,7 @@ export const AddFavolinkForm = () => {
     });
 
     // router.refresh();
-    mutate("favolinks");
+    mutate(`/api/favolinks`);
   };
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const AddFavolinkForm = () => {
         </p>
         <p className="text-sm">
           例：
-          <code className="">https://www.youtube.com/watch?v=24oJhYKMpM0</code>
+          <code className="">https://www.youtube.com/watch?v=XZmGGAbHqa0</code>
         </p>
       </label>
       <div className="flex space-x-3">
