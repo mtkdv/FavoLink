@@ -6,7 +6,10 @@ import { fetchFavolinks } from "./firestore";
 // export function useLinks(uid: string) {
 //   const { data, error } = useSWR(`/users/${uid}/favolinks`, fetcher);
 export function useLinks() {
-  const { data, error } = useSWR(`favolinks`, fetcher);
+  const { data, error } = useSWR(`/api/favolinks`, async (url) => {
+    const res = await fetch(url);
+    return res.json();
+  });
 
   return {
     favolinks: data,
@@ -16,7 +19,6 @@ export function useLinks() {
 }
 
 // const fetcher = (path: string) => fetchFavolinks(path);
-const fetcher = (path: string) => fetchFavolinks(path);
 // const fetcher = async (path: string) => {
 //   await new Promise((resolve) => setTimeout(resolve, 1000));
 //   const q = query(collection(db, path), orderBy("createdAt"));

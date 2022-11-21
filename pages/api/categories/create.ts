@@ -6,9 +6,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const postData = await JSON.parse(req.body);
-  const response = await addCategory(postData);
-  res.status(200).json({ response });
-  // TODO: getではないのだから、以下のように、fetch元にJSONを返す必要はないのでは？要検証
+  // const response = await addCategory(postData);
+  // res.status(200).json({ response });
   // await addCategory(postData);
-  // res.status(200);
+  // res.status(200).json({ message: "POST" });
+  await addCategory(postData);
+  res.status(200).end();
 }

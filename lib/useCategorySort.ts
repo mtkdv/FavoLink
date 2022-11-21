@@ -1,23 +1,20 @@
 import useSWR from "swr";
-// import { fetchField } from "./firestore";
+import { fetchCategorySort } from "./firestore";
 
 // export function useLinks(uid: string) {
 //   const { data, error } = useSWR(`/users/${uid}/favolinks`, fetcher);
-export function useCategories() {
-  const { data, error } = useSWR(`/api/categories`, async (url) => {
-    const res = await fetch(url);
-    return res.json();
-  });
+export function useCategorySort() {
+  // const { data, error } = useSWR(`users/8kkpegiVDFB23pIp1dn`, fetcher);
 
   return {
-    categories: data,
+    categorySort: data,
     isLoading: !error && !data,
     isError: error,
   };
 }
 
 // const fetcher = (path: string) => fetchFavolinks(path);
-// const fetcher = (path: string, field: string) => fetchField(path, field);
+const fetcher = (path: string) => fetchCategorySort(path);
 // const fetcher = async (path: string) => {
 //   await new Promise((resolve) => setTimeout(resolve, 1000));
 //   const q = query(collection(db, path), orderBy("createdAt"));

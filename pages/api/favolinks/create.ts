@@ -6,6 +6,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const postData = await JSON.parse(req.body);
-  const response = await addFavolink(postData);
-  res.status(200).json({ response });
+  await addFavolink(postData);
+  res.status(200).end();
 }
