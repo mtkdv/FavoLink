@@ -1,7 +1,12 @@
+import { userState } from "#/store/store";
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
 
 export default function Home() {
+  const user = useRecoilValue(userState);
+
   return (
     <>
       <header
@@ -17,15 +22,31 @@ export default function Home() {
         </div>
         <nav className="flex items-center">
           <ul className="flex space-x-3">
+            {user ? (
+              <>
+                <li>{user.displayName}</li>
+                <li>
+                  <Image
+                    src={user.photoURL ?? "sample.jpg"}
+                    alt="avatar"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                </li>
+              </>
+            ) : null}
             <li>
               <Link href="my/dashboard">ダッシュボード</Link>
             </li>
             <li>
               <Link href="/about">当サイトについて</Link>
             </li>
-            <li>
-              <Link href="/signin">ログイン</Link>
-            </li>
+            {!user && (
+              <li>
+                <Link href="/signin">ログイン</Link>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
