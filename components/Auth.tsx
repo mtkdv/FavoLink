@@ -17,7 +17,7 @@ export const Auth: FC = () => {
         setUser({ uid, displayName, photoURL });
         console.log("いつ実行されてるの");
         // console.log("router:", router);
-        //=> router.asPath: "/"
+        // => router.asPath: "/"
         if (/^\/(signin|signup)/.test(router.asPath)) {
           router.replace("/");
         }
