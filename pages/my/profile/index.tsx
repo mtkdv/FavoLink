@@ -1,19 +1,45 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import Layout from "#/components/Layout";
-import { ReactElement } from "react";
-import { useRecoilValue } from "recoil";
+import { ReactElement, Suspense, useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "#/store/store";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useSWRConfig } from "swr";
+import { fetchProfile, saveProfile } from "#/lib/firestore";
+import { updateProfile } from "firebase/auth";
+import { auth } from "#/firebase/firebase";
+import useSWR from "swr";
+import avatar2 from "#/public/avatar2.png";
 
 type FormValues = {
-  uid: string;
-  name: string;
-  introduction: string;
+  slug: string;
+  displayName: string;
+  desc: string;
+};
+
+type Profile = {
+  slug: string;
+  desc: string;
 };
 
 const Profile: NextPageWithLayout = () => {
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
+  // API Routesを介する場合
+  // const { data: profile } = useSWR(`/api/profile`, async (url) => {
+  //   const res = await fetch(url);
+  //   return res.json();
+  // });
+  // API Routesを介する場合
+  // const { data: profile } = useSWR(`fetchProfile`, fetchProfile);
+  const { mutate } = useSWRConfig();
+
+  // swrを使用しない場合
+  const [profile, setProfile] = useState<Profile>();
+  useEffect(() => {
+    fetchProfile().then((res) => setProfile(res));
+  }, [auth.currentUser]);
+
   const {
     register,
     handleSubmit,
@@ -21,31 +47,60 @@ const Profile: NextPageWithLayout = () => {
     formState: { isSubmitSuccessful },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {};
+  useEffect(() => {
+    reset({
+      slug: profile?.slug,
+      desc: profile?.desc,
+    });
+  }, [profile]);
+  useEffect(() => {
+    reset({
+      displayName: user?.displayName!,
+    });
+  }, [user]);
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    // TODO: Promise.all
+    // displayNameとphotoURLの更新
+    await updateProfile(auth.currentUser!, {
+      displayName: data.displayName,
+      // photoURL: data.photoURL,
+    });
+    setUser((currVal) => ({
+      ...currVal,
+      displayName: data.displayName,
+    }));
+
+    // slugとdescの更新
+    await saveProfile({
+      // uid: user?.uid!,
+      slug: data.slug,
+      desc: data.desc,
+    });
+  };
 
   return (
     <div className="py-12 px-6">
       <h2>プロフィール編集</h2>
-      <form onClick={handleSubmit(onSubmit)}>
-        <div className="border border-gray-400 rounded-lg">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <table className="border border-gray-400 rounded-lg">
           <tbody>
             <tr className="">
-              <th>ID</th>
+              <th>slug</th>
               <td>
                 <input
                   className="bg-transparent text-white"
                   type="text"
-                  value={user!.uid ?? "hoge"}
-                  {...register("uid")}
+                  {...register("slug")}
                 />
               </td>
-              <td>{user!.uid.length}/30</td>
+              {/* <td>{profile?.slug.length}/30</td> */}
             </tr>
             <tr className="">
               <th>アイコン</th>
               <td>
                 <Image
-                  src={user!.photoURL ?? "sample.jpg"}
+                  src={user?.photoURL ?? avatar2}
                   alt="avatar"
                   width={40}
                   height={40}
@@ -59,24 +114,23 @@ const Profile: NextPageWithLayout = () => {
                 <input
                   className="bg-transparent text-white"
                   type="text"
-                  value={user!.displayName ?? "hoge"}
-                  {...register("name")}
+                  {...register("displayName")}
                 />
               </td>
-              <td>{user!.displayName?.length}/20</td>
+              {/* <td>{user?.displayName?.length}/20</td> */}
             </tr>
             <tr className="">
-              <th>表示名</th>
+              <th>紹介文</th>
               <td>
                 <textarea
-                  className="bg-transparent text-white"
-                  {...register("introduction")}
+                  className="bg-transparent text-white border border-white rounded-lg"
+                  {...register("desc")}
                 />
               </td>
               <td>{}/20</td>
             </tr>
           </tbody>
-        </div>
+        </table>
         <button type="submit">保存</button>
       </form>
     </div>
