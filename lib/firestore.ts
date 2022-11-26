@@ -1,4 +1,4 @@
-import { auth, db } from "#/firebase/firebase";
+import { db } from "#/firebase/firebase";
 import {
   addDoc,
   collection,
@@ -160,79 +160,49 @@ export const fetchCategorySort = async (path: string) => {
   return categorySort;
 };
 
-// export const fetchProfile = async (url: string) => {
-// return getDoc(doc(db, `users/8kkpegiVDFB23`));
-// const docRef = doc(db, `users/${uid}`);
-// const docSnap = await getDoc(docRef);
-// const docData = docSnap.data();
-// };
-
-export const fetchProfile = async () => {
+export const fetchProfile = async (uid: string) => {
+  console.log("fetchProfile");
   try {
     // console.log("auth.currentUser!:", auth.currentUser!); //=> null
-    const docRef = doc(db, `users/${auth.currentUser?.uid}`);
+    const docRef = doc(db, `users/${uid}`);
     const docSnap = await getDoc(docRef);
-    // console.log({
+    const { displayName, slug, desc } = docSnap.data()!;
+    // const { displayName, slug, desc } = await getDoc(docRef);
+    // return {
+    // displayName: docSnap.data()?.displayName,
     //   slug: docSnap.data()?.slug,
     //   desc: docSnap.data()?.desc,
-    // });
-    return {
-      slug: docSnap.data()?.slug,
-      desc: docSnap.data()?.desc,
-    };
+    // };
+    return { displayName, slug, desc };
   } catch (error: any) {
     console.log(error.message);
   }
 };
 
 export const saveProfile = async ({
-  // uid,
-  slug,
-  desc,
+  uid,
+  displayName,
+  // photoURL,
+  slug = "",
+  desc = "",
 }: {
-  // uid: string;
-  slug: string | null;
-  desc: string | null;
+  uid: string;
+  displayName: string | null;
+  // photoURL: string | null;
+  slug?: string | null;
+  desc?: string | null;
 }) => {
   try {
-    // const docRef = doc(db, `users/${uid}`);
-    const docRef = doc(db, `users/${auth.currentUser?.uid}`);
-    // const docSnap = await getDoc(docRef);
-    // const docData = docSnap.data();
+    const docRef = doc(db, `users/${uid}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap) return;
 
-    // if (docData) {
-    //   // for (const field in docData) {
-    //   //   // if (field) {
-    //   //   //   console.log("if");
-    //   //   //   updateDoc(docRef, { field });
-    //   //   // } else {
-    //   //   //   console.log("else");
-    //   //   //   setDoc(docRef, { field });
-    //   //   // }
-    //   //   console.log("updateDocでもsetできるんやな");
-    //   //   updateDoc(docRef, { field });
-    //   // }
-    // } else {
-    //   setDoc(docRef, {
-    //     // desc,
-    //     slug,
-    //   });
-    // }
     setDoc(docRef, {
-      // updateDoc(docRef, {
+      displayName,
+      // photoURL,
       slug,
       desc,
     });
-
-    // if (dname) {
-    //   updateDoc(docRef, {
-    //     dname: newName,
-    //   });
-    // } else {
-    //   setDoc(docRef, {
-    //     dname: newName,
-    //   });
-    // }
   } catch (error: any) {
     console.error("error.body:", error.body);
   }

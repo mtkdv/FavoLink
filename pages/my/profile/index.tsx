@@ -1,84 +1,53 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import Layout from "#/components/Layout";
-import { ReactElement, Suspense, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "#/store/store";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSWRConfig } from "swr";
 import { fetchProfile, saveProfile } from "#/lib/firestore";
-import { updateProfile } from "firebase/auth";
 import { auth } from "#/firebase/firebase";
 import useSWR from "swr";
 import avatar2 from "#/public/avatar2.png";
 
 type FormValues = {
-  slug: string;
   displayName: string;
-  desc: string;
-};
-
-type Profile = {
+  // photoURL: string;
   slug: string;
   desc: string;
 };
 
 const Profile: NextPageWithLayout = () => {
   const [user, setUser] = useRecoilState(userState);
-  // API Routesを介する場合
-  // const { data: profile } = useSWR(`/api/profile`, async (url) => {
-  //   const res = await fetch(url);
-  //   return res.json();
-  // });
-  // API Routesを介する場合
-  // const { data: profile } = useSWR(`fetchProfile`, fetchProfile);
-  const { mutate } = useSWRConfig();
 
-  // swrを使用しない場合
-  const [profile, setProfile] = useState<Profile>();
-  useEffect(() => {
-    fetchProfile().then((res) => setProfile(res));
-  }, [auth.currentUser]);
+  const { data: profile } = useSWR(
+    () => auth.currentUser?.uid,
+    // () => user.uid,
+    (uid) => fetchProfile(uid)
+  );
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { isSubmitSuccessful },
-  } = useForm<FormValues>();
-
-  useEffect(() => {
-    reset({
-      slug: profile?.slug,
-      desc: profile?.desc,
-    });
-  }, [profile]);
-  useEffect(() => {
-    reset({
-      displayName: user?.displayName!,
-    });
-  }, [user]);
+  } = useForm<FormValues>({
+    // "react-hook-form": "^7.40.0-next.1"
+    values: profile,
+    // defaultValues: fetchProfile,
+  });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // TODO: Promise.all
-    // displayNameとphotoURLの更新
-    await updateProfile(auth.currentUser!, {
+    // firestoreの更新
+    saveProfile({
+      uid: auth.currentUser!.uid,
       displayName: data.displayName,
       // photoURL: data.photoURL,
-    });
-    setUser((currVal) => ({
-      ...currVal,
-      displayName: data.displayName,
-    }));
-
-    // slugとdescの更新
-    await saveProfile({
-      // uid: user?.uid!,
       slug: data.slug,
       desc: data.desc,
     });
   };
 
+  if (!profile) return <p>loading...</p>;
   return (
     <div className="py-12 px-6">
       <h2>プロフィール編集</h2>
@@ -100,7 +69,8 @@ const Profile: NextPageWithLayout = () => {
               <th>アイコン</th>
               <td>
                 <Image
-                  src={user?.photoURL ?? avatar2}
+                  src={user.photoURL ?? avatar2}
+                  // src={profile.photoURL ?? avatar2}
                   alt="avatar"
                   width={40}
                   height={40}
