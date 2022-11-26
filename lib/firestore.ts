@@ -1,4 +1,4 @@
-import { db } from "#/firebase/firebase";
+import { auth, db } from "#/firebase/firebase";
 import {
   addDoc,
   collection,
@@ -11,6 +11,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { uploadAndGetUrl } from "./firebaseStorage";
 import { listVideos } from "./youtube";
 
 export const fetchFavolinks = async () => {
@@ -158,4 +159,88 @@ export const fetchCategorySort = async (path: string) => {
   // TODO: まずはある想定で返す。
   categorySort.sort((a, b) => (a.index < b.index ? -1 : 1));
   return categorySort;
+};
+
+export const fetchProfile = async (uid: string) => {
+  console.log("fetchProfile");
+  try {
+    // console.log("auth.currentUser!:", auth.currentUser!); //=> null
+    const docRef = doc(db, `users/${uid}`);
+    const docSnap = await getDoc(docRef);
+    const { displayName, photoURL, slug, desc } = docSnap.data()!;
+    // const { displayName, slug, desc } = await getDoc(docRef);
+    // return {
+    // displayName: docSnap.data()?.displayName,
+    //   slug: docSnap.data()?.slug,
+    //   desc: docSnap.data()?.desc,
+    // };
+    return { displayName, photoURL, slug, desc };
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
+
+export const saveProfile = async ({
+  uid,
+  displayName,
+  photoURL,
+}: {
+  uid: string;
+  displayName: string | null;
+  photoURL: string | null;
+}) => {
+  try {
+    // console.log("saveProfile");
+    // console.log("photoURL[0]:", photoURL?.[0]);
+    const docRef = doc(db, `users/${uid}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.data()) {
+      // console.log("すでに当アプリのユーザーです");
+      return;
+    }
+
+    setDoc(docRef, {
+      displayName,
+      photoURL,
+      slug: "",
+      desc: "",
+    });
+  } catch (error: any) {
+    console.error("error.body:", error.body);
+  }
+};
+export const updateProfile = async ({
+  uid,
+  displayName,
+  // imageFile,
+  photoURL,
+  slug,
+  desc,
+}: {
+  uid: string;
+  displayName: string;
+  // imageFile: File | undefined;
+  photoURL: string;
+  slug: string;
+  desc: string;
+}) => {
+  try {
+    // console.log("imageFile", imageFile);
+    const docRef = doc(db, `users/${uid}`);
+
+    // firebase storageの処理
+    // let photoURL;
+    // if (imageFile) {
+    //   photoURL = await uploadAndGetUrl(imageFile);
+    // }
+
+    setDoc(docRef, {
+      displayName,
+      photoURL, // undefined
+      slug,
+      desc,
+    });
+  } catch (error: any) {
+    console.error("updateProfile error.body:", error.body);
+  }
 };

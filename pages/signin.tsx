@@ -5,12 +5,16 @@ import GithubSvg from "#/public/github.svg";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "#/firebase/firebase";
 import { useRouter } from "next/router";
+import { saveProfile } from "#/lib/firestore";
 
 export default function SignIn() {
   const router = useRouter();
 
   const handleSignInWithGoogle = async () => {
-    await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    // const {displayName, photoURL} = result.user;
+    // saveProfile(displayName, photoURL)
+    saveProfile(result.user);
     router.replace("/");
   };
 
