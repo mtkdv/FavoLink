@@ -3,8 +3,6 @@ import axios from "axios";
 const fields = "items/snippet(title,thumbnails/medium/url)";
 
 export const listVideos = async (url: string) => {
-  // urlからvideoIdを取得する正規表現は後回しにして、まず動作確認をしたい。
-  // 一旦、urlではなくvideoIdを渡す。
   const id = getYouTubeVideoIdFromUrl(url);
   try {
     const res = await axios.get(
@@ -18,14 +16,16 @@ export const listVideos = async (url: string) => {
         },
       }
     );
+    const title = res.data.items[0].snippet.title as string;
+    const thumbnailUrl = res.data.items[0].snippet.thumbnails.medium
+      .url as string;
+
     return {
-      title: res.data.items[0].snippet.title,
-      thumbnailUrl: res.data.items[0].snippet.thumbnails.medium.url,
+      title,
+      thumbnailUrl,
     };
   } catch (error: any) {
-    // console.log(error);
-    // エラーを投げることでundefinedを返さなくて済む。
-    throw new Error(error);
+    console.log(error.message);
   }
 };
 

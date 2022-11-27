@@ -3,18 +3,19 @@ import useSWR from "swr";
 
 // export function useLinks(uid: string) {
 //   const { data, error } = useSWR(`/users/${uid}/favolinks`, fetcher);
-export function useCategories() {
-  const { data, error } = useSWR(`/api/categories`, async (url) => {
-    const res = await fetch(url);
-    return res.json();
-  });
 
-  return {
-    categories: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
-}
+// export function useCategories() {
+//   const { data, error } = useSWR(`/api/categories`, async (url) => {
+//     const res = await fetch(url);
+//     return res.json();
+//   });
+
+//   return {
+//     categories: data,
+//     isLoading: !error && !data,
+//     isError: error,
+//   };
+// }
 
 // const fetcher = (path: string) => fetchFavolinks(path);
 // const fetcher = (path: string, field: string) => fetchField(path, field);

@@ -3,6 +3,10 @@ import { useEffect } from "react";
 // import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
 import { CategorySelect } from "./CategorySelect";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addFavolink } from "#/lib/firestore";
+import { useRecoilValue } from "recoil";
+import { userState } from "#/store/store";
 
 export type FormValues = {
   favolink: string;
@@ -10,8 +14,17 @@ export type FormValues = {
 };
 
 export const AddFavolinkForm = () => {
+  const user = useRecoilValue(userState);
   // const router = useRouter();
-  const { mutate } = useSWRConfig();
+  // const { mutate } = useSWRConfig();
+
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: addFavolink,
+    // TODO: favolinkを追加しただけだから、favolinksとcategoriesのqueryは分けたほうがいいかも
+    onSettled: () => queryClient.invalidateQueries(["categorizedFavolinks"]),
+  });
+
   const {
     register,
     handleSubmit,
@@ -20,22 +33,26 @@ export const AddFavolinkForm = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const postData = {
+    mutate({
+      uid: user.uid,
       url: data.favolink,
       categoryTitle: data.category,
-    };
-    await fetch(`/api/favolinks/create`, {
-      method: "POST",
-      body: JSON.stringify(postData),
     });
+    // const postData = {
+    //   url: data.favolink,
+    //   categoryTitle: data.category,
+    // };
+    // await fetch(`/api/favolinks/create`, {
+    //   method: "POST",
+    //   body: JSON.stringify(postData),
+    // });
 
     // router.refresh();
-    mutate(`/api/favolinks`);
+    // mutate(`/api/favolinks`);
   };
 
   useEffect(() => {
     reset();
-    // いずれrecoilのtodoListStateを依存に入れればおｋ
   }, [isSubmitSuccessful]);
 
   return (
