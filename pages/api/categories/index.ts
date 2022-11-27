@@ -6,16 +6,5 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const response = await fetchCategories();
-  // console.log({ response });
-  // {
-  //   response: [
-  //     { title: '美味しんぼ', index: 0 },
-  //     { index: 1, title: 'ホロEN' },
-  //     { title: 'スバおか', index: 2 },
-  //     { title: 'スバルーナ', index: 3 },
-  //     { index: 4, title: 'ホロライブ' }
-  //   ]
-  // }
-  // res.status(200).json({ response });
   res.status(200).json(response);
 }
