@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "#/pages/_app";
-import Layout from "#/components/Layout";
+import { Layout } from "#/components/Layout";
 import { ReactElement, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "#/store/store";

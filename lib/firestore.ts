@@ -11,61 +11,82 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { uploadAndGetUrl } from "./firebaseStorage";
 import { listVideos } from "./youtube";
 
-export const fetchFavolinks = async () => {
-  // 下記一行はローディングを見たいから。
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
-  const colRef = collection(db, `users/8kkpegiVDFB23pIp1dnL/favolinks`);
-  const docsSnapshot = await getDocs(colRef);
-  return docsSnapshot.docs.map((doc) => doc.data());
-};
-
-export const addFavolink = async ({
-  url,
-  categoryTitle,
-}: {
+type Favolink = {
+  title: string;
   url: string;
+  thumbnailUrl: string;
   categoryTitle: string;
-}) => {
-  try {
-    //// @ts-ignore
-    const { title, thumbnailUrl } = await listVideos(url);
-    addDoc(collection(db, `users/8kkpegiVDFB23pIp1dnL/favolinks`), {
-      title,
-      url,
-      thumbnailUrl,
-      categoryTitle,
-      createdAt: serverTimestamp(),
-    });
-  } catch (error: any) {
-    throw new Error(error.message);
-    // console.error("error.body:", error.body);
-  }
 };
 
-// export const fetchCategories = async (path: string) => {
-//   const q = query(collection(db, path), orderBy("title"));
-//   const querySnapshot = await getDocs(q);
-//   return querySnapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     title: doc.data().title,
-//   }));
-// };
+export const fetchFavolinks = async (uid: string) => {
+  const colRef = collection(db, `users/${uid}/favolinks`);
+  const docsSnapshot = await getDocs(colRef);
+  const favolinks = docsSnapshot.docs.map((doc) => doc.data());
+  console.log("favolinks:", favolinks);
+  //=>
+  return favolinks as Favolink[];
+};
 
-type Category = {
+export type Category = {
   title: string;
   index: number;
 };
 
-export const fetchCategories = async () => {
-  const docSnap = await getDoc(doc(db, `users/8kkpegiVDFB23pIp1dnL`));
-  const categories = docSnap.data()?.categories as Category[];
-  // TODO: まずはある想定で返す。
-  categories?.sort((a, b) => (a.index < b.index ? -1 : 1));
+export const fetchCategories = async (uid: string) => {
+  const docSnap = await getDoc(doc(db, `users/${uid}`));
+  const categories = (docSnap.data()!.categories ?? []) as Category[];
+  categories.sort((a, b) => (a.index < b.index ? -1 : 1));
+  console.log("categories:", categories);
+  //=>
   return categories;
 };
+
+export const fetchCategorizedFavolinks = async (uid: string) => {
+  // console.log("fetchCategorizedFavolinks:", fetchCategorizedFavolinks);
+  const [favolinks, categories] = await Promise.all([
+    fetchFavolinks(uid),
+    fetchCategories(uid),
+  ]);
+
+  // TODO: 切り出していい
+  const categorizedFavolinks = categories?.flatMap((category) => {
+    const spesificFavolinks = favolinks?.filter((favolink) => {
+      return category.title === favolink.categoryTitle;
+    });
+    // console.log(i, spesificFavolinks);
+    return spesificFavolinks.length > 0 ? [spesificFavolinks] : [];
+  });
+  console.log("categorizedFavolinks:", categorizedFavolinks);
+  //=>
+  return categorizedFavolinks;
+};
+
+export const addFavolink = async ({
+  uid,
+  url,
+  categoryTitle,
+}: {
+  uid: string;
+  url: string;
+  categoryTitle: string;
+}) => {
+  try {
+    const video = await listVideos(url);
+    if (!video) throw new Error();
+    addDoc(collection(db, `users/${uid}/favolinks`), {
+      title: video.title,
+      url,
+      thumbnailUrl: video.thumbnailUrl,
+      categoryTitle,
+      createdAt: serverTimestamp(),
+    });
+  } catch (error: any) {
+    console.error("error.body:", error.body);
+  }
+};
+
 // export const fetchField = async (path: string, field: string) => {
 //   const docSnap = await getDoc(doc(db, path));
 //   const fieldData = docSnap.data()?.[field];
@@ -114,14 +135,18 @@ export const fetchCategories = async () => {
 //   }
 // };
 // TODO: 空文字も登録できてしまう。
-export const addCategory = async ({ title }: { title: string }) => {
+export const addCategory = async ({
+  uid,
+  title,
+}: {
+  uid: string;
+  title: string;
+}) => {
   try {
-    // const docRef = doc(
-    //   collection(db, `users/8kkpegiVDFB23pIp1dnL`, `categories`)
-    // );
+    const docRef = doc(db, `users/${uid}`);
 
-    const docSnap = await getDoc(doc(db, `users/8kkpegiVDFB23pIp1dnL`));
-    const categories = docSnap.data()?.categories;
+    const docSnap = await getDoc(docRef);
+    const categories: Category[] | undefined = docSnap.data()?.categories;
     if (categories) {
       const newCategories = [
         ...categories,
@@ -130,11 +155,11 @@ export const addCategory = async ({ title }: { title: string }) => {
           index: categories.length,
         },
       ];
-      updateDoc(doc(db, `users/8kkpegiVDFB23pIp1dnL`), {
+      updateDoc(docRef, {
         categories: newCategories,
       });
     } else {
-      setDoc(doc(db, `users/8kkpegiVDFB23pIp1dnL`), {
+      updateDoc(docRef, {
         categories: [
           {
             title,

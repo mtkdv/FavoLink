@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "#/pages/_app";
-import Layout from "#/components/Layout";
+import { Layout } from "#/components/Layout";
 import { ReactElement } from "react";
 
 const Dashboard: NextPageWithLayout = () => {

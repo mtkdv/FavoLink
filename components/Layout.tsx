@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   const user = useRecoilValue(userState);
   const router = useRouter();
 
@@ -53,5 +53,3 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     </>
   );
 };
-
-export default Layout;
