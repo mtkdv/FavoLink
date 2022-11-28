@@ -5,6 +5,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const response = await fetchCategories();
-  res.status(200).json(response);
+  // const response = await fetchCategories();
+  // res.status(200).json(response);
 }
