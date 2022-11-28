@@ -53,7 +53,8 @@ export const AddFavolinkForm = () => {
 
   useEffect(() => {
     reset();
-  }, [reset, isSubmitSuccessful]);
+    // }, [reset, isSubmitSuccessful]);
+  }, [isSubmitSuccessful]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="">

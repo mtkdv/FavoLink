@@ -36,7 +36,8 @@ export const Auth: FC = () => {
     });
 
     return unSubscribe;
-  }, [resetUser, router, setUser]);
+    // }, [resetUser, router, setUser]);
+  }, []);
 
   return null;
 };
