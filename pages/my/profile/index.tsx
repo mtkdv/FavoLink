@@ -9,6 +9,7 @@ import { fetchProfile, updateProfile } from "#/lib/firestore";
 import useSWR from "swr";
 import avatar2 from "#/public/avatar2.png";
 import { uploadAndGetUrl } from "#/lib/firebaseStorage";
+import { useQuery } from "@tanstack/react-query";
 
 type FormValues = {
   displayName: string;
@@ -21,11 +22,16 @@ type FormValues = {
 const Profile: NextPageWithLayout = () => {
   const user = useRecoilValue(userState);
 
-  const { data: profile } = useSWR(
-    // () => auth.currentUser?.uid,
-    () => user.uid,
-    (uid) => fetchProfile(uid)
-  );
+  // const { data: profile } = useSWR(
+  //   // () => auth.currentUser?.uid,
+  //   () => user.uid,
+  //   (uid) => fetchProfile(uid)
+  // );
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => fetchProfile(user.uid),
+    enabled: !!user,
+  });
 
   const {
     register,

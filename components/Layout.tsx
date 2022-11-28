@@ -34,6 +34,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             <li>
               <Link href={`/my/favolink`}>お気に入りのリンク追加</Link>
             </li>
+            <li>
+              <Link href={`/my/preview`}>プレビュー</Link>
+            </li>
             {user && (
               <li>
                 <button

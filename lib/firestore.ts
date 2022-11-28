@@ -259,7 +259,8 @@ export const updateProfile = async ({
     //   photoURL = await uploadAndGetUrl(imageFile);
     // }
 
-    setDoc(docRef, {
+    // setDoc(docRef, {
+    updateDoc(docRef, {
       displayName,
       photoURL, // undefined
       slug,
