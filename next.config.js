@@ -10,9 +10,26 @@ const nextConfig = {
         // port: '',
         pathname: "/vi/**",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+      },
     ],
   },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
+  },
 };
-// https://i.ytimg.com/vi/fhpfemCmSN4/mqdefault.jpg
+// lh3.googleusercontent.com
 
 module.exports = nextConfig;
