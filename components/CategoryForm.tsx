@@ -70,7 +70,7 @@ export const CategoryForm = () => {
   useEffect(() => {
     reset();
     // いずれrecoilのtodoListStateを依存に入れればおｋ
-  }, [isSubmitSuccessful]);
+  }, [reset, isSubmitSuccessful]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="">

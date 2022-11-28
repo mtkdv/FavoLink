@@ -43,7 +43,11 @@ const Preview = () => {
           <li>
             {/* これだと空文字でも通ってしまうか */}
             {profile && profile.slug ? (
-              <a target="_blank" rel="noopener" href={`/${profile.slug}`}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`/${profile.slug}`}
+              >
                 公開URLはこちら
               </a>
             ) : (
@@ -82,7 +86,7 @@ const Preview = () => {
                           <li key={favolink.url} className="w-60 p-1">
                             <a
                               target="_blank"
-                              rel="noopener"
+                              rel="noopener noreferrer"
                               href={favolink.url}
                             >
                               <Image

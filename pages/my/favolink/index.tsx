@@ -72,7 +72,11 @@ const FavoLink: NextPageWithLayout = () => {
                 <ul className="flex">
                   {spesificFavolinks.map((favolink) => (
                     <li key={favolink.url} className="w-60 p-1">
-                      <a target="_blank" rel="noopener" href={favolink.url}>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={favolink.url}
+                      >
                         <Image
                           src={favolink.thumbnailUrl}
                           alt="thumbnail"
