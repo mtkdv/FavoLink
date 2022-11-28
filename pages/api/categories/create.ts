@@ -10,6 +10,6 @@ export default async function handler(
   // res.status(200).json({ response });
   // await addCategory(postData);
   // res.status(200).json({ message: "POST" });
-  await addCategory(postData);
-  res.status(200).end();
+  // await addCategory(postData);
+  // res.status(200).end();
 }

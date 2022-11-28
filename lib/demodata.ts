@@ -74,3 +74,5 @@ const categorizedFavolinks = [
     },
   ],
 ];
+
+export {};
