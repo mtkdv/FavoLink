@@ -79,26 +79,31 @@ const Profile: NextPageWithLayout = () => {
     <div className="py-12 px-6">
       <h2>プロフィール編集</h2>
       {profile ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <table className="border border-gray-400 rounded-lg">
+        <form className="" onSubmit={handleSubmit(onSubmit)}>
+          <table className="border border-gray-400 rounded-lg w-full">
             <tbody>
-              <tr className="">
-                <th>slug</th>
-                <td>
-                  <input
-                    className="bg-transparent text-white"
-                    type="text"
-                    {...register("slug")}
-                    // {...register("slug", {
-                    //   onChange: (e) => console.log(e.target.value),
-                    // })}
-                    // onChange={onChange}
-                  />
+              <tr className="flex p-2">
+                <th className="w-20 grid place-items-center">公開URL</th>
+                <td className="flex-1">
+                  <div className="flex">
+                    <div className="bg-slate-600 grid place-items-center px-2 py-1 rounded-l-md">
+                      https://favolink.com/
+                    </div>
+                    <input
+                      className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
+                      type="text"
+                      {...register("slug")}
+                      // {...register("slug", {
+                      //   onChange: (e) => console.log(e.target.value),
+                      // })}
+                      // onChange={onChange}
+                    />
+                  </div>
                 </td>
                 {/* <td>{profile?.slug.length}/30</td> */}
               </tr>
-              <tr className="">
-                <th>アイコン</th>
+              <tr className="flex p-2">
+                <th className="w-20">アイコン</th>
                 <td>
                   <label htmlFor="img" className="cursor-pointer">
                     <Image
@@ -120,8 +125,8 @@ const Profile: NextPageWithLayout = () => {
                   />
                 </td>
               </tr>
-              <tr className="">
-                <th>表示名</th>
+              <tr className="flex p-2">
+                <th className="w-20">表示名</th>
                 <td>
                   <input
                     className="bg-transparent text-white"
@@ -131,15 +136,15 @@ const Profile: NextPageWithLayout = () => {
                 </td>
                 {/* <td>{user?.displayName?.length}/20</td> */}
               </tr>
-              <tr className="">
-                <th>紹介文</th>
+              <tr className="flex p-2">
+                <th className="w-20">紹介文</th>
                 <td>
                   <textarea
                     className="bg-transparent text-white border border-white rounded-lg"
                     {...register("desc")}
                   />
                 </td>
-                <td>{}/20</td>
+                {/* <td>{}/20</td> */}
               </tr>
             </tbody>
           </table>
