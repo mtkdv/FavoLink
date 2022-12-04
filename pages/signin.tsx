@@ -2,7 +2,7 @@ import FooterSmall from "#/components/FooterSmall";
 import Navbar from "#/components/Navbar";
 import GoogleSvg from "#/public/google.svg";
 import GithubSvg from "#/public/github.svg";
-import { signInWithPopup } from "firebase/auth";
+import { getAdditionalUserInfo, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "#/firebase/firebase";
 import { useRouter } from "next/router";
 import { saveProfile } from "#/lib/firestore";
@@ -12,9 +12,28 @@ export default function SignIn() {
 
   const handleSignInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
-    // const {displayName, photoURL} = result.user;
-    // saveProfile(displayName, photoURL)
-    saveProfile(result.user);
+    // saveProfile(result.user);
+    const isNewUser = getAdditionalUserInfo(result)?.isNewUser;
+    if (isNewUser) {
+      const { uid, email, displayName, photoURL } = result.user;
+      const body = {
+        id: uid,
+        email,
+        name: displayName,
+        image: photoURL,
+      };
+
+      try {
+        await fetch(`/api/user`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     router.replace("/");
   };
 
