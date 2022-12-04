@@ -15,9 +15,10 @@ export default function SignIn() {
     // saveProfile(result.user);
     const isNewUser = getAdditionalUserInfo(result)?.isNewUser;
     if (isNewUser) {
-      const { uid, displayName, photoURL } = result.user;
+      const { uid, email, displayName, photoURL } = result.user;
       const body = {
         id: uid,
+        email,
         name: displayName,
         image: photoURL,
       };
