@@ -24,7 +24,7 @@ export default function SignIn() {
       };
 
       try {
-        await fetch(`/api/user`, {
+        await fetch(`/api/profile`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),

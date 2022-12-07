@@ -1,11 +1,25 @@
-import { fetchProfile } from "#/lib/firestore";
+import prisma from "#/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
+// POST /api/profile
+// Required fields in body: id, email, name, image
+export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // const response = await fetchProfile();
-  // // res.status(200).json({ response });
-  // res.status(200).json(response);
+  const { id, name, image } = req.body;
+  console.log("/api/profile");
+  const result = await prisma.user.create({
+    data: {
+      ...req.body,
+      profile: {
+        create: {
+          id,
+          name,
+          image,
+        },
+      },
+    },
+  });
+  res.json(result);
 }
