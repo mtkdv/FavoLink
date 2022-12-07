@@ -19,6 +19,11 @@ type FormValues = {
   desc: string;
 };
 
+const fetchUser = async (id: string) => {
+  const res = await fetch(`/api/user/${id}`);
+  return await res.json();
+};
+
 const Profile: NextPageWithLayout = () => {
   const user = useRecoilValue(userState);
 
@@ -29,7 +34,8 @@ const Profile: NextPageWithLayout = () => {
   // );
   const { data: profile } = useQuery({
     queryKey: ["profile"],
-    queryFn: () => fetchProfile(user.uid),
+    // queryFn: () => fetchProfile(user.uid),
+    queryFn: () => fetchUser(user.uid),
     enabled: !!user,
   });
 
@@ -107,7 +113,7 @@ const Profile: NextPageWithLayout = () => {
                 <td>
                   <label htmlFor="img" className="cursor-pointer">
                     <Image
-                      src={selectedImage ?? profile.photoURL ?? avatar2}
+                      src={selectedImage ?? profile.image ?? avatar2}
                       // src={profile.photoURL ?? avatar2}
                       alt="avatar"
                       width={40}
@@ -131,7 +137,7 @@ const Profile: NextPageWithLayout = () => {
                   <input
                     className="bg-transparent text-white"
                     type="text"
-                    {...register("displayName")}
+                    {...register("name")}
                   />
                 </td>
                 {/* <td>{user?.displayName?.length}/20</td> */}
@@ -141,7 +147,7 @@ const Profile: NextPageWithLayout = () => {
                 <td>
                   <textarea
                     className="bg-transparent text-white border border-white rounded-lg"
-                    {...register("desc")}
+                    {...register("description")}
                   />
                 </td>
                 {/* <td>{}/20</td> */}
