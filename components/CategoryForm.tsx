@@ -2,13 +2,28 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 // import { useSWRConfig } from "swr";
 import useSWR from "swr";
-import { addCategory } from "#/lib/firestore";
+// import { addCategory } from "#/lib/firestore";
 import { useRecoilValue } from "recoil";
 import { userState } from "#/store/store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type FormValues = {
   category: string;
+};
+
+const addCategory = async (body: { name: string; userId: string }) => {
+  try {
+    const res = await fetch(`/api/category`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const result = await res.json();
+    // console.log("result:", result);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const CategoryForm = () => {
@@ -57,8 +72,8 @@ export const CategoryForm = () => {
 
     // react query
     mutate({
-      uid: user.uid,
-      title: data.category,
+      name: data.category,
+      userId: user.uid,
     });
 
     // TODO: CategorySelect内でfetchCategoryのリフェッチ
