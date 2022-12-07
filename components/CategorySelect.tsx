@@ -4,11 +4,16 @@ import { FormValues } from "./AddFavolinkForm";
 import useSWR from "swr";
 import { useRecoilValue } from "recoil";
 import { userState } from "#/store/store";
-import { fetchCategories } from "#/lib/firestore";
+// import { fetchCategories } from "#/lib/firestore";
 import { useQuery } from "@tanstack/react-query";
 
 type Props = {
   register: UseFormRegister<FormValues>;
+};
+
+const fetchCategories = async (userId: string) => {
+  const res = await fetch(`/api/category/${userId}`);
+  return await res.json();
 };
 
 export const CategorySelect: FC<Props> = ({ register }) => {
@@ -30,6 +35,12 @@ export const CategorySelect: FC<Props> = ({ register }) => {
     enabled: !!user,
   });
 
+  // getServerSession
+  // const { data: categories, isLoading } = useQuery({
+  //   queryKey: ["categories"],
+  //   queryFn: () => fetchCategories(),
+  // });
+
   if (isLoading) return <p>Loading...</p>;
   return categories ? (
     <select
@@ -39,9 +50,10 @@ export const CategorySelect: FC<Props> = ({ register }) => {
       {...register("category")}
     >
       <option>選択してください</option>
+      // FIXME: any
       {categories.map((category: any) => (
-        <option key={category.title} value={category.title}>
-          {category.title}
+        <option key={category.id} value={category.name}>
+          {category.name}
         </option>
       ))}
     </select>
