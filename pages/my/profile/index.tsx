@@ -5,22 +5,22 @@ import { useRecoilValue } from "recoil";
 import { userState } from "#/store/store";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { fetchProfile, updateProfile } from "#/lib/firestore";
+// import { fetchProfile, updateProfile } from "#/lib/firestore";
 import useSWR from "swr";
 import avatar2 from "#/public/avatar2.png";
 import { uploadAndGetUrl } from "#/lib/firebaseStorage";
 import { useQuery } from "@tanstack/react-query";
 
 type FormValues = {
-  displayName: string;
+  name: string;
   fileList?: FileList;
-  photoURL?: string;
+  image?: string;
   slug: string;
-  desc: string;
+  description: string;
 };
 
-const fetchUser = async (id: string) => {
-  const res = await fetch(`/api/user/${id}`);
+const fetchProfile = async (id: string) => {
+  const res = await fetch(`/api/profile/${id}`);
   return await res.json();
 };
 
@@ -35,7 +35,7 @@ const Profile: NextPageWithLayout = () => {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     // queryFn: () => fetchProfile(user.uid),
-    queryFn: () => fetchUser(user.uid),
+    queryFn: () => fetchProfile(user.uid),
     enabled: !!user,
   });
 
@@ -51,20 +51,37 @@ const Profile: NextPageWithLayout = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     // firebase/storageへの保存とurlの取得
-    let photoURL;
+    let image;
     if (data.fileList?.[0]) {
-      photoURL = await uploadAndGetUrl(data.fileList?.[0]);
+      image = await uploadAndGetUrl(data.fileList?.[0]);
     }
     // firestoreの更新
-    updateProfile({
-      // uid: auth.currentUser!.uid,
-      uid: user.uid,
-      displayName: data.displayName,
-      // imageFile: data.fileList?.[0],
-      photoURL: photoURL ?? profile?.photoURL,
-      slug: data.slug,
-      desc: data.desc,
-    });
+    // updateProfile({
+    //   // uid: auth.currentUser!.uid,
+    //   uid: user.uid,
+    //   displayName: data.displayName,
+    //   // imageFile: data.fileList?.[0],
+    //   photoURL: photoURL ?? profile?.photoURL,
+    //   slug: data.slug,
+    //   desc: data.desc,
+    // });
+    const { slug, name, description } = data;
+    const body = {
+      slug,
+      image,
+      name,
+      description,
+    };
+
+    try {
+      await fetch(`/api/profile/${user.uid}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
