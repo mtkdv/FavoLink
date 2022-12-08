@@ -5,11 +5,9 @@ import { useRecoilValue } from "recoil";
 import { userState } from "#/store/store";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import { fetchProfile, updateProfile } from "#/lib/firestore";
-import useSWR from "swr";
 import avatar2 from "#/public/avatar2.png";
 import { uploadAndGetUrl } from "#/lib/firebaseStorage";
-import { useQuery } from "@tanstack/react-query";
+import { useGetProfile } from "#/lib/useGetProfile";
 
 type FormValues = {
   name: string;
@@ -19,25 +17,9 @@ type FormValues = {
   description: string;
 };
 
-const fetchProfile = async (id: string) => {
-  const res = await fetch(`/api/profile/${id}`);
-  return await res.json();
-};
-
 const Profile: NextPageWithLayout = () => {
   const user = useRecoilValue(userState);
-
-  // const { data: profile } = useSWR(
-  //   // () => auth.currentUser?.uid,
-  //   () => user.uid,
-  //   (uid) => fetchProfile(uid)
-  // );
-  const { data: profile } = useQuery({
-    queryKey: ["profile"],
-    // queryFn: () => fetchProfile(user.uid),
-    queryFn: () => fetchProfile(user.uid),
-    enabled: !!user,
-  });
+  const { data: profile } = useGetProfile<FormValues>(user);
 
   const {
     register,

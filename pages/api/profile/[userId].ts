@@ -5,27 +5,27 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id = req.query.id;
+  const userId = req.query.userId;
 
   switch (req.method) {
     case "GET":
       const foundProfile = await prisma.profile.findUniqueOrThrow({
         where: {
           // TODO:
-          userId: String(id),
+          userId: String(userId),
         },
-        select: {
-          name: true,
-          image: true,
-          slug: true,
-          description: true,
-        },
+        // select: {
+        //   name: true,
+        //   image: true,
+        //   slug: true,
+        //   description: true,
+        // },
       });
       res.json(foundProfile);
       break;
     case "PUT":
       const updatedProfile = await prisma.profile.update({
-        where: { userId: String(id) },
+        where: { userId: String(userId) },
         data: req.body,
       });
       res.json(updatedProfile);

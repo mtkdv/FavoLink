@@ -32,7 +32,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               <Link href={`/my/profile`}>プロフィール編集</Link>
             </li>
             <li>
-              <Link href={`/my/favolink`}>お気に入りのリンク追加</Link>
+              <Link href={`/my/link`}>お気に入りのリンク追加</Link>
             </li>
             <li>
               <Link href={`/my/preview`}>プレビュー</Link>

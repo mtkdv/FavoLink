@@ -6,25 +6,25 @@ const users = [
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "bgm",
+        categoryId: "bgm",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "game",
+        categoryId: "game",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "game",
+        categoryId: "game",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "bgm",
+        categoryId: "bgm",
       },
     ],
     categories: [
@@ -44,35 +44,41 @@ const users = [
   },
 ];
 
-const categorizedFavolinks = [
-  [
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "bgm",
-    },
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "bgm",
-    },
-  ],
-  [
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "game",
-    },
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "game",
-    },
-  ],
+const categorizedLinks = [
+  {
+    name: "aaa",
+    data: [
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "1",
+      },
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "1",
+      },
+    ],
+  },
+  {
+    name: "bbb",
+    data: [
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "2",
+      },
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "2",
+      },
+    ],
+  },
 ];
 
 export {};

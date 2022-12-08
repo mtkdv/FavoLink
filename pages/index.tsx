@@ -1,3 +1,4 @@
+import { Profile, useGetProfile } from "#/lib/useGetProfile";
 import { userState } from "#/store/store";
 import clsx from "clsx";
 import Image from "next/image";
@@ -6,6 +7,7 @@ import { useRecoilValue } from "recoil";
 
 export default function Home() {
   const user = useRecoilValue(userState);
+  const { data: profile } = useGetProfile<Profile>(user);
 
   return (
     <>
@@ -24,10 +26,10 @@ export default function Home() {
           <ul className="flex space-x-3">
             {user ? (
               <>
-                <li>{user.displayName}</li>
+                <li>{profile?.name}</li>
                 <li>
                   <Image
-                    src={user.photoURL ?? "sample.jpg"}
+                    src={profile?.image ?? "sample.jpg"}
                     alt="avatar"
                     width={40}
                     height={40}
