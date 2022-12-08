@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
+import avatar2 from "#/public/avatar2.png";
 
 export default function Home() {
   const user = useRecoilValue(userState);
@@ -29,7 +30,7 @@ export default function Home() {
                 <li>{profile?.name}</li>
                 <li>
                   <Image
-                    src={profile?.image ?? "sample.jpg"}
+                    src={profile?.image ?? avatar2}
                     alt="avatar"
                     width={40}
                     height={40}
