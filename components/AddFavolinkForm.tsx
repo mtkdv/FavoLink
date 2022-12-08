@@ -1,29 +1,18 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
-// import { useRouter } from "next/navigation";
-import { useSWRConfig } from "swr";
 import { CategorySelect } from "./CategorySelect";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addFavolink } from "#/lib/firestore";
 import { useRecoilValue } from "recoil";
 import { userState } from "#/store/store";
+import { useAddLink } from "#/lib/useAddLink";
 
 export type FormValues = {
-  favolink: string;
+  link: string;
   category: string;
 };
 
 export const AddFavolinkForm = () => {
   const user = useRecoilValue(userState);
-  // const router = useRouter();
-  // const { mutate } = useSWRConfig();
-
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationFn: addFavolink,
-    // TODO: favolinkを追加しただけだから、favolinksとcategoriesのqueryは分けたほうがいいかも
-    onSettled: () => queryClient.invalidateQueries(["categorizedFavolinks"]),
-  });
+  const { mutate } = useAddLink();
 
   const {
     register,
@@ -34,21 +23,10 @@ export const AddFavolinkForm = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     mutate({
-      uid: user.uid,
-      url: data.favolink,
-      categoryTitle: data.category,
+      url: data.link,
+      userId: user.uid,
+      categoryId: data.category,
     });
-    // const postData = {
-    //   url: data.favolink,
-    //   categoryTitle: data.category,
-    // };
-    // await fetch(`/api/favolinks/create`, {
-    //   method: "POST",
-    //   body: JSON.stringify(postData),
-    // });
-
-    // router.refresh();
-    // mutate(`/api/favolinks`);
   };
 
   useEffect(() => {
@@ -72,7 +50,7 @@ export const AddFavolinkForm = () => {
         <input
           id="url"
           className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
-          {...register("favolink")}
+          {...register("link")}
         />
         <CategorySelect register={register} />
         <button className="border border-white px-2">追加</button>

@@ -2,6 +2,15 @@ import axios from "axios";
 
 const fields = "items/snippet(title,thumbnails/medium/url)";
 
+type Video = {
+  title: string;
+  thumbnails: {
+    medium: {
+      url: string;
+    };
+  };
+};
+
 export const listVideos = async (url: string) => {
   const id = getYouTubeVideoIdFromUrl(url);
   try {
@@ -16,14 +25,7 @@ export const listVideos = async (url: string) => {
         },
       }
     );
-    const title = res.data.items[0].snippet.title as string;
-    const thumbnailUrl = res.data.items[0].snippet.thumbnails.medium
-      .url as string;
-
-    return {
-      title,
-      thumbnailUrl,
-    };
+    return res.data.items[0].snippet as Video;
   } catch (error: any) {
     console.log(error.message);
   }
