@@ -6,16 +6,18 @@ import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import avatar2 from "#/public/avatar2.png";
 import { useRouter } from "next/router";
+import { useGetProfile } from "#/lib/useGetProfile";
 
 const Preview = () => {
   const user = useRecoilValue(userState);
   const router = useRouter();
+  const { data: profile } = useGetProfile(user);
 
-  const { data: profile } = useQuery({
-    queryKey: ["profile"],
-    queryFn: () => fetchProfile(user.uid),
-    enabled: !!user,
-  });
+  // const { data: profile } = useQuery({
+  //   queryKey: ["profile"],
+  //   queryFn: () => fetchProfile(user.uid),
+  //   enabled: !!user,
+  // });
 
   const { data: categorizedFavolinks } = useQuery({
     queryKey: ["categorizedFavolinks"],
