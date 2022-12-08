@@ -5,10 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import avatar2 from "#/public/avatar2.png";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Home() {
   const user = useRecoilValue(userState);
   const { data: profile } = useGetProfile<Profile>(user);
+  const { data: session } = useSession();
 
   return (
     <>
@@ -45,10 +47,21 @@ export default function Home() {
             <li>
               <Link href="/about">当サイトについて</Link>
             </li>
-            {!user && (
+            {/* {!user && (
               <li>
                 <Link href="/signin">ログイン</Link>
               </li>
+            )} */}
+            {session ? (
+              <>
+                Signed in as {session.user?.name} <br />
+                <button onClick={() => signOut()}>Sign out</button>
+              </>
+            ) : (
+              <>
+                Not signed in <br />
+                <button onClick={() => signIn()}>Sign in</button>
+              </>
             )}
           </ul>
         </nav>
