@@ -12,13 +12,14 @@ import { useGetProfile } from "#/lib/useGetProfile";
 type FormValues = {
   name: string;
   fileList?: FileList;
+  image?: string;
   slug: string;
   description: string;
 };
 
 const Profile: NextPageWithLayout = () => {
   const user = useRecoilValue(userState);
-  const { data: profile } = useGetProfile(user);
+  const { data: profile } = useGetProfile<FormValues>(user);
 
   const {
     register,

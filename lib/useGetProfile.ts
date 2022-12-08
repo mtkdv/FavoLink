@@ -1,7 +1,7 @@
 import { User } from "#/store/store";
 import { useQuery } from "@tanstack/react-query";
 
-type Profile = {
+export type Profile = {
   name?: string;
   image?: string;
   slug?: string;
@@ -9,13 +9,13 @@ type Profile = {
   published?: boolean;
 };
 
-export const useGetProfile = (user: User) => {
+export const useGetProfile = <T>(user: User) => {
   const links = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const res = await fetch(`/api/profile/${user.uid}`);
       // return (await res.json()) as Profile;
-      return await res.json();
+      return (await res.json()) as T;
     },
     enabled: !!user,
   });
