@@ -23,11 +23,11 @@ export default async function handle(
       });
       res.json(foundProfile);
       break;
-    case "PUT":
-      const updatedProfile = await prisma.profile.update({
-        where: { userId: String(userId) },
-        data: req.body,
-      });
-      res.json(updatedProfile);
+    // case "PUT":
+    //   const updatedProfile = await prisma.profile.update({
+    //     where: { userId: String(userId) },
+    //     data: req.body,
+    //   });
+    //   res.json(updatedProfile);
   }
 }

@@ -10,23 +10,43 @@ export default async function handle(
   res: NextApiResponse
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
+  const { slug, image, name, description } = req.body;
 
   if (!session) {
     res.status(401).json({ message: "You must be logged in." });
     return;
   }
 
+  const { id } = session.user!;
+
   switch (req.method) {
     case "GET": {
       try {
         const foundProfile = await prisma.profile.findUniqueOrThrow({
           where: {
-            userId: session.user?.id,
+            userId: id,
           },
         });
         res.json(foundProfile);
       } catch (error) {}
       break;
+    }
+    case "PUT": {
+      const user = await prisma.user.update({
+        where: { id },
+        data: {
+          name,
+          image,
+        },
+      });
+      const profile = await prisma.profile.update({
+        where: { userId: id },
+        data: {
+          slug,
+          description,
+        },
+      });
+      res.json([user, profile]);
     }
     // case "POST":
     //   const { id, name, image } = req.body;
