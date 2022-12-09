@@ -4,16 +4,15 @@ import { ReactElement, useMemo } from "react";
 import { AddFavolinkForm } from "#/components/AddFavolinkForm";
 import Image from "next/image";
 import { CategoryForm } from "#/components/CategoryForm";
-import { useRecoilValue } from "recoil";
-import { userState } from "#/store/store";
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useGetLinks } from "#/lib/useGetLinks";
+import { useSession } from "next-auth/react";
 
 const Link: NextPageWithLayout = () => {
-  const user = useRecoilValue(userState);
+  const { data: session } = useSession();
 
-  const { data: links } = useGetLinks(user);
-  const { data: categories } = useGetCategories(user);
+  const { data: links } = useGetLinks(session);
+  const { data: categories } = useGetCategories(session);
 
   const categorizedLinks = useMemo(() => {
     if (!links || !categories) return;

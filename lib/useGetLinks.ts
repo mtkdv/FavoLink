@@ -1,23 +1,15 @@
-import { User } from "#/store/store";
+import { Link } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
+import { Session } from "next-auth";
 
-type Link = {
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-  categoryId: string;
-};
-
-export const useGetLinks = (user: User) => {
+export const useGetLinks = (session: Session | null) => {
   const links = useQuery({
     queryKey: ["links"],
     queryFn: async () => {
-      // const res = await axios.get(`/api/link/${user.uid}`);
-      // return res.data;
-      const res = await fetch(`/api/link/${user.uid}`);
+      const res = await fetch(`/api/link`);
       return (await res.json()) as Link[];
     },
-    enabled: !!user,
+    enabled: !!session,
   });
   return links;
 };

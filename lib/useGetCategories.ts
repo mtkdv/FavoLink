@@ -1,25 +1,15 @@
-import { User } from "#/store/store";
+import { Category } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
+import { Session } from "next-auth";
 
-type Category = {
-  id: string;
-  name: string;
-};
-
-export const useGetCategories = (user: User) => {
+export const useGetCategories = (session: Session | null) => {
   const categories = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await fetch(`/api/category/${user.uid}`);
+      const res = await fetch(`/api/category`);
       return (await res.json()) as Category[];
     },
-    enabled: !!user,
+    enabled: !!session,
   });
   return categories;
 };
-
-// getServerSession
-// const { data: categories, isLoading } = useQuery({
-//   queryKey: ["categories"],
-//   queryFn: () => fetchCategories(),
-// });
