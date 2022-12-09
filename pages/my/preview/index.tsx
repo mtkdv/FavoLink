@@ -5,10 +5,15 @@ import Router from "next/router";
 import { useGetProfile } from "#/lib/useGetProfile";
 import { CategorizedLink } from "#/components/CategorizedLink";
 import { useSession } from "next-auth/react";
+import { useGetLinks } from "#/lib/useGetLinks";
+import { useGetCategories } from "#/lib/useGetCategories";
 
 const Preview = () => {
   const { data: session } = useSession();
+
   const { data: profile } = useGetProfile(session);
+  const { data: links } = useGetLinks(session);
+  const { data: categories } = useGetCategories(session);
 
   return (
     <div>
@@ -53,7 +58,7 @@ const Preview = () => {
               </>
             ) : null}
           </section>
-          <CategorizedLink />
+          <CategorizedLink categories={categories} links={links} />
         </div>
       </main>
     </div>

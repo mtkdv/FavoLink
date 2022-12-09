@@ -1,25 +1,21 @@
-import { useGetCategories } from "#/lib/useGetCategories";
-import { useGetLinks } from "#/lib/useGetLinks";
-import { useSession } from "next-auth/react";
+import { Category, Link } from "@prisma/client";
 import Image from "next/image";
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 
-export const CategorizedLink = () => {
-  const { data: session } = useSession();
+type Props = {
+  categories: Category[] | undefined;
+  links: Link[] | undefined;
+};
 
-  const { data: links } = useGetLinks(session);
-  const { data: categories } = useGetCategories(session);
-
+export const CategorizedLink: FC<Props> = ({ categories, links }) => {
   const categorizedLinks = useMemo(() => {
     if (!links || !categories) return;
     // if (!links.length || !categories.length) return [];
 
-    // return categories?.flatMap((category) => {
-    const categorizedLinks = categories?.flatMap((category) => {
+    return categories?.flatMap((category) => {
       const spesificLinks = links?.filter((link) => {
         return category.id === link.categoryId;
       });
-      // console.log(spesificLinks);
       return spesificLinks.length
         ? [
             {
@@ -29,12 +25,6 @@ export const CategorizedLink = () => {
           ]
         : [];
     });
-
-    // console.log("links:", links);
-    // console.log("categories:", categories);
-    // console.log("categorizedLinks:", categorizedLinks);
-
-    return categorizedLinks;
   }, [links, categories]);
 
   return (
