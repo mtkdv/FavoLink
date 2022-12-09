@@ -1,8 +1,15 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import React from "react";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: session } = useSession();
+
+  const handleSignOut = () => {
+    signOut({
+      callbackUrl: "/",
+    });
+  };
 
   return (
     <>
@@ -33,7 +40,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                   className="bg-white active:bg-gray-100 text-gray-800 pl-1 pr-4 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
                   type="button"
                   style={{ transition: "all .15s ease" }}
-                  onClick={() => signOut()}
+                  onClick={handleSignOut}
                 >
                   ログアウト
                 </button>
