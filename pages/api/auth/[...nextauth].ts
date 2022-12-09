@@ -22,12 +22,24 @@ export const authOptions: NextAuthOptions = {
     //   clientSecret: process.env.GITHUB_SECRET,
     // }),
     GoogleProvider({
-      // FIXME: undefinedを排除するには
+      // FIXME: GOOGLE_CLIENT_ID: string | undefined
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     // ...add more providers here
   ],
+  events: {
+    createUser: async (message) => {
+      const { id, name, image } = message.user;
+      await prisma.profile.create({
+        data: {
+          name,
+          image,
+          user: { connect: { id } },
+        },
+      });
+    },
+  },
 };
 
 export default NextAuth(authOptions);

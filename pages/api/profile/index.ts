@@ -9,16 +9,23 @@ export default async function handle(
 ) {
   const { id, name, image } = req.body;
   console.log("/api/profile");
-  const result = await prisma.user.create({
+  // const result = await prisma.user.create({
+  //   data: {
+  //     ...req.body,
+  //     profile: {
+  //       create: {
+  //         id,
+  //         name,
+  //         image,
+  //       },
+  //     },
+  //   },
+  // });
+  const result = await prisma.profile.create({
     data: {
-      ...req.body,
-      profile: {
-        create: {
-          id,
-          name,
-          image,
-        },
-      },
+      name,
+      image,
+      user: { connect: { id } },
     },
   });
   res.json(result);

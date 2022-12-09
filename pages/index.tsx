@@ -53,15 +53,15 @@ export default function Home() {
               </li>
             )} */}
             {session ? (
-              <>
-                Signed in as {session.user?.name} <br />
+              <li>
+                <p>Signed in as {session.user?.name}</p>
                 <button onClick={() => signOut()}>Sign out</button>
-              </>
+              </li>
             ) : (
-              <>
-                Not signed in <br />
+              <li>
+                <p>Not signed in</p>
                 <button onClick={() => signIn()}>Sign in</button>
-              </>
+              </li>
             )}
           </ul>
         </nav>
