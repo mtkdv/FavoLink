@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useAddCategory = () => {
   const queryClient = useQueryClient();
   const categoryMutation = useMutation({
-    mutationFn: async (body: { name: string; userId: string }) => {
+    mutationFn: async (body: { name: string }) => {
       try {
         const res = await fetch(`/api/category`, {
           method: "POST",

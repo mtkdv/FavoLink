@@ -1,14 +1,11 @@
-import { Profile, useGetProfile } from "#/lib/useGetProfile";
-import { userState } from "#/store/store";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
 import avatar2 from "#/public/avatar2.png";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Home() {
-  const user = useRecoilValue(userState);
-  const { data: profile } = useGetProfile<Profile>(user);
+  const { data: session } = useSession();
 
   return (
     <>
@@ -25,19 +22,17 @@ export default function Home() {
         </div>
         <nav className="flex items-center">
           <ul className="flex space-x-3">
-            {user ? (
-              <>
-                <li>{profile?.name}</li>
-                <li>
-                  <Image
-                    src={profile?.image ?? avatar2}
-                    alt="avatar"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                </li>
-              </>
+            {session ? (
+              <li>
+                <p>{session.user?.name}</p>
+                <Image
+                  src={session.user?.image ?? avatar2}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </li>
             ) : null}
             <li>
               <Link href="my/dashboard">ダッシュボード</Link>
@@ -45,11 +40,18 @@ export default function Home() {
             <li>
               <Link href="/about">当サイトについて</Link>
             </li>
-            {!user && (
+            {/* {!user && (
               <li>
                 <Link href="/signin">ログイン</Link>
               </li>
-            )}
+            )} */}
+            <li>
+              {session ? (
+                <button onClick={() => signOut()}>Sign out</button>
+              ) : (
+                <button onClick={() => signIn()}>Sign in</button>
+              )}
+            </li>
           </ul>
         </nav>
       </header>

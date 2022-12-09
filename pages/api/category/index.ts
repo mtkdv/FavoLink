@@ -1,20 +1,39 @@
 import prisma from "#/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    res.status(401).json({ message: "You must be logged in." });
+    return;
+  }
+
+  const { id } = session.user!;
+
   switch (req.method) {
-    // NextAuth getServerSession利用時
-    // case "GET": {
-    //   break;
-    // }
+    case "GET": {
+      const categories = await prisma.category.findMany({
+        where: {
+          userId: id,
+        },
+        orderBy: {
+          index: "asc",
+        },
+      });
+      res.json(categories);
+      break;
+    }
     case "POST": {
-      const { name, userId } = req.body;
+      const { name } = req.body;
       const aggregation = await prisma.category.aggregate({
         where: {
-          userId,
+          userId: id,
         },
         _count: {
           _all: true,
@@ -29,18 +48,17 @@ export default async function handle(
       // TODO: 定数
       const index =
         aggregation._count._all === 0 ? 1024 : aggregation._max.index! + 1024;
-      const foundProfile = await prisma.category.create({
+
+      const category = await prisma.category.create({
         data: {
           name,
           index,
           user: {
-            connect: {
-              id: userId,
-            },
+            connect: { id },
           },
         },
       });
-      res.json(foundProfile);
+      res.json(category);
       break;
     }
   }

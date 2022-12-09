@@ -3,11 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useAddLink = () => {
   const queryClient = useQueryClient();
   const linkMutation = useMutation({
-    mutationFn: async (body: {
-      url: string;
-      userId: string;
-      categoryId: string;
-    }) => {
+    mutationFn: async (body: { url: string; categoryId: string }) => {
       try {
         const res = await fetch(`/api/link`, {
           method: "POST",

@@ -1,8 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import { CategorySelect } from "./CategorySelect";
-import { useRecoilValue } from "recoil";
-import { userState } from "#/store/store";
 import { useAddLink } from "#/lib/useAddLink";
 
 export type FormValues = {
@@ -11,7 +9,6 @@ export type FormValues = {
 };
 
 export const AddFavolinkForm = () => {
-  const user = useRecoilValue(userState);
   const { mutate } = useAddLink();
 
   const {
@@ -24,7 +21,6 @@ export const AddFavolinkForm = () => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     mutate({
       url: data.link,
-      userId: user.uid,
       categoryId: data.category,
     });
   };

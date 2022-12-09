@@ -1,26 +1,43 @@
 import prisma from "#/lib/prisma";
 import { listVideos } from "#/lib/youtube";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    res.status(401).json({ message: "You must be logged in." });
+    return;
+  }
+
+  const { id } = session.user!;
+
   switch (req.method) {
-    // NextAuth getServerSession利用時
-    // case "GET": {
-    //   break;
-    // }
+    case "GET": {
+      const links = await prisma.link.findMany({
+        where: {
+          userId: id,
+        },
+        orderBy: {
+          index: "asc",
+        },
+      });
+      res.json(links);
+      break;
+    }
     case "POST": {
-      const { url, userId, categoryId } = req.body;
+      const { url, categoryId } = req.body;
 
       // 同一のカテゴリ内でurlが重複する場合
       const link = await prisma.link.findFirst({
         where: req.body,
       });
-      // TODO: toast
       if (link) {
-        // console.log("distinguishing link");
         res.status(500).send({
           error: "特定のカテゴリ内に同一のリンクを登録しようとしています。",
         });
@@ -35,7 +52,7 @@ export default async function handle(
 
       const aggregation = await prisma.link.aggregate({
         where: {
-          userId,
+          userId: id,
           categoryId,
         },
         _count: {
@@ -57,12 +74,9 @@ export default async function handle(
           title: video.title,
           url,
           thumbnailUrl: video.thumbnails.medium.url,
-          // TODO:
           index,
           user: {
-            connect: {
-              id: userId,
-            },
+            connect: { id },
           },
           category: {
             connect: {

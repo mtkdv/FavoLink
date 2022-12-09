@@ -1,13 +1,12 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
-import { ReactElement, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "#/store/store";
+import { ReactElement, useMemo, useState } from "react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import avatar2 from "#/public/avatar2.png";
 import { uploadAndGetUrl } from "#/lib/firebaseStorage";
 import { useGetProfile } from "#/lib/useGetProfile";
+import { useSession } from "next-auth/react";
 
 type FormValues = {
   name: string;
@@ -18,8 +17,19 @@ type FormValues = {
 };
 
 const Profile: NextPageWithLayout = () => {
-  const user = useRecoilValue(userState);
-  const { data: profile } = useGetProfile<FormValues>(user);
+  const { data: session } = useSession();
+  const { data: profile } = useGetProfile(session);
+
+  const values = useMemo(() => {
+    if (!session || !profile) return;
+    return {
+      name: session.user?.name,
+      image: session.user?.image,
+      slug: profile.slug,
+      description: profile.description,
+      // FIXME:
+    } as FormValues;
+  }, [session, profile]);
 
   const {
     register,
@@ -27,26 +37,17 @@ const Profile: NextPageWithLayout = () => {
     formState: { isSubmitSuccessful },
   } = useForm<FormValues>({
     // "react-hook-form": "^7.40.0-next.1"
-    values: profile,
+    values,
     // defaultValues: fetchProfile,
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // firebase/storageへの保存とurlの取得
+    // firebase storageへの保存とurlの取得
     let image;
     if (data.fileList?.[0]) {
       image = await uploadAndGetUrl(data.fileList?.[0]);
     }
-    // firestoreの更新
-    // updateProfile({
-    //   // uid: auth.currentUser!.uid,
-    //   uid: user.uid,
-    //   displayName: data.displayName,
-    //   // imageFile: data.fileList?.[0],
-    //   photoURL: photoURL ?? profile?.photoURL,
-    //   slug: data.slug,
-    //   desc: data.desc,
-    // });
+
     const { slug, name, description } = data;
     const body = {
       slug,
@@ -56,7 +57,7 @@ const Profile: NextPageWithLayout = () => {
     };
 
     try {
-      await fetch(`/api/profile/${user.uid}`, {
+      await fetch(`/api/profile`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -83,7 +84,7 @@ const Profile: NextPageWithLayout = () => {
   return (
     <div className="py-12 px-6">
       <h2>プロフィール編集</h2>
-      {profile ? (
+      {profile && session ? (
         <form className="" onSubmit={handleSubmit(onSubmit)}>
           <table className="border border-gray-400 rounded-lg w-full">
             <tbody>
@@ -112,7 +113,7 @@ const Profile: NextPageWithLayout = () => {
                 <td>
                   <label htmlFor="img" className="cursor-pointer">
                     <Image
-                      src={selectedImage ?? profile.image ?? avatar2}
+                      src={selectedImage ?? session.user?.image ?? avatar2}
                       // src={profile.photoURL ?? avatar2}
                       alt="avatar"
                       width={40}
