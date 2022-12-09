@@ -1,15 +1,14 @@
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useGetLinks } from "#/lib/useGetLinks";
-import { userState } from "#/store/store";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useMemo } from "react";
-import { useRecoilValue } from "recoil";
 
 export const CategorizedLink = () => {
-  const user = useRecoilValue(userState);
+  const { data: session } = useSession();
 
-  const { data: links } = useGetLinks(user);
-  const { data: categories } = useGetCategories(user);
+  const { data: links } = useGetLinks(session);
+  const { data: categories } = useGetCategories(session);
 
   const categorizedLinks = useMemo(() => {
     if (!links || !categories) return;

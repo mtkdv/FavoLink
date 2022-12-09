@@ -1,18 +1,16 @@
 import { FC } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { FormValues } from "./AddFavolinkForm";
-import { useRecoilValue } from "recoil";
-import { userState } from "#/store/store";
 import { useGetCategories } from "#/lib/useGetCategories";
+import { useSession } from "next-auth/react";
 
 type Props = {
   register: UseFormRegister<FormValues>;
 };
 
 export const CategorySelect: FC<Props> = ({ register }) => {
-  const user = useRecoilValue(userState);
-
-  const { data: categories, isLoading } = useGetCategories(user);
+  const { data: session } = useSession();
+  const { data: categories, isLoading } = useGetCategories(session);
 
   if (isLoading) return <p>Loading...</p>;
   return categories ? (

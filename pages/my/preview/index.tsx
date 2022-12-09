@@ -1,30 +1,21 @@
-import { userState } from "#/store/store";
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
 import avatar2 from "#/public/avatar2.png";
-import { useRouter } from "next/router";
-import { Profile, useGetProfile } from "#/lib/useGetProfile";
+import Router from "next/router";
+import { useGetProfile } from "#/lib/useGetProfile";
 import { CategorizedLink } from "#/components/CategorizedLink";
+import { useSession } from "next-auth/react";
 
 const Preview = () => {
-  const user = useRecoilValue(userState);
-  const router = useRouter();
-  const { data: profile } = useGetProfile<Profile>(user);
-
-  const handleButtonBack = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    router.back();
-  };
+  const { data: session } = useSession();
+  const { data: profile } = useGetProfile(session);
 
   return (
     <div>
       <header>
         <ul>
           <li>
-            <button onClick={(e) => handleButtonBack(e)}>戻る</button>
+            <button onClick={() => Router.back()}>戻る</button>
           </li>
           <li>
             <p>プレビューモード</p>
@@ -49,15 +40,15 @@ const Preview = () => {
       <main>
         <div>
           <section>
-            {profile ? (
+            {session && profile ? (
               <>
                 <Image
-                  src={profile.image ?? avatar2}
+                  src={session.user?.image ?? avatar2}
                   alt="avatar"
                   width={40}
                   height={40}
                 ></Image>
-                <p>{profile.name}</p>
+                <p>{session.user?.name}</p>
                 <p>{profile.description}</p>
               </>
             ) : null}

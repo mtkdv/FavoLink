@@ -1,8 +1,6 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
 import { ReactElement, useMemo, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "#/store/store";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import avatar2 from "#/public/avatar2.png";
@@ -20,7 +18,6 @@ type FormValues = {
 
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
-  // const user = useRecoilValue(userState);
   const { data: profile } = useGetProfile(session);
 
   const values = useMemo(() => {
@@ -45,21 +42,12 @@ const Profile: NextPageWithLayout = () => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // firebase/storageへの保存とurlの取得
+    // firebase storageへの保存とurlの取得
     let image;
     if (data.fileList?.[0]) {
       image = await uploadAndGetUrl(data.fileList?.[0]);
     }
-    // firestoreの更新
-    // updateProfile({
-    //   // uid: auth.currentUser!.uid,
-    //   uid: user.uid,
-    //   displayName: data.displayName,
-    //   // imageFile: data.fileList?.[0],
-    //   photoURL: photoURL ?? profile?.photoURL,
-    //   slug: data.slug,
-    //   desc: data.desc,
-    // });
+
     const { slug, name, description } = data;
     const body = {
       slug,
@@ -69,7 +57,6 @@ const Profile: NextPageWithLayout = () => {
     };
 
     try {
-      // await fetch(`/api/profile/${user.uid}`, {
       await fetch(`/api/profile`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

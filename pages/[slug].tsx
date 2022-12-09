@@ -1,25 +1,24 @@
-import { userState } from "#/store/store";
 import Image from "next/image";
-import { useRecoilValue } from "recoil";
 import avatar2 from "#/public/avatar2.png";
-import { Profile, useGetProfile } from "#/lib/useGetProfile";
+import { useGetProfile } from "#/lib/useGetProfile";
 import { CategorizedLink } from "#/components/CategorizedLink";
+import { useSession } from "next-auth/react";
 
 const Public = () => {
-  const user = useRecoilValue(userState);
-  const { data: profile } = useGetProfile<Profile>(user);
+  const { data: session } = useSession();
+  const { data: profile } = useGetProfile(session);
 
   return (
     <div>
-      {profile ? (
+      {session && profile ? (
         <section>
           <Image
-            src={profile.image ?? avatar2}
+            src={session.user?.image ?? avatar2}
             alt="avatar"
             width={40}
             height={40}
           ></Image>
-          <p>{profile.name}</p>
+          <p>{session.user?.name}</p>
           <p>{profile.description}</p>
         </section>
       ) : null}
