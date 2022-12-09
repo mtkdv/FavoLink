@@ -1,5 +1,5 @@
-import { User } from "#/store/store";
 import { useQuery } from "@tanstack/react-query";
+import { Session } from "next-auth";
 
 export type Profile = {
   name?: string;
@@ -9,15 +9,16 @@ export type Profile = {
   published?: boolean;
 };
 
-export const useGetProfile = <T>(user: User) => {
+// const { data: profile } = useGetProfile<Profile>(session);
+
+export const useGetProfile = <T>(session: Session | null) => {
   const links = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const res = await fetch(`/api/profile/${user.uid}`);
-      // return (await res.json()) as Profile;
+      const res = await fetch(`/api/profile`);
       return (await res.json()) as T;
     },
-    enabled: !!user,
+    enabled: !!session,
   });
   return links;
 };
