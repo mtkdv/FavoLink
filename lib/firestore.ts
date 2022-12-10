@@ -78,7 +78,7 @@ export const addFavolink = async ({
     addDoc(collection(db, `users/${uid}/favolinks`), {
       title: video.title,
       url,
-      thumbnailUrl: video.thumbnailUrl,
+      thumbnailUrl: video.thumbnails.medium.url,
       categoryTitle,
       createdAt: serverTimestamp(),
     });
