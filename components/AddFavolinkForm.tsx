@@ -1,7 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { CategorySelect } from "./CategorySelect";
 import { useAddLink } from "#/lib/useAddLink";
+import { demoUrls } from "#/lib/demodata";
+import { AiOutlineCopy } from "react-icons/ai";
 
 export type FormValues = {
   link: string;
@@ -30,6 +32,13 @@ export const AddFavolinkForm = () => {
     // }, [reset, isSubmitSuccessful]);
   }, [isSubmitSuccessful]);
 
+  const handleCopyUrl = (e: any) => {
+    // console.log(e.currentTarget.previousElementSibling.innerHTML);
+    navigator.clipboard.writeText(
+      e.currentTarget.previousElementSibling.innerText
+    );
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="">
       <label htmlFor="url">
@@ -41,6 +50,20 @@ export const AddFavolinkForm = () => {
           例：
           <code className="">https://www.youtube.com/watch?v=XZmGGAbHqa0</code>
         </p>
+        {/* demo url */}
+        <ul>
+          {demoUrls.map((url, index) => (
+            <li key={index} className="flex w-[400px]">
+              <p className="flex-1">{url}</p>
+              <span
+                className="hover:cursor-pointer"
+                onClick={(e) => handleCopyUrl(e)}
+              >
+                <AiOutlineCopy />
+              </span>
+            </li>
+          ))}
+        </ul>
       </label>
       <div className="flex space-x-3">
         <input

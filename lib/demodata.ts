@@ -81,4 +81,11 @@ const categorizedLinks = [
   },
 ];
 
-export {};
+export const demoUrls = [
+  "https://www.youtube.com/watch?v=Xft8GRzXupY",
+  "https://www.youtube.com/watch?v=bsE1VJn1HeU",
+  "https://www.youtube.com/watch?v=6ZwnBI4Rb1w",
+  "https://www.youtube.com/watch?v=3m1FcGW6V4g",
+  "https://www.youtube.com/watch?v=cEksV9VDkUI",
+  "https://www.youtube.com/watch?v=NiknNI_0J48",
+];
