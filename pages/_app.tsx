@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps, AppType } from "next/app";
-import { Auth } from "#/components/Auth";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
