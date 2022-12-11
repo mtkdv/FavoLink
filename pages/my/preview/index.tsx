@@ -48,12 +48,12 @@ const Preview = () => {
             {session && profile ? (
               <>
                 <Image
-                  src={session.user?.image ?? avatar2}
+                  src={profile.image ?? avatar2}
                   alt="avatar"
                   width={40}
                   height={40}
                 ></Image>
-                <p>{session.user?.name}</p>
+                <p>{profile.name}</p>
                 <p>{profile.description}</p>
               </>
             ) : null}

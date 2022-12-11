@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import avatar2 from "#/public/avatar2.png";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useGetProfile } from "#/lib/useGetProfile";
 
 export default function Home() {
   const { data: session } = useSession();
+  const { data: profile } = useGetProfile(session);
 
   return (
     <>
@@ -22,11 +24,11 @@ export default function Home() {
         </div>
         <nav className="flex items-center">
           <ul className="flex space-x-3">
-            {session ? (
+            {session && profile ? (
               <li>
-                <p>{session.user?.name}</p>
+                <p>{profile.name}</p>
                 <Image
-                  src={session.user?.image ?? avatar2}
+                  src={profile.image ?? avatar2}
                   alt="avatar"
                   width={40}
                   height={40}
@@ -40,11 +42,6 @@ export default function Home() {
             <li>
               <Link href="/about">当サイトについて</Link>
             </li>
-            {/* {!user && (
-              <li>
-                <Link href="/signin">ログイン</Link>
-              </li>
-            )} */}
             <li>
               {session ? (
                 <button onClick={() => signOut()}>Sign out</button>

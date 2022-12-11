@@ -5,7 +5,7 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const slug = req.query.slug;
+  const { slug } = req.query;
 
   try {
     const profile = await prisma.profile.findUniqueOrThrow({
@@ -14,12 +14,6 @@ export default async function handle(
       },
     });
 
-    const findUser = () =>
-      prisma.user.findUniqueOrThrow({
-        where: {
-          id: profile.userId,
-        },
-      });
     const findCategories = () =>
       prisma.category.findMany({
         where: {
@@ -39,12 +33,11 @@ export default async function handle(
         },
       });
 
-    const [user, categories, links] = await Promise.all([
-      findUser(),
+    const [categories, links] = await Promise.all([
       findCategories(),
       findLinks(),
     ]);
 
-    res.json({ user, profile, categories, links });
+    res.json({ profile, categories, links });
   } catch (error) {}
 }

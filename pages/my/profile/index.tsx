@@ -20,25 +20,14 @@ const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
 
-  const values = useMemo(() => {
-    if (!session || !profile) return;
-    return {
-      name: session.user?.name,
-      image: session.user?.image,
-      slug: profile.slug,
-      description: profile.description,
-      // FIXME:
-    } as FormValues;
-  }, [session, profile]);
-
   const {
     register,
     handleSubmit,
     formState: { isSubmitSuccessful },
   } = useForm<FormValues>({
     // "react-hook-form": "^7.40.0-next.1"
-    values,
-    // defaultValues: fetchProfile,
+    // FIXME: as FormValues
+    values: profile as FormValues,
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -84,7 +73,7 @@ const Profile: NextPageWithLayout = () => {
   return (
     <div className="py-12 px-6">
       <h2>プロフィール編集</h2>
-      {profile && session ? (
+      {session && profile ? (
         <form className="" onSubmit={handleSubmit(onSubmit)}>
           <table className="border border-gray-400 rounded-lg w-full">
             <tbody>
@@ -113,8 +102,7 @@ const Profile: NextPageWithLayout = () => {
                 <td>
                   <label htmlFor="img" className="cursor-pointer">
                     <Image
-                      src={selectedImage ?? session.user?.image ?? avatar2}
-                      // src={profile.photoURL ?? avatar2}
+                      src={selectedImage ?? profile.image ?? avatar2}
                       alt="avatar"
                       width={40}
                       height={40}

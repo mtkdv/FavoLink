@@ -4,7 +4,7 @@ import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 
 // POST /api/profile
-// Required fields in body: id, email, name, image
+// Required fields in body: slug, image, name, description
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
@@ -22,43 +22,26 @@ export default async function handle(
   switch (req.method) {
     case "GET": {
       try {
-        const foundProfile = await prisma.profile.findUniqueOrThrow({
+        const profile = await prisma.profile.findUniqueOrThrow({
           where: {
             userId: id,
           },
         });
-        res.json(foundProfile);
+        res.json(profile);
       } catch (error) {}
       break;
     }
     case "PUT": {
-      const user = await prisma.user.update({
-        where: { id },
-        data: {
-          name,
-          image,
-        },
-      });
       const profile = await prisma.profile.update({
         where: { userId: id },
         data: {
+          name,
+          image,
           slug,
           description,
         },
       });
-      res.json([user, profile]);
+      res.json(profile);
     }
-    // case "POST":
-    //   const { id, name, image } = req.body;
-    //   console.log("/api/profile");
-    //   const result = await prisma.profile.create({
-    //     data: {
-    //       name,
-    //       image,
-    //       user: { connect: { id } },
-    //     },
-    //   });
-    //   res.json(result);
-    //   break;
   }
 }
