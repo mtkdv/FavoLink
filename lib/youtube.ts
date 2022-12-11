@@ -21,7 +21,7 @@ export const listVideos = async (url: string) => {
           part: "snippet",
           id,
           fields,
-          key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
+          key: process.env.YOUTUBE_API_KEY,
         },
       }
     );
