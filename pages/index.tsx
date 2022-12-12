@@ -23,10 +23,9 @@ export default function Home() {
           </Link>{" "}
         </div>
         <nav className="flex items-center">
-          <ul className="flex space-x-3">
-            {session && profile ? (
-              <li>
-                <p>{profile.name}</p>
+          <ul className="flex space-x-3 items-center">
+            {session && profile && !profile.hasOwnProperty("message") ? (
+              <li className="flex gap-1 items-center">
                 <Image
                   src={profile.image ?? avatar2}
                   alt="avatar"
@@ -34,6 +33,7 @@ export default function Home() {
                   height={40}
                   className="rounded-full"
                 />
+                <p>{profile.name}</p>
               </li>
             ) : null}
             <li>
@@ -43,7 +43,7 @@ export default function Home() {
               <Link href="/about">当サイトについて</Link>
             </li>
             <li>
-              {session ? (
+              {session && profile && !profile.hasOwnProperty("message") ? (
                 <button onClick={() => signOut()}>Sign out</button>
               ) : (
                 <button onClick={() => signIn()}>Sign in</button>
