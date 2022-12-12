@@ -1,11 +1,13 @@
-import { userState } from "#/store/store";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import avatar2 from "#/public/avatar2.png";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useGetProfile } from "#/lib/useGetProfile";
 
 export default function Home() {
-  const user = useRecoilValue(userState);
+  const { data: session } = useSession();
+  const { data: profile } = useGetProfile(session);
 
   return (
     <>
@@ -21,20 +23,18 @@ export default function Home() {
           </Link>{" "}
         </div>
         <nav className="flex items-center">
-          <ul className="flex space-x-3">
-            {user ? (
-              <>
-                <li>{user.displayName}</li>
-                <li>
-                  <Image
-                    src={user.photoURL ?? "sample.jpg"}
-                    alt="avatar"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                </li>
-              </>
+          <ul className="flex space-x-3 items-center">
+            {session && profile && !profile.hasOwnProperty("message") ? (
+              <li className="flex gap-1 items-center">
+                <Image
+                  src={profile.image ?? avatar2}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+                <p>{profile.name}</p>
+              </li>
             ) : null}
             <li>
               <Link href="my/dashboard">ダッシュボード</Link>
@@ -42,11 +42,13 @@ export default function Home() {
             <li>
               <Link href="/about">当サイトについて</Link>
             </li>
-            {!user && (
-              <li>
-                <Link href="/signin">ログイン</Link>
-              </li>
-            )}
+            <li>
+              {session && profile && !profile.hasOwnProperty("message") ? (
+                <button onClick={() => signOut()}>Sign out</button>
+              ) : (
+                <button onClick={() => signIn()}>Sign in</button>
+              )}
+            </li>
           </ul>
         </nav>
       </header>

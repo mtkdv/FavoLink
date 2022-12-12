@@ -1,17 +1,14 @@
-import { auth } from "#/firebase/firebase";
-import { userState } from "#/store/store";
-import { signOut } from "firebase/auth";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import React from "react";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
-  const user = useRecoilValue(userState);
-  const router = useRouter();
+  const { data: session } = useSession();
 
-  const handleSignOut = async () => {
-    await signOut(auth);
-    router.replace("/");
+  const handleSignOut = () => {
+    signOut({
+      callbackUrl: "/",
+    });
   };
 
   return (
@@ -32,12 +29,12 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               <Link href={`/my/profile`}>プロフィール編集</Link>
             </li>
             <li>
-              <Link href={`/my/favolink`}>お気に入りのリンク追加</Link>
+              <Link href={`/my/link`}>お気に入りのリンク追加</Link>
             </li>
             <li>
               <Link href={`/my/preview`}>プレビュー</Link>
             </li>
-            {user && (
+            {session ? (
               <li>
                 <button
                   className="bg-white active:bg-gray-100 text-gray-800 pl-1 pr-4 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
@@ -48,7 +45,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                   ログアウト
                 </button>
               </li>
-            )}
+            ) : null}
           </ul>
         </nav>
       </div>
