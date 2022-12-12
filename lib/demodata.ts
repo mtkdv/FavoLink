@@ -6,25 +6,25 @@ const users = [
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "bgm",
+        categoryId: "bgm",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "game",
+        categoryId: "game",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "game",
+        categoryId: "game",
       },
       {
         title: "",
         url: "",
         thumbnailUrl: "",
-        categoryTitle: "bgm",
+        categoryId: "bgm",
       },
     ],
     categories: [
@@ -44,35 +44,48 @@ const users = [
   },
 ];
 
-const categorizedFavolinks = [
-  [
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "bgm",
-    },
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "bgm",
-    },
-  ],
-  [
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "game",
-    },
-    {
-      title: "",
-      url: "",
-      thumbnailUrl: "",
-      categoryTitle: "game",
-    },
-  ],
+const categorizedLinks = [
+  {
+    name: "aaa",
+    data: [
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "1",
+      },
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "1",
+      },
+    ],
+  },
+  {
+    name: "bbb",
+    data: [
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "2",
+      },
+      {
+        title: "",
+        url: "",
+        thumbnailUrl: "",
+        categoryId: "2",
+      },
+    ],
+  },
 ];
 
-export {};
+export const demoUrls = [
+  "https://www.youtube.com/watch?v=Xft8GRzXupY",
+  "https://www.youtube.com/watch?v=bsE1VJn1HeU",
+  "https://www.youtube.com/watch?v=6ZwnBI4Rb1w",
+  "https://www.youtube.com/watch?v=3m1FcGW6V4g",
+  "https://www.youtube.com/watch?v=cEksV9VDkUI",
+  "https://www.youtube.com/watch?v=NiknNI_0J48",
+];
