@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 
 // export const useGetProfile = <T>(session: Session | null) => {
 export const useGetProfile = (session: Session | null) => {
-  const links = useQuery({
+  const profile = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const res = await fetch(`/api/profile`);
@@ -13,5 +13,5 @@ export const useGetProfile = (session: Session | null) => {
     },
     enabled: !!session,
   });
-  return links;
+  return profile;
 };
