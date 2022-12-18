@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useState } from "react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import avatar2 from "#/public/avatar2.png";
@@ -16,6 +16,8 @@ type FormValues = {
   description: string;
 };
 
+type InputCount = "slug" | "name" | "description";
+
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
@@ -24,12 +26,13 @@ const Profile: NextPageWithLayout = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<FormValues>({
-    // "react-hook-form": "^7.40.0-next.1"
-    // FIXME: as FormValues
     values: profile as FormValues,
     mode: "onChange",
   });
+
+  const inputCount = (input: InputCount) => watch(input)?.length || 0;
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     // firebase storageへの保存とurlの取得
@@ -106,7 +109,7 @@ const Profile: NextPageWithLayout = () => {
                     {errors.slug && <p>{errors.slug.message}</p>}
                   </div>
                 </td>
-                {/* <td>{profile?.slug.length}/30</td> */}
+                <td>{inputCount("slug")}/20</td>
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">アイコン</th>
@@ -136,10 +139,21 @@ const Profile: NextPageWithLayout = () => {
                   <input
                     className="bg-transparent text-white"
                     type="text"
-                    {...register("name")}
+                    {...register("name", {
+                      required: "Name is required",
+                      maxLength: {
+                        value: 20,
+                        message: "Please less than 20 characters",
+                      },
+                      minLength: {
+                        value: 3,
+                        message: "Please more than 3 characters",
+                      },
+                    })}
                   />
+                  {errors.name && <p>{errors.name.message}</p>}
                 </td>
-                {/* <td>{user?.displayName?.length}/20</td> */}
+                <td>{inputCount("name")}/20</td>
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">紹介文</th>
