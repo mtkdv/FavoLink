@@ -9,6 +9,7 @@ import { useGetProfile } from "#/lib/useGetProfile";
 import { useSession } from "next-auth/react";
 import { InputCounter } from "#/components/InputCounter";
 import clsx from "clsx";
+import { useMutateProfile } from "#/lib/useMutateProfile";
 
 export type FormValues = {
   name: string;
@@ -21,12 +22,16 @@ export type FormValues = {
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [verifiedText, setVerifiedText] = useState("");
+  const { mutate } = useMutateProfile();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isDirty, isValid, defaultValues },
     control,
+    getValues,
   } = useForm<FormValues>({
     values: profile as FormValues,
     mode: "onChange",
@@ -47,18 +52,9 @@ const Profile: NextPageWithLayout = () => {
       description,
     };
 
-    try {
-      await fetch(`/api/profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    mutate(body);
   };
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !e.target.files[0]) return;
     console.log("e.target.files[0]:", e.target.files[0]);
@@ -70,6 +66,24 @@ const Profile: NextPageWithLayout = () => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
+  };
+
+  const handleValidateDuplication = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    // console.log("defaultValues:", defaultValues?.slug);
+    const slug = getValues("slug");
+    if (defaultValues?.slug && defaultValues?.slug === slug) {
+      setVerifiedText("現在設定中のURLです");
+      return;
+    }
+    setVerifiedText("");
+    // try {
+    //   await axios.get(`/api/profile/${slug}`)
+    // } catch (error) {
+
+    // }
   };
 
   return (
@@ -105,6 +119,19 @@ const Profile: NextPageWithLayout = () => {
                       })}
                     />
                     {errors.slug && <p>{errors.slug.message}</p>}
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      disabled={!isValid}
+                      className={clsx(
+                        "border",
+                        !isValid && "cursor-not-allowed"
+                      )}
+                      onClick={handleValidateDuplication}
+                    >
+                      使用できるか確認
+                    </button>
+                    <p>{verifiedText}</p>
                   </div>
                 </td>
                 <td>
