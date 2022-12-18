@@ -8,6 +8,7 @@ import { uploadAndGetUrl } from "#/lib/firebaseStorage";
 import { useGetProfile } from "#/lib/useGetProfile";
 import { useSession } from "next-auth/react";
 import { InputCounter } from "#/components/InputCounter";
+import clsx from "clsx";
 
 export type FormValues = {
   name: string;
@@ -17,8 +18,6 @@ export type FormValues = {
   description: string;
 };
 
-// type InputCount = "slug" | "name" | "description";
-
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
@@ -26,15 +25,12 @@ const Profile: NextPageWithLayout = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    // watch,
+    formState: { errors, isDirty, isValid },
     control,
   } = useForm<FormValues>({
     values: profile as FormValues,
     mode: "onChange",
   });
-
-  // const inputCount = (input: InputCount) => watch(input)?.length || 0;
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     // firebase storageへの保存とurlの取得
@@ -193,7 +189,16 @@ const Profile: NextPageWithLayout = () => {
               </tr>
             </tbody>
           </table>
-          <button type="submit">保存</button>
+          <button
+            type="submit"
+            disabled={!isValid || !isDirty}
+            className={clsx(
+              "border",
+              (!isValid || !isDirty) && "cursor-not-allowed"
+            )}
+          >
+            保存
+          </button>
         </form>
       ) : (
         <p>loading...</p>
