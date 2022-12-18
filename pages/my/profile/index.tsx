@@ -160,10 +160,16 @@ const Profile: NextPageWithLayout = () => {
                 <td>
                   <textarea
                     className="bg-transparent text-white border border-white rounded-lg"
-                    {...register("description")}
+                    {...register("description", {
+                      maxLength: {
+                        value: 200,
+                        message: "Please less than 200 characters",
+                      },
+                    })}
                   />
+                  {errors.description && <p>{errors.description.message}</p>}
                 </td>
-                {/* <td>{}/20</td> */}
+                <td>{inputCount("description")}/200</td>
               </tr>
             </tbody>
           </table>
