@@ -23,11 +23,12 @@ const Profile: NextPageWithLayout = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitSuccessful },
+    formState: { errors },
   } = useForm<FormValues>({
     // "react-hook-form": "^7.40.0-next.1"
     // FIXME: as FormValues
     values: profile as FormValues,
+    mode: "onChange",
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -87,12 +88,22 @@ const Profile: NextPageWithLayout = () => {
                     <input
                       className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
                       type="text"
-                      {...register("slug")}
-                      // {...register("slug", {
-                      //   onChange: (e) => console.log(e.target.value),
-                      // })}
-                      // onChange={onChange}
+                      {...register("slug", {
+                        maxLength: {
+                          value: 20,
+                          message: "Please less than 20 characters",
+                        },
+                        minLength: {
+                          value: 3,
+                          message: "Please more than 3 characters",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z0-9]*$/,
+                          message: "Please a-zA-Z0-9 characters",
+                        },
+                      })}
                     />
+                    {errors.slug && <p>{errors.slug.message}</p>}
                   </div>
                 </td>
                 {/* <td>{profile?.slug.length}/30</td> */}
