@@ -129,6 +129,7 @@ const Profile: NextPageWithLayout = () => {
                   </label>
                   <input
                     type="file"
+                    accept="image/*"
                     id="img"
                     className="hidden"
                     {...register("fileList", {
