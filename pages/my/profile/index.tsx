@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { InputCounter } from "#/components/InputCounter";
 import clsx from "clsx";
 import { useMutateProfile } from "#/lib/useMutateProfile";
+import { ResetVerifiedText } from "#/components/resetVerifiedText";
 
 export type FormValues = {
   name: string;
@@ -38,6 +39,7 @@ const Profile: NextPageWithLayout = () => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    setVerifiedText("");
     // firebase storageへの保存とurlの取得
     let image;
     if (data.fileList?.[0]) {
@@ -132,6 +134,10 @@ const Profile: NextPageWithLayout = () => {
                       使用できるか確認
                     </button>
                     <p>{verifiedText}</p>
+                    <ResetVerifiedText
+                      setVerifiedText={setVerifiedText}
+                      control={control}
+                    />
                   </div>
                 </td>
                 <td>
