@@ -7,8 +7,9 @@ import avatar2 from "#/public/avatar2.png";
 import { uploadAndGetUrl } from "#/lib/firebaseStorage";
 import { useGetProfile } from "#/lib/useGetProfile";
 import { useSession } from "next-auth/react";
+import { InputCounter } from "#/components/InputCounter";
 
-type FormValues = {
+export type FormValues = {
   name: string;
   fileList?: FileList;
   image?: string;
@@ -16,7 +17,7 @@ type FormValues = {
   description: string;
 };
 
-type InputCount = "slug" | "name" | "description";
+// type InputCount = "slug" | "name" | "description";
 
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
@@ -26,13 +27,14 @@ const Profile: NextPageWithLayout = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    // watch,
+    control,
   } = useForm<FormValues>({
     values: profile as FormValues,
     mode: "onChange",
   });
 
-  const inputCount = (input: InputCount) => watch(input)?.length || 0;
+  // const inputCount = (input: InputCount) => watch(input)?.length || 0;
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     // firebase storageへの保存とurlの取得
@@ -109,7 +111,13 @@ const Profile: NextPageWithLayout = () => {
                     {errors.slug && <p>{errors.slug.message}</p>}
                   </div>
                 </td>
-                <td>{inputCount("slug")}/20</td>
+                <td>
+                  <InputCounter
+                    name={`slug`}
+                    control={control}
+                    maxLength={`20`}
+                  />
+                </td>
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">アイコン</th>
@@ -153,7 +161,13 @@ const Profile: NextPageWithLayout = () => {
                   />
                   {errors.name && <p>{errors.name.message}</p>}
                 </td>
-                <td>{inputCount("name")}/20</td>
+                <td>
+                  <InputCounter
+                    name={`name`}
+                    control={control}
+                    maxLength={`20`}
+                  />
+                </td>
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">紹介文</th>
@@ -169,7 +183,13 @@ const Profile: NextPageWithLayout = () => {
                   />
                   {errors.description && <p>{errors.description.message}</p>}
                 </td>
-                <td>{inputCount("description")}/200</td>
+                <td>
+                  <InputCounter
+                    name={`description`}
+                    control={control}
+                    maxLength={`200`}
+                  />
+                </td>
               </tr>
             </tbody>
           </table>
