@@ -13,6 +13,7 @@ export const InputCounter = ({
   maxLength,
 }: InputCounterProps) => {
   const value = useWatch({ name, control });
+  // console.log(`InputCounter: ${name}`);
   return (
     <p>
       {value?.length || 0}/{maxLength}

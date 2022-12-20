@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import avatar2 from "#/public/avatar2.png";
@@ -10,14 +10,16 @@ import { useSession } from "next-auth/react";
 import { InputCounter } from "#/components/InputCounter";
 import clsx from "clsx";
 import { useMutateProfile } from "#/lib/useMutateProfile";
-import { ResetVerifiedText } from "#/components/resetVerifiedText";
+import { ResetVerifiedText } from "#/components/ResetVerifiedText";
+import axios from "axios";
+import { ValidateButton } from "#/components/ValidateButton";
 
 export type FormValues = {
   name: string;
   fileList?: FileList;
   image?: string;
-  slug: string;
-  description: string;
+  slug: string | null;
+  description: string | null;
 };
 
 const Profile: NextPageWithLayout = () => {
@@ -38,15 +40,55 @@ const Profile: NextPageWithLayout = () => {
     mode: "onChange",
   });
 
+  /**
+   * @param {string | null} data.slug 初期値はschema.prismaのString?によりnull
+   */
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setVerifiedText("");
+
+    // const { name, fileList, slug, description } = data;
+
+    if (data.slug === null) {
+      // console.log("data.slug === null");
+      hoge(data);
+      return;
+    }
+    // if (typeof data.slug === "string") {
+    if (data.slug.length === 0) {
+      // console.log("data.slug.length === 0");
+      data.slug = null;
+      hoge(data);
+      return;
+    }
+    try {
+      const res = await axios.get(`/api/profile/${data.slug}`);
+      switch (res.data) {
+        case 0:
+          // console.log("case 0");
+          hoge(data);
+          return;
+        case 1:
+          // console.log("cate 1");
+          setVerifiedText("現在他の人により使用されています");
+          return;
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+    // }
+  };
+
+  const hoge = async (data: FormValues) => {
+    // console.log("hoge");
+
+    const { name, fileList, slug, description } = data;
     // firebase storageへの保存とurlの取得
     let image;
-    if (data.fileList?.[0]) {
-      image = await uploadAndGetUrl(data.fileList?.[0]);
+    console.log("fileList:", fileList);
+    if (fileList?.[0]) {
+      image = await uploadAndGetUrl(fileList?.[0]);
     }
 
-    const { slug, name, description } = data;
     const body = {
       slug,
       image,
@@ -70,23 +112,36 @@ const Profile: NextPageWithLayout = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const handleValidateDuplication = async (
+  const handleValidateButton = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    // console.log("defaultValues:", defaultValues?.slug);
+
     const slug = getValues("slug");
-    if (defaultValues?.slug && defaultValues?.slug === slug) {
+    if (defaultValues?.slug === slug) {
       setVerifiedText("現在設定中のURLです");
       return;
     }
-    setVerifiedText("");
-    // try {
-    //   await axios.get(`/api/profile/${slug}`)
-    // } catch (error) {
-
-    // }
+    try {
+      const res = await axios.get(`/api/profile/${slug}`);
+      switch (res.data) {
+        case 0:
+          setVerifiedText("使用できます");
+          break;
+        case 1:
+          setVerifiedText("他の人により使用されています");
+          break;
+      }
+    } catch (error) {}
   };
+
+  // const inputCount = watch("slug")?.length;
+
+  // useEffect(() => {
+  //   console.log("watch:", watch());
+  // }, [watch]);
+
+  // console.log("profile/index.tsx");
 
   return (
     <div className="py-12 px-6">
@@ -106,6 +161,10 @@ const Profile: NextPageWithLayout = () => {
                       className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
                       type="text"
                       {...register("slug", {
+                        // required: {
+                        //   value: true,
+                        //   message: "This field is required",
+                        // },
                         maxLength: {
                           value: 20,
                           message: "Please less than 20 characters",
@@ -123,16 +182,23 @@ const Profile: NextPageWithLayout = () => {
                     {errors.slug && <p>{errors.slug.message}</p>}
                   </div>
                   <div className="flex space-x-2">
-                    <button
+                    {/* <button
+                      // disabled={!isValid || !inputCount}
                       disabled={!isValid}
                       className={clsx(
                         "border",
+                        // (!isValid || !inputCount) && "cursor-not-allowed"
                         !isValid && "cursor-not-allowed"
                       )}
-                      onClick={handleValidateDuplication}
+                      onClick={handleValidateButton}
                     >
                       使用できるか確認
-                    </button>
+                    </button> */}
+                    <ValidateButton
+                      isValid={isValid}
+                      control={control}
+                      onClick={handleValidateButton}
+                    />
                     <p>{verifiedText}</p>
                     <ResetVerifiedText
                       setVerifiedText={setVerifiedText}
