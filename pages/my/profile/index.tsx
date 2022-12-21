@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import avatar2 from "#/public/avatar2.png";
@@ -135,12 +135,6 @@ const Profile: NextPageWithLayout = () => {
     } catch (error) {}
   };
 
-  // const inputCount = watch("slug")?.length;
-
-  // useEffect(() => {
-  //   console.log("watch:", watch());
-  // }, [watch]);
-
   // console.log("profile/index.tsx");
 
   return (
@@ -161,10 +155,6 @@ const Profile: NextPageWithLayout = () => {
                       className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
                       type="text"
                       {...register("slug", {
-                        // required: {
-                        //   value: true,
-                        //   message: "This field is required",
-                        // },
                         maxLength: {
                           value: 20,
                           message: "Please less than 20 characters",
@@ -248,10 +238,6 @@ const Profile: NextPageWithLayout = () => {
                       maxLength: {
                         value: 20,
                         message: "Please less than 20 characters",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "Please more than 3 characters",
                       },
                     })}
                   />
