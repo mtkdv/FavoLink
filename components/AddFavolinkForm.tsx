@@ -69,7 +69,9 @@ export const AddFavolinkForm = () => {
         <input
           id="url"
           className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
-          {...register("link")}
+          {...register("link", {
+            required: true,
+          })}
         />
         <CategorySelect register={register} />
         <button className="border border-white px-2">追加</button>

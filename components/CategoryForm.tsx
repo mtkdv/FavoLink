@@ -59,9 +59,7 @@ export const CategoryForm = () => {
             },
           })}
         />
-        <button disabled={!session} className="border border-white">
-          追加
-        </button>
+        <button className="border border-white">追加</button>
         {errors.category && (
           <p className="text-red-500">{errors.category.message}</p>
         )}
