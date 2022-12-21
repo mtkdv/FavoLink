@@ -41,11 +41,11 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                 <h3>{spesificLinks.name}</h3>
                 <ul className="flex">
                   {spesificLinks.data.map((link) => (
-                    <li key={link.url} className="w-60 p-1">
+                    <li key={link.videoId} className="w-60 p-1">
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={link.url}
+                        href={`https://www.youtube.com/watch?v=${link.videoId}`}
                       >
                         <Image
                           src={link.thumbnailUrl}

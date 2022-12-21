@@ -11,8 +11,7 @@ type Video = {
   };
 };
 
-export const listVideos = async (url: string) => {
-  const id = getYouTubeVideoIdFromUrl(url);
+export const listVideos = async (id: string) => {
   try {
     const res = await axios.get(
       "https://youtube.googleapis.com/youtube/v3/videos",
@@ -31,7 +30,7 @@ export const listVideos = async (url: string) => {
   }
 };
 
-const getYouTubeVideoIdFromUrl = (url: string) => {
+export const getYouTubeVideoIdFromUrl = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   return match && match[2].length === 11 ? match[2] : undefined;
