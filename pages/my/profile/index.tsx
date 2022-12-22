@@ -46,45 +46,25 @@ const Profile: NextPageWithLayout = () => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setVerifiedText("");
 
-    // const { name, fileList, slug, description } = data;
-
-    if (data.slug === null) {
-      // console.log("data.slug === null");
-      hoge(data);
-      return;
-    }
-    // if (typeof data.slug === "string") {
-    if (data.slug.length === 0) {
-      // console.log("data.slug.length === 0");
-      data.slug = null;
-      hoge(data);
-      return;
-    }
-    try {
-      const res = await axios.get(`/api/profile/${data.slug}`);
-      switch (res.data) {
-        case 0:
-          // console.log("case 0");
-          hoge(data);
-          return;
-        case 1:
-          // console.log("cate 1");
+    if (typeof data.slug === "string") {
+      if (data.slug.length) {
+        const res = await axios.get(`/api/profile/${data.slug}`);
+        if (res.data > 0) {
           setVerifiedText("現在他の人により使用されています");
           return;
+        }
+      } else {
+        data.slug = null;
       }
-    } catch (error: any) {
-      throw new Error(error.message);
     }
-    // }
-  };
 
-  const hoge = async (data: FormValues) => {
-    // console.log("hoge");
+    // if (typeof data.slug === "string" && data.slug.length === 0) {
+    //   data.slug = null;
+    // }
 
     const { name, fileList, slug, description } = data;
     // firebase storageへの保存とurlの取得
     let image;
-    console.log("fileList:", fileList);
     if (fileList?.[0]) {
       image = await uploadAndGetUrl(fileList?.[0]);
     }
