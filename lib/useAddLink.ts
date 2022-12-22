@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 export const useAddLink = () => {
   const queryClient = useQueryClient();
   const linkMutation = useMutation({
-    mutationFn: async (body: { url: string; categoryId: string }) => {
+    mutationFn: async (data: { videoId: string; categoryId: string }) => {
       try {
-        const res = await fetch(`/api/link`, {
-          method: "POST",
+        const res = await axios.post(`/api/link`, {
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+          data,
         });
-        return await res.json();
+        return res.data;
       } catch (error) {
         console.error(error);
       }

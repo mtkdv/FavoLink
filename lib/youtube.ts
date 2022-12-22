@@ -2,13 +2,17 @@ import axios from "axios";
 
 const fields = "items/snippet(title,thumbnails/medium/url)";
 
-type Video = {
-  title: string;
-  thumbnails: {
-    medium: {
-      url: string;
+type ResData = {
+  items: {
+    snippet: {
+      title: string;
+      thumbnails: {
+        medium: {
+          url: string;
+        };
+      };
     };
-  };
+  }[];
 };
 
 export const listVideos = async (id: string) => {
@@ -24,9 +28,10 @@ export const listVideos = async (id: string) => {
         },
       }
     );
-    return res.data.items[0].snippet as Video;
+    // return res.data.items[0].snippet as Video;
+    return res.data as ResData;
   } catch (error: any) {
-    console.log(error.message);
+    console.log("listVideosError:", error.message);
   }
 };
 

@@ -31,26 +31,17 @@ export default async function handle(
       break;
     }
     case "POST": {
-      const { url, categoryId } = req.body;
-
-      const videoId = getYouTubeVideoIdFromUrl(url);
-      if (!videoId) return;
-
-      // 同一のカテゴリ内でurlが重複する場合
-      // const link = await prisma.link.findFirst({
-      //   where: req.body,
-      // });
-      // if (link) {
-      //   res.status(500).send({
-      //     error: "特定のカテゴリ内に同一のリンクを登録しようとしています。",
-      //   });
-      //   return;
-      // }
+      const { videoId, categoryId } = req.body.data;
 
       // youtube
       // TODO: 回数制限
-      const video = await listVideos(videoId);
-      if (!video) throw new Error();
+      const data = await listVideos(videoId);
+      if (data!.items.length == 0) {
+        res.json({
+          message: "動画を取得できませんでした",
+        });
+        return;
+      }
 
       const aggregation = await prisma.link.aggregate({
         where: {
@@ -73,9 +64,9 @@ export default async function handle(
 
       const createdLink = await prisma.link.create({
         data: {
-          title: video.title,
+          title: data!.items[0].snippet.title,
           videoId,
-          thumbnailUrl: video.thumbnails.medium.url,
+          thumbnailUrl: data!.items[0].snippet.thumbnails.medium.url,
           index,
           user: {
             connect: { id },

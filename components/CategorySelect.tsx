@@ -15,13 +15,16 @@ export const CategorySelect: FC<Props> = ({ register }) => {
   if (isLoading) return <p>Loading...</p>;
   return categories ? (
     <select
-      //TODO: HTML標準のエラーが表示されている
-      required
       //TODO: react-select
+      defaultValue=""
       className="bg-transparent border border-white"
-      {...register("category")}
+      {...register("category", {
+        required: true,
+      })}
     >
-      <option value="">選択してください</option>
+      <option disabled value="">
+        カテゴリ選択
+      </option>
       {categories.map((category) => (
         <option key={category.id} value={category.id}>
           {category.name}
