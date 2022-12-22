@@ -31,9 +31,8 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
     register,
     handleSubmit,
     reset,
-    formState: { isValid },
+    formState: { errors },
   } = useForm<FormValues>({
-    reValidateMode: "onSubmit",
     defaultValues: {
       category: "",
     },
@@ -114,20 +113,18 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
             id="url"
             className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
             {...register("link", {
-              required: true,
+              required: "リンクを貼り付けてください",
             })}
           />
           <CategorySelect register={register} />
-          <button
-            disabled={!isValid}
-            className={clsx(
-              "border border-white px-2",
-              !isValid && "cursor-not-allowed"
-            )}
-          >
+          <button className={clsx("border border-white px-2")}>
             リンク追加
           </button>
         </div>
+        {errors.link && <p className="text-red-500">{errors.link.message}</p>}
+        {errors.category && (
+          <p className="text-red-500">{errors.category.message}</p>
+        )}
         <p>{errorMessage}</p>
       </div>
     </form>

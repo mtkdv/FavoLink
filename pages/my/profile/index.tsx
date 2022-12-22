@@ -48,19 +48,17 @@ const Profile: NextPageWithLayout = () => {
 
     if (typeof data.slug === "string") {
       if (data.slug.length) {
-        const res = await axios.get(`/api/profile/${data.slug}`);
-        if (res.data > 0) {
-          setVerifiedText("現在他の人により使用されています");
-          return;
-        }
+        try {
+          const res = await axios.get(`/api/profile/${data.slug}`);
+          if (res.data > 0) {
+            setVerifiedText("現在他の人により使用されています");
+            return;
+          }
+        } catch (error) {}
       } else {
         data.slug = null;
       }
     }
-
-    // if (typeof data.slug === "string" && data.slug.length === 0) {
-    //   data.slug = null;
-    // }
 
     const { name, fileList, slug, description } = data;
     // firebase storageへの保存とurlの取得
@@ -104,14 +102,9 @@ const Profile: NextPageWithLayout = () => {
     }
     try {
       const res = await axios.get(`/api/profile/${slug}`);
-      switch (res.data) {
-        case 0:
-          setVerifiedText("使用できます");
-          break;
-        case 1:
-          setVerifiedText("他の人により使用されています");
-          break;
-      }
+      res.data
+        ? setVerifiedText("他の人により使用されています")
+        : setVerifiedText("使用できます");
     } catch (error) {}
   };
 
@@ -152,18 +145,6 @@ const Profile: NextPageWithLayout = () => {
                     {errors.slug && <p>{errors.slug.message}</p>}
                   </div>
                   <div className="flex space-x-2">
-                    {/* <button
-                      // disabled={!isValid || !inputCount}
-                      disabled={!isValid}
-                      className={clsx(
-                        "border",
-                        // (!isValid || !inputCount) && "cursor-not-allowed"
-                        !isValid && "cursor-not-allowed"
-                      )}
-                      onClick={handleValidateButton}
-                    >
-                      使用できるか確認
-                    </button> */}
                     <ValidateButton
                       isValid={isValid}
                       control={control}

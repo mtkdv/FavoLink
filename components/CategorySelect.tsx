@@ -19,7 +19,7 @@ export const CategorySelect: FC<Props> = ({ register }) => {
       defaultValue=""
       className="bg-transparent border border-white"
       {...register("category", {
-        required: true,
+        required: "カテゴリを選択してください",
       })}
     >
       <option disabled value="">
