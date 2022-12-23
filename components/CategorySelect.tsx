@@ -15,12 +15,16 @@ export const CategorySelect: FC<Props> = ({ register }) => {
   if (isLoading) return <p>Loading...</p>;
   return categories ? (
     <select
-      // TODO: １つ目のoptionを選択できないようにする。
-      // react selectなどのライブラリを検討。
+      //TODO: react-select
+      defaultValue=""
       className="bg-transparent border border-white"
-      {...register("category")}
+      {...register("category", {
+        required: "カテゴリを選択してください",
+      })}
     >
-      <option>選択してください</option>
+      <option disabled value="">
+        カテゴリ選択
+      </option>
       {categories.map((category) => (
         <option key={category.id} value={category.id}>
           {category.name}

@@ -1,5 +1,5 @@
 import prisma from "#/lib/prisma";
-import { listVideos } from "#/lib/youtube";
+import { getYouTubeVideoIdFromUrl, listVideos } from "#/lib/youtube";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
@@ -31,24 +31,17 @@ export default async function handle(
       break;
     }
     case "POST": {
-      const { url, categoryId } = req.body;
-
-      // 同一のカテゴリ内でurlが重複する場合
-      const link = await prisma.link.findFirst({
-        where: req.body,
-      });
-      if (link) {
-        res.status(500).send({
-          error: "特定のカテゴリ内に同一のリンクを登録しようとしています。",
-        });
-        return;
-      }
+      const { videoId, categoryId } = req.body.data;
 
       // youtube
       // TODO: 回数制限
-      const video = await listVideos(url);
-      if (!video) throw new Error();
-      // console.log("video:", video);
+      const data = await listVideos(videoId);
+      if (data!.items.length == 0) {
+        res.json({
+          message: "動画を取得できませんでした",
+        });
+        return;
+      }
 
       const aggregation = await prisma.link.aggregate({
         where: {
@@ -71,9 +64,9 @@ export default async function handle(
 
       const createdLink = await prisma.link.create({
         data: {
-          title: video.title,
-          url,
-          thumbnailUrl: video.thumbnails.medium.url,
+          title: data!.items[0].snippet.title,
+          videoId,
+          thumbnailUrl: data!.items[0].snippet.thumbnails.medium.url,
           index,
           user: {
             connect: { id },

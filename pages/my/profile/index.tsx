@@ -1,43 +1,72 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useState } from "react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import avatar2 from "#/public/avatar2.png";
 import { uploadAndGetUrl } from "#/lib/firebaseStorage";
 import { useGetProfile } from "#/lib/useGetProfile";
 import { useSession } from "next-auth/react";
+import { InputCounter } from "#/components/InputCounter";
+import clsx from "clsx";
+import { useMutateProfile } from "#/lib/useMutateProfile";
+import { ResetVerifiedText } from "#/components/ResetVerifiedText";
+import axios from "axios";
+import { ValidateButton } from "#/components/ValidateButton";
 
-type FormValues = {
+export type FormValues = {
   name: string;
   fileList?: FileList;
   image?: string;
-  slug: string;
-  description: string;
+  slug: string | null;
+  description: string | null;
 };
 
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [verifiedText, setVerifiedText] = useState("");
+  const { mutate } = useMutateProfile();
 
   const {
     register,
     handleSubmit,
-    formState: { isSubmitSuccessful },
+    formState: { errors, isDirty, isValid, defaultValues },
+    control,
+    getValues,
   } = useForm<FormValues>({
-    // "react-hook-form": "^7.40.0-next.1"
-    // FIXME: as FormValues
     values: profile as FormValues,
+    mode: "onChange",
   });
 
+  /**
+   * @param {string | null} data.slug 初期値はschema.prismaのString?によりnull
+   */
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // firebase storageへの保存とurlの取得
-    let image;
-    if (data.fileList?.[0]) {
-      image = await uploadAndGetUrl(data.fileList?.[0]);
+    setVerifiedText("");
+
+    if (typeof data.slug === "string") {
+      if (data.slug.length) {
+        try {
+          const res = await axios.get(`/api/profile/${data.slug}`);
+          if (res.data > 0) {
+            setVerifiedText("現在他の人により使用されています");
+            return;
+          }
+        } catch (error) {}
+      } else {
+        data.slug = null;
+      }
     }
 
-    const { slug, name, description } = data;
+    const { name, fileList, slug, description } = data;
+    // firebase storageへの保存とurlの取得
+    let image;
+    if (fileList?.[0]) {
+      image = await uploadAndGetUrl(fileList?.[0]);
+    }
+
     const body = {
       slug,
       image,
@@ -45,18 +74,9 @@ const Profile: NextPageWithLayout = () => {
       description,
     };
 
-    try {
-      await fetch(`/api/profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    mutate(body);
   };
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !e.target.files[0]) return;
     console.log("e.target.files[0]:", e.target.files[0]);
@@ -69,6 +89,26 @@ const Profile: NextPageWithLayout = () => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
+
+  const handleValidateButton = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    const slug = getValues("slug");
+    if (defaultValues?.slug === slug) {
+      setVerifiedText("現在設定中のURLです");
+      return;
+    }
+    try {
+      const res = await axios.get(`/api/profile/${slug}`);
+      res.data
+        ? setVerifiedText("他の人により使用されています")
+        : setVerifiedText("使用できます");
+    } catch (error) {}
+  };
+
+  // console.log("profile/index.tsx");
 
   return (
     <div className="py-12 px-6">
@@ -87,15 +127,43 @@ const Profile: NextPageWithLayout = () => {
                     <input
                       className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
                       type="text"
-                      {...register("slug")}
-                      // {...register("slug", {
-                      //   onChange: (e) => console.log(e.target.value),
-                      // })}
-                      // onChange={onChange}
+                      {...register("slug", {
+                        maxLength: {
+                          value: 20,
+                          message: "Please less than 20 characters",
+                        },
+                        minLength: {
+                          value: 3,
+                          message: "Please more than 3 characters",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z0-9]*$/,
+                          message: "Please a-zA-Z0-9 characters",
+                        },
+                      })}
+                    />
+                    {errors.slug && <p>{errors.slug.message}</p>}
+                  </div>
+                  <div className="flex space-x-2">
+                    <ValidateButton
+                      isValid={isValid}
+                      control={control}
+                      onClick={handleValidateButton}
+                    />
+                    <p>{verifiedText}</p>
+                    <ResetVerifiedText
+                      setVerifiedText={setVerifiedText}
+                      control={control}
                     />
                   </div>
                 </td>
-                {/* <td>{profile?.slug.length}/30</td> */}
+                <td>
+                  <InputCounter
+                    name={`slug`}
+                    control={control}
+                    maxLength={`20`}
+                  />
+                </td>
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">アイコン</th>
@@ -111,6 +179,7 @@ const Profile: NextPageWithLayout = () => {
                   </label>
                   <input
                     type="file"
+                    accept="image/*"
                     id="img"
                     className="hidden"
                     {...register("fileList", {
@@ -125,24 +194,58 @@ const Profile: NextPageWithLayout = () => {
                   <input
                     className="bg-transparent text-white"
                     type="text"
-                    {...register("name")}
+                    {...register("name", {
+                      required: "Name is required",
+                      maxLength: {
+                        value: 20,
+                        message: "Please less than 20 characters",
+                      },
+                    })}
+                  />
+                  {errors.name && <p>{errors.name.message}</p>}
+                </td>
+                <td>
+                  <InputCounter
+                    name={`name`}
+                    control={control}
+                    maxLength={`20`}
                   />
                 </td>
-                {/* <td>{user?.displayName?.length}/20</td> */}
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">紹介文</th>
                 <td>
                   <textarea
                     className="bg-transparent text-white border border-white rounded-lg"
-                    {...register("description")}
+                    {...register("description", {
+                      maxLength: {
+                        value: 200,
+                        message: "Please less than 200 characters",
+                      },
+                    })}
+                  />
+                  {errors.description && <p>{errors.description.message}</p>}
+                </td>
+                <td>
+                  <InputCounter
+                    name={`description`}
+                    control={control}
+                    maxLength={`200`}
                   />
                 </td>
-                {/* <td>{}/20</td> */}
               </tr>
             </tbody>
           </table>
-          <button type="submit">保存</button>
+          <button
+            type="submit"
+            disabled={!isValid || !isDirty}
+            className={clsx(
+              "border",
+              (!isValid || !isDirty) && "cursor-not-allowed"
+            )}
+          >
+            保存
+          </button>
         </form>
       ) : (
         <p>loading...</p>

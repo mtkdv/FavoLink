@@ -2,17 +2,20 @@ import axios from "axios";
 
 const fields = "items/snippet(title,thumbnails/medium/url)";
 
-type Video = {
-  title: string;
-  thumbnails: {
-    medium: {
-      url: string;
+type ResData = {
+  items: {
+    snippet: {
+      title: string;
+      thumbnails: {
+        medium: {
+          url: string;
+        };
+      };
     };
-  };
+  }[];
 };
 
-export const listVideos = async (url: string) => {
-  const id = getYouTubeVideoIdFromUrl(url);
+export const listVideos = async (id: string) => {
   try {
     const res = await axios.get(
       "https://youtube.googleapis.com/youtube/v3/videos",
@@ -25,13 +28,14 @@ export const listVideos = async (url: string) => {
         },
       }
     );
-    return res.data.items[0].snippet as Video;
+    // return res.data.items[0].snippet as Video;
+    return res.data as ResData;
   } catch (error: any) {
-    console.log(error.message);
+    console.log("listVideosError:", error.message);
   }
 };
 
-const getYouTubeVideoIdFromUrl = (url: string) => {
+export const getYouTubeVideoIdFromUrl = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   return match && match[2].length === 11 ? match[2] : undefined;

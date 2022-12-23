@@ -1,3 +1,4 @@
+import { uploadAndGetUrl } from "#/lib/firebaseStorage";
 import prisma from "#/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
@@ -10,7 +11,6 @@ export default async function handle(
   res: NextApiResponse
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
-  const { slug, image, name, description } = req.body;
 
   if (!session) {
     res.status(401).json({ message: "You must be logged in." });
@@ -32,6 +32,14 @@ export default async function handle(
       break;
     }
     case "PUT": {
+      const { slug, image, name, description } = req.body;
+      // const { slug, fileList, name, description } = req.body;
+
+      // let image;
+      // if (fileList?.[0]) {
+      //   image = await uploadAndGetUrl(fileList?.[0]);
+      // }
+
       const profile = await prisma.profile.update({
         where: { userId: id },
         data: {

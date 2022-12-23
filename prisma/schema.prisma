@@ -86,7 +86,7 @@ model Category {
 model Link {
   id           String    @id @default(cuid())
   title        String
-  url          String
+  videoId      String
   thumbnailUrl String
   index        Int
   user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
