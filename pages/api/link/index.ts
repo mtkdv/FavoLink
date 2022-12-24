@@ -38,6 +38,7 @@ export default async function handle(
       const data = await listVideos(videoId);
       if (data!.items.length == 0) {
         res.json({
+          type: "error",
           message: "動画を取得できませんでした",
         });
         return;
@@ -78,7 +79,11 @@ export default async function handle(
           },
         },
       });
-      res.json(createdLink);
+      // res.json(createdLink);
+      res.json({
+        type: "success",
+        message: "動画を追加しました",
+      });
       break;
     }
   }
