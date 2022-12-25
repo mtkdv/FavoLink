@@ -1,5 +1,5 @@
 import prisma from "#/lib/prisma";
-import { getYouTubeVideoIdFromUrl, listVideos } from "#/lib/youtube";
+import { listVideos } from "#/lib/youtube";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
