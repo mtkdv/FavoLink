@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fields = "items/snippet(title,thumbnails/medium/url)";
 
-type ResData = {
+type ListVideos = {
   items: {
     snippet: {
       title: string;
@@ -29,8 +29,9 @@ export const listVideos = async (id: string) => {
       }
     );
     // return res.data.items[0].snippet as Video;
-    return res.data as ResData;
+    return res.data as ListVideos;
   } catch (error: any) {
+    // TODO: handle error
     console.log("listVideosError:", error.message);
   }
 };
