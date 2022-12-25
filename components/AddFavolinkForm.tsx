@@ -32,6 +32,7 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -39,34 +40,59 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    setErrorMessage("");
-
-    const videoId = getYouTubeVideoIdFromUrl(data.link);
-
+  const linkValidation = (videoId: any) => {
+    console.log("onSubmitValidation videoId:", videoId);
     if (!videoId) {
-      setErrorMessage("YouTube動画のURLを貼ってください");
-      return;
+      return "YouTube動画のURLを貼ってくださいvv";
     }
 
+    const category = getValues("category");
     const specifiedLinks = categorizedLinks?.find(
-      ({ categoryId }) => categoryId === data.category
+      ({ categoryId }) => categoryId === category
     );
     if (specifiedLinks?.data.length === 5) {
-      setErrorMessage("一つのカテゴリーに登録できる動画は5つまでです");
-      return;
+      return "一つのカテゴリーに登録できる動画は5つまでですvv";
     }
 
     const isDuplicated = specifiedLinks?.data.some(
       (link) => link.videoId === videoId
     );
     if (isDuplicated) {
-      setErrorMessage("このカテゴリー内にその動画はすでに登録されています");
-      return;
+      return "このカテゴリー内にその動画はすでに登録されていますvv";
     }
 
+    return true;
+  };
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    setErrorMessage("");
+
+    // const videoId = getYouTubeVideoIdFromUrl(data.link);
+
+    // if (!videoId) {
+    //   setErrorMessage("YouTube動画のURLを貼ってください");
+    //   return;
+    // }
+
+    // const specifiedLinks = categorizedLinks?.find(
+    //   ({ categoryId }) => categoryId === data.category
+    // );
+    // if (specifiedLinks?.data.length === 5) {
+    //   setErrorMessage("一つのカテゴリーに登録できる動画は5つまでです");
+    //   return;
+    // }
+
+    // const isDuplicated = specifiedLinks?.data.some(
+    //   (link) => link.videoId === videoId
+    // );
+    // if (isDuplicated) {
+    //   setErrorMessage("このカテゴリー内にその動画はすでに登録されています");
+    //   return;
+    // }
+
     const mutateData = await mutateAsync({
-      videoId,
+      // videoId,
+      videoId: data.link,
       categoryId: data.category,
     });
 
@@ -134,7 +160,12 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
           id="url"
           className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
           {...register("link", {
-            required: "追加したいYouTube動画のURLを入力してください",
+            // required: "追加したいYouTube動画のURLを入力してください",
+            setValueAs: (v) => {
+              // console.log("v:", typeof v); // string
+              return getYouTubeVideoIdFromUrl(v);
+            },
+            validate: (videoId) => linkValidation(videoId),
           })}
         />
         {errors.link && <p className="text-red-500">{errors.link.message}</p>}
