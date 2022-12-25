@@ -7,6 +7,7 @@ import { AiOutlineCopy } from "react-icons/ai";
 import { getYouTubeVideoIdFromUrl } from "#/lib/youtube";
 import { Link } from "@prisma/client";
 import clsx from "clsx";
+import { toast } from "react-hot-toast";
 
 export type FormValues = {
   link: string;
@@ -24,7 +25,7 @@ type Props = {
 };
 
 export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
-  const { mutateAsync, data: hoge } = useAddLink();
+  const { mutateAsync } = useAddLink();
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -51,6 +52,10 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
     const specifiedLinks = categorizedLinks?.find(
       ({ categoryId }) => categoryId === data.category
     );
+    if (specifiedLinks?.data.length === 5) {
+      setErrorMessage("一つのカテゴリーに登録できる動画は5つまでです");
+      return;
+    }
 
     const isDuplicated = specifiedLinks?.data.some(
       (link) => link.videoId === videoId
@@ -60,16 +65,33 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
       return;
     }
 
-    if (specifiedLinks?.data.length === 5) {
-      setErrorMessage("一つのカテゴリーに登録できる動画は5つまでです");
-      return;
-    }
-
-    await mutateAsync({
+    const mutateData = await mutateAsync({
       videoId,
       categoryId: data.category,
     });
-    // if (hoge.message) setErrorMessage(hoge.message);
+
+    switch (mutateData?.type) {
+      case "success":
+        toast.success(mutateData.message);
+        break;
+      case "error":
+        setErrorMessage(mutateData.message);
+        // toast.error(mutateData.message);
+        return;
+    }
+
+    // toast.promise(
+    //   mutateAsync({
+    //     videoId,
+    //     categoryId: data.category,
+    //   }),
+    //   {
+    //     loading: "Loading",
+    //     success: (data) => data.message,
+    //     error: (err) => `This just happened: ${err.toString()}`,
+    //   }
+    // );
+
     reset();
   };
 
@@ -106,26 +128,22 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
           ))}
         </ul>
       </label>
-      <div>
-        <div className="flex space-x-3">
-          {/* TODO: reset button */}
-          <input
-            id="url"
-            className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
-            {...register("link", {
-              required: "リンクを貼り付けてください",
-            })}
-          />
-          <CategorySelect register={register} />
-          <button className={clsx("border border-white px-2")}>
-            リンク追加
-          </button>
-        </div>
+      <div className="flex flex-col">
+        {/* TODO: reset button */}
+        <input
+          id="url"
+          className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
+          {...register("link", {
+            required: "追加したいYouTube動画のURLを入力してください",
+          })}
+        />
         {errors.link && <p className="text-red-500">{errors.link.message}</p>}
+        <CategorySelect register={register} />
         {errors.category && (
           <p className="text-red-500">{errors.category.message}</p>
         )}
-        <p>{errorMessage}</p>
+        <p className="text-red-500">{errorMessage}</p>
+        <button className={clsx("border border-white px-2")}>リンク追加</button>
       </div>
     </form>
   );

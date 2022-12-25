@@ -13,6 +13,7 @@ import { useMutateProfile } from "#/lib/useMutateProfile";
 import { ResetVerifiedText } from "#/components/ResetVerifiedText";
 import axios from "axios";
 import { ValidateButton } from "#/components/ValidateButton";
+import { toast } from "react-hot-toast";
 
 export type FormValues = {
   name: string;
@@ -27,17 +28,16 @@ const Profile: NextPageWithLayout = () => {
   const { data: profile } = useGetProfile(session);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [verifiedText, setVerifiedText] = useState("");
-  const { mutate } = useMutateProfile();
+  const { mutateAsync } = useMutateProfile();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid, defaultValues },
     control,
     getValues,
+    formState: { errors, isDirty, isValid, defaultValues },
   } = useForm<FormValues>({
     values: profile as FormValues,
-    mode: "onChange",
   });
 
   /**
@@ -74,7 +74,11 @@ const Profile: NextPageWithLayout = () => {
       description,
     };
 
-    mutate(body);
+    const profileData = await mutateAsync(body);
+
+    if (profileData) {
+      toast.success("プロフィールを更新しました。");
+    }
   };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -200,6 +204,11 @@ const Profile: NextPageWithLayout = () => {
                         value: 20,
                         message: "Please less than 20 characters",
                       },
+                      validate: (value) => {
+                        return (
+                          !!value.trim() || "空白文字のみの入力はできません"
+                        );
+                      },
                     })}
                   />
                   {errors.name && <p>{errors.name.message}</p>}
@@ -222,6 +231,13 @@ const Profile: NextPageWithLayout = () => {
                         value: 200,
                         message: "Please less than 200 characters",
                       },
+                      validate: (value) => {
+                        if (value) {
+                          return (
+                            !!value.trim() || "空白文字のみの入力はできません"
+                          );
+                        }
+                      },
                     })}
                   />
                   {errors.description && <p>{errors.description.message}</p>}
@@ -238,10 +254,10 @@ const Profile: NextPageWithLayout = () => {
           </table>
           <button
             type="submit"
-            disabled={!isValid || !isDirty}
+            // disabled={!isValid || !isDirty}
             className={clsx(
-              "border",
-              (!isValid || !isDirty) && "cursor-not-allowed"
+              "border"
+              // (!isValid || !isDirty) && "cursor-not-allowed"
             )}
           >
             保存

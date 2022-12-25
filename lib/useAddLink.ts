@@ -1,6 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
+type ResData = {
+  type: string;
+  message: string;
+};
+
 export const useAddLink = () => {
   const queryClient = useQueryClient();
   const linkMutation = useMutation({
@@ -10,7 +15,7 @@ export const useAddLink = () => {
           headers: { "Content-Type": "application/json" },
           data,
         });
-        return res.data;
+        return res.data as ResData;
       } catch (error) {
         console.error(error);
       }
