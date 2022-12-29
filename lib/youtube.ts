@@ -17,7 +17,8 @@ type ListVideos = {
 
 export const listVideos = async (id: string) => {
   try {
-    const res = await axios.get(
+    // const res = await axios.get(
+    const res = await axios.get<ListVideos>(
       "https://youtube.googleapis.com/youtube/v3/videos",
       {
         params: {
@@ -29,10 +30,13 @@ export const listVideos = async (id: string) => {
       }
     );
     // return res.data.items[0].snippet as Video;
-    return res.data as ListVideos;
-  } catch (error: any) {
+    // return res.data as ListVideos;
+    return res.data;
+  } catch (error) {
     // TODO: handle error
-    console.log("listVideosError:", error.message);
+    // console.log("listVideosError:", error.message);
+    if (axios.isAxiosError(error) && error.response) {
+    }
   }
 };
 

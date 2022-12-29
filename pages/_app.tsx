@@ -30,15 +30,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Toaster
           position="bottom-right"
           toastOptions={{
-            iconTheme: {
-              primary: "teal",
-              secondary: "#fff",
-            },
             style: {
               color: "#fff",
               backgroundColor: "#333",
             },
             success: {
+              iconTheme: {
+                primary: "teal",
+                secondary: "#fff",
+              },
               duration: 3000,
             },
           }}
