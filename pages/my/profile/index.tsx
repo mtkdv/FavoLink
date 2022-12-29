@@ -26,7 +26,7 @@ export type FormValues = {
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [verifiedText, setVerifiedText] = useState("");
   const { mutateAsync } = usePatchProfile();
 
@@ -106,15 +106,26 @@ const Profile: NextPageWithLayout = () => {
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !e.target.files[0]) return;
-    console.log("e.target.files[0]:", e.target.files[0]);
-    const reader = new FileReader();
-    reader.onload = () => {
-      const res = reader.result;
-      if (res && typeof res === "string") {
-        setSelectedImage(res);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
+    const file = e.target.files[0];
+
+    /** MIME type validation */
+    if (!file.type.startsWith("image")) {
+      toast.error("画像ファイルを選択してください。");
+      return;
+    }
+
+    /** URL.createObjectURL */
+    setPreviewUrl(URL.createObjectURL(file));
+
+    /** FileReader */
+    // const reader = new FileReader();
+    // reader.onload = () => {
+    //   const res = reader.result;
+    //   if (res && typeof res === "string") {
+    //     setPreviewUrl(res);
+    //   }
+    // };
+    // reader.readAsDataURL(e.target.files[0]);
   };
 
   /** slug重複確認ボタン */
@@ -199,7 +210,7 @@ const Profile: NextPageWithLayout = () => {
                 <td>
                   <label htmlFor="img" className="cursor-pointer">
                     <Image
-                      src={selectedImage ?? profile.image ?? avatar2}
+                      src={previewUrl ?? profile.image ?? avatar2}
                       alt="avatar"
                       width={40}
                       height={40}

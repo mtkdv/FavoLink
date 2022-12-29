@@ -46,7 +46,7 @@ const Link: NextPageWithLayout = () => {
     <div className="p-4">
       <h2>Favolinks</h2>
       <CategoryForm />
-      <AddFavolinkForm categorizedLinks={categorizedLinks} />
+      <AddFavolinkForm />
 
       <ul className="mt-4">
         {/* TODO: */}
