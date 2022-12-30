@@ -105,7 +105,8 @@ const Profile: NextPageWithLayout = () => {
   };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || !e.target.files[0]) return;
+    // if (!e.target.files || !e.target.files[0]) return;
+    if (!e.target.files || !e.target.files.length) return;
     const file = e.target.files[0];
 
     /** MIME type validation */
