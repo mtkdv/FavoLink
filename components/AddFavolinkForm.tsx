@@ -5,7 +5,6 @@ import { useAddLink } from "#/lib/useAddLink";
 import { demoUrls } from "#/lib/demodata";
 import { AiOutlineCopy } from "react-icons/ai";
 import { getYouTubeVideoIdFromUrl } from "#/lib/youtube";
-import { Link } from "@prisma/client";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
 
@@ -14,17 +13,7 @@ export type FormValues = {
   category: string;
 };
 
-type Props = {
-  categorizedLinks:
-    | {
-        categoryId: string;
-        name: string;
-        data: Link[];
-      }[]
-    | undefined;
-};
-
-export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
+export const AddFavolinkForm: React.FC = () => {
   const { mutateAsync } = useAddLink();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -42,31 +31,9 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setErrorMessage("");
 
-    const videoId = getYouTubeVideoIdFromUrl(data.link);
-
-    if (!videoId) {
-      setErrorMessage("YouTube動画のURLを貼ってください");
-      return;
-    }
-
-    const specifiedLinks = categorizedLinks?.find(
-      ({ categoryId }) => categoryId === data.category
-    );
-    if (specifiedLinks?.data.length === 5) {
-      setErrorMessage("一つのカテゴリーに登録できる動画は5つまでです");
-      return;
-    }
-
-    const isDuplicated = specifiedLinks?.data.some(
-      (link) => link.videoId === videoId
-    );
-    if (isDuplicated) {
-      setErrorMessage("このカテゴリー内にその動画はすでに登録されています");
-      return;
-    }
-
     const mutateData = await mutateAsync({
-      videoId,
+      // videoId,
+      videoId: data.link,
       categoryId: data.category,
     });
 
@@ -134,7 +101,9 @@ export const AddFavolinkForm: React.FC<Props> = ({ categorizedLinks }) => {
           id="url"
           className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
           {...register("link", {
-            required: "追加したいYouTube動画のURLを入力してください",
+            setValueAs: (url) => getYouTubeVideoIdFromUrl(url),
+            validate: (videoId) =>
+              !!videoId || "YouTube動画のURLを貼ってください",
           })}
         />
         {errors.link && <p className="text-red-500">{errors.link.message}</p>}

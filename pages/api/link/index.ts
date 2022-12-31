@@ -1,5 +1,5 @@
 import prisma from "#/lib/prisma";
-import { getYouTubeVideoIdFromUrl, listVideos } from "#/lib/youtube";
+import { listVideos } from "#/lib/youtube";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
@@ -33,13 +33,42 @@ export default async function handle(
     case "POST": {
       const { videoId, categoryId } = req.body.data;
 
+      // 上限数チェック
+      const links = await prisma.link.findMany({
+        where: {
+          userId: id,
+          categoryId,
+        },
+        select: {
+          videoId: true,
+        },
+      });
+      if (links.length === 5) {
+        res.json({
+          type: "error",
+          message: "一つのカテゴリーに登録できる動画は5つまでです",
+        });
+        return;
+      }
+
+      // 重複チェック
+      const isDuplicated = links.some((link) => link.videoId === videoId);
+      if (isDuplicated) {
+        res.json({
+          type: "error",
+          message: "このカテゴリー内にその動画はすでに登録されています",
+        });
+        return;
+      }
+
       // youtube
       // TODO: 回数制限
       const data = await listVideos(videoId);
+      // TODO: data! listVideosのcatch
       if (data!.items.length == 0) {
         res.json({
           type: "error",
-          message: "動画を取得できませんでした",
+          message: "該当の動画が見つかりませんでした",
         });
         return;
       }

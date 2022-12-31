@@ -9,16 +9,16 @@ import { useGetProfile } from "#/lib/useGetProfile";
 import { useSession } from "next-auth/react";
 import { InputCounter } from "#/components/InputCounter";
 import clsx from "clsx";
-import { useMutateProfile } from "#/lib/useMutateProfile";
+import { usePatchProfile } from "#/lib/usePatchProfile";
 import { ResetVerifiedText } from "#/components/ResetVerifiedText";
 import axios from "axios";
 import { ValidateButton } from "#/components/ValidateButton";
 import { toast } from "react-hot-toast";
+import { Profile } from "@prisma/client";
 
 export type FormValues = {
   name: string;
-  fileList?: FileList;
-  image?: string;
+  fileList: FileList;
   slug: string | null;
   description: string | null;
 };
@@ -26,91 +26,127 @@ export type FormValues = {
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [verifiedText, setVerifiedText] = useState("");
-  const { mutateAsync } = useMutateProfile();
+  const { mutateAsync } = usePatchProfile();
 
   const {
     register,
     handleSubmit,
     control,
     getValues,
-    formState: { errors, isDirty, isValid, defaultValues },
+    formState: { errors, isValid, defaultValues },
   } = useForm<FormValues>({
-    values: profile as FormValues,
+    // valuesオプションでの初期値の設定には型を変更する必要がありそう。
+    // values: profile as FormValues,
   });
 
   /**
-   * @param {string | null} data.slug 初期値はschema.prismaのString?によりnull
+   * @param {string | null} fData.slug 初期値はschema.prismaのString?によりnull
    */
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (fData) => {
     setVerifiedText("");
 
-    if (typeof data.slug === "string") {
-      if (data.slug.length) {
+    if (session === null || session.user === undefined) return;
+    const { id } = session.user;
+
+    if (typeof fData.slug === "string") {
+      if (fData.slug.length) {
+        /** 重複チェック */
         try {
-          const res = await axios.get(`/api/profile/${data.slug}`);
-          if (res.data > 0) {
-            setVerifiedText("現在他の人により使用されています");
+          const { data: profiles } = await axios.get<Profile[]>(
+            `/api/query/profiles`,
+            {
+              params: {
+                id,
+                slug: fData.slug,
+              },
+            }
+          );
+          if (profiles.length > 0) {
+            toast.error(
+              "そのURLはすでに他の人により使用されています。\n他のURLを設定し直してください。"
+            );
             return;
           }
-        } catch (error) {}
+        } catch (error) {
+          console.error(error);
+        }
       } else {
-        data.slug = null;
+        fData.slug = null;
       }
     }
 
-    const { name, fileList, slug, description } = data;
-    // firebase storageへの保存とurlの取得
+    /**
+     * Cloud Storage for Firebaseへの画像の保存とdownloadURLの取得
+     * console.log("fileList:", fileList);
+     * => ファイル未選択時: FileList { length: 0 }
+     * => 選択時: FileList { 0: File, length: 1}
+     */
     let image;
-    if (fileList?.[0]) {
-      image = await uploadAndGetUrl(fileList?.[0]);
+    if (Object.hasOwn(fData.fileList, "0")) {
+      image = await uploadAndGetUrl(fData.fileList[0]);
     }
 
-    const body = {
+    const { name, slug, description } = fData;
+    const data = {
       slug,
       image,
       name,
       description,
     };
 
-    const profileData = await mutateAsync(body);
+    const profileData = await mutateAsync({ id, data });
 
-    if (profileData) {
+    if (Object.hasOwn(profileData, "id")) {
+      // if ("id" in profileData) {
       toast.success("プロフィールを更新しました。");
     }
   };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || !e.target.files[0]) return;
-    console.log("e.target.files[0]:", e.target.files[0]);
-    const reader = new FileReader();
-    reader.onload = () => {
-      const res = reader.result;
-      if (res && typeof res === "string") {
-        setSelectedImage(res);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
+    // if (!e.target.files || !e.target.files[0]) return;
+    if (!e.target.files || !e.target.files.length) return;
+    const file = e.target.files[0];
 
-  const handleValidateButton = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-
-    const slug = getValues("slug");
-    if (defaultValues?.slug === slug) {
-      setVerifiedText("現在設定中のURLです");
+    /** MIME type validation */
+    if (!file.type.startsWith("image")) {
+      toast.error("画像ファイルを選択してください。");
       return;
     }
-    try {
-      const res = await axios.get(`/api/profile/${slug}`);
-      res.data
-        ? setVerifiedText("他の人により使用されています")
-        : setVerifiedText("使用できます");
-    } catch (error) {}
+
+    /** URL.createObjectURL */
+    setPreviewUrl(URL.createObjectURL(file));
+
+    /** FileReader */
+    // const reader = new FileReader();
+    // reader.onload = () => {
+    //   const res = reader.result;
+    //   if (res && typeof res === "string") {
+    //     setPreviewUrl(res);
+    //   }
+    // };
+    // reader.readAsDataURL(e.target.files[0]);
   };
+
+  /** slug重複確認ボタン */
+  // const handleValidateButton = async (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   e.preventDefault();
+
+  //   const slug = getValues("slug");
+  //   if (defaultValues?.slug === slug) {
+  //     setVerifiedText("現在設定中のURLです");
+  //     return;
+  //   }
+  //   try {
+  //     const res = await axios.get(`/api/profiles/${slug}`);
+  //     res.data
+  //       ? setVerifiedText("他の人により使用されています")
+  //       : setVerifiedText("使用できます");
+  //   } catch (error) {}
+  // };
 
   // console.log("profile/index.tsx");
 
@@ -132,6 +168,7 @@ const Profile: NextPageWithLayout = () => {
                       className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
                       type="text"
                       {...register("slug", {
+                        value: profile.slug,
                         maxLength: {
                           value: 20,
                           message: "Please less than 20 characters",
@@ -149,11 +186,11 @@ const Profile: NextPageWithLayout = () => {
                     {errors.slug && <p>{errors.slug.message}</p>}
                   </div>
                   <div className="flex space-x-2">
-                    <ValidateButton
+                    {/* <ValidateButton
                       isValid={isValid}
                       control={control}
                       onClick={handleValidateButton}
-                    />
+                    /> */}
                     <p>{verifiedText}</p>
                     <ResetVerifiedText
                       setVerifiedText={setVerifiedText}
@@ -174,7 +211,7 @@ const Profile: NextPageWithLayout = () => {
                 <td>
                   <label htmlFor="img" className="cursor-pointer">
                     <Image
-                      src={selectedImage ?? profile.image ?? avatar2}
+                      src={previewUrl ?? profile.image ?? avatar2}
                       alt="avatar"
                       width={40}
                       height={40}
@@ -199,6 +236,7 @@ const Profile: NextPageWithLayout = () => {
                     className="bg-transparent text-white"
                     type="text"
                     {...register("name", {
+                      value: profile.name,
                       required: "Name is required",
                       maxLength: {
                         value: 20,
@@ -227,6 +265,7 @@ const Profile: NextPageWithLayout = () => {
                   <textarea
                     className="bg-transparent text-white border border-white rounded-lg"
                     {...register("description", {
+                      value: profile.description,
                       maxLength: {
                         value: 200,
                         message: "Please less than 200 characters",

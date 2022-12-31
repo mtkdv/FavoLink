@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fields = "items/snippet(title,thumbnails/medium/url)";
 
-type ResData = {
+type ListVideos = {
   items: {
     snippet: {
       title: string;
@@ -17,7 +17,8 @@ type ResData = {
 
 export const listVideos = async (id: string) => {
   try {
-    const res = await axios.get(
+    // const res = await axios.get(
+    const res = await axios.get<ListVideos>(
       "https://youtube.googleapis.com/youtube/v3/videos",
       {
         params: {
@@ -29,9 +30,13 @@ export const listVideos = async (id: string) => {
       }
     );
     // return res.data.items[0].snippet as Video;
-    return res.data as ResData;
-  } catch (error: any) {
-    console.log("listVideosError:", error.message);
+    // return res.data as ListVideos;
+    return res.data;
+  } catch (error) {
+    // TODO: handle error
+    // console.log("listVideosError:", error.message);
+    if (axios.isAxiosError(error) && error.response) {
+    }
   }
 };
 

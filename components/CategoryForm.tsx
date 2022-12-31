@@ -1,18 +1,19 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAddCategory } from "#/lib/useAddCategory";
-import { useSession } from "next-auth/react";
-import { useGetCategories } from "#/lib/useGetCategories";
+// import { useSession } from "next-auth/react";
+// import { useGetCategories } from "#/lib/useGetCategories";
 import { RxExclamationTriangle } from "react-icons/rx";
+import { toast } from "react-hot-toast";
 
-type FormValues = {
+export type FormValues = {
   category: string;
 };
 
 export const CategoryForm = () => {
-  const { data: session } = useSession();
-  const { mutate } = useAddCategory();
-  const { data: categories } = useGetCategories(session);
+  // const { data: session } = useSession();
+  const { mutateAsync } = useAddCategory();
+  // const { data: categories } = useGetCategories(session);
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -27,25 +28,38 @@ export const CategoryForm = () => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setErrorMessage("");
 
-    // TODO: 'categories' is possibly 'undefined'
-    if (categories!.length === 5) {
-      setErrorMessage("登録できるカテゴリーは５つまでです。");
-      return;
-    }
+    // // TODO: 'categories' is possibly 'undefined'
+    // if (categories!.length === 5) {
+    //   setErrorMessage("登録できるカテゴリーは５つまでです。");
+    //   return;
+    // }
 
-    const isDuplicated = categories!.some((category) => {
-      return category.name === data.category;
-    });
-    if (isDuplicated) {
-      setErrorMessage(
-        "登録済みのカテゴリー名です。カテゴリー名を変更してください。"
-      );
-      return;
-    }
+    // const isDuplicated = categories!.some((category) => {
+    //   return category.name === data.category;
+    // });
+    // if (isDuplicated) {
+    //   setErrorMessage(
+    //     "登録済みのカテゴリー名です。カテゴリー名を変更してください。"
+    //   );
+    //   return;
+    // }
 
-    mutate({
-      name: data.category,
-    });
+    // mutate({
+    //   name: data.category,
+    // });
+    // mutate(data);
+
+    const mutateData = await mutateAsync(data);
+
+    switch (mutateData.type) {
+      case "success":
+        toast.success(mutateData.message);
+        break;
+      case "error":
+        setErrorMessage(mutateData.message);
+        // toast.error(mutateData.message);
+        return;
+    }
 
     reset();
   };
@@ -61,8 +75,8 @@ export const CategoryForm = () => {
             // TODO: pattern space
             required: "追加したいカテゴリー名を入力してください",
             maxLength: {
-              value: 50,
-              message: "50字以内で入力してください",
+              value: 30,
+              message: "30字以内で入力してください",
             },
             validate: (value) => {
               return !!value.trim() || "空白文字のみの入力はできません";
@@ -87,8 +101,8 @@ export const CategoryForm = () => {
           })}
         />
         <button className="border border-white">追加</button>
+        {/* TODO: 似たような記述、冗長 */}
         {errors.category && (
-          // <p className="text-red-500">{errors.category.message}</p>
           <div className="text-red-500 flex space-x-1.5">
             <RxExclamationTriangle className="relative top-[5px]" />
             <p>{errors.category.message}</p>

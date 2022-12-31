@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 
-// GET /api/profile/[slug]
+/** QueryProfiles GET /api/query/profiles */
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
@@ -17,20 +17,20 @@ export default async function handle(
 
   const { id } = session.user!;
 
-  const { slug } = req.query;
+  const { id: userId, slug } = req.query as { id: string; slug: string };
 
   switch (req.method) {
     case "GET": {
       try {
-        const count = await prisma.profile.count({
+        const profiles = await prisma.profile.findMany({
           where: {
-            slug: slug as string,
+            slug,
             userId: {
-              not: id,
+              not: userId,
             },
           },
         });
-        res.json(count);
+        res.json(profiles);
       } catch (error) {}
       break;
     }
