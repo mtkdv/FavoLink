@@ -1,4 +1,4 @@
-import { FormValues } from "#/components/CategoryForm";
+import { Schema } from "#/components/CategoryForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -6,7 +6,7 @@ export const useAddCategory = () => {
   const queryClient = useQueryClient();
   const categoryMutation = useMutation({
     // mutationFn: async (body: { name: string }) => {
-    mutationFn: async (data: FormValues) => {
+    mutationFn: async (data: Schema) => {
       try {
         const res = await axios.post(`/api/category`, {
           headers: { "Content-Type": "application/json" },

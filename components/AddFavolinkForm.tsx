@@ -7,11 +7,25 @@ import { AiOutlineCopy } from "react-icons/ai";
 import { getYouTubeVideoIdFromUrl } from "#/lib/youtube";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export type FormValues = {
-  link: string;
-  category: string;
-};
+const schema = z.object({
+  link: z.string().transform((url, ctx) => {
+    const videoId = getYouTubeVideoIdFromUrl(url);
+    if (videoId === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "YouTube動画のURLを貼ってください",
+      });
+      return z.NEVER;
+    }
+    return videoId;
+  }),
+  category: z.string().min(1, "カテゴリを選択してください"),
+});
+
+export type Schema = z.infer<typeof schema>;
 
 export const AddFavolinkForm: React.FC = () => {
   const { mutateAsync } = useAddLink();
@@ -22,13 +36,14 @@ export const AddFavolinkForm: React.FC = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<Schema>({
     defaultValues: {
       category: "",
     },
+    resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
     setErrorMessage("");
 
     const mutateData = await mutateAsync({
@@ -100,11 +115,7 @@ export const AddFavolinkForm: React.FC = () => {
         <input
           id="url"
           className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
-          {...register("link", {
-            setValueAs: (url) => getYouTubeVideoIdFromUrl(url),
-            validate: (videoId) =>
-              !!videoId || "YouTube動画のURLを貼ってください",
-          })}
+          {...register("link")}
         />
         {errors.link && <p className="text-red-500">{errors.link.message}</p>}
         <CategorySelect register={register} />

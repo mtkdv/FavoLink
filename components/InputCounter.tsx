@@ -1,9 +1,9 @@
-import { FormValues } from "#/pages/my/profile";
+import { Schema } from "#/pages/my/profile";
 import { Control, useWatch } from "react-hook-form";
 
 type InputCounterProps = {
   name: "slug" | "name" | "description";
-  control: Control<FormValues>;
+  control: Control<Schema>;
   maxLength: string;
 };
 

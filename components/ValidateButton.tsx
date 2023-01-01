@@ -1,10 +1,10 @@
-import { FormValues } from "#/pages/my/profile";
+import { Schema } from "#/pages/my/profile";
 import clsx from "clsx";
 import { Control, useWatch } from "react-hook-form";
 
 type InputCounterProps = {
   isValid: boolean;
-  control: Control<FormValues>;
+  control: Control<Schema>;
   onClick: any;
 };
 

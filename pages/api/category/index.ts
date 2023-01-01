@@ -56,7 +56,7 @@ export default async function handle(
       if (isDuplicated) {
         res.json({
           type: "error",
-          message: "そのカテゴリーはすでに登録されています。",
+          message: `カテゴリー『${name}』はすでに登録されています。`,
         });
         return;
       }
