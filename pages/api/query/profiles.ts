@@ -17,7 +17,8 @@ export default async function handle(
 
   const { id } = session.user!;
 
-  const { id: userId, slug } = req.query as { id: string; slug: string };
+  // const { id: userId, slug } = req.query as { id: string; slug: string };
+  const { slug } = req.query as { slug: string };
 
   switch (req.method) {
     case "GET": {
@@ -25,9 +26,9 @@ export default async function handle(
         const profiles = await prisma.profile.findMany({
           where: {
             slug,
-            userId: {
-              not: userId,
-            },
+            // userId: {
+            //   not: userId,
+            // },
           },
         });
         res.json(profiles);

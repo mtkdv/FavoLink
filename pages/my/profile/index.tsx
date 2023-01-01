@@ -15,65 +15,104 @@ import axios from "axios";
 import { ValidateButton } from "#/components/ValidateButton";
 import { toast } from "react-hot-toast";
 import { Profile } from "@prisma/client";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RxExclamationTriangle } from "react-icons/rx";
 
-export type FormValues = {
-  name: string;
-  fileList: FileList;
-  slug: string | null;
-  description: string | null;
-};
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, "表示名を入力してください。")
+    .max(20, "20文字以内で入力してください。")
+    .refine((value) => !!value.trim(), "空白文字のみの入力はできません。"),
+  fileList: z.instanceof(FileList),
+  slug: z
+    .string()
+    .max(20, "20文字以内で入力してください。")
+    .regex(/^[a-zA-Z0-9]*$/, "英数字のみで入力してください。")
+    .transform((value, ctx) => {
+      if (value.length > 0 && value.length < 3) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "3文字以上入力してください。",
+        });
+        return z.NEVER;
+      }
+      if (value.length === 0) {
+        return null;
+      }
+      return value;
+    })
+    .nullable(),
+  description: z
+    .string()
+    .max(200, "200文字以内で入力してください。")
+    .superRefine((value, ctx) => {
+      if (value.length > 0 && !value.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "空白文字のみの入力はできません。",
+        });
+      }
+    })
+    .nullable(),
+});
+
+export type Schema = z.infer<typeof schema>;
 
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [verifiedText, setVerifiedText] = useState("");
+  // const [verifiedText, setVerifiedText] = useState("");
   const { mutateAsync } = usePatchProfile();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
     handleSubmit,
     control,
-    getValues,
-    formState: { errors, isValid, defaultValues },
-  } = useForm<FormValues>({
+    formState: { errors, isValid },
+  } = useForm<Schema>({
     // valuesオプションでの初期値の設定には型を変更する必要がありそう。
     // values: profile as FormValues,
+    resolver: zodResolver(schema),
   });
 
   /**
    * @param {string | null} fData.slug 初期値はschema.prismaのString?によりnull
    */
-  const onSubmit: SubmitHandler<FormValues> = async (fData) => {
-    setVerifiedText("");
+  const onSubmit: SubmitHandler<Schema> = async (fData) => {
+    // console.log("profile.slug:", profile!.slug);
+    // console.log("fData.slug:", fData.slug);
+    // console.log("typeof fData.slug:", typeof fData.slug);
+    // return;
+
+    setErrorMessage("");
+    // setVerifiedText("");
 
     if (session === null || session.user === undefined) return;
     const { id } = session.user;
 
-    if (typeof fData.slug === "string") {
-      if (fData.slug.length) {
-        /** 重複チェック */
-        try {
-          const { data: profiles } = await axios.get<Profile[]>(
-            `/api/query/profiles`,
-            {
-              params: {
-                id,
-                slug: fData.slug,
-              },
-            }
-          );
-          if (profiles.length > 0) {
-            toast.error(
-              "そのURLはすでに他の人により使用されています。\n他のURLを設定し直してください。"
-            );
-            return;
+    /** 重複検証 */
+    if (typeof fData.slug === "string" && fData.slug !== profile!.slug) {
+      try {
+        const { data: profiles } = await axios.get<Profile[]>(
+          `/api/query/profiles`,
+          {
+            params: {
+              slug: fData.slug,
+            },
           }
-        } catch (error) {
-          console.error(error);
+        );
+        if (profiles.length > 0) {
+          setErrorMessage(
+            `入力した『${fData.slug}』はすでに他の人により使用されています。\n別の値を設定し直してください。`
+          );
+          return;
         }
-      } else {
-        fData.slug = null;
+      } catch (error) {
+        console.error(error);
       }
     }
 
@@ -169,21 +208,20 @@ const Profile: NextPageWithLayout = () => {
                       type="text"
                       {...register("slug", {
                         value: profile.slug,
-                        maxLength: {
-                          value: 20,
-                          message: "Please less than 20 characters",
-                        },
-                        minLength: {
-                          value: 3,
-                          message: "Please more than 3 characters",
-                        },
-                        pattern: {
-                          value: /^[a-zA-Z0-9]*$/,
-                          message: "Please a-zA-Z0-9 characters",
-                        },
                       })}
                     />
-                    {errors.slug && <p>{errors.slug.message}</p>}
+                    {errors.slug && (
+                      <div className="text-red-500 flex space-x-1.5">
+                        <RxExclamationTriangle className="relative top-[5px]" />
+                        <p>{errors.slug.message}</p>
+                      </div>
+                    )}
+                    {errorMessage.length > 0 && (
+                      <div className="text-red-500 flex space-x-1.5">
+                        <RxExclamationTriangle className="relative top-[5px]" />
+                        <p>{errorMessage}</p>
+                      </div>
+                    )}
                   </div>
                   <div className="flex space-x-2">
                     {/* <ValidateButton
@@ -191,11 +229,11 @@ const Profile: NextPageWithLayout = () => {
                       control={control}
                       onClick={handleValidateButton}
                     /> */}
-                    <p>{verifiedText}</p>
+                    {/* <p>{verifiedText}</p>
                     <ResetVerifiedText
                       setVerifiedText={setVerifiedText}
                       control={control}
-                    />
+                    /> */}
                   </div>
                 </td>
                 <td>
@@ -218,6 +256,7 @@ const Profile: NextPageWithLayout = () => {
                       className="rounded-full"
                     />
                   </label>
+                  {/* TODO: 選択解除 */}
                   <input
                     type="file"
                     accept="image/*"
@@ -227,6 +266,7 @@ const Profile: NextPageWithLayout = () => {
                       onChange: handleChangeImage,
                     })}
                   />
+                  {errors.fileList && <p>{errors.fileList.message}</p>}
                 </td>
               </tr>
               <tr className="flex p-2">
@@ -237,19 +277,14 @@ const Profile: NextPageWithLayout = () => {
                     type="text"
                     {...register("name", {
                       value: profile.name,
-                      required: "Name is required",
-                      maxLength: {
-                        value: 20,
-                        message: "Please less than 20 characters",
-                      },
-                      validate: (value) => {
-                        return (
-                          !!value.trim() || "空白文字のみの入力はできません"
-                        );
-                      },
                     })}
                   />
-                  {errors.name && <p>{errors.name.message}</p>}
+                  {errors.name && (
+                    <div className="text-red-500 flex space-x-1.5">
+                      <RxExclamationTriangle className="relative top-[5px]" />
+                      <p>{errors.name.message}</p>
+                    </div>
+                  )}
                 </td>
                 <td>
                   <InputCounter
@@ -266,17 +301,6 @@ const Profile: NextPageWithLayout = () => {
                     className="bg-transparent text-white border border-white rounded-lg"
                     {...register("description", {
                       value: profile.description,
-                      maxLength: {
-                        value: 200,
-                        message: "Please less than 200 characters",
-                      },
-                      validate: (value) => {
-                        if (value) {
-                          return (
-                            !!value.trim() || "空白文字のみの入力はできません"
-                          );
-                        }
-                      },
                     })}
                   />
                   {errors.description && <p>{errors.description.message}</p>}

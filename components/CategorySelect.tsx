@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { FormValues } from "./AddFavolinkForm";
+import { Schema } from "./AddFavolinkForm";
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useSession } from "next-auth/react";
 
 type Props = {
-  register: UseFormRegister<FormValues>;
+  register: UseFormRegister<Schema>;
 };
 
 export const CategorySelect: FC<Props> = ({ register }) => {
@@ -18,9 +18,7 @@ export const CategorySelect: FC<Props> = ({ register }) => {
       //TODO: react-select
       defaultValue=""
       className="bg-transparent border border-white"
-      {...register("category", {
-        required: "カテゴリを選択してください",
-      })}
+      {...register("category")}
     >
       <option disabled value="">
         カテゴリ選択

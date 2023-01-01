@@ -5,10 +5,22 @@ import { useAddCategory } from "#/lib/useAddCategory";
 // import { useGetCategories } from "#/lib/useGetCategories";
 import { RxExclamationTriangle } from "react-icons/rx";
 import { toast } from "react-hot-toast";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export type FormValues = {
-  category: string;
-};
+// export type FormValues = {
+//   category: string;
+// };
+
+const schema = z.object({
+  category: z
+    .string()
+    .min(1, "登録したいカテゴリー名を入力してください。")
+    .max(20, "20文字以内で入力してください。")
+    .refine((value) => !!value.trim(), "空白文字のみの入力はできません。"),
+});
+
+export type Schema = z.infer<typeof schema>;
 
 export const CategoryForm = () => {
   // const { data: session } = useSession();
@@ -21,11 +33,11 @@ export const CategoryForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({
-    // reValidateMode: "onBlur",
+  } = useForm<Schema>({
+    resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
     setErrorMessage("");
 
     // // TODO: 'categories' is possibly 'undefined'
@@ -43,11 +55,6 @@ export const CategoryForm = () => {
     //   );
     //   return;
     // }
-
-    // mutate({
-    //   name: data.category,
-    // });
-    // mutate(data);
 
     const mutateData = await mutateAsync(data);
 
@@ -72,16 +79,6 @@ export const CategoryForm = () => {
           id="category"
           className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
           {...register("category", {
-            // TODO: pattern space
-            required: "追加したいカテゴリー名を入力してください",
-            maxLength: {
-              value: 30,
-              message: "30字以内で入力してください",
-            },
-            validate: (value) => {
-              return !!value.trim() || "空白文字のみの入力はできません";
-            },
-
             // validate: {
             //   maxLimit: () => {
             //     return (
