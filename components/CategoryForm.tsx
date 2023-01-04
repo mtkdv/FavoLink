@@ -32,6 +32,7 @@ export const CategoryForm = () => {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm<Schema>({
     resolver: zodResolver(schema),
@@ -62,8 +63,13 @@ export const CategoryForm = () => {
       case "success":
         toast.success(mutateData.message);
         break;
-      case "error":
-        setErrorMessage(mutateData.message);
+      // case "error":
+      default:
+        setError("category", {
+          type: mutateData.type,
+          message: mutateData.message,
+        });
+        // setErrorMessage(mutateData.message);
         // toast.error(mutateData.message);
         return;
     }
@@ -105,12 +111,12 @@ export const CategoryForm = () => {
             <p>{errors.category.message}</p>
           </div>
         )}
-        {errorMessage.length > 0 && (
+        {/* {errorMessage.length > 0 && (
           <div className="text-red-500 flex space-x-1.5">
             <RxExclamationTriangle className="relative top-[5px]" />
             <p>{errorMessage}</p>
           </div>
-        )}
+        )} */}
       </div>
     </form>
   );

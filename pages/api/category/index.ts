@@ -43,7 +43,7 @@ export default async function handle(
       });
       if (categories.length === 5) {
         res.json({
-          type: "error",
+          type: "maxLimit",
           message: "登録できるカテゴリーは5つまでです。",
         });
         return;
@@ -55,7 +55,7 @@ export default async function handle(
       );
       if (isDuplicated) {
         res.json({
-          type: "error",
+          type: "duplicated",
           message: `カテゴリー『${name}』はすでに登録されています。`,
         });
         return;
