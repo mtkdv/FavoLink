@@ -61,17 +61,16 @@ export default async function handle(
         return;
       }
 
-      // youtube
+      /** YouTube */
       // TODO: 回数制限
-      const data = await listVideos(videoId);
-      // TODO: data! listVideosのcatch
-      if (data!.items.length == 0) {
-        res.json({
-          type: "error",
-          message: "該当の動画が見つかりませんでした",
-        });
+      const videoData = await listVideos(videoId);
+      if (videoData.type === "error") {
+        const { code, message } = videoData;
+        // res.json({ code, message });
+        res.json({ type: code, message });
         return;
       }
+      const { title, thumbnailUrl } = videoData;
 
       const aggregation = await prisma.link.aggregate({
         where: {
@@ -94,9 +93,9 @@ export default async function handle(
 
       const createdLink = await prisma.link.create({
         data: {
-          title: data!.items[0].snippet.title,
+          title,
           videoId,
-          thumbnailUrl: data!.items[0].snippet.thumbnails.medium.url,
+          thumbnailUrl,
           index,
           user: {
             connect: { id },

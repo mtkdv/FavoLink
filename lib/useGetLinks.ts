@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 
 export const useGetLinks = (session: Session | null) => {
   const links = useQuery({
-    queryKey: ["links"],
+    queryKey: ["youtube", "links"],
     queryFn: async () => {
       const res = await fetch(`/api/link`);
       return (await res.json()) as Link[];
