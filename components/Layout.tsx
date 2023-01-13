@@ -32,6 +32,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               <Link href={`/my/link`}>お気に入りのリンク追加</Link>
             </li>
             <li>
+              <Link href={`/my/like_url`}>お気に入りの動画追加</Link>
+            </li>
+            <li>
               <Link href={`/my/preview`}>プレビュー</Link>
             </li>
             {session ? (
