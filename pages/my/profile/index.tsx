@@ -18,6 +18,7 @@ import { Profile } from "@prisma/client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
+import { Button } from "#/components/Button";
 
 const schema = z.object({
   name: z
@@ -79,7 +80,7 @@ const Profile: NextPageWithLayout = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty, isSubmitting },
   } = useForm<Schema>({
     // valuesオプションでの初期値の設定には型を変更する必要がありそう。
     // values: profile as FormValues,
@@ -322,16 +323,11 @@ const Profile: NextPageWithLayout = () => {
               </tr>
             </tbody>
           </table>
-          <button
-            type="submit"
-            // disabled={!isValid || !isDirty}
-            className={clsx(
-              "border"
-              // (!isValid || !isDirty) && "cursor-not-allowed"
-            )}
-          >
-            保存
-          </button>
+          <Button
+            {...{ isValid, isDirty, isSubmitting }}
+            submittingText="保存中…"
+            submitText="変更を保存"
+          />
         </form>
       ) : (
         <p>loading...</p>

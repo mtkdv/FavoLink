@@ -112,7 +112,7 @@ export const VideoField: FC<Props> = ({
               <p>{errors.url.message}</p>
             </div>
           )}
-          <button onClick={handleSubmit(onUpdate)}>update</button>
+          <button onClick={handleSubmit(onUpdate)}>動画取得</button>
         </div>
       ) : (
         <div>
