@@ -4,53 +4,30 @@ import Link from "next/link";
 import avatar2 from "#/public/avatar2.png";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useGetProfile } from "#/lib/useGetProfile";
-import { toast } from "react-hot-toast";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { SignInModal } from "./SignInModal";
 
 export default function Home() {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
 
-  // const handleSignIn = async (
-  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   e.preventDefault();
-  //   toast.promise(signIn("google"), {
-  //     loading: "Loading",
-  //     success: () => "サインインしました",
-  //     error: () => `サインインに失敗しました`,
-  //   });
-  // };
+  const [isOpen, setIsOpen] = useState(false);
 
-  // const handleSignOut = async (
-  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   e.preventDefault();
-
-  //   await signOut();
-  //   toast("サインアウトしました");
-
-  // toast.promise(signOut(), {
-  //   loading: "Loading",
-  //   success: () => "サインアウトしました",
-  //   error: () => `サインアウトに失敗しました`,
-  // });
-  // };
-
-  // useEffect(() => {
-  //   session
-  //     ? toast.success("サインインしました")
-  //     : toast.success("サインアウトしました");
-  // }, [session]);
+  const toggleDarkMode = () => {
+    if (document.documentElement.classList.contains("dark")) {
+      console.log("light mode");
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+    } else {
+      console.log("dark mode");
+      document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
+    }
+  };
 
   return (
     <>
-      <header
-        className={clsx(
-          "fixed top-0 inset-x-0 bg-black/50 z-10 backdrop-blur-sm flex justify-between py-2 px-4"
-          // isVisible && "border-b border-white"
-        )}
-      >
+      <header className="fixed top-0 inset-x-0 z-10 mx-auto flex justify-between py-4 lg:max-w-5xl">
         <div>
           <Link href={`/`}>
             <h1 className="text-3xl">Favolink</h1>
@@ -77,19 +54,25 @@ export default function Home() {
               <Link href="/about">当サイトについて</Link>
             </li>
             <li>
+              <button type="button" onClick={toggleDarkMode}>
+                テーマ切り替え
+              </button>
+            </li>
+            <li>
               {session && profile && !profile.hasOwnProperty("message") ? (
                 // <button onClick={(e) => handleSignOut(e)}>Sign out</button>
                 <button onClick={() => signOut()}>Sign out</button>
               ) : (
                 // <button onClick={(e) => handleSignIn(e)}>Sign in</button>
-                <button onClick={() => signIn()}>Sign in</button>
+                // <button onClick={() => signIn()}>Sign in</button>
+                <button onClick={() => setIsOpen(true)}>Sign in</button>
               )}
             </li>
           </ul>
         </nav>
       </header>
       <main>
-        <h1 className="text-white text-7xl">Lorem ipsum dolor sit.</h1>
+        {/* <h1 className="text-white text-7xl">Lorem ipsum dolor sit.</h1>
         <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
         <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
         <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
@@ -103,9 +86,10 @@ export default function Home() {
         <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
         <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
         <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
-        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-white mt-14 text-7xl">Lorem ipsum dolor sit.</h1> */}
       </main>
       <footer></footer>
+      <SignInModal {...{ isOpen, setIsOpen }} />
     </>
   );
 }
