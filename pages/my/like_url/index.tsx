@@ -7,11 +7,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
-import { CategoryFieldArray } from "#/components/CategoryFieldArray";
+import { CategoryFieldArray } from "#/pages/my/like_url/CategoryFieldArray";
 import { useGetLinks } from "#/lib/useGetLinks";
 import { useMutateVideo } from "#/lib/useMutateVideo";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
+import { Button } from "#/components/Button";
 
 const schema = z.object({
   youtube: z
@@ -91,7 +92,7 @@ const CateArray: NextPageWithLayout = () => {
     control,
     setValue,
     getValues,
-    formState: { errors, isDirty },
+    formState: { errors, isValid, isDirty, isSubmitting },
   } = useForm<Schema>({
     values,
     resolver: zodResolver(schema),
@@ -123,11 +124,11 @@ const CateArray: NextPageWithLayout = () => {
           </div>
         )}
         {/* FIXME: useMutateVideoのinvalidateQueriesが不安定 */}
-        <input
-          disabled={!isDirty}
-          type="submit"
-          value={isDirty ? "変更する" : "変更が反映されました"}
-          className={clsx("cursor-pointer", !isDirty && "cursor-not-allowed")}
+        <Button
+          {...{ isValid, isDirty, isSubmitting }}
+          submittingText="保存中…"
+          submitText="変更を保存"
+          SubmittedText="変更が反映されました"
         />
       </form>
     </div>
