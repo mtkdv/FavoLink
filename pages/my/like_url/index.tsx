@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
-import { CategoryFieldArray } from "#/pages/my/like_url/CategoryFieldArray";
+import { CategoryFieldArray } from "#/components/CategoryFieldArray";
 import { useGetLinks } from "#/lib/useGetLinks";
 import { useMutateVideo } from "#/lib/useMutateVideo";
 import clsx from "clsx";

@@ -5,7 +5,7 @@ import avatar2 from "#/public/avatar2.png";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useGetProfile } from "#/lib/useGetProfile";
 import React, { useEffect, useState } from "react";
-import { SignInModal } from "./SignInModal";
+import { SignInModal } from "../components/SignInModal";
 
 export default function Home() {
   const { data: session } = useSession();
