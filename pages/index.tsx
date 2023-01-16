@@ -2,28 +2,15 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import avatar2 from "#/public/avatar2.png";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useGetProfile } from "#/lib/useGetProfile";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SignInModal } from "../components/SignInModal";
 
 export default function Home() {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
-
   const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDarkMode = () => {
-    if (document.documentElement.classList.contains("dark")) {
-      console.log("light mode");
-      document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
-    } else {
-      console.log("dark mode");
-      document.documentElement.classList.add("dark");
-      localStorage.theme = "dark";
-    }
-  };
 
   return (
     <>
@@ -52,11 +39,6 @@ export default function Home() {
             </li>
             <li>
               <Link href="/about">当サイトについて</Link>
-            </li>
-            <li>
-              <button type="button" onClick={toggleDarkMode}>
-                テーマ切り替え
-              </button>
             </li>
             <li>
               {session && profile && !profile.hasOwnProperty("message") ? (
