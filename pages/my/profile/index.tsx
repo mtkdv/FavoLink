@@ -25,7 +25,14 @@ const schema = z.object({
     .min(1, "表示名を入力してください。")
     .max(20, "20文字以内で入力してください。")
     .refine((value) => !!value.trim(), "空白文字のみの入力はできません。"),
-  fileList: z.instanceof(FileList),
+  // fileList: z.instanceof(FileList),
+  fileList: z.custom<FileList>(),
+  // .refine((files) => files?.length == 1, "Image is required.")
+  // .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+  // .refine(
+  //   (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+  //   ".jpg, .jpeg, .png and .webp files are accepted."
+  // ),
   slug: z
     .string()
     .max(20, "20文字以内で入力してください。")

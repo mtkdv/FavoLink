@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
     createUser: async (message) => {
       await prisma.profile.create({
         data: {
-          name: message.user.name,
+          name: message.user.name!,
           image: message.user.image,
           user: { connect: { id: message.user.id } },
         },
