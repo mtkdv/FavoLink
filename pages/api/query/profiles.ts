@@ -3,14 +3,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 
-// POST /api/profile
-// Required fields in body: slug, image, name, description
+/** QueryProfiles GET /api/query/profiles */
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
-  const { slug, image, name, description } = req.body;
 
   if (!session) {
     res.status(401).json({ message: "You must be logged in." });
@@ -19,29 +17,23 @@ export default async function handle(
 
   const { id } = session.user!;
 
+  // const { id: userId, slug } = req.query as { id: string; slug: string };
+  const { slug } = req.query as { slug: string };
+
   switch (req.method) {
     case "GET": {
       try {
-        const profile = await prisma.profile.findUniqueOrThrow({
+        const profiles = await prisma.profile.findMany({
           where: {
-            userId: id,
+            slug,
+            // userId: {
+            //   not: userId,
+            // },
           },
         });
-        res.json(profile);
+        res.json(profiles);
       } catch (error) {}
       break;
-    }
-    case "PUT": {
-      const profile = await prisma.profile.update({
-        where: { userId: id },
-        data: {
-          name,
-          image,
-          slug,
-          description,
-        },
-      });
-      res.json(profile);
     }
   }
 }

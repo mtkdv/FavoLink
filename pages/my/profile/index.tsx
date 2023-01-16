@@ -1,74 +1,200 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useState } from "react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import avatar2 from "#/public/avatar2.png";
 import { uploadAndGetUrl } from "#/lib/firebaseStorage";
 import { useGetProfile } from "#/lib/useGetProfile";
 import { useSession } from "next-auth/react";
+import { InputCounter } from "#/components/InputCounter";
+import clsx from "clsx";
+import { usePatchProfile } from "#/lib/usePatchProfile";
+import { ResetVerifiedText } from "#/components/ResetVerifiedText";
+import axios from "axios";
+import { ValidateButton } from "#/components/ValidateButton";
+import { toast } from "react-hot-toast";
+import { Profile } from "@prisma/client";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RxExclamationTriangle } from "react-icons/rx";
 
-type FormValues = {
-  name: string;
-  fileList?: FileList;
-  image?: string;
-  slug: string;
-  description: string;
-};
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, "表示名を入力してください。")
+    .max(20, "20文字以内で入力してください。")
+    .refine((value) => !!value.trim(), "空白文字のみの入力はできません。"),
+  // fileList: z.instanceof(FileList),
+  fileList: z.custom<FileList>(),
+  // .refine((files) => files?.length == 1, "Image is required.")
+  // .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+  // .refine(
+  //   (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+  //   ".jpg, .jpeg, .png and .webp files are accepted."
+  // ),
+  slug: z
+    .string()
+    .max(20, "20文字以内で入力してください。")
+    .regex(/^[a-zA-Z0-9]*$/, "英数字のみで入力してください。")
+    .transform((value, ctx) => {
+      if (value.length > 0 && value.length < 3) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "3文字以上入力してください。",
+        });
+        return z.NEVER;
+      }
+      if (value.length === 0) {
+        return null;
+      }
+      return value;
+    })
+    .nullable(),
+  description: z
+    .string()
+    .max(200, "200文字以内で入力してください。")
+    .superRefine((value, ctx) => {
+      if (value.length > 0 && !value.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "空白文字のみの入力はできません。",
+        });
+      }
+    })
+    .nullable(),
+});
+
+export type Schema = z.infer<typeof schema>;
 
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  // const [verifiedText, setVerifiedText] = useState("");
+  const { mutateAsync } = usePatchProfile();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
     handleSubmit,
-    formState: { isSubmitSuccessful },
-  } = useForm<FormValues>({
-    // "react-hook-form": "^7.40.0-next.1"
-    // FIXME: as FormValues
-    values: profile as FormValues,
+    control,
+    formState: { errors, isValid },
+  } = useForm<Schema>({
+    // valuesオプションでの初期値の設定には型を変更する必要がありそう。
+    // values: profile as FormValues,
+    resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // firebase storageへの保存とurlの取得
-    let image;
-    if (data.fileList?.[0]) {
-      image = await uploadAndGetUrl(data.fileList?.[0]);
+  /**
+   * @param {string | null} fData.slug 初期値はschema.prismaのString?によりnull
+   */
+  const onSubmit: SubmitHandler<Schema> = async (fData) => {
+    // console.log("profile.slug:", profile!.slug);
+    // console.log("fData.slug:", fData.slug);
+    // console.log("typeof fData.slug:", typeof fData.slug);
+    // return;
+
+    setErrorMessage("");
+    // setVerifiedText("");
+
+    if (session === null || session.user === undefined) return;
+    const { id } = session.user;
+
+    /** 重複検証 */
+    if (typeof fData.slug === "string" && fData.slug !== profile!.slug) {
+      try {
+        const { data: profiles } = await axios.get<Profile[]>(
+          `/api/query/profiles`,
+          {
+            params: {
+              slug: fData.slug,
+            },
+          }
+        );
+        if (profiles.length > 0) {
+          setErrorMessage(
+            `入力した『${fData.slug}』はすでに他の人により使用されています。\n別の値を設定し直してください。`
+          );
+          return;
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
 
-    const { slug, name, description } = data;
-    const body = {
+    /**
+     * Cloud Storage for Firebaseへの画像の保存とdownloadURLの取得
+     * console.log("fileList:", fileList);
+     * => ファイル未選択時: FileList { length: 0 }
+     * => 選択時: FileList { 0: File, length: 1}
+     */
+    let image;
+    if (Object.hasOwn(fData.fileList, "0")) {
+      image = await uploadAndGetUrl(fData.fileList[0]);
+    }
+
+    const { name, slug, description } = fData;
+    const data = {
       slug,
       image,
       name,
       description,
     };
 
-    try {
-      await fetch(`/api/profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-    } catch (error) {
-      console.error(error);
+    const profileData = await mutateAsync({ id, data });
+
+    if (Object.hasOwn(profileData, "id")) {
+      // if ("id" in profileData) {
+      toast.success("プロフィールを更新しました。");
     }
   };
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || !e.target.files[0]) return;
-    console.log("e.target.files[0]:", e.target.files[0]);
-    const reader = new FileReader();
-    reader.onload = () => {
-      const res = reader.result;
-      if (res && typeof res === "string") {
-        setSelectedImage(res);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
+    // if (!e.target.files || !e.target.files[0]) return;
+    if (!e.target.files || !e.target.files.length) return;
+    const file = e.target.files[0];
+
+    /** MIME type validation */
+    if (!file.type.startsWith("image")) {
+      toast.error("画像ファイルを選択してください。");
+      return;
+    }
+
+    /** URL.createObjectURL */
+    setPreviewUrl(URL.createObjectURL(file));
+
+    /** FileReader */
+    // const reader = new FileReader();
+    // reader.onload = () => {
+    //   const res = reader.result;
+    //   if (res && typeof res === "string") {
+    //     setPreviewUrl(res);
+    //   }
+    // };
+    // reader.readAsDataURL(e.target.files[0]);
   };
+
+  /** slug重複確認ボタン */
+  // const handleValidateButton = async (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   e.preventDefault();
+
+  //   const slug = getValues("slug");
+  //   if (defaultValues?.slug === slug) {
+  //     setVerifiedText("現在設定中のURLです");
+  //     return;
+  //   }
+  //   try {
+  //     const res = await axios.get(`/api/profiles/${slug}`);
+  //     res.data
+  //       ? setVerifiedText("他の人により使用されています")
+  //       : setVerifiedText("使用できます");
+  //   } catch (error) {}
+  // };
+
+  // console.log("profile/index.tsx");
 
   return (
     <div className="py-12 px-6">
@@ -87,36 +213,67 @@ const Profile: NextPageWithLayout = () => {
                     <input
                       className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
                       type="text"
-                      {...register("slug")}
-                      // {...register("slug", {
-                      //   onChange: (e) => console.log(e.target.value),
-                      // })}
-                      // onChange={onChange}
+                      {...register("slug", {
+                        value: profile.slug,
+                      })}
                     />
+                    {errors.slug && (
+                      <div className="text-red-500 flex space-x-1.5">
+                        <RxExclamationTriangle className="relative top-[5px]" />
+                        <p>{errors.slug.message}</p>
+                      </div>
+                    )}
+                    {errorMessage.length > 0 && (
+                      <div className="text-red-500 flex space-x-1.5">
+                        <RxExclamationTriangle className="relative top-[5px]" />
+                        <p>{errorMessage}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex space-x-2">
+                    {/* <ValidateButton
+                      isValid={isValid}
+                      control={control}
+                      onClick={handleValidateButton}
+                    /> */}
+                    {/* <p>{verifiedText}</p>
+                    <ResetVerifiedText
+                      setVerifiedText={setVerifiedText}
+                      control={control}
+                    /> */}
                   </div>
                 </td>
-                {/* <td>{profile?.slug.length}/30</td> */}
+                <td>
+                  <InputCounter
+                    name={`slug`}
+                    control={control}
+                    maxLength={`20`}
+                  />
+                </td>
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">アイコン</th>
                 <td>
                   <label htmlFor="img" className="cursor-pointer">
                     <Image
-                      src={selectedImage ?? profile.image ?? avatar2}
+                      src={previewUrl ?? profile.image ?? avatar2}
                       alt="avatar"
                       width={40}
                       height={40}
                       className="rounded-full"
                     />
                   </label>
+                  {/* TODO: 選択解除 */}
                   <input
                     type="file"
+                    accept="image/*"
                     id="img"
                     className="hidden"
                     {...register("fileList", {
                       onChange: handleChangeImage,
                     })}
                   />
+                  {errors.fileList && <p>{errors.fileList.message}</p>}
                 </td>
               </tr>
               <tr className="flex p-2">
@@ -125,24 +282,56 @@ const Profile: NextPageWithLayout = () => {
                   <input
                     className="bg-transparent text-white"
                     type="text"
-                    {...register("name")}
+                    {...register("name", {
+                      value: profile.name,
+                    })}
+                  />
+                  {errors.name && (
+                    <div className="text-red-500 flex space-x-1.5">
+                      <RxExclamationTriangle className="relative top-[5px]" />
+                      <p>{errors.name.message}</p>
+                    </div>
+                  )}
+                </td>
+                <td>
+                  <InputCounter
+                    name={`name`}
+                    control={control}
+                    maxLength={`20`}
                   />
                 </td>
-                {/* <td>{user?.displayName?.length}/20</td> */}
               </tr>
               <tr className="flex p-2">
                 <th className="w-20">紹介文</th>
                 <td>
                   <textarea
                     className="bg-transparent text-white border border-white rounded-lg"
-                    {...register("description")}
+                    {...register("description", {
+                      value: profile.description,
+                    })}
+                  />
+                  {errors.description && <p>{errors.description.message}</p>}
+                </td>
+                <td>
+                  <InputCounter
+                    name={`description`}
+                    control={control}
+                    maxLength={`200`}
                   />
                 </td>
-                {/* <td>{}/20</td> */}
               </tr>
             </tbody>
           </table>
-          <button type="submit">保存</button>
+          <button
+            type="submit"
+            // disabled={!isValid || !isDirty}
+            className={clsx(
+              "border"
+              // (!isValid || !isDirty) && "cursor-not-allowed"
+            )}
+          >
+            保存
+          </button>
         </form>
       ) : (
         <p>loading...</p>

@@ -1,17 +1,18 @@
 import { Profile } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { Session } from "next-auth";
 
-// export const useGetProfile = <T>(session: Session | null) => {
 export const useGetProfile = (session: Session | null) => {
   const profile = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const res = await fetch(`/api/profile`);
-      // return (await res.json()) as T;
-      return (await res.json()) as Profile;
+      const res = await axios.get<Profile>(
+        `/api/profiles/${session!.user!.id}`
+      );
+      return res.data;
     },
-    enabled: !!session,
+    enabled: !!session && !!session.user,
   });
   return profile;
 };

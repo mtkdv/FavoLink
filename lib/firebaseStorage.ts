@@ -7,6 +7,7 @@ export const uploadAndGetUrl = async (imageFile: File) => {
     await uploadBytes(storageRef, imageFile);
     return await getDownloadURL(storageRef);
   } catch (error: any) {
-    console.log("error.message:", error.message);
+    // console.log("error.message:", error.message);
+    throw new Error(error.message);
   }
 };

@@ -5,6 +5,8 @@ import type { AppProps, AppType } from "next/app";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import { Toaster } from "react-hot-toast";
+import { BsFillBadge4KFill } from "react-icons/bs";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,7 +27,22 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        {/* <Auth /> */}
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              color: "#fff",
+              backgroundColor: "#333",
+            },
+            success: {
+              iconTheme: {
+                primary: "teal",
+                secondary: "#fff",
+              },
+              duration: 3000,
+            },
+          }}
+        />
         {getLayout(<Component {...pageProps} />)}
       </QueryClientProvider>
     </SessionProvider>

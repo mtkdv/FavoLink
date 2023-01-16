@@ -30,7 +30,37 @@ export default async function handle(
       break;
     }
     case "POST": {
-      const { name } = req.body;
+      const { category: name } = req.body.data;
+
+      // 上限数チェック
+      const categories = await prisma.category.findMany({
+        where: {
+          userId: id,
+        },
+        select: {
+          name: true,
+        },
+      });
+      if (categories.length === 5) {
+        res.json({
+          type: "maxLimit",
+          message: "登録できるカテゴリーは5つまでです。",
+        });
+        return;
+      }
+
+      // 重複チェック
+      const isDuplicated = categories.some(
+        (category) => category.name === name
+      );
+      if (isDuplicated) {
+        res.json({
+          type: "duplicated",
+          message: `カテゴリー『${name}』はすでに登録されています。`,
+        });
+        return;
+      }
+
       const aggregation = await prisma.category.aggregate({
         where: {
           userId: id,
@@ -58,7 +88,10 @@ export default async function handle(
           },
         },
       });
-      res.json(category);
+      res.json({
+        type: "success",
+        message: `カテゴリー ${category.name} を追加しました`,
+      });
       break;
     }
   }

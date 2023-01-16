@@ -20,23 +20,24 @@ const Link: NextPageWithLayout = () => {
 
     // return categories?.flatMap((category) => {
     const categorizedLinks = categories?.flatMap((category) => {
-      const spesificLinks = links?.filter((link) => {
+      const spesifiedLinks = links?.filter((link) => {
         return category.id === link.categoryId;
       });
-      // console.log(spesificLinks);
-      return spesificLinks.length
+      // console.log(spesifiedLinks);
+      return spesifiedLinks.length
         ? [
             {
+              categoryId: category.id,
               name: category.name,
-              data: spesificLinks,
+              data: spesifiedLinks,
             },
           ]
         : [];
     });
 
-    console.log("links:", links);
-    console.log("categories:", categories);
-    console.log("categorizedLinks:", categorizedLinks);
+    // console.log("links:", links);
+    // console.log("categories:", categories);
+    // console.log("categorizedLinks:", categorizedLinks);
 
     return categorizedLinks;
   }, [links, categories]);
@@ -51,19 +52,19 @@ const Link: NextPageWithLayout = () => {
         {/* TODO: */}
         {categorizedLinks ? (
           categorizedLinks.length > 0 ? (
-            categorizedLinks.map((spesificLinks, index) => (
+            categorizedLinks.map((spesifiedLinks) => (
               <li
-                key={index}
+                key={spesifiedLinks.categoryId}
                 className="border border-white border-dashed p-2 m-4"
               >
-                <h3>{spesificLinks.name}</h3>
+                <h3>{spesifiedLinks.name}</h3>
                 <ul className="flex">
-                  {spesificLinks.data.map((link) => (
-                    <li key={link.url} className="w-60 p-1">
+                  {spesifiedLinks.data.map((link) => (
+                    <li key={link.videoId} className="w-60 p-1">
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={link.url}
+                        href={`https://www.youtube.com/watch?v=${link.videoId}`}
                       >
                         <Image
                           src={link.thumbnailUrl}

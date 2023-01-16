@@ -4,10 +4,44 @@ import Link from "next/link";
 import avatar2 from "#/public/avatar2.png";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useGetProfile } from "#/lib/useGetProfile";
+import { toast } from "react-hot-toast";
+import React, { useEffect } from "react";
 
 export default function Home() {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
+
+  // const handleSignIn = async (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   e.preventDefault();
+  //   toast.promise(signIn("google"), {
+  //     loading: "Loading",
+  //     success: () => "サインインしました",
+  //     error: () => `サインインに失敗しました`,
+  //   });
+  // };
+
+  // const handleSignOut = async (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   e.preventDefault();
+
+  //   await signOut();
+  //   toast("サインアウトしました");
+
+  // toast.promise(signOut(), {
+  //   loading: "Loading",
+  //   success: () => "サインアウトしました",
+  //   error: () => `サインアウトに失敗しました`,
+  // });
+  // };
+
+  // useEffect(() => {
+  //   session
+  //     ? toast.success("サインインしました")
+  //     : toast.success("サインアウトしました");
+  // }, [session]);
 
   return (
     <>
@@ -44,8 +78,10 @@ export default function Home() {
             </li>
             <li>
               {session && profile && !profile.hasOwnProperty("message") ? (
+                // <button onClick={(e) => handleSignOut(e)}>Sign out</button>
                 <button onClick={() => signOut()}>Sign out</button>
               ) : (
+                // <button onClick={(e) => handleSignIn(e)}>Sign in</button>
                 <button onClick={() => signIn()}>Sign in</button>
               )}
             </li>

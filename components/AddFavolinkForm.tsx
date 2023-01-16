@@ -1,36 +1,81 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { CategorySelect } from "./CategorySelect";
 import { useAddLink } from "#/lib/useAddLink";
 import { demoUrls } from "#/lib/demodata";
 import { AiOutlineCopy } from "react-icons/ai";
+import { getYouTubeVideoIdFromUrl } from "#/lib/youtube";
+import clsx from "clsx";
+import { toast } from "react-hot-toast";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export type FormValues = {
-  link: string;
-  category: string;
-};
+const schema = z.object({
+  link: z.string().transform((url, ctx) => {
+    const videoId = getYouTubeVideoIdFromUrl(url);
+    if (videoId === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "YouTube動画のURLを貼ってください",
+      });
+      return z.NEVER;
+    }
+    return videoId;
+  }),
+  category: z.string().min(1, "カテゴリを選択してください"),
+});
 
-export const AddFavolinkForm = () => {
-  const { mutate } = useAddLink();
+export type Schema = z.infer<typeof schema>;
+
+export const AddFavolinkForm: React.FC = () => {
+  const { mutateAsync } = useAddLink();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitSuccessful },
-  } = useForm<FormValues>();
+    formState: { errors },
+  } = useForm<Schema>({
+    defaultValues: {
+      category: "",
+    },
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    mutate({
-      url: data.link,
+  const onSubmit: SubmitHandler<Schema> = async (data) => {
+    setErrorMessage("");
+
+    const mutateData = await mutateAsync({
+      // videoId,
+      videoId: data.link,
       categoryId: data.category,
     });
-  };
 
-  useEffect(() => {
+    switch (mutateData?.type) {
+      case "success":
+        toast.success(mutateData.message);
+        break;
+      case "error":
+        setErrorMessage(mutateData.message);
+        // toast.error(mutateData.message);
+        return;
+    }
+
+    // toast.promise(
+    //   mutateAsync({
+    //     videoId,
+    //     categoryId: data.category,
+    //   }),
+    //   {
+    //     loading: "Loading",
+    //     success: (data) => data.message,
+    //     error: (err) => `This just happened: ${err.toString()}`,
+    //   }
+    // );
+
     reset();
-    // }, [reset, isSubmitSuccessful]);
-  }, [isSubmitSuccessful]);
+  };
 
   const handleCopyUrl = (e: any) => {
     // console.log(e.currentTarget.previousElementSibling.innerHTML);
@@ -65,14 +110,20 @@ export const AddFavolinkForm = () => {
           ))}
         </ul>
       </label>
-      <div className="flex space-x-3">
+      <div className="flex flex-col">
+        {/* TODO: reset button */}
         <input
           id="url"
           className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
           {...register("link")}
         />
+        {errors.link && <p className="text-red-500">{errors.link.message}</p>}
         <CategorySelect register={register} />
-        <button className="border border-white px-2">追加</button>
+        {errors.category && (
+          <p className="text-red-500">{errors.category.message}</p>
+        )}
+        <p className="text-red-500">{errorMessage}</p>
+        <button className={clsx("border border-white px-2")}>リンク追加</button>
       </div>
     </form>
   );

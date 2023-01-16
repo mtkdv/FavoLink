@@ -31,24 +31,46 @@ export default async function handle(
       break;
     }
     case "POST": {
-      const { url, categoryId } = req.body;
+      const { videoId, categoryId } = req.body.data;
 
-      // 同一のカテゴリ内でurlが重複する場合
-      const link = await prisma.link.findFirst({
-        where: req.body,
+      // 上限数チェック
+      const links = await prisma.link.findMany({
+        where: {
+          userId: id,
+          categoryId,
+        },
+        select: {
+          videoId: true,
+        },
       });
-      if (link) {
-        res.status(500).send({
-          error: "特定のカテゴリ内に同一のリンクを登録しようとしています。",
+      if (links.length === 5) {
+        res.json({
+          type: "error",
+          message: "一つのカテゴリーに登録できる動画は5つまでです",
         });
         return;
       }
 
-      // youtube
+      // 重複チェック
+      const isDuplicated = links.some((link) => link.videoId === videoId);
+      if (isDuplicated) {
+        res.json({
+          type: "error",
+          message: "このカテゴリー内にその動画はすでに登録されています",
+        });
+        return;
+      }
+
+      /** YouTube */
       // TODO: 回数制限
-      const video = await listVideos(url);
-      if (!video) throw new Error();
-      // console.log("video:", video);
+      const videoData = await listVideos(videoId);
+      if (videoData.type === "error") {
+        const { code, message } = videoData;
+        // res.json({ code, message });
+        res.json({ type: code, message });
+        return;
+      }
+      const { title, thumbnailUrl } = videoData;
 
       const aggregation = await prisma.link.aggregate({
         where: {
@@ -71,9 +93,9 @@ export default async function handle(
 
       const createdLink = await prisma.link.create({
         data: {
-          title: video.title,
-          url,
-          thumbnailUrl: video.thumbnails.medium.url,
+          title,
+          videoId,
+          thumbnailUrl,
           index,
           user: {
             connect: { id },
@@ -85,7 +107,11 @@ export default async function handle(
           },
         },
       });
-      res.json(createdLink);
+      // res.json(createdLink);
+      res.json({
+        type: "success",
+        message: "動画を追加しました",
+      });
       break;
     }
   }

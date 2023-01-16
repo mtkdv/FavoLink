@@ -62,7 +62,7 @@ model VerificationToken {
 
 model Profile {
   id          String  @id @default(cuid())
-  name        String?
+  name        String
   image       String?
   slug        String? @unique
   description String?
@@ -86,7 +86,7 @@ model Category {
 model Link {
   id           String    @id @default(cuid())
   title        String
-  url          String
+  videoId      String
   thumbnailUrl String
   index        Int
   user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
