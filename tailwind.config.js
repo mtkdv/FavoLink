@@ -9,8 +9,18 @@ module.exports = {
       colors: {
         "gray-1000": "rgb(17,17,19)",
         "gray-1100": "rgb(10,10,11)",
-        "base-black": "#040404",
-        "base-white": "#FFFEFC",
+        "base-black": "#262627",
+        "base-white": "#FAF7F5",
+      },
+      fontFamily: {
+        custom: [
+          "Helvetica Neue",
+          "Arial",
+          "Hiragino Kaku Gothic ProN",
+          "Hiragino Sans",
+          "Meiryo",
+          "sans-serif",
+        ],
       },
     },
   },
