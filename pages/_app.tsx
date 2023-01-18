@@ -24,23 +24,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  /** Dark Modeの適用 */
-  useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <Toaster
+        {/* <Toaster
           position="bottom-right"
           toastOptions={{
             style: {
@@ -55,7 +42,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
               duration: 3000,
             },
           }}
-        />
+        /> */}
         {getLayout(<Component {...pageProps} />)}
       </QueryClientProvider>
     </SessionProvider>
