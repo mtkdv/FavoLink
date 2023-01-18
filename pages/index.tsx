@@ -58,7 +58,10 @@ export default function Home() {
             <ul className="flex flex-col mt-12 px-8 md:flex-row md:mt-0 md:px-0 md:space-x-4">
               {/* Menus */}
               {MENUS.map(({ title, href }) => (
-                <li className="flex items-center border-b border-b-slate-700/10 transition-all md:border-b-0">
+                <li
+                  key={title}
+                  className="flex items-center border-b border-b-slate-700/10 transition-all md:border-b-0"
+                >
                   <Link
                     href={href}
                     className="py-4 px-2 w-full max-md:hover:bg-slate-200/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
