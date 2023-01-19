@@ -7,7 +7,7 @@ import { useGetProfile } from "#/lib/useGetProfile";
 import React, { useState } from "react";
 import { SignInModal } from "../components/SignInModal";
 
-const MENUS = [
+const MENU_LIST = [
   {
     title: "Dashboard",
     href: "/my/dashboard",
@@ -49,15 +49,15 @@ export default function Home() {
           {/* メニュー */}
           <nav
             className={clsx(
-              "absolute bg-base-white top-20 right-0 h-[calc(100vh_-_80px)] transition-all duration-300",
-              "md:static md:opacity-100 md:h-min",
+              "max-md:absolute max-md:bg-base-white top-20 right-0 max-md:h-[calc(100vh_-_80px)] transition-all duration-300",
+              "md:opacity-100",
               !isMenuOpen && "left-full opacity-0",
               isMenuOpen && "left-0 opacity-100"
             )}
           >
-            <ul className="flex flex-col mt-12 px-8 md:flex-row md:mt-0 md:px-0 md:space-x-4">
-              {/* Menus */}
-              {MENUS.map(({ title, href }) => (
+            <ul className="flex max-md:flex-col max-md:mt-12 max-md:px-8 md:space-x-4">
+              {/* Menu list */}
+              {MENU_LIST.map(({ title, href }) => (
                 <li
                   key={title}
                   className="flex items-center border-b border-b-slate-700/10 transition-all md:border-b-0"
@@ -74,7 +74,7 @@ export default function Home() {
                 </li>
               ))}
 
-              {/* Login Menus */}
+              {/* Login menu */}
               <li className="flex items-center border-b border-b-slate-700/10 transition-all md:border-b-0">
                 {session && profile && !profile.hasOwnProperty("message") ? (
                   <button
@@ -108,23 +108,26 @@ export default function Home() {
               onClick={toggleMenu}
               className="focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
-              <span className="relative flex items-center justify-center w-8 h-6">
+              <span className="relative flex items-center justify-center w-8 h-6 overflow-hidden">
                 <span
                   className={clsx(
-                    "absolute bg-base-black h-0.5 w-6 rounded-full shadow-md -translate-y-2 transition-transform duration-300",
-                    isMenuOpen && "origin-center rotate-45 translate-y-0"
+                    "absolute bg-base-black h-0.5 w-6 rounded-full shadow-md transition-transform duration-300",
+                    !isMenuOpen && "rotate-0 -translate-y-2",
+                    isMenuOpen && "rotate-45 translate-y-0"
                   )}
                 ></span>
                 <span
                   className={clsx(
                     "absolute bg-base-black h-0.5 w-6 rounded-full shadow-md transition duration-300",
+                    !isMenuOpen && "translate-x-0",
                     isMenuOpen && "bg-transparent -translate-x-full"
                   )}
                 ></span>
                 <span
                   className={clsx(
-                    "absolute bg-base-black h-0.5 w-6 rounded-full shadow-md translate-y-2 transition-transform duration-300",
-                    isMenuOpen && "origin-center -rotate-45 translate-y-0"
+                    "absolute bg-base-black h-0.5 w-6 rounded-full shadow-md transition-transform duration-300",
+                    !isMenuOpen && "rotate-0 translate-y-2",
+                    isMenuOpen && "-rotate-45 translate-y-0"
                   )}
                 ></span>
               </span>
