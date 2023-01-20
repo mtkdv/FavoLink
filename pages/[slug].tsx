@@ -5,23 +5,31 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { Category, Link, Profile } from "@prisma/client";
 import axios from "axios";
+import { PublicPageRes } from "./api/[slug]";
+import Error from "next/error";
 
 const Public = () => {
   const router = useRouter();
   const { data } = useQuery({
     queryKey: ["public"],
     queryFn: async () => {
-      const res = await axios.get(`/api/${router.query.slug}`);
-      return (await res.data) as {
-        profile: Profile;
-        categories: Category[];
-        links: Link[];
-      };
+      const res = await axios.get<PublicPageRes>(`/api/${router.query.slug}`);
+      // return (await res.data) as {
+      //   profile: Profile;
+      //   categories: Category[];
+      //   links: Link[];
+      // };
+      return res.data;
     },
     enabled: !!Object.keys(router.query).length,
   });
 
   if (!data) return <p>loading...</p>;
+
+  if (data.type === "error") {
+    return <Error statusCode={404} />;
+  }
+
   const { profile, categories, links } = data;
 
   return (

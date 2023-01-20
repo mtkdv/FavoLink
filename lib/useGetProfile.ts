@@ -7,9 +7,15 @@ export const useGetProfile = (session: Session | null) => {
   const profile = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const res = await axios.get<Profile>(
-        `/api/profiles/${session!.user!.id}`
-      );
+      // const res = await axios.get<Profile>(
+      //   `/api/profiles/${session!.user!.id}`
+      // );
+      const res = await axios.get<Profile>(`/api/profiles`, {
+        params: {
+          type: "getProfile",
+          id: session!.user!.id,
+        },
+      });
       return res.data;
     },
     enabled: !!session && !!session.user,

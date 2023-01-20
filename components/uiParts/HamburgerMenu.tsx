@@ -27,8 +27,8 @@ export const HamburgerMenu: FC<Props> = ({ isMenuOpen, setIsMenuOpen }) => {
           <span
             className={clsx(
               "absolute bg-base-black h-0.5 w-6 rounded-full shadow-md transition duration-300",
-              !isMenuOpen && "translate-x-0",
-              isMenuOpen && "bg-transparent -translate-x-full"
+              !isMenuOpen && "opacity-100 translate-x-0",
+              isMenuOpen && "opacity-0 -translate-x-full"
             )}
           ></span>
           <span

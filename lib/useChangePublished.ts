@@ -3,35 +3,48 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 type Data = {
-  slug: string | null;
-  image: string | undefined;
-  name: string;
-  description: string | null;
+  published: boolean;
 };
 
-export const usePatchProfile = () => {
+export type ChangePublishedResponse =
+  | {
+      type: "success";
+      profile: Profile;
+    }
+  | {
+      type: "error";
+      code?: string;
+      message: string;
+    };
+
+export const useChangePublished = () => {
   const queryClient = useQueryClient();
   const profileMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Data }) => {
       try {
         // const res = await axios.patch<Profile>(`/api/profiles/${id}`, data);
-        const res = await axios.patch<Profile>(`/api/profiles`, data, {
-          params: {
-            type: "patchProfile",
-            id,
-          },
-        });
+        const res = await axios.patch<{ type: "success"; profile: Profile }>(
+          `/api/profiles`,
+          data,
+          {
+            params: {
+              type: "changePublished",
+              id,
+            },
+          }
+        );
         return res.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error(error);
-          return { code: error.code, message: error.message };
+          return { type: "error", code: error.code, message: error.message };
         } else if (error instanceof Error) {
           console.error(error);
-          return { message: error.message };
+          return { type: "error", message: error.message };
         } else {
           console.error(error);
-          return { message: error };
+          // TODO: as string
+          return { type: "error", message: error as string };
         }
       }
     },
