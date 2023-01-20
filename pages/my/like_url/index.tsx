@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/Layout";
-import { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -13,6 +13,7 @@ import { useMutateVideo } from "#/lib/useMutateVideo";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
 import { Button } from "#/components/Button";
+import { demoUrls } from "#/lib/demodata";
 
 const schema = z.object({
   youtube: z
@@ -131,6 +132,23 @@ const CateArray: NextPageWithLayout = () => {
           SubmittedText="変更が反映されました"
         />
       </form>
+      {/* Demo url */}
+      <ul>
+        {demoUrls.map((url, index) => (
+          <li key={index} className="flex w-[400px]">
+            <button
+              type="button"
+              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                navigator.clipboard.writeText(
+                  e.currentTarget.firstElementChild?.innerHTML!
+                );
+              }}
+            >
+              <p className="flex-1">{url}</p>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

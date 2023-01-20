@@ -22,6 +22,12 @@ module.exports = {
           "sans-serif",
         ],
       },
+      keyframes: {
+        animate: {
+          "0%, 100%": { transform: "translateY(-20px)" },
+          "50%": { transform: "translateY(20px)" },
+        },
+      },
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],

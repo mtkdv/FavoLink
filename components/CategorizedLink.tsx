@@ -13,15 +13,15 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
     // if (!links.length || !categories.length) return [];
 
     return categories?.flatMap((category) => {
-      const spesifiedLinks = links?.filter((link) => {
+      const specifiedLinks = links?.filter((link) => {
         return category.id === link.categoryId;
       });
-      return spesifiedLinks.length
+      return specifiedLinks.length
         ? [
             {
               categoryId: category.id,
               name: category.name,
-              data: spesifiedLinks,
+              data: specifiedLinks,
             },
           ]
         : [];
@@ -30,31 +30,33 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
 
   return (
     <section>
-      <ul className="mt-4">
+      <ul className="space-y-4">
         {/* TODO: */}
         {categorizedLinks ? (
           categorizedLinks.length > 0 ? (
-            categorizedLinks.map((spesifiedLinks) => (
+            categorizedLinks.map((specifiedLinks) => (
               <li
-                key={spesifiedLinks.categoryId}
-                className="border border-white border-dashed p-2 m-4"
+                key={specifiedLinks.categoryId}
+                className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-4 space-y-2"
               >
-                <h3>{spesifiedLinks.name}</h3>
-                <ul className="flex">
-                  {spesifiedLinks.data.map((link) => (
-                    <li key={link.videoId} className="w-60 p-1">
+                <h3>{specifiedLinks.name}</h3>
+                <ul className="grid gap-4 grid-cols-2 md:grid-cols-3">
+                  {specifiedLinks.data.map((link) => (
+                    <li key={link.videoId} className="">
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`https://www.youtube.com/watch?v=${link.videoId}`}
                       >
-                        <Image
-                          src={link.thumbnailUrl}
-                          alt="thumbnail"
-                          width={320}
-                          height={180}
-                          className="rounded-md hover:scale-105 transition-transform"
-                        />
+                        <div className="overflow-hidden rounded-md">
+                          <Image
+                            src={link.thumbnailUrl}
+                            alt="thumbnail"
+                            width={320}
+                            height={180}
+                            className="hover:scale-105 transition-transform"
+                          />
+                        </div>
                         <h3 className="line-clamp-2">{link.title}</h3>
                       </a>
                     </li>

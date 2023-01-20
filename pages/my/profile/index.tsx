@@ -212,7 +212,7 @@ const Profile: NextPageWithLayout = () => {
                       https://favolink.com/
                     </div>
                     <input
-                      className="bg-transparent text-white border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
+                      className="bg-transparent border border-slate-500 px-3 rounded-r-md flex-1 outline-none hover:border-slate-400 transition-all"
                       type="text"
                       {...register("slug", {
                         value: profile.slug,
@@ -281,7 +281,7 @@ const Profile: NextPageWithLayout = () => {
                 <th className="w-20">表示名</th>
                 <td>
                   <input
-                    className="bg-transparent text-white"
+                    className="bg-transparent"
                     type="text"
                     {...register("name", {
                       value: profile.name,
@@ -306,7 +306,7 @@ const Profile: NextPageWithLayout = () => {
                 <th className="w-20">紹介文</th>
                 <td>
                   <textarea
-                    className="bg-transparent text-white border border-white rounded-lg"
+                    className="bg-transparent border border-white rounded-lg"
                     {...register("description", {
                       value: profile.description,
                     })}

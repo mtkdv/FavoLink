@@ -56,8 +56,8 @@ export const VideoFieldArray: FC<Props> = ({
   const appendVideo = (
     fields: FieldArrayWithId<Schema, `youtube.${number}.video`, "id">[]
   ) => {
-    if (fields.length === 5) {
-      toast.error("追加できる動画は、カテゴリーごとに５つまでです。");
+    if (fields.length === 6) {
+      toast.error("追加できる動画は、カテゴリーごとに６つまでです。");
       return;
     }
     append({ id: "", videoId: "", title: "", thumbnailUrl: "" });
