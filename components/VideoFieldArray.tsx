@@ -60,7 +60,15 @@ export const VideoFieldArray: FC<Props> = ({
       toast.error("追加できる動画は、カテゴリーごとに６つまでです。");
       return;
     }
-    append({ id: "", videoId: "", title: "", thumbnailUrl: "" });
+    append({
+      id: "",
+      videoId: "",
+      title: "",
+      thumbnailUrl: "",
+      channelTitle: "",
+      channelId: "",
+      channelThumbnailUrl: "",
+    });
   };
 
   return (

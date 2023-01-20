@@ -28,6 +28,9 @@ const schema = z.object({
               videoId: z.string(),
               title: z.string(),
               thumbnailUrl: z.string(),
+              channelId: z.string(),
+              channelTitle: z.string(),
+              channelThumbnailUrl: z.string(),
             })
           )
           .superRefine((values, ctx) => {
@@ -56,7 +59,7 @@ const schema = z.object({
 
 export type Schema = z.infer<typeof schema>;
 
-const CateArray: NextPageWithLayout = () => {
+const LikeUrl: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: videos } = useGetLinks(session);
   const { data: categories } = useGetCategories(session);
@@ -70,12 +73,25 @@ const CateArray: NextPageWithLayout = () => {
       const videosOnCategory = videos.filter((video) => {
         return category.id === video.categoryId;
       });
-      const videoData = videosOnCategory.map((video) => ({
-        id: video.id,
-        videoId: video.videoId,
-        title: video.title,
-        thumbnailUrl: video.thumbnailUrl,
-      }));
+      const videoData = videosOnCategory.map(
+        ({
+          id,
+          videoId,
+          title,
+          thumbnailUrl,
+          channelId,
+          channelTitle,
+          channelThumbnailUrl,
+        }) => ({
+          id,
+          videoId,
+          title,
+          thumbnailUrl,
+          channelId,
+          channelTitle,
+          channelThumbnailUrl,
+        })
+      );
 
       return {
         categoryId: category.id,
@@ -153,8 +169,8 @@ const CateArray: NextPageWithLayout = () => {
   );
 };
 
-CateArray.getLayout = function getLayout(page: ReactElement) {
+LikeUrl.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default CateArray;
+export default LikeUrl;

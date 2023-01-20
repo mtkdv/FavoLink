@@ -37,10 +37,12 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
             categorizedLinks.map((specifiedLinks) => (
               <li
                 key={specifiedLinks.categoryId}
-                className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-4 space-y-2"
+                className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-6 space-y-2 max-sm:max-w-xs max-sm:mx-auto"
               >
-                <h3>{specifiedLinks.name}</h3>
-                <ul className="grid gap-4 grid-cols-2 md:grid-cols-3">
+                <h3 className="text-center text-lg font-medium drop-shadow-md">
+                  {specifiedLinks.name}
+                </h3>
+                <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                   {specifiedLinks.data.map((link) => (
                     <li key={link.videoId} className="">
                       <a
@@ -48,7 +50,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                         rel="noopener noreferrer"
                         href={`https://www.youtube.com/watch?v=${link.videoId}`}
                       >
-                        <div className="overflow-hidden rounded-md">
+                        <div className="overflow-hidden rounded-md shadow-md">
                           <Image
                             src={link.thumbnailUrl}
                             alt="thumbnail"
@@ -57,7 +59,28 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                             className="hover:scale-105 transition-transform"
                           />
                         </div>
-                        <h3 className="line-clamp-2">{link.title}</h3>
+                        <h3 className="line-clamp-2 drop-shadow-md">
+                          {link.title}
+                        </h3>
+                      </a>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`https://www.youtube.com/channel/${link.channelId}`}
+                        className="flex items-center space-x-1"
+                      >
+                        <div className="overflow-hidden rounded-full">
+                          <Image
+                            src={link.channelThumbnailUrl}
+                            alt="channelThumbnail"
+                            width={33}
+                            height={33}
+                            className="hover:scale-105 transition-transform"
+                          />
+                        </div>
+                        <p className="text-xs line-clamp-1 flex-1 text-base-black/70 hover:text-base-black">
+                          {link.channelTitle}
+                        </p>
                       </a>
                     </li>
                   ))}
