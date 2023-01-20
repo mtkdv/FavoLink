@@ -1,6 +1,6 @@
 import Image from "next/image";
 import avatar2 from "#/public/avatar2.png";
-import { CategorizedLink } from "#/components/CategorizedLink";
+import { CategorizedLink } from "#/components/shared/CategorizedLink";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { Category, Link, Profile } from "@prisma/client";

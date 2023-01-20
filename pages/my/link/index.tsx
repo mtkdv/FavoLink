@@ -1,9 +1,9 @@
 import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/Layout";
+import { Layout } from "#/components/shared/Layout";
 import { ReactElement, useMemo } from "react";
-import { AddFavolinkForm } from "#/components/AddFavolinkForm";
+import { AddFavolinkForm } from "#/components/pages/my/link/AddFavolinkForm";
 import Image from "next/image";
-import { CategoryForm } from "#/components/CategoryForm";
+import { CategoryForm } from "#/components/pages/my/link/CategoryForm";
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useGetLinks } from "#/lib/useGetLinks";
 import { useSession } from "next-auth/react";

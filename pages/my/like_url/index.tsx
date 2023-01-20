@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/Layout";
+import { Layout } from "#/components/shared/Layout";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useSession } from "next-auth/react";
@@ -7,13 +7,21 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
-import { CategoryFieldArray } from "#/components/CategoryFieldArray";
+import { CategoryFieldArray } from "#/components/pages/my/like_url/CategoryFieldArray";
 import { useGetLinks } from "#/lib/useGetLinks";
 import { useMutateVideo } from "#/lib/useMutateVideo";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
 import { Button } from "#/components/uiParts/Button";
-import { demoUrls } from "#/lib/demodata";
+
+const DemoUrls = [
+  "https://www.youtube.com/watch?v=Xft8GRzXupY",
+  "https://www.youtube.com/watch?v=bsE1VJn1HeU",
+  "https://www.youtube.com/watch?v=6ZwnBI4Rb1w",
+  "https://www.youtube.com/watch?v=3m1FcGW6V4g",
+  "https://www.youtube.com/watch?v=cEksV9VDkUI",
+  "https://www.youtube.com/watch?v=NiknNI_0J48",
+];
 
 const schema = z.object({
   youtube: z
@@ -150,7 +158,7 @@ const LikeUrl: NextPageWithLayout = () => {
       </form>
       {/* Demo url */}
       <ul>
-        {demoUrls.map((url, index) => (
+        {DemoUrls.map((url, index) => (
           <li key={index} className="flex w-[400px]">
             <button
               type="button"

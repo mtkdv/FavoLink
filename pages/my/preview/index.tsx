@@ -3,7 +3,7 @@ import Link from "next/link";
 import avatar2 from "#/public/avatar2.png";
 import Router from "next/router";
 import { useGetProfile } from "#/lib/useGetProfile";
-import { CategorizedLink } from "#/components/CategorizedLink";
+import { CategorizedLink } from "#/components/shared/CategorizedLink";
 import { useSession } from "next-auth/react";
 import { useGetLinks } from "#/lib/useGetLinks";
 import { useGetCategories } from "#/lib/useGetCategories";

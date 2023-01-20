@@ -1,13 +1,12 @@
-import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import avatar2 from "#/public/avatar2.png";
 import { useSession } from "next-auth/react";
 import { useGetProfile } from "#/lib/useGetProfile";
 import React, { useState } from "react";
-import { SignInModal } from "../components/SignInModal";
 import { HamburgerMenu } from "#/components/uiParts/HamburgerMenu";
 import { Navbar } from "#/components/pages/home/Navbar";
+import { SignInModal } from "#/components/pages/home/SignInModal";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -33,6 +32,7 @@ export default function Home() {
 
           <HamburgerMenu {...{ isMenuOpen, setIsMenuOpen }} />
 
+          {/* FIXME: useGetProfileのレスポンスを判別可能なユニオンにする。 */}
           {session && profile && !profile.hasOwnProperty("message") ? (
             <div className="ml-4">
               <Image
