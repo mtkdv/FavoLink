@@ -18,7 +18,7 @@ import { Profile } from "@prisma/client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
-import { Button } from "#/components/Button";
+import { Button } from "#/components/uiParts/Button";
 
 const schema = z.object({
   name: z

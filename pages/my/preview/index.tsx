@@ -51,9 +51,7 @@ const Preview = () => {
           {/* Glass */}
           {/* ? なぜ横幅いっぱい？ */}
           <div className="relative z-10 max-w-3xl mx-auto bg-gradient-to-br from-white/50 to-white/20 rounded-2xl p-6 shadow-[0_15px_35px_rgba(0,0,0,0.05)] mt-12">
-            {/* <div className="absolute -translate-y-1/2 left-1/2 -translate-x-1/2 w-96 p-4 bg-white/20 backdrop-blur rounded-2xl border border-white/25"> */}
             {session && profile ? (
-              // <div className="flex flex-col items-center space-y-4">
               <div className="absolute z-20 top-0 -translate-y-10 left-1/2 -translate-x-1/2 space-y-4">
                 <div className="flex justify-center">
                   <Image

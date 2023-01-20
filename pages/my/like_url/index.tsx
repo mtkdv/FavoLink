@@ -12,7 +12,7 @@ import { useGetLinks } from "#/lib/useGetLinks";
 import { useMutateVideo } from "#/lib/useMutateVideo";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
-import { Button } from "#/components/Button";
+import { Button } from "#/components/uiParts/Button";
 import { demoUrls } from "#/lib/demodata";
 
 const schema = z.object({
