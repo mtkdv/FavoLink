@@ -1,18 +1,30 @@
 import { Category, Link } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useState } from "react";
+import { VideoPlayerModal } from "./VideoPlayerModal";
 
 type Props = {
   categories: Category[] | undefined;
   links: Link[] | undefined;
 };
 
+type CategorizedLinks = {
+  categoryId: string;
+  name: string;
+  data: Link[];
+}[];
+
 export const CategorizedLink: FC<Props> = ({ categories, links }) => {
-  const categorizedLinks = useMemo(() => {
+  const [categorizedLinks, setCategorizedLinks] = useState<CategorizedLinks>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
     if (!links || !categories) return;
     // if (!links.length || !categories.length) return [];
 
-    return categories?.flatMap((category) => {
+    const newCategorizedLinks = categories?.flatMap((category) => {
       const specifiedLinks = links?.filter((link) => {
         return category.id === link.categoryId;
       });
@@ -26,6 +38,8 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
           ]
         : [];
     });
+
+    setCategorizedLinks(newCategorizedLinks);
   }, [links, categories]);
 
   return (
@@ -45,10 +59,12 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                 <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                   {specifiedLinks.data.map((link) => (
                     <li key={link.videoId} className="">
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`https://www.youtube.com/watch?v=${link.videoId}`}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          queryClient.setQueryData(["videoData"], link);
+                          setIsModalOpen(true);
+                        }}
                       >
                         <div className="overflow-hidden rounded-md shadow-md">
                           <Image
@@ -62,7 +78,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                         <h3 className="line-clamp-2 drop-shadow-md">
                           {link.title}
                         </h3>
-                      </a>
+                      </button>
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
@@ -92,6 +108,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
           <p>loading...</p>
         )}
       </ul>
+      <VideoPlayerModal {...{ isModalOpen, setIsModalOpen }} />
     </section>
   );
 };
