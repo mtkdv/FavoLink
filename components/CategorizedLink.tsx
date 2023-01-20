@@ -65,6 +65,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                           queryClient.setQueryData(["videoData"], link);
                           setIsModalOpen(true);
                         }}
+                        className="focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         <div className="overflow-hidden rounded-md shadow-md">
                           <Image
@@ -83,7 +84,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`https://www.youtube.com/channel/${link.channelId}`}
-                        className="flex items-center space-x-1"
+                        className="flex items-center space-x-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         <div className="overflow-hidden rounded-full">
                           <Image
