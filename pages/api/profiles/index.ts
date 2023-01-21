@@ -1,15 +1,7 @@
 import prisma from "#/lib/prisma";
-import { Profile } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-
-type Error = {
-  code: number;
-  message: string;
-};
-
-type Data = Profile | Error;
 
 /** /api/profiles/[userId] */
 export default async function handle(
@@ -48,6 +40,7 @@ export default async function handle(
       } catch (error) {}
       break;
     }
+
     case "patchProfile": {
       const { slug, image, name, description } = req.body;
       try {
@@ -64,17 +57,27 @@ export default async function handle(
       } catch (error) {}
       break;
     }
+
     case "changePublished": {
       const { published } = req.body;
       try {
         const profile = await prisma.profile.update({
           where: { userId },
           data: {
-            published: !published,
+            published,
           },
         });
-        res.json({ type: "success", profile });
-      } catch (error) {}
+        res.json(profile);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error);
+          res.json({ message: error.message });
+        } else {
+          console.error(error);
+          // FIXME: as string
+          res.json({ message: error as string });
+        }
+      }
       break;
     }
   }

@@ -19,7 +19,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
 import { Button } from "#/components/uiParts/Button";
-import { PublishedForm } from "#/components/pages/my/profile/PublishedForm";
+import { PublicOrPrivateSwitch } from "#/components/pages/my/profile/PublicOrPrivateSwitch";
 
 const schema = z.object({
   name: z
@@ -332,7 +332,7 @@ const Profile: NextPageWithLayout = () => {
             />
           </form>
 
-          <PublishedForm />
+          <PublicOrPrivateSwitch />
         </>
       ) : (
         <p>loading...</p>
