@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-10 h-20 bg-base-white border-b border-b-base-black/10">
+      <header className="fixed top-0 inset-x-0 z-10 h-20 bg-base-black border-b border-b-base-black/10">
         <div className="max-w-3xl mx-auto px-8 h-full flex items-center">
           <div>
             <Link

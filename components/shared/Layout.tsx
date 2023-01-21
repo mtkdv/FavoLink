@@ -1,19 +1,14 @@
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: session } = useSession();
 
-  const handleSignOut = () => {
-    signOut({
-      callbackUrl: "/",
-    });
-  };
-
   return (
-    <>
-      <div className="fixed inset-y-0 z-10 w-60 border-r border-gray-800">
+    <div className="w-full h-screen text-base-white bg-black">
+      <div className="fixed inset-y-0 w-60 z-10 shadow-[5px_0_10px_rgba(255,255,255,0.7)]">
         <div>
           <h1>Favolink</h1>
         </div>
@@ -28,9 +23,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             <li>
               <Link href={`/my/profile`}>プロフィール編集</Link>
             </li>
-            <li>
+            {/* <li>
               <Link href={`/my/link`}>お気に入りのリンク追加</Link>
-            </li>
+            </li> */}
             <li>
               <Link href={`/my/like_url`}>お気に入りの動画追加</Link>
             </li>
@@ -40,10 +35,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             {session ? (
               <li>
                 <button
-                  className="bg-white active:bg-gray-100 text-gray-800 pl-1 pr-4 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
                   type="button"
-                  style={{ transition: "all .15s ease" }}
-                  onClick={handleSignOut}
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className=""
                 >
                   ログアウト
                 </button>
@@ -53,6 +47,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         </nav>
       </div>
       <div className="pl-60">{children}</div>
-    </>
+    </div>
   );
 };

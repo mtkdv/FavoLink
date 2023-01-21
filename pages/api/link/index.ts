@@ -91,22 +91,22 @@ export default async function handle(
       const index =
         aggregation._count._all === 0 ? 1024 : aggregation._max.index! + 1024;
 
-      const createdLink = await prisma.link.create({
-        data: {
-          title,
-          videoId,
-          thumbnailUrl,
-          index,
-          user: {
-            connect: { id },
-          },
-          category: {
-            connect: {
-              id: categoryId,
-            },
-          },
-        },
-      });
+      // const createdLink = await prisma.link.create({
+      //   data: {
+      //     title,
+      //     videoId,
+      //     thumbnailUrl,
+      //     index,
+      //     user: {
+      //       connect: { id },
+      //     },
+      //     category: {
+      //       connect: {
+      //         id: categoryId,
+      //       },
+      //     },
+      //   },
+      // });
       // res.json(createdLink);
       res.json({
         type: "success",
