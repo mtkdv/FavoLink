@@ -19,21 +19,21 @@ export const HamburgerMenu: FC<Props> = ({ isMenuOpen, setIsMenuOpen }) => {
         <span className="relative flex items-center justify-center w-8 h-6 overflow-hidden">
           <span
             className={clsx(
-              "absolute bg-base-white h-0.5 w-6 rounded-full shadow-md transition-transform duration-300",
+              "absolute bg-black h-0.5 w-6 rounded-full shadow-md transition-transform duration-300",
               !isMenuOpen && "rotate-0 -translate-y-2",
               isMenuOpen && "rotate-45 translate-y-0"
             )}
           ></span>
           <span
             className={clsx(
-              "absolute bg-base-white h-0.5 w-6 rounded-full shadow-md transition duration-300",
+              "absolute bg-black h-0.5 w-6 rounded-full shadow-md transition duration-300",
               !isMenuOpen && "opacity-100 translate-x-0",
               isMenuOpen && "opacity-0 -translate-x-full"
             )}
           ></span>
           <span
             className={clsx(
-              "absolute bg-base-white h-0.5 w-6 rounded-full shadow-md transition-transform duration-300",
+              "absolute bg-black h-0.5 w-6 rounded-full shadow-md transition-transform duration-300",
               !isMenuOpen && "rotate-0 translate-y-2",
               isMenuOpen && "-rotate-45 translate-y-0"
             )}

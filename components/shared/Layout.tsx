@@ -7,7 +7,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: session } = useSession();
 
   return (
-    <div className="w-full h-screen text-base-white bg-base-black">
+    <div className="w-full h-screen">
       <div className="fixed inset-y-0 w-60 z-10">
         <nav>
           <ul>

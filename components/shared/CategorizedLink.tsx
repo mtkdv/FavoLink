@@ -53,7 +53,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                 key={specifiedLinks.categoryId}
                 className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-6 space-y-2 max-sm:max-w-xs max-sm:mx-auto"
               >
-                <h3 className="text-base-black text-center text-lg font-medium drop-shadow-md">
+                <h3 className="text-center text-lg font-medium drop-shadow-md">
                   {specifiedLinks.name}
                 </h3>
                 <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
@@ -76,7 +76,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                             className="hover:scale-105 transition-transform"
                           />
                         </div>
-                        <h3 className="text-base-black line-clamp-2 drop-shadow-md">
+                        <h3 className="line-clamp-2 drop-shadow-md">
                           {link.title}
                         </h3>
                       </button>
@@ -95,7 +95,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                             className="hover:scale-105 transition-transform"
                           />
                         </div>
-                        <p className="text-xs line-clamp-1 flex-1 text-base-black/70 hover:text-base-black">
+                        <p className="text-xs line-clamp-1 flex-1 text-black/70 hover:text-black">
                           {link.channelTitle}
                         </p>
                       </a>

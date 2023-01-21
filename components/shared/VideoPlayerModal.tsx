@@ -35,7 +35,6 @@ export const VideoPlayerModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              {/* <Dialog.Panel className="relative w-full max-w-sm rounded-2xl bg-base-white shadow-[4px_5px_7px_5px_rgba(0,0,0,0.07)]"> */}
               <Dialog.Panel className="w-full">
                 {/* <Dialog.Title>title</Dialog.Title>
                 <Dialog.Description>description</Dialog.Description> */}

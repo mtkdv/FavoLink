@@ -30,7 +30,7 @@ export const SignInModal = ({
           leaveTo="opacity-0"
         >
           {/* <div className="fixed inset-0 bg-black/25" /> */}
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-[1px]" />
+          <div className="fixed inset-0 bg-black/5 backdrop-blur-[1px]" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -44,7 +44,7 @@ export const SignInModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="relative w-full max-w-sm rounded-2xl bg-black py-6 px-12 ring-1 ring-base-white/75">
+              <Dialog.Panel className="relative w-full max-w-sm rounded-2xl bg-white py-6 px-12 border-t border-t-black/10 border-l border-l-black/10 shadow-[3px_3px_5px_rgba(0,0,0,0.1)]">
                 <Dialog.Title className="text-xl font-medium text-center">
                   <span className="relative">
                     <span className="absolute bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 w-full h-0.5 -bottom-2"></span>
@@ -60,7 +60,7 @@ export const SignInModal = ({
                       signIn("google", { callbackUrl: "/" });
                     }}
                     type="button"
-                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-black ring-1 ring-base-white/75 px-4 py-2 text-sm font-medium hover:bg-base-black focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
                     <FcGoogle size={20} />
                     <span>Continue with Google</span>
@@ -70,7 +70,7 @@ export const SignInModal = ({
                       signIn("twitter", { callbackUrl: "/" });
                     }}
                     type="button"
-                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-black ring-1 ring-base-white/75 px-4 py-2 text-sm font-medium hover:bg-base-black focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
                     <SiTwitter size={20} className="text-[color:#2A9BF0]" />
                     <span>Continue with Twitter</span>

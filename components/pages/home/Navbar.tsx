@@ -31,7 +31,7 @@ export const Navbar: FC<Props> = ({ isMenuOpen, setIsModalOpen }) => {
   return (
     <nav
       className={clsx(
-        "max-md:absolute max-md:bg-base-black top-20 right-0 max-md:h-[calc(100vh_-_80px)] transition-all duration-300",
+        "max-md:absolute max-md:bg-white top-20 right-0 max-md:h-[calc(100vh_-_80px)] transition-all duration-300",
         "md:opacity-100",
         !isMenuOpen && "left-full opacity-0",
         isMenuOpen && "left-0 opacity-100"
@@ -42,11 +42,11 @@ export const Navbar: FC<Props> = ({ isMenuOpen, setIsModalOpen }) => {
         {MENU_LIST.map(({ title, href }) => (
           <li
             key={title}
-            className="flex items-center border-b border-b-slate-700/10 transition-all md:border-b-0"
+            className="flex items-center border-b border-b-black/10 transition-all md:border-b-0"
           >
             <Link
               href={href}
-              className="py-4 px-2 w-full max-md:hover:bg-gray-600/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="py-4 px-2 w-full max-md:hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
               <span className="group md:relative">
                 <span className="md:absolute md:bg-gradient-to-r md:from-red-200 md:via-red-300 md:to-yellow-200 md:w-full md:h-0.5 md:-bottom-2 md:transition-transform md:duration-300 md:scale-x-0 md:origin-right md:group-hover:origin-left md:group-hover:scale-x-100"></span>
@@ -57,11 +57,11 @@ export const Navbar: FC<Props> = ({ isMenuOpen, setIsModalOpen }) => {
         ))}
 
         {/* Login menu */}
-        <li className="flex items-center border-b border-b-slate-700/10 transition-all md:border-b-0">
+        <li className="flex items-center border-b border-b-black/10 transition-all md:border-b-0">
           {session && profile && !profile.hasOwnProperty("message") ? (
             <button
               onClick={() => signOut()}
-              className="py-4 px-2 w-full max-md:hover:bg-gray-600/20 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="py-4 px-2 w-full max-md:hover:bg-black/5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
               <span className="group md:relative">
                 <span className="md:absolute md:bg-gradient-to-r md:from-red-200 md:via-red-300 md:to-yellow-200 md:w-full md:h-0.5 md:-bottom-2 md:transition-transform md:duration-300 md:scale-x-0 md:origin-right md:group-hover:origin-left md:group-hover:scale-x-100"></span>
@@ -71,7 +71,7 @@ export const Navbar: FC<Props> = ({ isMenuOpen, setIsModalOpen }) => {
           ) : (
             <button
               onClick={() => setIsModalOpen(true)}
-              className="py-4 px-2 w-full max-md:hover:bg-gray-600/20 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="py-4 px-2 w-full max-md:hover:bg-black/5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
               <span className="group md:relative">
                 <span className="md:absolute md:bg-gradient-to-r md:from-red-200 md:via-red-300 md:to-yellow-200 md:w-full md:h-0.5 md:-bottom-2 md:transition-transform md:duration-300 md:scale-x-0 md:origin-right md:group-hover:origin-left md:group-hover:scale-x-100"></span>
