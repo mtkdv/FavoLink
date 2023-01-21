@@ -7,11 +7,8 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: session } = useSession();
 
   return (
-    <div className="w-full h-screen text-base-white bg-black">
-      <div className="fixed inset-y-0 w-60 z-10 shadow-[5px_0_10px_rgba(255,255,255,0.7)]">
-        <div>
-          <h1>Favolink</h1>
-        </div>
+    <div className="w-full h-screen text-base-white bg-base-black">
+      <div className="fixed inset-y-0 w-60 z-10">
         <nav>
           <ul>
             <li>

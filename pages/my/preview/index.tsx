@@ -62,7 +62,9 @@ const Preview = () => {
                     className="rounded-full"
                   ></Image>
                 </div>
-                <p className="text-center font-extrabold">{profile.name}</p>
+                <p className="text-base-black text-center font-extrabold">
+                  {profile.name}
+                </p>
                 {/* <p className="whitespace-pre-wrap">{profile.description}</p> */}
               </div>
             ) : null}

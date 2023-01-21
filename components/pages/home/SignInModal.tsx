@@ -30,7 +30,7 @@ export const SignInModal = ({
           leaveTo="opacity-0"
         >
           {/* <div className="fixed inset-0 bg-black/25" /> */}
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-[1px]" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
