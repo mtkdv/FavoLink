@@ -85,7 +85,18 @@ export default async function handle(
           });
 
           const upsertedVideo = video.map(
-            async ({ id, videoId, title, thumbnailUrl }, vi) => {
+            async (
+              {
+                id,
+                videoId,
+                title,
+                thumbnailUrl,
+                channelId,
+                channelTitle,
+                channelThumbnailUrl,
+              },
+              vi
+            ) => {
               if (videoId === "") return;
               const index = (vi + 1) * 1024;
               return await prisma.link.upsert({
@@ -95,6 +106,9 @@ export default async function handle(
                   title,
                   videoId,
                   thumbnailUrl,
+                  channelId,
+                  channelTitle,
+                  channelThumbnailUrl,
                   index,
                   user: {
                     connect: { id: userId },

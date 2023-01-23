@@ -27,7 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        {/* <Toaster
+        <Toaster
           position="bottom-right"
           toastOptions={{
             style: {
@@ -42,7 +42,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
               duration: 3000,
             },
           }}
-        /> */}
+        />
         {getLayout(<Component {...pageProps} />)}
       </QueryClientProvider>
     </SessionProvider>

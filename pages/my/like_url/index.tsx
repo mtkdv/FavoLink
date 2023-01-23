@@ -1,18 +1,27 @@
 import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/Layout";
-import { ReactElement, useEffect, useState } from "react";
+import { Layout } from "#/components/shared/Layout";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
-import { CategoryFieldArray } from "#/components/CategoryFieldArray";
+import { CategoryFieldArray } from "#/components/pages/my/like_url/CategoryFieldArray";
 import { useGetLinks } from "#/lib/useGetLinks";
 import { useMutateVideo } from "#/lib/useMutateVideo";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
-import { Button } from "#/components/Button";
+import { Button } from "#/components/uiParts/Button";
+
+const DemoUrls = [
+  "https://www.youtube.com/watch?v=Xft8GRzXupY",
+  "https://www.youtube.com/watch?v=bsE1VJn1HeU",
+  "https://www.youtube.com/watch?v=6ZwnBI4Rb1w",
+  "https://www.youtube.com/watch?v=3m1FcGW6V4g",
+  "https://www.youtube.com/watch?v=cEksV9VDkUI",
+  "https://www.youtube.com/watch?v=NiknNI_0J48",
+];
 
 const schema = z.object({
   youtube: z
@@ -27,6 +36,9 @@ const schema = z.object({
               videoId: z.string(),
               title: z.string(),
               thumbnailUrl: z.string(),
+              channelId: z.string(),
+              channelTitle: z.string(),
+              channelThumbnailUrl: z.string(),
             })
           )
           .superRefine((values, ctx) => {
@@ -55,7 +67,7 @@ const schema = z.object({
 
 export type Schema = z.infer<typeof schema>;
 
-const CateArray: NextPageWithLayout = () => {
+const LikeUrl: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const { data: videos } = useGetLinks(session);
   const { data: categories } = useGetCategories(session);
@@ -69,12 +81,25 @@ const CateArray: NextPageWithLayout = () => {
       const videosOnCategory = videos.filter((video) => {
         return category.id === video.categoryId;
       });
-      const videoData = videosOnCategory.map((video) => ({
-        id: video.id,
-        videoId: video.videoId,
-        title: video.title,
-        thumbnailUrl: video.thumbnailUrl,
-      }));
+      const videoData = videosOnCategory.map(
+        ({
+          id,
+          videoId,
+          title,
+          thumbnailUrl,
+          channelId,
+          channelTitle,
+          channelThumbnailUrl,
+        }) => ({
+          id,
+          videoId,
+          title,
+          thumbnailUrl,
+          channelId,
+          channelTitle,
+          channelThumbnailUrl,
+        })
+      );
 
       return {
         categoryId: category.id,
@@ -112,7 +137,7 @@ const CateArray: NextPageWithLayout = () => {
   }, [errors.youtube]);
 
   return (
-    <div className="p-4">
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CategoryFieldArray
           {...{ control, register, setValue, getValues, errors }}
@@ -131,12 +156,29 @@ const CateArray: NextPageWithLayout = () => {
           SubmittedText="変更が反映されました"
         />
       </form>
-    </div>
+      {/* Demo url */}
+      <ul>
+        {DemoUrls.map((url, index) => (
+          <li key={index} className="flex w-[400px]">
+            <button
+              type="button"
+              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                navigator.clipboard.writeText(
+                  e.currentTarget.firstElementChild?.innerHTML!
+                );
+              }}
+            >
+              <p className="flex-1">{url}</p>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
-CateArray.getLayout = function getLayout(page: ReactElement) {
+LikeUrl.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default CateArray;
+export default LikeUrl;

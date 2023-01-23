@@ -1,4 +1,4 @@
-import { Schema } from "#/components/CategoryForm";
+import { Schema } from "#/components/pages/my/link/CategoryForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 

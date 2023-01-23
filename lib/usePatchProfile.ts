@@ -14,7 +14,13 @@ export const usePatchProfile = () => {
   const profileMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Data }) => {
       try {
-        const res = await axios.patch<Profile>(`/api/profiles/${id}`, data);
+        // const res = await axios.patch<Profile>(`/api/profiles/${id}`, data);
+        const res = await axios.patch<Profile>(`/api/profiles`, data, {
+          params: {
+            type: "patchProfile",
+            id,
+          },
+        });
         return res.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
