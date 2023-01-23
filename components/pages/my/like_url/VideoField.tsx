@@ -1,4 +1,8 @@
-import { getYouTubeVideoIdFromUrl, listVideos } from "#/lib/youtube";
+import {
+  getYouTubeVideoIdFromUrl,
+  listChannels,
+  listVideos,
+} from "#/lib/youtube";
 import { Schema } from "#/pages/my/like_url";
 import Image from "next/image";
 import { FC, useState } from "react";
@@ -77,12 +81,19 @@ export const VideoField: FC<Props> = ({
     const videoId = parsedData.url;
 
     /** YouTube Data API */
-    const videoData = await listVideos(videoId);
-    if (videoData.type === "error") {
-      toast.error(videoData.message);
+    const listVideosResponse = await listVideos(videoId);
+    if (listVideosResponse.type === "error") {
+      toast.error(listVideosResponse.message);
       return;
     }
-    const { title, thumbnailUrl } = videoData;
+    const { channelId, title, thumbnailUrl, channelTitle } = listVideosResponse;
+
+    const listChannelsResponse = await listChannels(channelId);
+    if (listChannelsResponse.type === "error") {
+      toast.error(listChannelsResponse.message);
+      return;
+    }
+    const { channelThumbnailUrl } = listChannelsResponse;
 
     // const updateData = {
     //   videoId,
@@ -93,6 +104,12 @@ export const VideoField: FC<Props> = ({
     setValue(`youtube.${nestIndex}.video.${index}.videoId`, videoId);
     setValue(`youtube.${nestIndex}.video.${index}.title`, title);
     setValue(`youtube.${nestIndex}.video.${index}.thumbnailUrl`, thumbnailUrl);
+    setValue(`youtube.${nestIndex}.video.${index}.channelId`, channelId);
+    setValue(`youtube.${nestIndex}.video.${index}.channelTitle`, channelTitle);
+    setValue(
+      `youtube.${nestIndex}.video.${index}.channelThumbnailUrl`,
+      channelThumbnailUrl
+    );
 
     setHasValues(true);
   };

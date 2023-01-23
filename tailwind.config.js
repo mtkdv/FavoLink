@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -7,10 +9,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "gray-1000": "rgb(17,17,19)",
-        "gray-1100": "rgb(10,10,11)",
-        "base-black": "#262627",
-        "base-white": "#FAF7F5",
+        "base-black": "#040404",
+        "base-white": "#FFFEFC",
       },
       fontFamily: {
         custom: [
@@ -22,6 +22,16 @@ module.exports = {
           "sans-serif",
         ],
       },
+      keyframes: {
+        animate: {
+          "0%, 100%": { transform: "translateY(-20px)" },
+          "50%": { transform: "translateY(20px)" },
+        },
+      },
+    },
+    screens: {
+      xs: "560px",
+      ...defaultTheme.screens,
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],

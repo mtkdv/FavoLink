@@ -86,15 +86,18 @@ model Category {
 }
 
 model Link {
-  id           String    @id @default(cuid())
-  title        String
-  videoId      String
-  thumbnailUrl String
-  index        Int
-  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String?
-  category     Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId   String?
+  id                  String    @id @default(cuid())
+  title               String
+  videoId             String
+  thumbnailUrl        String
+  channelId           String
+  channelTitle        String
+  channelThumbnailUrl String
+  index               Int
+  user                User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String?
+  category            Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId          String?
 
   @@index([userId])
   @@index([categoryId])

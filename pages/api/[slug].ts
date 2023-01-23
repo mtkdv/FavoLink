@@ -1,7 +1,20 @@
 import prisma from "#/lib/prisma";
+import { Category, Link, Profile } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handle(
+export type PublicPageRes =
+  | {
+      type: "success";
+      profile: Profile;
+      categories: Category[];
+      links: Link[];
+    }
+  | {
+      type: "error";
+      message: string;
+    };
+
+export default async function PublicPage(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -13,6 +26,10 @@ export default async function handle(
         slug: String(slug),
       },
     });
+
+    if (profile.published === false) {
+      throw new Error("error");
+    }
 
     const findCategories = () =>
       prisma.category.findMany({
@@ -38,6 +55,17 @@ export default async function handle(
       findLinks(),
     ]);
 
-    res.json({ profile, categories, links });
-  } catch (error) {}
+    res.json({ type: "success", profile, categories, links });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      res.json({ type: "error", message: error.message });
+      return;
+    } else {
+      console.error(error);
+      // TODO: as string
+      res.json({ type: "error", message: error as string });
+      return;
+    }
+  }
 }
