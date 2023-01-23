@@ -4,9 +4,9 @@ import { ReactElement } from "react";
 
 const Dashboard: NextPageWithLayout = () => {
   return (
-    <div>
-      <p>Dashboard</p>
-    </div>
+    <>
+      <p className="border">Dashboard</p>
+    </>
   );
 };
 

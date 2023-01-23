@@ -137,7 +137,7 @@ const LikeUrl: NextPageWithLayout = () => {
   }, [errors.youtube]);
 
   return (
-    <div className="p-4">
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CategoryFieldArray
           {...{ control, register, setValue, getValues, errors }}
@@ -173,7 +173,7 @@ const LikeUrl: NextPageWithLayout = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 

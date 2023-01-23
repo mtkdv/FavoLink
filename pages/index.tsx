@@ -16,8 +16,8 @@ export default function Home() {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-10 h-20 bg-white border-b border-b-black/10">
-        <div className="max-w-3xl mx-auto px-8 h-full flex items-center">
+      <header className="fixed top-0 inset-x-0 z-10 h-20 bg-base-white">
+        <div className="max-w-3xl mx-auto px-8 h-full flex items-center border-b border-b-black/10">
           <div>
             <Link
               href={`/`}
@@ -34,7 +34,8 @@ export default function Home() {
 
           {/* FIXME: useGetProfileのレスポンスを判別可能なユニオンにする。 */}
           {session && profile && !profile.hasOwnProperty("message") ? (
-            <div className="ml-4">
+            <div className="ml-4 flex items-center space-x-6">
+              <div className="w-px h-6 bg-base-black/10"></div>
               <Image
                 src={profile.image ?? avatar2}
                 alt="avatar"

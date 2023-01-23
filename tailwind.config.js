@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        "base-black": "#040404",
+        "base-white": "#FFFEFC",
+      },
       fontFamily: {
         custom: [
           "Helvetica Neue",
