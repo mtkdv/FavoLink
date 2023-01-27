@@ -76,7 +76,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
                             className="hover:scale-105 transition-transform"
                           />
                         </div>
-                        <h3 className="line-clamp-2 drop-shadow-md">
+                        <h3 className="h-12 line-clamp-2 drop-shadow-md">
                           {link.title}
                         </h3>
                       </button>

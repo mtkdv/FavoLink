@@ -26,6 +26,7 @@ export default function Home() {
               <h1 className="text-3xl font-bold">FavoLink</h1>
             </Link>
           </div>
+          {/* FIXME: */}
           <span className="flex-1"></span>
 
           <Navbar {...{ isMenuOpen, setIsModalOpen }} />

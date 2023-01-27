@@ -27,22 +27,25 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <Toaster
-          position="bottom-right"
+        {/* <Toaster
+          // position="bottom-right"
+          position="top-right"
           toastOptions={{
             style: {
-              color: "#fff",
               backgroundColor: "#333",
+              color: "#fff",
             },
+            // className:
+            //   "bg-accent text-white ring-2 ring-offset-[3px] ring-accent",
             success: {
               iconTheme: {
                 primary: "teal",
                 secondary: "#fff",
               },
-              duration: 3000,
+              duration: 5000,
             },
           }}
-        />
+        /> */}
         {getLayout(<Component {...pageProps} />)}
       </QueryClientProvider>
     </SessionProvider>
