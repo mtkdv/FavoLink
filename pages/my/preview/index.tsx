@@ -59,7 +59,7 @@ const Preview = () => {
                     alt="avatar"
                     width={80}
                     height={80}
-                    className="rounded-full"
+                    className="rounded-full w-20 h-20"
                   ></Image>
                 </div>
                 <p className="text-center font-extrabold">{profile.name}</p>
