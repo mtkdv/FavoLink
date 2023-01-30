@@ -1,4 +1,5 @@
 import { Schema } from "#/pages/my/profile";
+import clsx from "clsx";
 import { Control, useWatch } from "react-hook-form";
 
 type InputCounterProps = {
@@ -16,7 +17,15 @@ export const InputCounter = ({
   // console.log(`InputCounter: ${name}`);
   return (
     <p>
-      {value?.length || 0}/{maxLength}
+      <span
+        className={clsx(
+          "group-[:has(.error-message)]:text-red-600",
+          typeof value === "string" && value.length > 20 && "text-red-600"
+        )}
+      >
+        {value?.length || 0}
+      </span>{" "}
+      / {maxLength}
     </p>
   );
 };

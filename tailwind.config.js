@@ -12,7 +12,9 @@ module.exports = {
       colors: {
         "base-black": "#1D1D1D",
         "base-white": "#FFFEFC",
+        // 20 2 98
         primary: "#FBF7F5",
+        // 20 5 93
         secondary: "#EEE6E2",
         // accent: "#c1a5a3",
         // accent: "#d78e85",
@@ -22,6 +24,7 @@ module.exports = {
         // accent: "#E6BDAD",
         // accent: "#B6A0A1",
         // accent: "#5E4145",
+        // 17 39 91
         accent: "#e8a78e",
         // typo: "#e8a78e",
       },

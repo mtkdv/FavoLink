@@ -123,7 +123,7 @@ export const AddFavolinkForm: React.FC = () => {
           <p className="text-red-500">{errors.category.message}</p>
         )}
         <p className="text-red-500">{errorMessage}</p>
-        <button className={clsx("border border-white px-2")}>リンク追加</button>
+        <button className="border border-white px-2">リンク追加</button>
       </div>
     </form>
   );

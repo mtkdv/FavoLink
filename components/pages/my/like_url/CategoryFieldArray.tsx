@@ -104,46 +104,29 @@ export const CategoryFieldArray: FC<Props> = ({
             <div className="absolute top-0 right-0 flex space-x-[3px]">
               {/* Move Collection Button */}
               <div className="flex space-x-[3px]">
+                {/* Move Down Collection Button */}
                 <button
                   type="button"
                   onClick={() => moveBelow(fields, index)}
                   disabled={index === fields.length - 1}
-                  className={clsx(
-                    "ring-[3px] ring-white group/down outline-none",
-                    index === fields.length - 1
-                      ? "cursor-not-allowed bg-secondary"
-                      : "bg-accent"
-                  )}
+                  className="ring-[3px] ring-white bg-accent group/down outline-none disabled:cursor-not-allowed disabled:bg-secondary"
                 >
                   <VscTriangleDown
                     size={24}
-                    className={clsx(
-                      "text-white transition-transform pointer-events-none -translate-y-px",
-                      index === fields.length - 1
-                        ? ""
-                        : "group-[:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
-                    )}
+                    className="text-white transition-transform pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
                   />
                 </button>
+
+                {/* Move Up Collection Button */}
                 <button
                   type="button"
                   onClick={() => moveAbove(index)}
                   disabled={index === 0}
-                  className={clsx(
-                    "ring-[3px] ring-white group/up outline-none",
-                    index === 0
-                      ? "cursor-not-allowed bg-secondary"
-                      : "bg-accent"
-                  )}
+                  className="ring-[3px] ring-white bg-accent group/up outline-none disabled:cursor-not-allowed disabled:bg-secondary"
                 >
                   <VscTriangleUp
                     size={24}
-                    className={clsx(
-                      "text-white transition-transform pointer-events-none translate-y-px",
-                      index === 0
-                        ? ""
-                        : "group-[:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
-                    )}
+                    className="text-white transition-transform pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
                   />
                 </button>
               </div>
@@ -167,9 +150,7 @@ export const CategoryFieldArray: FC<Props> = ({
                   form="save-video"
                   placeholder="&nbsp;"
                   {...register(`youtube.${index}.categoryName` as const)}
-                  className={clsx(
-                    "peer absolute top-0 left-0 w-full h-full bg-transparent z-10 px-3 focus-visible:outline-none"
-                  )}
+                  className="peer absolute top-0 left-0 w-full h-full bg-transparent z-10 px-3 focus-visible:outline-none"
                 />
 
                 {/* Collection Label */}

@@ -4,7 +4,6 @@ import {
   listVideos,
 } from "#/lib/youtube";
 import { Schema } from "#/pages/my/like_url";
-import clsx from "clsx";
 import Image from "next/image";
 import { FC, useMemo, useState } from "react";
 import {
@@ -91,6 +90,7 @@ export const VideoField: FC<Props> = ({
 
   const onUpdate: SubmitHandler<SchemaVF> = async (data) => {
     // console.log("update data:", data);
+    // FIXME: formのネストを解消し、onSubmitを利用できるようになったため、parseを用いずにzod schemaにvalidationを記述する。
     let parsedData: SchemaVF | undefined;
     try {
       parsedData = schemaVF.parse(data);
@@ -147,7 +147,7 @@ export const VideoField: FC<Props> = ({
     }
   };
 
-  const moveBelow = (videoLength: number, fromIndex: number) => {
+  const moveBelow = (fromIndex: number) => {
     if (isMoveDownEnabled) {
       move(fromIndex, fromIndex + 1);
     }
@@ -170,7 +170,7 @@ export const VideoField: FC<Props> = ({
         {/* LM URL Update Form */}
         <form
           onSubmit={handleSubmit(onUpdate)}
-          className="relative h-10 p-0.5 [&:is(:has(:focus-visible),:has(:hover))_input]:ring-accent"
+          className="relative h-10 p-0.5 [&:has(:is(:focus-visible,:hover))_input]:ring-accent"
         >
           {/* URL Update Input */}
           <input
@@ -178,9 +178,7 @@ export const VideoField: FC<Props> = ({
             id="urlInput"
             placeholder="https://www.youtube.com/watch?v=***********"
             {...register("url")}
-            className={clsx(
-              "peer w-full h-full bg-transparent pl-2 pr-10 outline-none placeholder:text-stone-400 transition-shadow duration-300 ring-2 ring-secondary"
-            )}
+            className="peer w-full h-full bg-transparent pl-2 pr-10 outline-none placeholder:text-stone-400 transition-shadow duration-300 ring-2 ring-secondary"
           />
 
           {/* Url Update Button */}
@@ -217,9 +215,7 @@ export const VideoField: FC<Props> = ({
         <button
           type="button"
           onClick={() => removeVideo(index)}
-          className={clsx(
-            "grid place-items-center bg-accent outline-none [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
-          )}
+          className="grid place-items-center bg-accent outline-none [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
         >
           <IoMdClose size={24} className="text-white" />
         </button>
@@ -230,38 +226,22 @@ export const VideoField: FC<Props> = ({
             type="button"
             onClick={() => moveAbove(index)}
             disabled={!isMoveUpEnabled}
-            className={clsx(
-              "group/up grid place-items-center outline-none",
-              isMoveUpEnabled ? "bg-accent" : "cursor-not-allowed bg-secondary"
-            )}
+            className="group/up grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
           >
             <VscTriangleUp
               size={24}
-              className={clsx(
-                "text-white transition-transform h-[30px] pointer-events-none translate-y-px",
-                isMoveUpEnabled &&
-                  "group-[:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
-              )}
+              className="text-white transition-transform h-[30px] pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
             />
           </button>
           <button
             type="button"
-            onClick={() => moveBelow(videoLength, index)}
+            onClick={() => moveBelow(index)}
             disabled={!isMoveDownEnabled}
-            className={clsx(
-              "grid place-items-center group/down outline-none",
-              isMoveDownEnabled
-                ? "bg-accent"
-                : "cursor-not-allowed bg-secondary"
-            )}
+            className="group/down grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
           >
             <VscTriangleDown
               size={24}
-              className={clsx(
-                "text-white transition-transform h-[30px] pointer-events-none -translate-y-px",
-                isMoveDownEnabled &&
-                  "group-[:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
-              )}
+              className="text-white transition-transform h-[30px] pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
             />
           </button>
         </div>
@@ -271,7 +251,7 @@ export const VideoField: FC<Props> = ({
     <div className="flex space-x-2">
       {/* Left */}
       {/* <div className="m-1 rounded-md overflow-hidden ring-1 ring-offset-2 ring-secondary"> */}
-      <div className="overflow-hidden shadow-[0_0_2px_1px_rgba(0,0,0,0.1)]">
+      <div className="overflow-hidden shadow-[0_0_2px_1px_rgba(0,0,0,0.1)] shrink-0">
         <Image
           src={getValues(`youtube.${nestIndex}.video.${index}.thumbnailUrl`)}
           alt="thumbnail"
@@ -321,15 +301,7 @@ export const VideoField: FC<Props> = ({
         <button
           type="button"
           onClick={() => removeVideo(index)}
-          className={clsx(
-            // "grid place-items-center bg-accent outline-none ring-[3px] ring-white [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
-            "grid place-items-center bg-accent outline-none [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
-            // "outline-none focus-visible:ring-1 focus-visible:ring-accent focus-visible:ring-offset-1",
-            // "focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-2 focus-visible:outline-accent",
-            // inset
-            // "shadow-[inset_0_0_0_2px_#EEE6E2,inset_0_0_0_4px_white]",
-            // "outline-none focus-visible:shadow-[inset_0_0_0_2px_#e8a78e,inset_0_0_0_4px_white]"
-          )}
+          className="grid place-items-center bg-accent outline-none [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
         >
           <IoMdClose size={24} className="text-white" />
         </button>
@@ -340,40 +312,22 @@ export const VideoField: FC<Props> = ({
             type="button"
             onClick={() => moveAbove(index)}
             disabled={!isMoveUpEnabled}
-            className={clsx(
-              // "grid place-items-center ring-[3px] ring-white group/up outline-none",
-              "group/up grid place-items-center outline-none",
-              isMoveUpEnabled ? "bg-accent" : "cursor-not-allowed bg-secondary"
-            )}
+            className="group/up grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
           >
             <VscTriangleUp
               size={24}
-              className={clsx(
-                "text-white transition-transform h-[30px] pointer-events-none translate-y-px",
-                isMoveUpEnabled &&
-                  "group-[:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
-              )}
+              className="text-white transition-transform h-[30px] pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
             />
           </button>
           <button
             type="button"
-            onClick={() => moveBelow(videoLength, index)}
+            onClick={() => moveBelow(index)}
             disabled={!isMoveDownEnabled}
-            className={clsx(
-              // "grid place-items-center ring-[3px] ring-white group/down outline-none",
-              "grid place-items-center group/down outline-none",
-              isMoveDownEnabled
-                ? "bg-accent"
-                : "cursor-not-allowed bg-secondary"
-            )}
+            className="group/down grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
           >
             <VscTriangleDown
               size={24}
-              className={clsx(
-                "text-white transition-transform h-[30px] pointer-events-none -translate-y-px",
-                isMoveDownEnabled &&
-                  "group-[:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
-              )}
+              className="text-white transition-transform h-[30px] pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
             />
           </button>
         </div>

@@ -2,16 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* スクロールバー非表示 */
-.scrollbar-hidden {
-  /* IE・Edge*/
-  -ms-overflow-style: none;
-  /* Firefox*/
-  scrollbar-width: none;
-}
-/* Chrome・Safari */
-.scrollbar-hidden::-webkit-scrollbar {
-  display: none;
+@layer utilities {
+  /* スクロールバー非表示 */
+  .scrollbar-hidden {
+    /* IE・Edge*/
+    -ms-overflow-style: none;
+    /* Firefox*/
+    scrollbar-width: none;
+  }
+
+  /* Chrome・Safari */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .clip-path-circle {
+    clip-path: circle(50%);
+  }
 }
 
 /* スクロールバーカスタマイズ */
@@ -36,6 +43,6 @@
 }
 
 /* 選択範囲 */
-::selection {
-  @apply bg-accent;
-}
+/* ::selection {
+  @apply bg-accent text-white;
+} */

@@ -20,21 +20,17 @@ const MENU_LIST = [
 ];
 
 type Props = {
-  isMenuOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export const Navbar: FC<Props> = ({ isMenuOpen, setIsModalOpen }) => {
+export const NavbarWithoutIsMenuOpen: FC<Props> = ({ setIsModalOpen }) => {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
 
   return (
     <nav
-      className={clsx(
-        "max-md:absolute max-md:bg-white top-20 right-0 left-full opacity-0 max-md:h-[calc(100vh_-_80px)] transition-all duration-300",
-        "md:opacity-100",
-        isMenuOpen && "left-0 opacity-100"
-      )}
+      // FIXME: max-mdにブラウザ幅を縮めたとき、opacity-0にtransitionが掛からない。
+      className="max-md:absolute max-md:bg-white top-20 right-0 left-full opacity-0 max-md:h-[calc(100vh_-_80px)] transition-[left,opacity] duration-300 md:opacity-100 group-[:has(#hamburger:checked)]/header:left-0 group-[:has(#hamburger:checked)]/header:opacity-100"
     >
       <ul className="flex max-md:flex-col max-md:mt-12 max-md:px-8 md:space-x-4">
         {/* Menu list */}
