@@ -37,6 +37,7 @@ export const PublicOrPrivateSwitch = () => {
   };
 
   return profile ? (
+    // <div className="group/pub-pri-switch flex space-x-2">
     <div className="flex space-x-2">
       <p>
         現在の状態は<span>{checked ? "公開中" : "非公開"}</span>
@@ -54,6 +55,7 @@ export const PublicOrPrivateSwitch = () => {
           className={clsx(
             "h-6 w-11 rounded-full flex items-center cursor-pointer transition-colors",
             checked ? "bg-blue-600" : "bg-gray-200"
+            // "group-[:has(input:checked)]/pub-pri-switch:bg-blue-600 group-[:has(input:not(:checked))]/pub-pri-switch:bg-gray-200"
           )}
         >
           <div

@@ -7,16 +7,19 @@ import React, { useState } from "react";
 import { HamburgerMenu } from "#/components/uiParts/HamburgerMenu";
 import { Navbar } from "#/components/pages/home/Navbar";
 import { SignInModal } from "#/components/pages/home/SignInModal";
+import { HamburgerMenuCheckBox } from "#/components/uiParts/HamburgerMenuCheckBox";
+import { NavbarWithoutIsMenuOpen } from "#/components/pages/home/NavbarWithoutIsMenuOpen";
 
 export default function Home() {
   const { data: session } = useSession();
   const { data: profile } = useGetProfile(session);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-10 h-20 bg-base-white">
+      {/* <header className="fixed top-0 inset-x-0 z-10 h-20 bg-base-white"> */}
+      <header className="group/header fixed top-0 inset-x-0 z-10 h-20 bg-base-white">
         <div className="max-w-3xl mx-auto px-8 h-full flex items-center border-b border-b-black/10">
           <div>
             <Link
@@ -26,22 +29,25 @@ export default function Home() {
               <h1 className="text-3xl font-bold">FavoLink</h1>
             </Link>
           </div>
+          {/* FIXME: */}
           <span className="flex-1"></span>
 
-          <Navbar {...{ isMenuOpen, setIsModalOpen }} />
+          {/* <Navbar {...{ isMenuOpen, setIsModalOpen }} /> */}
+          <NavbarWithoutIsMenuOpen {...{ setIsModalOpen }} />
 
-          <HamburgerMenu {...{ isMenuOpen, setIsMenuOpen }} />
+          {/* <HamburgerMenu {...{ isMenuOpen, setIsMenuOpen }} /> */}
+          <HamburgerMenuCheckBox />
 
           {/* FIXME: useGetProfileのレスポンスを判別可能なユニオンにする。 */}
           {session && profile && !profile.hasOwnProperty("message") ? (
-            <div className="ml-4 flex items-center space-x-6">
+            <div className="ml-4 flex items-center space-x-6 shrink-0">
               <div className="w-px h-6 bg-base-black/10"></div>
               <Image
                 src={profile.image ?? avatar2}
                 alt="avatar"
                 width={40}
                 height={40}
-                className="rounded-full"
+                className="rounded-full w-10 h-10"
               />
             </div>
           ) : null}

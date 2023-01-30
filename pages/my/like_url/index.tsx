@@ -13,6 +13,8 @@ import { useMutateVideo } from "#/lib/useMutateVideo";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
 import { Button } from "#/components/uiParts/Button";
+import Link from "next/link";
+import { FaCheck, FaExclamationTriangle, FaSave } from "react-icons/fa";
 
 const DemoUrls = [
   "https://www.youtube.com/watch?v=Xft8GRzXupY",
@@ -28,7 +30,17 @@ const schema = z.object({
     .array(
       z.object({
         categoryId: z.string(),
-        categoryName: z.string(),
+        categoryName: z
+          .string()
+          .max(20, "20文字以内で入力してください。")
+          .superRefine((value, ctx) => {
+            if (value !== "" && !value.trim()) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "スペースのみの入力はできません。",
+              });
+            }
+          }),
         video: z
           .array(
             z.object({
@@ -47,7 +59,7 @@ const schema = z.object({
             if (videoIdSet.size !== videoIdArray.length) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: "Video already exists",
+                message: "コレクション内に同じ動画が重複しています。",
               });
             }
           }),
@@ -59,7 +71,7 @@ const schema = z.object({
       if (categoryNameSet.size !== categoryNameArray.length) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "Category already exists",
+          message: "コレクション名が重複しています。",
         });
       }
     }),
@@ -76,7 +88,14 @@ const LikeUrl: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (!videos || !categories) return;
+    // console.log("videos:", videos);
+    // 未追加の場合 => []
+    // console.log("categories:", categories);
+    // 未追加の場合 => []
 
+    /**
+     * @returns videosとcategoriesが[]の場合、[]が返る。
+     */
     const values = categories.map((category) => {
       const videosOnCategory = videos.filter((video) => {
         return category.id === video.categoryId;
@@ -108,6 +127,9 @@ const LikeUrl: NextPageWithLayout = () => {
       };
     });
 
+    // setTimeout(() => {
+    //   setValues({ youtube: values });
+    // }, 5000);
     setValues({ youtube: values });
   }, [videos, categories]);
 
@@ -117,7 +139,7 @@ const LikeUrl: NextPageWithLayout = () => {
     control,
     setValue,
     getValues,
-    formState: { errors, isValid, isDirty, isSubmitting },
+    formState: { errors, isDirty, isSubmitting, isSubmitSuccessful },
   } = useForm<Schema>({
     values,
     resolver: zodResolver(schema),
@@ -131,33 +153,62 @@ const LikeUrl: NextPageWithLayout = () => {
     }
   };
 
-  useEffect(() => {
-    if (!errors.youtube) return;
-    console.log("errors.youtube:\n", errors.youtube);
-  }, [errors.youtube]);
+  // useEffect(() => {
+  //   if (!errors.youtube) return;
+  //   console.log("errors.youtube:\n", errors.youtube);
+  // }, [errors.youtube]);
 
-  return (
+  return values ? (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <CategoryFieldArray
-          {...{ control, register, setValue, getValues, errors }}
-        />
-        {errors.youtube && errors.youtube.message && (
-          <div className="text-red-500 flex space-x-1.5">
-            <RxExclamationTriangle className="relative top-[5px]" />
-            <p>{errors.youtube.message}</p>
+      <div id="scroll-target" className="">
+        {/* Save Button (sticky) */}
+        <div className="sticky z-30 top-0 h-[calc(100vh_-_100px)] pointer-events-none">
+          <form id="save-video" onSubmit={handleSubmit(onSubmit)}>
+            <button
+              disabled={!isDirty || isSubmitting}
+              className={clsx(
+                "absolute right-0 bottom-0 py-2 w-28 rounded-full bg-accent text-white outline-none ring-2 ring-offset-[3px] ring-secondary shadow-[1px_2px_3px_5px_rgba(0,0,0,0.2)] transition duration-300 pointer-events-auto",
+                isDirty
+                  ? "[&:is(:hover,:focus-visible)]:ring-accent"
+                  : "cursor-not-allowed bg-secondary text-stone-400",
+                isSubmitting && "cursor-not-allowed"
+              )}
+            >
+              {isSubmitting ? (
+                <span>...</span>
+              ) : isSubmitSuccessful || !isDirty ? (
+                <span className="flex items-center justify-center space-x-2">
+                  <FaCheck />
+                  <span>Saved</span>
+                </span>
+              ) : (
+                <span className="flex items-center justify-center space-x-2">
+                  <FaSave />
+                  <span>Save</span>
+                </span>
+              )}
+            </button>
+          </form>
+        </div>
+
+        <div className="-mt-[calc(100vh_-_100px)] pb-1 [&:not(:has(div[id='addCollectionButtonWrapper']))]:pb-[68px]">
+          <CategoryFieldArray
+            {...{ control, register, setValue, getValues, errors }}
+          />
+        </div>
+
+        {/* {errors.youtube && errors.youtube.message && (
+          <div className="px-1 flex items-center space-x-1.5 text-red-600">
+            <FaExclamationTriangle />
+            <p className="text-sm line-clamp-1 break-all">
+              {errors.youtube.message}
+            </p>
           </div>
-        )}
-        {/* FIXME: useMutateVideoのinvalidateQueriesが不安定 */}
-        <Button
-          {...{ isValid, isDirty, isSubmitting }}
-          submittingText="保存中…"
-          submitText="変更を保存"
-          SubmittedText="変更が反映されました"
-        />
-      </form>
+        )} */}
+      </div>
+
       {/* Demo url */}
-      <ul>
+      {/* <ul>
         {DemoUrls.map((url, index) => (
           <li key={index} className="flex w-[400px]">
             <button
@@ -172,8 +223,10 @@ const LikeUrl: NextPageWithLayout = () => {
             </button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </>
+  ) : (
+    <span>Loading...</span>
   );
 };
 

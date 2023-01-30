@@ -2,38 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-/* スクロールバー非表示 */
-.scrollbar-hidden {
-  /* IE・Edge*/
-  -ms-overflow-style: none;
-  /* Firefox*/
-  scrollbar-width: none;
-}
-/* Chrome・Safari */
-.scrollbar-hidden::-webkit-scrollbar {
-  display: none;
+@layer utilities {
+  /* スクロールバー非表示 */
+  .scrollbar-hidden {
+    /* IE・Edge*/
+    -ms-overflow-style: none;
+    /* Firefox*/
+    scrollbar-width: none;
+  }
+
+  /* Chrome・Safari */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .clip-path-circle {
+    clip-path: circle(50%);
+  }
 }
 
 /* スクロールバーカスタマイズ */
+/* TODO: コンテンツとスクロールバーの境界線を設定できないため、一旦オフ。 */
 /* .scrollbar::-webkit-scrollbar { */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   @apply w-3;
-}
+} */
 
 /* .scrollbar::-webkit-scrollbar-track { */
 ::-webkit-scrollbar-track {
-  /* @apply bg-[color:#FBF7F5] my-1; */
   @apply bg-white;
 }
 
 /* .scrollbar::-webkit-scrollbar-thumb { */
 ::-webkit-scrollbar-thumb {
-  /* @apply bg-[color:#c1a5a3] rounded-full; */
-  background-color: #eee6e2;
-  border-radius: 6px;
-  border: 3px solid #fbf7f5;
+  @apply bg-secondary rounded-full border-[3px] border-solid border-white;
 }
 
-/* ::-webkit-scrollbar-thumb:hover {
-  @apply bg-[color:#c1a5a3];
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-accent;
+}
+
+/* 選択範囲 */
+/* ::selection {
+  @apply bg-accent text-white;
 } */

@@ -10,9 +10,21 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import { VideoFieldArray } from "./VideoFieldArray";
-import { VscChevronDown, VscChevronUp } from "react-icons/vsc";
+import {
+  VscChevronDown,
+  VscChevronUp,
+  VscTriangleDown,
+  VscTriangleUp,
+} from "react-icons/vsc";
 import { RxExclamationTriangle } from "react-icons/rx";
 import { toast } from "react-hot-toast";
+import { FaExclamationTriangle, FaWindowClose } from "react-icons/fa";
+import clsx from "clsx";
+import { BsFillCollectionPlayFill } from "react-icons/bs";
+import { RiAddLine } from "react-icons/ri";
+import { GrClose } from "react-icons/gr";
+import { IoMdClose } from "react-icons/io";
+import Link from "next/link";
 
 type Props = {
   control: Control<Schema>;
@@ -56,6 +68,21 @@ export const CategoryFieldArray: FC<Props> = ({
       return;
     }
     append({ categoryId: "", categoryName: "", video: [] });
+
+    // scrollBottom();
+  };
+
+  const scrollBottom = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const scrollElement = document.querySelector("#scroll-element");
+    const scrollTarget = document.querySelector("#scroll-target");
+    const bottom = scrollTarget?.getBoundingClientRect().bottom!;
+    scrollElement?.scrollTo({
+      left: 0,
+      top: bottom,
+      behavior: "smooth",
+    });
   };
 
   const removeCategory = (index: number) => {
@@ -64,37 +91,104 @@ export const CategoryFieldArray: FC<Props> = ({
 
   return (
     <>
-      <ul>
+      {/* <ul className="space-y-8 mb-8"> */}
+      <ul id="target-ul" className="space-y-8">
         {fields.map((field, index) => (
-          <li key={field.id} className="mb-4 p-4 border border-white">
-            <div className="flex">
-              <div className="flex flex-col">
-                <button type="button" onClick={() => moveAbove(index)}>
-                  <VscChevronUp size={`1.5rem`} />
+          /* Collection List */
+          <li
+            id={field.categoryName}
+            key={field.id}
+            className="relative group p-4 pt-9 bg-primary ring-2 ring-offset-[3px] ring-secondary hover:ring-accent transition-shadow duration-300"
+          >
+            {/* Button */}
+            <div className="absolute top-0 right-0 flex space-x-[3px]">
+              {/* Move Collection Button */}
+              <div className="flex space-x-[3px]">
+                {/* Move Down Collection Button */}
+                <button
+                  type="button"
+                  onClick={() => moveBelow(fields, index)}
+                  disabled={index === fields.length - 1}
+                  className="ring-[3px] ring-white bg-accent group/down outline-none disabled:cursor-not-allowed disabled:bg-secondary"
+                >
+                  <VscTriangleDown
+                    size={24}
+                    className="text-white transition-transform pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
+                  />
                 </button>
-                <button type="button" onClick={() => moveBelow(fields, index)}>
-                  <VscChevronDown size={`1.5rem`} />
+
+                {/* Move Up Collection Button */}
+                <button
+                  type="button"
+                  onClick={() => moveAbove(index)}
+                  disabled={index === 0}
+                  className="ring-[3px] ring-white bg-accent group/up outline-none disabled:cursor-not-allowed disabled:bg-secondary"
+                >
+                  <VscTriangleUp
+                    size={24}
+                    className="text-white transition-transform pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
+                  />
                 </button>
               </div>
-              <input
-                type="hidden"
-                {...register(`youtube.${index}.categoryId` as const)}
-              />
-              <input
-                placeholder="Category"
-                {...register(`youtube.${index}.categoryName` as const)}
-                className="py-1 px-2 w-96 border border-white outline-none bg-transparent"
-              />
-              {errors.youtube && errors.youtube[index]?.categoryName && (
-                <div className="text-red-500 flex space-x-1.5">
-                  <RxExclamationTriangle className="relative top-[5px]" />
-                  <p>{errors.youtube[index]?.categoryName?.message}</p>
-                </div>
-              )}
-              <button type="button" onClick={() => removeCategory(index)}>
-                remove
+
+              {/* Remove Collection Button */}
+              <button
+                type="button"
+                onClick={() => removeCategory(index)}
+                className="bg-accent outline-none ring-[3px] ring-white [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
+              >
+                <IoMdClose size={24} className="text-white" />
               </button>
             </div>
+
+            {/* Collection Inputs & Errors */}
+            <div className="space-y-2 mb-5">
+              {/* Collection Inputs */}
+              <div className="relative h-10">
+                {/* Collection Input */}
+                <input
+                  form="save-video"
+                  placeholder="&nbsp;"
+                  {...register(`youtube.${index}.categoryName` as const)}
+                  className="peer absolute top-0 left-0 w-full h-full bg-transparent z-10 px-3 focus-visible:outline-none"
+                />
+
+                {/* Collection Label */}
+                <div
+                  // id="placeholder"
+                  className={clsx(
+                    "absolute top-3 left-3 text-sm text-base-black/60 transition-all duration-300 pointer-events-none",
+                    "flex items-center space-x-1.5",
+                    "peer-[:is(:focus-visible,:not(:placeholder-shown))]:-top-[25px] peer-[:is(:focus-visible,:not(:placeholder-shown))]:left-0 peer-[:is(:focus-visible,:not(:placeholder-shown))]:text-base-black"
+                  )}
+                >
+                  <BsFillCollectionPlayFill />
+                  <span>Collection</span>
+                </div>
+
+                {/* Float Background */}
+                <div
+                  // id="line"
+                  className={clsx(
+                    "absolute inset-x-0 bottom-0 h-0.5 bg-secondary pointer-events-none transition-[height,box-shadow] duration-300",
+                    "peer-[:is(:focus-visible,:not(:placeholder-shown))]:h-full",
+                    "peer-[:is(:focus-visible,:not(:placeholder-shown),:hover:not(:placeholder-shown))]:ring-2 peer-[:is(:focus-visible,:not(:placeholder-shown),:hover:not(:placeholder-shown))]:ring-offset-[3px] peer-[:is(:focus-visible,:hover:not(:placeholder-shown),:focus-visible:not(:placeholder-shown))]:ring-accent",
+                    "peer-[:not(:placeholder-shown)]:ring-secondary"
+                  )}
+                ></div>
+              </div>
+
+              {/* Collection Errors */}
+              {errors.youtube && errors.youtube[index]?.categoryName && (
+                <div className="px-1 flex items-center space-x-1.5 text-red-600">
+                  <FaExclamationTriangle />
+                  <p className="text-sm line-clamp-1 break-all">
+                    {errors.youtube[index]?.categoryName?.message}
+                  </p>
+                </div>
+              )}
+            </div>
+
             {/* FIXME: setValueとgetValuesの梯子 */}
             <VideoFieldArray
               {...{ control, index, setValue, getValues, errors }}
@@ -102,9 +196,39 @@ export const CategoryFieldArray: FC<Props> = ({
           </li>
         ))}
       </ul>
-      <button type="button" onClick={() => appendCategory(fields)}>
-        Add a Category
-      </button>
+
+      {/* Error Message（コレクション名の重複など） */}
+      {errors.youtube && errors.youtube.message && (
+        <div className="mt-4 px-1 flex items-center space-x-1.5 text-red-600">
+          <FaExclamationTriangle />
+          <p className="text-sm line-clamp-1 break-all">
+            {errors.youtube.message}
+          </p>
+        </div>
+      )}
+
+      {/* Add Collection Button */}
+      {fields.length < 5 && (
+        <div
+          id="addCollectionButtonWrapper"
+          className="mt-8 flex justify-center"
+        >
+          <button
+            type="button"
+            onClick={() => appendCategory(fields)}
+            className="group/addCollectionButton flex items-center space-x-1 py-1 pl-1 pr-2 bg-accent text-white outline-none ring-2 ring-offset-[3px] ring-secondary transition-shadow duration-300 [&:is(:hover,:focus-visible)]:ring-accent"
+          >
+            <span className="relative">
+              <RiAddLine
+                size={24}
+                className="absolute group-[:is(:hover,:focus-visible)]/addCollectionButton:animate-myPing"
+              />
+              <RiAddLine size={24} className="" />
+            </span>
+            <span className="text-sm">Add Collection</span>
+          </button>
+        </div>
+      )}
     </>
   );
 };
