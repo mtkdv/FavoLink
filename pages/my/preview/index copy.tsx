@@ -49,6 +49,7 @@ const Preview = () => {
           <div className="absolute bottom-[3%] left-10 bg-gradient-to-br from-white/40 to-white/0 rounded-full w-[400px] h-[400px] animate-[animate_6s_infinite]"></div>
 
           {/* Glass */}
+          {/* ? なぜ横幅いっぱい？ */}
           <div className="relative z-10 max-w-3xl mx-auto bg-gradient-to-br from-white/50 to-white/20 rounded-2xl p-6 shadow-[0_15px_35px_rgba(0,0,0,0.05)] mt-12">
             {session && profile ? (
               <div className="absolute z-20 top-0 -translate-y-10 left-1/2 -translate-x-1/2 space-y-4">
@@ -65,7 +66,6 @@ const Preview = () => {
                 {/* <p className="whitespace-pre-wrap">{profile.description}</p> */}
               </div>
             ) : null}
-
             <div className="mt-20">
               <CategorizedLink categories={categories} links={links} />
             </div>

@@ -44,7 +44,7 @@ export const CategorizedLink: FC<Props> = ({ categories, links }) => {
 
   return (
     <section>
-      <ul className="space-y-4">
+      <ul className="space-y-8">
         {/* TODO: */}
         {categorizedLinks ? (
           categorizedLinks.length > 0 ? (

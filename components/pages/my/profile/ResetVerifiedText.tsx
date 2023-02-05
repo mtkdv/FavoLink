@@ -1,4 +1,4 @@
-import { Schema } from "#/pages/my/profile";
+import { Schema } from "#/pages/my/profile/index default";
 import { SetStateAction, useEffect } from "react";
 import { Control, useWatch } from "react-hook-form";
 
