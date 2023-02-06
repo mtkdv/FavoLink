@@ -1,22 +1,20 @@
-import clsx from "clsx";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import avatar2 from "#/public/avatar2.png";
-import React, { useState } from "react";
-import { MdSpaceDashboard } from "react-icons/md";
-import { IoHome, IoLogOut, IoLogoYoutube } from "react-icons/io5";
+import React from "react";
+import { IoLogOut, IoLogoYoutube } from "react-icons/io5";
 import {
   RiDashboardFill,
   RiHomeSmileFill,
   RiMagicFill,
   RiUser5Fill,
-  RiYoutubeFill,
 } from "react-icons/ri";
 import { FaEye, FaShareSquare } from "react-icons/fa";
 import { LinkWithIcon } from "../uiParts/LinkWithIcon";
 import { useGetProfile } from "#/lib/useGetProfile";
 import Error from "next/error";
 import { SiReact } from "react-icons/si";
+import { Divider } from "../uiParts/Divider";
+import silhouetteAvatar from "#/public/silhouette-avatar.png";
 
 const MENU_LIST = [
   {
@@ -54,7 +52,6 @@ const MENU_LIST = [
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: session } = useSession();
   const { data: profile, isLoading, isError, error } = useGetProfile(session);
-  const [isShow, setIsShow] = useState(false);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -84,19 +81,23 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
 
           {/* Menu */}
-          <nav className="mb-4">
-            <ul className="space-y-2 md:space-y-4">
+          <nav className="grow">
+            <ul className="h-full flex flex-col space-y-2 md:space-y-4">
               {MENU_LIST.map((menu) => (
-                <li key={menu.title} className="">
+                <li key={menu.title}>
                   {menu.title === "Preview" ? (
-                    <div className="w-8 md:w-3/4 mx-auto h-px bg-secondary my-4"></div>
+                    // <div className="w-8 md:w-3/4 mx-auto h-px bg-secondary mb-4"></div>
+                    <div className="mb-4">
+                      <Divider width="w-8 md:w-3/4" />
+                    </div>
                   ) : null}
                   <LinkWithIcon {...menu} />
                 </li>
               ))}
+
               {/* Public Page */}
-              <li>
-                {profile?.slug && profile.published ? (
+              {profile?.slug && profile.published ? (
+                <li>
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
@@ -107,17 +108,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                     <p className="text-xs md:hidden">Public</p>
                     <p className="text-sm max-md:hidden">Public Page</p>
                   </a>
-                ) : null}
-              </li>
-            </ul>
-          </nav>
+                </li>
+              ) : null}
 
-          {/* User */}
-          <div className="mt-auto mb-4 w-8 mx-auto md:w-3/4 min-h-[1px] bg-secondary"></div>
-          <nav className="mb-14">
-            <ul className="space-y-2 md:space-y-4">
               {/* Logout Button */}
-              <li>
+              <li className="!mt-auto space-y-4">
+                <div className="mt-4">
+                  <Divider width="w-8 md:w-3/4" />
+                </div>
                 <button
                   type="button"
                   onClick={() => signOut({ callbackUrl: "/" })}
@@ -127,46 +125,39 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                   <p className="text-sm max-md:text-xs">Logout</p>
                 </button>
               </li>
-              <li>
-                <div className="h-14 flex items-center max-md:justify-center md:h-12 relative">
-                  <div className="">
-                    <Image
-                      src={profile?.image ?? avatar2}
-                      alt="avatar"
-                      width={40}
-                      height={40}
-                      className="rounded-full w-10 h-10"
-                    />
-                  </div>
-                  <p
-                    onMouseEnter={() => {
-                      setTimeout(() => {
-                        setIsShow(true);
-                      }, 500);
-                    }}
-                    onMouseLeave={() => {
-                      setTimeout(() => {
-                        setIsShow(false);
-                      }, 500);
-                    }}
-                    className="max-md:hidden text-sm line-clamp-1 flex-1 mx-2 break-all text-center"
-                  >
-                    {profile?.name}
-                  </p>
-                  {isShow ? (
-                    // TODO: Tooltip CSS
-                    <div className="absolute pointer-events-none translate-y-10 translate-x-8 p-3 bg-secondary/60 rounded-md">
-                      <p className="text-sm">{profile?.name}</p>
-                    </div>
-                  ) : null}
-                </div>
-              </li>
             </ul>
           </nav>
+
+          {/* Profile Icon */}
+          <div className="mt-4 mb-14 h-14 flex items-center md:space-x-2 max-md:justify-center md:h-12 relative">
+            <Image
+              src={profile?.image ?? silhouetteAvatar}
+              alt="profile-icon"
+              width={40}
+              height={40}
+              className="rounded-full w-10 h-10 shrink-0"
+            />
+
+            {/* Profile Name */}
+            <div className="relative group flex-1">
+              {/* Tooltip */}
+              <div className="absolute invisible opacity-0 bottom-[175%] w-[125%] left-1/2 -translate-x-1/2 p-2 bg-white rounded-md group-hover:opacity-100 group-hover:visible transition-[opacity,visibility] delay-500 ring-1 ring-secondary drop-shadow-sm drop">
+                {/* Bottom Arrow */}
+                <span className="absolute top-full left-1/2 -translate-x-1/2 border-[11px] border-t-secondary border-b-transparent border-x-transparent drop-shadow-sm"></span>
+                <span className="absolute top-full left-1/2 -translate-x-1/2 border-[10px] border-t-white border-b-transparent border-x-transparent"></span>
+
+                <p className="text-sm break-all text-center">{profile?.name}</p>
+              </div>
+
+              <p className="max-md:hidden text-sm line-clamp-1 break-all text-center">
+                {profile?.name}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Right */}
-        <div className="relative flex-1 my-4 mr-4 overflow-x-hidden">
+        <div className="relative flex-1 my-4 mr-4 overflow-x-hidden overflow-y-hidden">
           {/* スクロールバー表示時のコンテンツとの境界線 */}
           {/* <div className="absolute right-[14px] w-px h-full bg-secondary/70"></div> */}
 
