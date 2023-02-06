@@ -28,8 +28,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Toaster
-          // position="bottom-right"
-          position="top-right"
+          position="bottom-right"
+          // position="top-right"
           toastOptions={{
             style: {
               backgroundColor: "#333",

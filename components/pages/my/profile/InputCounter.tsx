@@ -1,16 +1,19 @@
-import { Schema } from "#/pages/my/profile";
+import { Schema } from "#/pages/my/profile/index";
 import clsx from "clsx";
 import { Control, useWatch } from "react-hook-form";
 
 type InputCounterProps = {
-  name: "slug" | "name" | "description";
+  /** "slug" | "name" | "description" */
+  name: keyof Schema;
   control: Control<Schema>;
-  maxLength: string;
+  minLength?: number;
+  maxLength: number;
 };
 
 export const InputCounter = ({
   name,
   control,
+  minLength,
   maxLength,
 }: InputCounterProps) => {
   const value = useWatch({ name, control });
@@ -19,13 +22,17 @@ export const InputCounter = ({
     <p>
       <span
         className={clsx(
-          "group-[:has(.error-message)]:text-red-600",
-          typeof value === "string" && value.length > 20 && "text-red-600"
+          // "group-[:has(.error-message)]:text-red-600",
+          // typeof value === "string" &&
+          value && value.length > maxLength ? "text-red-600" : "",
+          value && minLength && value.length > 0 && minLength > value.length
+            ? "text-red-600"
+            : ""
         )}
       >
         {value?.length || 0}
-      </span>{" "}
-      / {maxLength}
+      </span>
+      &nbsp;/ {maxLength}
     </p>
   );
 };

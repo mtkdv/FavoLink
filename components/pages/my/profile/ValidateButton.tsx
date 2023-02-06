@@ -1,4 +1,4 @@
-import { Schema } from "#/pages/my/profile";
+import { Schema } from "#/pages/my/profile/index";
 import clsx from "clsx";
 import { Control, useWatch } from "react-hook-form";
 

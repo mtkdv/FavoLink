@@ -44,7 +44,7 @@ const Public = () => {
         <p>{profile.name}</p>
         <p>{profile.description}</p>
       </section>
-      <CategorizedLink categories={categories} links={links} />
+      <CategorizedLink />
     </div>
   );
 };
