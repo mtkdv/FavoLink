@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import React, { useState } from "react";
 import { CategorySelect } from "./CategorySelect";
 import { useAddLink } from "#/lib/useAddLink";
-import { demoUrls } from "#/lib/demodata";
+import { demoUrls } from "#/nobuild/demodata";
 import { AiOutlineCopy } from "react-icons/ai";
 import { getYouTubeVideoIdFromUrl } from "#/lib/youtube";
 import clsx from "clsx";

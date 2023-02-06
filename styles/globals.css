@@ -19,6 +19,10 @@
   .clip-path-circle {
     clip-path: circle(50%);
   }
+
+  .drop-shadow-white-black {
+    filter: drop-shadow(1px 1px 0 white) drop-shadow(2px 2px 0 black);
+  }
 }
 
 /* スクロールバーカスタマイズ */
