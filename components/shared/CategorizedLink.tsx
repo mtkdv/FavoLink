@@ -1,6 +1,6 @@
 import { useGetCategories } from "#/lib/useGetCategories";
 import { useGetLinks } from "#/lib/useGetLinks";
-import { Link } from "@prisma/client";
+import { Category, Link } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -13,11 +13,15 @@ type VideoCategories = {
   videos: Link[];
 }[];
 
-export const CategorizedLink: FC = () => {
-  const { data: session } = useSession();
+type CategorizedLink = {
+  categories: Category[];
+  videos: Link[];
+};
 
-  const { data: videos } = useGetLinks(session);
-  const { data: categories } = useGetCategories(session);
+export const CategorizedLink: FC<CategorizedLink> = ({
+  categories,
+  videos,
+}) => {
   const [VideoCategories, setVideoCategories] = useState<VideoCategories>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,18 +61,21 @@ export const CategorizedLink: FC = () => {
                 className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-6 space-y-4"
               >
                 <h2 className="text-center text-xl font-medium drop-shadow-md tracking-wide">
+                  {/* <span className="relative">
+                    <span className="absolute w-[175%] min-w-[120px] left-1/2 -translate-x-1/2 h-px -bottom-1 bg-gradient-to-r from-transparent via-white to-transparent"></span> */}
                   {videoCategory.name}
+                  {/* </span> */}
                 </h2>
-                <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                <ul className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center">
                   {videoCategory.videos.map((video) => (
-                    <li key={video.videoId} className="">
+                    <li key={video.videoId} className="space-y-1">
                       <button
                         type="button"
                         onClick={() => {
                           queryClient.setQueryData(["videoData"], video);
                           setIsModalOpen(true);
                         }}
-                        className="space-y-1 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="space-y-1 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 max-w-xs"
                       >
                         <div className="overflow-hidden rounded-md shadow-md">
                           <Image
@@ -79,7 +86,7 @@ export const CategorizedLink: FC = () => {
                             className="hover:scale-105 transition-transform"
                           />
                         </div>
-                        <h3 className="h-12 line-clamp-2 drop-shadow-md">
+                        <h3 className="line-clamp-2 drop-shadow-md">
                           {video.title}
                         </h3>
                       </button>

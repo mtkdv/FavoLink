@@ -11,6 +11,7 @@ export default async function handle(
   const session = await unstable_getServerSession(req, res, authOptions);
 
   if (!session) {
+    // console.log("!session:");
     res.status(401).json({ code: 401, message: "You must be logged in." });
     return;
   }
@@ -22,11 +23,14 @@ export default async function handle(
   // console.log(req.query);
   // => { type: 'patchProfile', id: 'cld3xv2kq0000ie3g26vfe6cb' }
   // console.log("type:", type);
-  // console.log("userId:", userId);
+  // console.log("serverSessionId:", id);
+  // console.log("clientSessionId:", userId);
   // return;
+  // console.log("id !== userId:", id !== userId);
 
   if (id !== userId) {
-    res.status(403).json({ code: 403, message: "You are not authorized." });
+    console.log("id !== userId");
+    res.status(403).json({ code: 403, message: "You are not authorized 5." });
     return;
   }
 

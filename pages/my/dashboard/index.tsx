@@ -4,32 +4,18 @@ import { ReactElement } from "react";
 
 const Dashboard: NextPageWithLayout = () => {
   return (
-    <>
-      <p className="bg-primary rounded-lg p-3 shadow-[2px_2px_2px_#EEE6E2]">
-        Dashboard
-      </p>
-      <div className="flex flex-col space-y-3">
-        <button className="border-4 border-red-400 outline outline-4 outline-emerald-300 focus:outline-dashed focus-visible:outline-dotted">
-          outline
-        </button>
-        <button className="border-4 border-red-400 focus:outline-none focus-visible:outline focus-visible:outline-1">
-          outline
-        </button>
-      </div>
-      <div className="border-t-2 mt-3 flex flex-col space-y-3 py-3">
-        <input
-          type="text"
-          className="border-4 border-black outline outline-4 outline-red-400 focus-visible:outline-dotted focus:outline-dashed"
-          // className="border-4 border-black focus-visible:outline-dotted focus:outline-dashed"
-        />
-        <input type="text" className="focus:outline-none" />
-        <input type="text" className="outline-none" />
-      </div>
-    </>
+    <div className="w-80 h-80 bg-slate-200">
+      <div className="h-20 bg-red-300">Dashboard</div>
+      <div className="h-20 bg-blue-300 mt-10">Hoge</div>
+      {/* <div className="w-40 h-40 bg-blue-300">Customize</div> */}
+      {/* <div className="h-[100px] w-[150px]">Profile</div>
+      <div className="h-[100px] w-[200px]">Width</div> */}
+    </div>
   );
 };
 
-Dashboard.getLayout = function getLayout(page: ReactElement) {
+// Dashboard.getLayout = function getLayout(page: ReactElement) {
+Dashboard.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>;
 };
 
