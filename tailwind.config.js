@@ -38,6 +38,8 @@ module.exports = {
         "brand-light": "#fbe9e2",
         brand: "#e8a78e",
         "brand-dark": "#6d5146",
+
+        cta: "#8ee8d4",
       },
       fontFamily: {
         custom: [

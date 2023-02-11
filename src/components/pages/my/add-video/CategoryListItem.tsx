@@ -81,6 +81,7 @@ export const CategoryListItem: React.FC<Props> = ({
       id={categoryField.categoryName}
       key={categoryField.id}
       className="relative group p-4 pt-9 bg-primary ring-2 ring-offset-[3px] ring-secondary hover:ring-accent transition-shadow duration-300"
+      // className="relative group p-4 pt-9 rounded-md ring-1 ring-stone-200 hover:ring-tonys-pink transition-shadow duration-300"
     >
       {/* Button */}
       <div className="absolute top-0 right-0 flex space-x-[3px]">

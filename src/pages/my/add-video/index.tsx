@@ -139,6 +139,7 @@ const LikeUrl: NextPageWithLayout = () => {
               {categoryFields.length < 5 && (
                 <div
                   id="addCollectionButtonWrapper"
+                  // className="flex justify-center absolute right-32"
                   className="flex justify-center"
                 >
                   <button
@@ -159,37 +160,46 @@ const LikeUrl: NextPageWithLayout = () => {
               )}
 
               {/* Save Button */}
+              {/* <div className="absolute right-0 bottom-0"> */}
               <div className="">
                 <form id="video-form" onSubmit={handleSubmit(onSubmit)}>
                   <button
                     disabled={!isDirty || isSubmitting}
                     form="video-form"
                     className={clsx(
-                      // "py-2 w-28 rounded-md bg-teal-600 text-white outline-none ring-2 ring-offset-[3px] ring-secondary shadow-[1px_2px_3px_5px_rgba(0,0,0,0.2)] transition duration-300 pointer-events-auto",
-                      "relative py-2 w-28 rounded-md bg-teal-600 text-white outline-none shadow-md overflow-hidden",
+                      // "relative py-2 w-28 rounded-md bg-teal-600 text-white outline-none shadow-md overflow-hidden",
+                      "group py-1.5 w-28 rounded-md bg-white outline-none shadow overflow-hidden ring-1 ring-teal-600 transition",
                       isDirty
-                        ? "[&:is(:hover,:focus-visible)]:opacity-80"
-                        : "cursor-not-allowed [&:is(:hover,:focus-visible)]:brightness-90",
+                        ? "[&:is(:hover,:focus-visible)]:opacity-80 [&:is(:hover,:focus-visible)]:bg-teal-600"
+                        : "cursor-not-allowed [&:is(:hover,:focus-visible)]:brightness-95",
                       isSubmitting && "cursor-not-allowed"
                     )}
                   >
                     {/* <>
-                  {isSubmitting ? (
-                    <span>...</span>
-                  ) : isSubmitSuccessful || !isDirty ? (
-                    <span className="flex items-center justify-center space-x-2">
-                      <FaCheck />
-                      <span>Saved</span>
-                    </span>
-                  ) : (
-                    <span className="flex items-center justify-center space-x-2">
-                      <FaSave />
-                      <span>Save</span>
-                    </span>
-                  )}
-                </> */}
-                    <span className="absolute bottom-0 inset-x-0 h-1/2 bg-black/10"></span>
-                    <p className="text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.75)]">
+                      {isSubmitting ? (
+                        <span>...</span>
+                      ) : isSubmitSuccessful || !isDirty ? (
+                        <span className="flex items-center justify-center space-x-2">
+                          <FaCheck />
+                          <span>Saved</span>
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center space-x-2">
+                          <FaSave />
+                          <span>Save</span>
+                        </span>
+                      )}
+                    </> */}
+                    {/* <span className="absolute bottom-0 inset-x-0 h-1/2 bg-black/10"></span> */}
+                    <p
+                      className={clsx(
+                        "text-sm text-teal-600 tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] transition-colors",
+                        isDirty
+                          ? "group-[:is(:hover,:focus-visible)]:text-white"
+                          : ""
+                      )}
+                    >
+                      {/* <p className="text-sm tracking-wider font-medium"> */}
                       {isSubmitting ? "..." : "変更を保存"}
                     </p>
                   </button>
@@ -204,19 +214,28 @@ const LikeUrl: NextPageWithLayout = () => {
       </div>
       {/* </StickyHeader> */}
 
-      <CategoryList
-        {...{
-          control,
-          register,
-          setValue,
-          getValues,
-          errors,
-          categoryFields,
-          move,
-          remove,
-        }}
-      >
-        {/* <ul id="target-ul" className="space-y-8">
+      {/* <CategoryList>
+        <CategoryListItem>
+          <VideoList>
+            <VideoListItem />
+          </VideoList>
+        </CategoryListItem>
+      </CategoryList> */}
+
+      <div className="px-6 py-4">
+        <CategoryList
+          {...{
+            control,
+            register,
+            setValue,
+            getValues,
+            errors,
+            categoryFields,
+            move,
+            remove,
+          }}
+        >
+          {/* <ul id="target-ul" className="space-y-8">
           {categoryFields.map((categoryField, index) => (
             <CategoryListItem key={categoryField.id}>
               <li>
@@ -239,7 +258,9 @@ const LikeUrl: NextPageWithLayout = () => {
             </CategoryListItem>
           ))}
         </ul> */}
-      </CategoryList>
+        </CategoryList>
+      </div>
+
       {/* Error Message（コレクション名の重複など） */}
       {errors.youtube && errors.youtube.message && (
         <div className="mt-4 px-1 flex items-center space-x-1.5 text-red-600">
@@ -254,7 +275,7 @@ const LikeUrl: NextPageWithLayout = () => {
       {categoryFields.length < 5 && (
         <div
           id="addCollectionButtonWrapper"
-          className="mt-8 flex justify-center"
+          className="mt-8 flex justify-center pb-8"
         >
           <button
             type="button"
