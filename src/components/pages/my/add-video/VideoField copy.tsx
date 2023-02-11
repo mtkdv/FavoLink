@@ -3,7 +3,7 @@ import {
   listChannels,
   listVideos,
 } from "#/utils/youtube";
-import { Schema } from "#/pages/my/like_url";
+import { Schema } from "#/pages/my/add-video";
 import Image from "next/image";
 import { FC, useMemo, useState } from "react";
 import {

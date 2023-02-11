@@ -1,5 +1,5 @@
 import prisma from "#/lib/prisma";
-import { Schema } from "#/pages/my/like_url";
+import { Schema } from "#/pages/my/add-video";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";

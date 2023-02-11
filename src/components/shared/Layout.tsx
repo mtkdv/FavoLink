@@ -3,7 +3,8 @@ import { Sidebar } from "./Sidebar";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="max-h-screen overflow-y-hidden bg-primary text-[color:#1D1D1D]">
+    // <div className="max-h-screen overflow-y-hidden bg-isabelline-light text-[color:#1D1D1D]">
+    <div className="max-h-screen overflow-y-hidden bg-isabelline-light text-[color:#222222]">
       <div className="max-w-3xl mx-auto flex">
         {/* L: Sidebar */}
         <Sidebar />
@@ -16,7 +17,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <div
             id="scroll-element"
             // className="h-[calc(100vh_-_32px)] bg-white border-2 border-secondary px-4 py-8 overflow-y-scroll"
-            className="h-[calc(100vh_-_32px)] bg-white border-2 border-secondary overflow-y-scroll"
+            className="h-[calc(100vh_-_32px)] bg-white border-2 border-isabelline overflow-y-scroll"
           >
             {children}
           </div>

@@ -43,7 +43,7 @@ export const LinkWithIcon: FC<Props> = ({ title, href, icon }) => {
       href={href}
       className={clsx(
         "h-14 flex items-center rounded-md hover:bg-secondary outline-none focus-visible:ring-2 focus-visible:ring-offset-[3px] focus-visible:ring-accent max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition-shadow",
-        router.asPath === href && "bg-secondary"
+        router.asPath === href && "bg-isabelline"
       )}
     >
       {/* {icon} */}

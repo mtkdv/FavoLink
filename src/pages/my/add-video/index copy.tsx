@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RxExclamationTriangle } from "react-icons/rx";
-import { CategoryFieldArray } from "#/components/pages/my/like_url/CategoryFieldArray";
+import { CategoryFieldArray } from "#/components/pages/my/add-video/CategoryFieldArray";
 import { useGetLinks } from "#/hooks/useGetLinks";
 import { useMutateVideo } from "#/hooks/useMutateVideo";
 import clsx from "clsx";
@@ -173,7 +173,7 @@ const LikeUrl: NextPageWithLayout = () => {
       <div id="scroll-target" className="">
         {/* Save Button (sticky) */}
         <div className="sticky z-30 top-0 h-[calc(100vh_-_100px)] pointer-events-none">
-          <form id="save-video" onSubmit={handleSubmit(onSubmit)}>
+          <form id="video-form" onSubmit={handleSubmit(onSubmit)}>
             <button
               disabled={!isDirty || isSubmitting}
               className={clsx(

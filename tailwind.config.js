@@ -27,31 +27,17 @@ module.exports = {
         // accent: "#5E4145",
         // accent: "#463f3a",
         accent: "#e8a78e",
-        // 17 39 91
-        zinnwaldite: {
-          50: "#fefcfb",
-          100: "#fdf8f7",
-          200: "#f9efeb",
-          300: "#f5e5de",
-          400: "#eed1c6",
-          500: "#e6bdad",
-          600: "#cfaa9c",
-          700: "#ad8e82",
-          800: "#8a7168",
-          900: "#715d55",
+        "tonys-pink": "#e8a78e",
+        isabelline: {
+          // light: "#fbf9f8",
+          light: "#FBF7F5",
+          DEFAULT: "#eee6e2",
+          // dark: "#706c6a",
         },
-        cruise: {
-          50: "#fbfefd",
-          100: "#f7fdfb",
-          200: "#ebf9f6",
-          300: "#def5f0",
-          400: "#c6eee5",
-          500: "#ade6da",
-          600: "#9ccfc4",
-          700: "#82ada4",
-          800: "#688a83",
-          900: "#55716b",
-        },
+
+        "brand-light": "#fbe9e2",
+        brand: "#e8a78e",
+        "brand-dark": "#6d5146",
       },
       fontFamily: {
         custom: [

@@ -267,7 +267,7 @@ const Profile: NextPageWithLayout = () => {
       {/* <div className="sticky top-0 z-10 bg-white shadow-[0_-32px_0_white] space-y-2"> */}
       <div className="sticky top-0 z-10 h-16 bg-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
-          <h2 className="text-lg font-bold">プロフィール編集ページ</h2>
+          <h2 className="text-lg font-bold">プロフィール編集</h2>
           <Divider />
         </div>
       </div>
@@ -540,7 +540,7 @@ const Profile: NextPageWithLayout = () => {
                   id="slug-input"
                   placeholder="&nbsp;"
                   type="text"
-                  className="peer w-full h-full px-3 bg-transparent outline-none text-stone-800 text-sm tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-accent focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-r-md"
+                  className="peer w-full h-full px-3 bg-transparent outline-none text-stone-800 text-sm tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-r-md"
                   {...register("slug")}
                 />
 

@@ -22,7 +22,7 @@ export const MENU_LIST: {
   },
   {
     title: "Add Video",
-    href: "/my/like_url",
+    href: "/my/add-video",
     icon: "IoLogoYoutube",
   },
   {

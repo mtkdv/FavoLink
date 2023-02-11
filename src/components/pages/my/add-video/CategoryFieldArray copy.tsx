@@ -1,4 +1,4 @@
-import { Schema } from "#/pages/my/like_url";
+import { Schema } from "#/pages/my/add-video";
 import React, { FC } from "react";
 import {
   Control,
@@ -147,7 +147,7 @@ export const CategoryFieldArray: FC<Props> = ({
               <div className="relative h-10">
                 {/* Collection Input */}
                 <input
-                  form="save-video"
+                  form="video-form"
                   placeholder="&nbsp;"
                   {...register(`youtube.${index}.categoryName` as const)}
                   className="peer absolute top-0 left-0 w-full h-full bg-transparent z-10 px-3 focus-visible:outline-none"

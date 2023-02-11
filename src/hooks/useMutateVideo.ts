@@ -1,4 +1,4 @@
-import { Schema } from "#/pages/my/like_url";
+import { Schema } from "#/pages/my/add-video";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 

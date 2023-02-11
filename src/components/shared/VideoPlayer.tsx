@@ -2,22 +2,23 @@ import React, { FC } from "react";
 import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@prisma/client";
+import Error from "next/error";
 const ReactPlayer = dynamic(() => import("react-player/youtube"), {
   ssr: false,
 });
 
 export const VideoPlayer: FC = () => {
-  const { data, isLoading, isError, error } = useQuery<Link, any>(
-    ["videoData"],
-    { enabled: false }
-  );
+  const { data, isLoading, isError, error } = useQuery<
+    Link,
+    { code: number; message: string }
+  >(["videoData"], { enabled: false });
 
   if (isLoading) {
     return <span>Loading...</span>;
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <Error statusCode={error.code} title={error.message} />;
   }
 
   return (

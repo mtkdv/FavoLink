@@ -11,8 +11,8 @@ const Customize: NextPageWithLayout = () => {
         <div className="bg-gray-200 grid place-items-center">gray</div>
         <div className="bg-zinc-200 grid place-items-center">zinc</div>
         <div className="bg-neutral-200 grid place-items-center">neutral</div>
-        <div className="bg-[#fcedd9] grid place-items-center">main</div>
-        <div className="bg-orange-100 grid place-items-center">orange</div>
+        <div className="bg-zinnwaldite-500 grid place-items-center">main</div>
+        <div className="bg-red-200 grid place-items-center">red-200</div>
         <div className="bg-stone-200 grid place-items-center">stone</div>
         <div className="bg-rose-50 grid place-items-center">rose</div>
       </div>
