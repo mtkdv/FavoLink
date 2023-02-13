@@ -4,8 +4,8 @@ const colors = require("tailwindcss/colors");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    // "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -16,6 +16,7 @@ module.exports = {
         // 20 2 98
         secondary: "#EEE6E2",
         // 20 5 93
+        // accent: "#EEE9E7",
         // accent: "#c1a5a3",
         // accent: "#d78e85",
         // accent: "#f9869d",
@@ -26,7 +27,19 @@ module.exports = {
         // accent: "#5E4145",
         // accent: "#463f3a",
         accent: "#e8a78e",
-        // 17 39 91
+        "tonys-pink": "#e8a78e",
+        isabelline: {
+          // light: "#fbf9f8",
+          light: "#FBF7F5",
+          DEFAULT: "#eee6e2",
+          // dark: "#706c6a",
+        },
+
+        "brand-light": "#fbe9e2",
+        brand: "#e8a78e",
+        "brand-dark": "#6d5146",
+
+        cta: "#8ee8d4",
       },
       fontFamily: {
         custom: [
