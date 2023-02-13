@@ -17,7 +17,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <div
             id="scroll-element"
             // className="h-[calc(100vh_-_32px)] bg-white border-2 border-secondary px-4 py-8 overflow-y-scroll"
-            className="h-[calc(100vh_-_32px)] bg-white border-2 border-isabelline overflow-y-scroll"
+            className="h-[calc(100vh_-_32px)] bg-[#faf9f9] border-2 border-isabelline overflow-y-scroll"
           >
             {children}
           </div>

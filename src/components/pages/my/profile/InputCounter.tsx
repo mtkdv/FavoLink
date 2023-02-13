@@ -1,11 +1,15 @@
-import { Schema } from "#/pages/my/profile/index";
-import clsx from "clsx";
 import { Control, useWatch } from "react-hook-form";
+import clsx from "clsx";
+
+import { Schema as AddVideoSchema } from "#/pages/my/add-video";
+import { Schema as ProfileSchema } from "#/pages/my/profile/index";
 
 type InputCounterProps = {
   /** "slug" | "name" | "description" */
-  name: keyof Schema;
-  control: Control<Schema>;
+  name: keyof ProfileSchema;
+  // name: "slug" | "name" | "description" | `youtube.${number}.categoryName`;
+  // control: Control<ProfileSchema | AddVideoSchema>;
+  control: Control<ProfileSchema>;
   minLength?: number;
   maxLength: number;
 };

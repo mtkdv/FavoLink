@@ -25,13 +25,11 @@ type Props = {
 
 export const CategoryList: React.FC<Props> = ({ categoryFields, ...rest }) => {
   return (
-    <ul id="target-ul" className="space-y-8">
+    <ul id="target-ul" className="space-y-6">
       {categoryFields.map((categoryField, index) => (
         <CategoryListItem
           key={categoryField.id}
           categoryFieldsLength={categoryFields.length}
-          // {...{ categoryField, index }}
-          // {...rest}
           {...{ categoryField, index, ...rest }}
         ></CategoryListItem>
       ))}

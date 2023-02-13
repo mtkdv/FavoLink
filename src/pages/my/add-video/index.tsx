@@ -6,21 +6,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
-import { FaCheck, FaExclamationTriangle, FaSave } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/shared/Layout";
 import { CategoryList } from "#/components/pages/my/add-video";
+import { Divider } from "#/components/uiParts/Divider";
 import { useGetCategories } from "#/hooks";
 import { useGetLinks } from "#/hooks";
 import { useMutateVideo } from "#/hooks";
 import { schema } from "#/schema/addVideo";
-import { Divider } from "#/components/uiParts/Divider";
 
 export type Schema = z.infer<typeof schema>;
 
-const LikeUrl: NextPageWithLayout = () => {
+const AddVideo: NextPageWithLayout = () => {
   const { data: session } = useSession();
   const videosResult = useGetLinks(session);
   const categoriesResult = useGetCategories(session);
@@ -83,7 +83,7 @@ const LikeUrl: NextPageWithLayout = () => {
     control,
     setValue,
     getValues,
-    formState: { errors, isDirty, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isDirty, isSubmitting },
   } = useForm<Schema>({
     values,
     resolver: zodResolver(schema),
@@ -123,34 +123,24 @@ const LikeUrl: NextPageWithLayout = () => {
   };
 
   return (
-    <div id="scroll-target" className="flex flex-col space-y-6">
-      {/* <div className="pb-1 [&:not(:has(div[id='addCollectionButtonWrapper']))]:pb-[68px]">
-        <CategoryFieldArray
-          {...{ control, register, setValue, getValues, errors }}
-        />
-      </div> */}
-
-      {/* <StickyHeader> */}
-      <div className="sticky top-0 z-30 h-16 bg-white flex flex-col justify-end">
+    <div id="scroll-target" className="flex flex-col space-y-6 pb-6">
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-30 h-16 bg-[#faf9f9] flex flex-col justify-end">
         <div className="px-4 space-y-2">
           <div className="relative">
-            <div className="absolute right-0 flex justify-end space-x-4">
+            <div className="absolute right-0 bottom-0 flex justify-end space-x-4 h-8">
               {/* Add Collection Button */}
               {categoryFields.length < 5 && (
-                <div
-                  id="addCollectionButtonWrapper"
-                  // className="flex justify-center absolute right-32"
-                  className="flex justify-center"
-                >
+                <div className="flex justify-center">
                   <button
                     type="button"
                     onClick={appendCategory}
-                    className="group/addCollectionButton pointer-events-auto flex items-center space-x-1 py-1 pl-1 pr-2 bg-accent text-white outline-none ring-2 ring-offset-[3px] ring-secondary transition-shadow duration-300 [&:is(:hover,:focus-visible)]:ring-accent"
+                    className="group/add-collection-button pointer-events-auto flex items-center rounded-sm space-x-1 pl-1 pr-2 bg-white outline-none text-tonys-pink ring-1 ring-tonys-pink transition duration-300 [&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:text-white shadow-sm"
                   >
                     <span className="relative">
                       <RiAddLine
                         size={24}
-                        className="absolute group-[:is(:hover,:focus-visible)]/addCollectionButton:animate-myPing"
+                        className="absolute group-[:is(:hover,:focus-visible)]/add-collection-button:animate-myPing"
                       />
                       <RiAddLine size={24} className="" />
                     </span>
@@ -160,48 +150,33 @@ const LikeUrl: NextPageWithLayout = () => {
               )}
 
               {/* Save Button */}
-              {/* <div className="absolute right-0 bottom-0"> */}
               <div className="">
-                <form id="video-form" onSubmit={handleSubmit(onSubmit)}>
+                <form
+                  id="video-form"
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="h-full"
+                >
                   <button
                     disabled={!isDirty || isSubmitting}
                     form="video-form"
                     className={clsx(
-                      // "relative py-2 w-28 rounded-md bg-teal-600 text-white outline-none shadow-md overflow-hidden",
-                      "group py-1.5 w-28 rounded-md bg-white outline-none shadow overflow-hidden ring-1 ring-teal-600 transition",
+                      "group h-full w-24 rounded-sm bg-white outline-none overflow-hidden ring-1 transition",
                       isDirty
-                        ? "[&:is(:hover,:focus-visible)]:opacity-80 [&:is(:hover,:focus-visible)]:bg-teal-600"
-                        : "cursor-not-allowed [&:is(:hover,:focus-visible)]:brightness-95",
+                        ? "ring-teal-600 [&:is(:hover,:focus-visible)]:bg-teal-600"
+                        : "ring-gray-400 cursor-not-allowed opacity-60",
                       isSubmitting && "cursor-not-allowed"
                     )}
                   >
-                    {/* <>
-                      {isSubmitting ? (
-                        <span>...</span>
-                      ) : isSubmitSuccessful || !isDirty ? (
-                        <span className="flex items-center justify-center space-x-2">
-                          <FaCheck />
-                          <span>Saved</span>
-                        </span>
-                      ) : (
-                        <span className="flex items-center justify-center space-x-2">
-                          <FaSave />
-                          <span>Save</span>
-                        </span>
-                      )}
-                    </> */}
-                    {/* <span className="absolute bottom-0 inset-x-0 h-1/2 bg-black/10"></span> */}
-                    <p
+                    <span
                       className={clsx(
-                        "text-sm text-teal-600 tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] transition-colors",
+                        "text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] transition-colors",
                         isDirty
-                          ? "group-[:is(:hover,:focus-visible)]:text-white"
-                          : ""
+                          ? "text-teal-600 group-[:is(:hover,:focus-visible)]:text-white"
+                          : "text-slate-500"
                       )}
                     >
-                      {/* <p className="text-sm tracking-wider font-medium"> */}
                       {isSubmitting ? "..." : "変更を保存"}
-                    </p>
+                    </span>
                   </button>
                 </form>
               </div>
@@ -209,10 +184,11 @@ const LikeUrl: NextPageWithLayout = () => {
 
             <h2 className="text-lg font-bold">動画リスト編集</h2>
           </div>
-          <Divider />
+          <div className="shadow-md">
+            <Divider bgColor="bg-stone-300" />
+          </div>
         </div>
       </div>
-      {/* </StickyHeader> */}
 
       {/* <CategoryList>
         <CategoryListItem>
@@ -222,7 +198,7 @@ const LikeUrl: NextPageWithLayout = () => {
         </CategoryListItem>
       </CategoryList> */}
 
-      <div className="px-6 py-4">
+      <div className="px-6 pt-6">
         <CategoryList
           {...{
             control,
@@ -261,6 +237,7 @@ const LikeUrl: NextPageWithLayout = () => {
         </CategoryList>
       </div>
 
+      {/* FIXME: 表示位置 */}
       {/* Error Message（コレクション名の重複など） */}
       {errors.youtube && errors.youtube.message && (
         <div className="mt-4 px-1 flex items-center space-x-1.5 text-red-600">
@@ -270,35 +247,12 @@ const LikeUrl: NextPageWithLayout = () => {
           </p>
         </div>
       )}
-
-      {/* Add Collection Button */}
-      {categoryFields.length < 5 && (
-        <div
-          id="addCollectionButtonWrapper"
-          className="mt-8 flex justify-center pb-8"
-        >
-          <button
-            type="button"
-            onClick={appendCategory}
-            className="group/addCollectionButton flex items-center space-x-1 py-1 pl-1 pr-2 bg-accent text-white outline-none ring-2 ring-offset-[3px] ring-secondary transition-shadow duration-300 [&:is(:hover,:focus-visible)]:ring-accent"
-          >
-            <span className="relative">
-              <RiAddLine
-                size={24}
-                className="absolute group-[:is(:hover,:focus-visible)]/addCollectionButton:animate-myPing"
-              />
-              <RiAddLine size={24} className="" />
-            </span>
-            <span className="text-sm">Add Collection</span>
-          </button>
-        </div>
-      )}
     </div>
   );
 };
 
-LikeUrl.getLayout = (page: ReactElement) => {
+AddVideo.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>;
 };
 
-export default LikeUrl;
+export default AddVideo;

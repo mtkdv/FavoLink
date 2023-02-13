@@ -9,14 +9,14 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
 import { IoMdClose } from "react-icons/io";
-import { BsFillCollectionPlayFill } from "react-icons/bs";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
+import { TfiExchangeVertical } from "react-icons/tfi";
 
 import { Schema } from "#/pages/my/add-video";
 import { VideoList } from "#/components/pages/my/add-video";
+// import { InputCounter } from "#/components/pages/my/profile/InputCounter";
 
 type Props = {
   control: Control<Schema>;
@@ -48,19 +48,11 @@ export const CategoryListItem: React.FC<Props> = ({
     move,
     remove,
   } = useFieldArray({
-    // const videoFieldArrayReturn = useFieldArray({
     name: `youtube.${index}.video`,
     control,
   });
 
-  const moveBelow = (fieldsLength: number, fromIndex: number) => {
-    // console.log("fields:\n", fields);
-    if (fromIndex === fieldsLength - 1) return;
-    moveCategory(fromIndex, fromIndex + 1);
-  };
-
-  const moveAbove = (fromIndex: number) => {
-    if (fromIndex === 0) return;
+  const swapCategory = (fromIndex: number) => {
     moveCategory(fromIndex, fromIndex - 1);
   };
 
@@ -80,76 +72,77 @@ export const CategoryListItem: React.FC<Props> = ({
     <li
       id={categoryField.categoryName}
       key={categoryField.id}
-      className="relative group p-4 pt-9 bg-primary ring-2 ring-offset-[3px] ring-secondary hover:ring-accent transition-shadow duration-300"
-      // className="relative group p-4 pt-9 rounded-md ring-1 ring-stone-200 hover:ring-tonys-pink transition-shadow duration-300"
+      className="relative group/collection-item px-3 py-6 rounded-sm ring-1 ring-stone-300 flex flex-col shadow-[0_0_3px_1px] shadow-isabelline"
     >
-      {/* Button */}
-      <div className="absolute top-0 right-0 flex space-x-[3px]">
-        {/* Move Collection Button */}
-        <div className="flex space-x-[3px]">
-          {/* Move Down Collection Button */}
-          <button
-            type="button"
-            onClick={() => moveBelow(categoryFieldsLength, index)}
-            disabled={index === categoryFieldsLength - 1}
-            className="ring-[3px] ring-white bg-accent group/down outline-none disabled:cursor-not-allowed disabled:bg-secondary"
-          >
-            <VscTriangleDown
-              size={24}
-              className="text-white transition-transform pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
-            />
-          </button>
-
-          {/* Move Up Collection Button */}
-          <button
-            type="button"
-            onClick={() => moveAbove(index)}
-            disabled={index === 0}
-            className="ring-[3px] ring-white bg-accent group/up outline-none disabled:cursor-not-allowed disabled:bg-secondary"
-          >
-            <VscTriangleUp
-              size={24}
-              className="text-white transition-transform pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
-            />
-          </button>
-        </div>
-
-        {/* Remove Collection Button */}
+      {/* Move Category Up Down */}
+      {index === 0 || (
         <button
           type="button"
-          onClick={() => removeCategory(index)}
-          className="bg-accent outline-none ring-[3px] ring-white [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
+          onClick={() => swapCategory(index)}
+          className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-1 rounded-sm ring-1 ring-tonys-pink shadow p-1 bg-white [&:is(:hover,:focus-visible)]:bg-tonys-pink transition duration-300"
         >
-          <IoMdClose size={24} className="text-white" />
+          <TfiExchangeVertical
+            size={24}
+            className="text-tonys-pink group-[:is(:hover,:focus-visible)]/swap:text-white transition duration-300"
+          />
         </button>
-      </div>
+      )}
+
+      {/* Remove Collection Button */}
+      <button
+        type="button"
+        onClick={() => removeCategory(index)}
+        className="absolute right-2 top-2 group/remove outline-none"
+      >
+        <IoMdClose
+          size={24}
+          className="text-stone-400 group-[:is(:hover,:focus-visible)]/remove:text-[#222222] transition duration-300 opacity-0 group-hover/collection-item:opacity-100"
+        />
+      </button>
 
       {/* Collection Inputs & Errors */}
-      <div className="space-y-2 mb-5">
+      <div className="group/collection-inputs-errors">
         {/* Collection Inputs */}
-        <div className="relative h-10">
-          {/* Collection Input */}
-          <input
-            form="video-form"
-            placeholder="&nbsp;"
-            {...register(`youtube.${index}.categoryName` as const)}
-            className="peer absolute top-0 left-0 w-full h-full bg-transparent z-10 px-3 focus-visible:outline-none"
-          />
-
+        <div className="space-y-2">
           {/* Collection Label */}
-          <div
-            // id="placeholder"
-            className="absolute top-3 left-3 text-sm text-base-black/60 transition-all duration-300 pointer-events-none flex items-center space-x-1.5 peer-[:is(:focus-visible,:not(:placeholder-shown))]:-top-[25px] peer-[:is(:focus-visible,:not(:placeholder-shown))]:left-0 peer-[:is(:focus-visible,:not(:placeholder-shown))]:text-base-black"
-          >
-            <BsFillCollectionPlayFill />
-            <span>Collection</span>
-          </div>
+          <label htmlFor={`collection-input-${index}`} className="flex w-fit">
+            <span className="ml-1 text-xs text-stone-600 font-semibold tracking-wide">
+              Collection Title
+            </span>
+            <span className="text-stone-600 group-[:has(.error-message)]/collection-inputs-errors:text-red-600 leading-none">
+              *
+            </span>
+          </label>
 
-          {/* Float Background */}
-          <div
-            // id="line"
-            className="absolute inset-x-0 bottom-0 h-0.5 bg-secondary pointer-events-none transition-[height,box-shadow] duration-300 peer-[:is(:focus-visible,:not(:placeholder-shown))]:h-full peer-[:is(:focus-visible,:not(:placeholder-shown),:hover:not(:placeholder-shown))]:ring-2 peer-[:is(:focus-visible,:not(:placeholder-shown),:hover:not(:placeholder-shown))]:ring-offset-[3px] peer-[:is(:focus-visible,:hover:not(:placeholder-shown),:focus-visible:not(:placeholder-shown))]:ring-accent peer-[:not(:placeholder-shown)]:ring-secondary"
-          ></div>
+          {/* Collection Input, Placeholder, Counter */}
+          <div className="relative h-10">
+            {/* Collection input */}
+            <input
+              form="video-form"
+              id={`collection-input-${index}`}
+              placeholder="&nbsp;"
+              type="text"
+              {...register(`youtube.${index}.categoryName` as const)}
+              className="peer w-full h-full p-3 pr-14 bg-white outline-none text-stone-800 text-base tracking-wider ring-1 ring-stone-300 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]/collection-inputs-errors:ring-red-600 group-[:has(.error-message)]/collection-inputs-errors:shadow-red-200 rounded-sm"
+            />
+
+            {/* Collection Placeholder */}
+            <p className="absolute top-1/2 -translate-y-1/2 left-3 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0">
+              Collection
+            </p>
+
+            {/* Character Count */}
+            {/* FIXME: controlの型 */}
+            {/* TODO: 値は仮 */}
+            <div className="absolute top-1/2 -translate-y-1/2 right-3 opacity-0 text-xxs text-stone-500 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-100 group-[:has(.error-message)]/collection-inputs-errors:opacity-100 transition-opacity duration-300">
+              {/* <InputCounter
+                    name={`youtube.${index}.categoryName`}
+                    control={control}
+                    maxLength={30}
+                  /> */}
+              ** / 20
+            </div>
+          </div>
         </div>
 
         {/* Collection Errors */}
@@ -163,7 +156,9 @@ export const CategoryListItem: React.FC<Props> = ({
         )}
       </div>
 
-      <VideoList {...{ videoFields, index, move, remove, ...rest }}></VideoList>
+      <div className="mt-6">
+        <VideoList {...{ videoFields, index, move, remove, ...rest }} />
+      </div>
 
       {/* コレクション内のvideoが重複している場合のエラーメッセージ */}
       {errors.youtube && errors.youtube[index]?.video?.message && (
@@ -176,17 +171,17 @@ export const CategoryListItem: React.FC<Props> = ({
       )}
 
       {/* Add Video Button */}
-      {categoryFieldsLength < 6 && (
+      {videoFields.length < 6 && (
         <div className="mt-5 flex justify-center">
           <button
             type="button"
             onClick={appendVideo}
-            className="group/addVideoButton flex items-center space-x-1 py-1 pl-1 pr-2 bg-accent text-white outline-none ring-2 ring-offset-[3px] ring-secondary transition-shadow duration-300 [&:is(:hover,:focus-visible)]:ring-accent"
+            className="group/add-video-button flex items-center rounded-sm space-x-1 p-1 pr-2 bg-white outline-none text-tonys-pink ring-1 ring-tonys-pink transition duration-300 [&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:text-white shadow-sm"
           >
             <span className="relative">
               <RiAddLine
                 size={24}
-                className="absolute group-[:is(:hover,:focus-visible)]/addVideoButton:animate-myPing"
+                className="absolute group-[:is(:hover,:focus-visible)]/add-video-button:animate-myPing"
               />
               <RiAddLine size={24} className="" />
             </span>

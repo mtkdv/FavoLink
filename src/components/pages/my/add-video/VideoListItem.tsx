@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import {
   UseFieldArrayMove,
@@ -6,8 +6,8 @@ import {
   UseFormGetValues,
   UseFormSetValue,
 } from "react-hook-form";
-import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
 import { IoMdClose } from "react-icons/io";
+import { AiOutlineSwap } from "react-icons/ai";
 
 import { Schema } from "#/pages/my/add-video";
 import { VideoForm } from "#/components/pages/my/add-video";
@@ -16,7 +16,6 @@ type Props = {
   getValues: UseFormGetValues<Schema>;
   nestIndex: number;
   index: number;
-  videoLength: number;
   move: UseFieldArrayMove;
   remove: UseFieldArrayRemove;
   setValue: UseFormSetValue<Schema>;
@@ -26,7 +25,6 @@ export const VideoListItem: React.FC<Props> = ({
   getValues,
   nestIndex,
   index,
-  videoLength,
   move,
   remove,
   setValue,
@@ -34,223 +32,111 @@ export const VideoListItem: React.FC<Props> = ({
   const [hasValues, setHasValues] = useState(() => {
     return !!getValues(`youtube.${nestIndex}.video.${index}.videoId`);
   });
-  const isMoveUpEnabled = useMemo(() => index !== 0, [index]);
-  const isMoveDownEnabled = useMemo(
-    () => index !== videoLength - 1,
-    [index, videoLength]
-  );
-
-  const moveAbove = (fromIndex: number) => {
-    if (isMoveUpEnabled) {
-      move(fromIndex, fromIndex - 1);
-    }
-  };
-
-  const moveBelow = (fromIndex: number) => {
-    if (isMoveDownEnabled) {
-      move(fromIndex, fromIndex + 1);
-    }
-  };
 
   const removeVideo = (index: number) => {
     remove(index);
   };
 
+  const swapVideoItem = (fromIndex: number) => {
+    move(fromIndex, fromIndex - 1);
+  };
+
   return (
-    <li className="ring-2 ring-offset-[3px] ring-secondary bg-white hover:ring-accent transition-shadow duration-300">
+    <li className="group/video-item relative h-[90px] rounded-sm ring-1 ring-stone-300 bg-white">
       {!hasValues ? (
         // Video Form
-        // <div className="flex space-x-[3px]">
-        //   {/* Left */}
-        //   <div className="flex flex-col flex-1">
-        //     {/* LT Label */}
-        //     <div className="flex items-center space-x-1.5 h-[25px] text-sm translate-x-[3px]">
-        //       <IoLogoYoutube className="translate-y-px" />
-        //       <span className="">YouTube Video URL</span>
-        //     </div>
-
-        //     {/* LM URL Update Form */}
-        //     <form
-        //       onSubmit={handleSubmit(onUpdate)}
-        //       className="relative h-10 p-0.5 [&:has(:is(:focus-visible,:hover))_input]:ring-accent"
-        //     >
-        //       {/* URL Update Input */}
-        //       <input
-        //         autoFocus
-        //         id="urlInput"
-        //         placeholder="https://www.youtube.com/watch?v=***********"
-        //         {...register("url")}
-        //         className="peer w-full h-full bg-transparent pl-2 pr-10 outline-none placeholder:text-stone-400 transition-shadow duration-300 ring-2 ring-secondary"
-        //       />
-
-        //       {/* Url Update Button */}
-        //       <div className="absolute right-0 h-full w-10 top-1/2 -translate-y-1/2">
-        //         <button
-        //           // onClick={handleSubmit(onUpdate)}
-        //           className="w-full h-full grid place-items-center outline-none group/urlUpdateButton"
-        //         >
-        //           <SlMagnifierAdd className="text-stone-400 group-[:is(:hover,:focus-visible)]/urlUpdateButton:text-base-black transition-colors" />
-        //         </button>
-        //       </div>
-        //     </form>
-
-        //     {/* LB Error Message */}
-        //     {errors.url && (
-        //       <div className="h-[25px] px-1 flex items-center space-x-1.5 text-red-600">
-        //         <FaExclamationTriangle />
-        //         <p className="text-sm line-clamp-1 break-all">
-        //           {errors.url.message}
-        //         </p>
-        //       </div>
-        //     )}
-        //     {/* <div className="h-[25px] px-1 flex items-center space-x-1.5 text-red-600">
-        //   <FaExclamationTriangle />
-        //   <p className="text-sm line-clamp-1 break-all">
-        //     エラーメッセージエラーメッセージエラーメッセージエラーメッセージ
-        //   </p>
-        // </div> */}
-        //   </div>
-
-        //   {/* Right */}
-        //   <div className="flex flex-col space-y-[3px]">
-        //     {/* Remove Video */}
-        //     <button
-        //       type="button"
-        //       onClick={() => removeVideo(index)}
-        //       className="grid place-items-center bg-accent outline-none [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
-        //     >
-        //       <IoMdClose size={24} className="text-white" />
-        //     </button>
-
-        //     {/* Move Video */}
-        //     <div className="flex flex-col space-y-[3px]">
-        //       <button
-        //         type="button"
-        //         onClick={() => moveAbove(index)}
-        //         disabled={!isMoveUpEnabled}
-        //         className="group/up grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
-        //       >
-        //         <VscTriangleUp
-        //           size={24}
-        //           className="text-white transition-transform h-[30px] pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
-        //         />
-        //       </button>
-        //       <button
-        //         type="button"
-        //         onClick={() => moveBelow(index)}
-        //         disabled={!isMoveDownEnabled}
-        //         className="group/down grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
-        //       >
-        //         <VscTriangleDown
-        //           size={24}
-        //           className="text-white transition-transform h-[30px] pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
-        //         />
-        //       </button>
-        //     </div>
-        //   </div>
-        // </div>
         <VideoForm
           {...{
             setValue,
             nestIndex,
             index,
             setHasValues,
-            moveAbove,
-            moveBelow,
             removeVideo,
-            isMoveUpEnabled,
-            isMoveDownEnabled,
           }}
         />
       ) : (
         // Video Preview, Result
-        <div className="flex space-x-2">
-          {/* Left */}
-          {/* <div className="m-1 rounded-md overflow-hidden ring-1 ring-offset-2 ring-secondary"> */}
-          <div className="overflow-hidden shadow-[0_0_2px_1px_rgba(0,0,0,0.1)] shrink-0">
-            <Image
-              src={getValues(
-                `youtube.${nestIndex}.video.${index}.thumbnailUrl`
-              )}
-              alt="thumbnail"
-              width={160}
-              height={90}
-              className="hover:scale-105 transition-transform"
-            />
-          </div>
-
-          {/* Middle */}
-          <div className="py-[3px] flex-1 flex flex-col justify-between">
-            {/* Title */}
-            <p className="mt-1 line-clamp-2 text-sm break-all">
-              {getValues(`youtube.${nestIndex}.video.${index}.title`)}
-            </p>
-
-            {/* Channel */}
-            {/* <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.youtube.com/channel/${getValues(
-            `youtube.${nestIndex}.video.${index}.channelId`
-          )}`}
-          className="flex items-center space-x-2 pr-2 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-        > */}
-            <div className="flex items-center space-x-2 pr-2">
-              <div className="overflow-hidden rounded-full">
-                <Image
-                  src={getValues(
-                    `youtube.${nestIndex}.video.${index}.channelThumbnailUrl`
-                  )}
-                  alt="channelThumbnail"
-                  width={33}
-                  height={33}
-                  className="hover:scale-110 transition-transform"
-                />
-              </div>
-              <p className="text-xs line-clamp-1 flex-1 break-all text-base-black/70 hover:text-base-black transition-colors duration-300">
-                {getValues(`youtube.${nestIndex}.video.${index}.channelTitle`)}
-              </p>
-            </div>
-          </div>
-
-          {/* Right */}
-          <div className="flex flex-col space-y-[3px]">
-            {/* Remove Video */}
+        <>
+          {/* Video Move Up Down */}
+          {index === 0 || (
             <button
               type="button"
-              onClick={() => removeVideo(index)}
-              className="grid place-items-center bg-accent outline-none [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
+              onClick={() => swapVideoItem(index)}
+              className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-0.5 rounded-sm ring-1 ring-stone-300 shadow p-0.5 bg-white [&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:ring-tonys-pink transition duration-300"
             >
-              <IoMdClose size={24} className="text-white" />
+              <AiOutlineSwap
+                size={16}
+                transform="rotate(90)"
+                className="text-stone-400 group-[:is(:hover,:focus-visible)]/swap:text-white transition duration-300"
+              />
             </button>
+          )}
 
-            {/* Move Video */}
-            <div className="flex flex-col space-y-[3px]">
-              <button
-                type="button"
-                onClick={() => moveAbove(index)}
-                disabled={!isMoveUpEnabled}
-                className="group/up grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
-              >
-                <VscTriangleUp
-                  size={24}
-                  className="text-white transition-transform h-[30px] pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
-                />
-              </button>
-              <button
-                type="button"
-                onClick={() => moveBelow(index)}
-                disabled={!isMoveDownEnabled}
-                className="group/down grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
-              >
-                <VscTriangleDown
-                  size={24}
-                  className="text-white transition-transform h-[30px] pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
-                />
-              </button>
+          <div className="flex space-x-2">
+            {/* Left */}
+            <div className="overflow-hidden shrink-0 border-r border-r-stone-300">
+              <Image
+                src={getValues(
+                  `youtube.${nestIndex}.video.${index}.thumbnailUrl`
+                )}
+                alt="thumbnail"
+                width={160}
+                height={90}
+                className="rounded-l-sm hover:scale-105 transition-transform"
+              />
+            </div>
+
+            {/* Right: Title, Channel */}
+            <div className="py-[3px] flex-1 flex flex-col justify-between">
+              <div className="flex items-start space-x-1">
+                {/* Title */}
+                <p className="flex-1 line-clamp-2 text-sm break-all">
+                  {getValues(`youtube.${nestIndex}.video.${index}.title`)}
+                </p>
+
+                {/* Remove Video Button */}
+                <button
+                  type="button"
+                  onClick={() => removeVideo(index)}
+                  className="group/remove outline-none"
+                >
+                  <IoMdClose
+                    size={20}
+                    className="text-stone-400 group-[:is(:hover,:focus-visible)]/remove:text-[#222222] transition duration-300 opacity-0 group-hover/video-item:opacity-100"
+                  />
+                </button>
+              </div>
+
+              {/* Channel */}
+              {/* <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://www.youtube.com/channel/${getValues(
+                  `youtube.${nestIndex}.video.${index}.channelId`
+                )}`}
+                className="flex items-center space-x-2 pr-2 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              > */}
+              <div className="flex items-center space-x-2 pr-2">
+                <div className="overflow-hidden rounded-full">
+                  <Image
+                    src={getValues(
+                      `youtube.${nestIndex}.video.${index}.channelThumbnailUrl`
+                    )}
+                    alt="channelThumbnail"
+                    width={33}
+                    height={33}
+                    className="hover:scale-110 transition-transform"
+                  />
+                </div>
+                <p className="text-xs line-clamp-1 flex-1 break-all text-base-black/70 hover:text-base-black transition-colors duration-300">
+                  {getValues(
+                    `youtube.${nestIndex}.video.${index}.channelTitle`
+                  )}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </li>
   );

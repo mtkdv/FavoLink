@@ -1,12 +1,11 @@
 import { SetStateAction } from "react";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
-import { IoLogoYoutube } from "react-icons/io5";
-import { SlMagnifierAdd } from "react-icons/sl";
-import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
 import { z } from "zod";
 import { SubmitHandler, useForm, UseFormSetValue } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { FaExclamationTriangle } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
+import { SlMagnifierAdd } from "react-icons/sl";
+import { RiShareBoxLine } from "react-icons/ri";
 
 import { Schema } from "#/pages/my/add-video";
 import {
@@ -22,7 +21,7 @@ const schemaVF = z.object({
       if (value !== "" && !value.trim()) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "スペースのみの入力はできません。",
+          message: "YouTube動画のURLを貼ってください。",
         });
       }
     })
@@ -31,7 +30,7 @@ const schemaVF = z.object({
       if (videoId === undefined) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "YouTube動画のURLを貼ってください",
+          message: "YouTube動画のURLを貼ってください。",
         });
         return z.NEVER;
       }
@@ -46,11 +45,7 @@ type Props = {
   nestIndex: number;
   index: number;
   setHasValues: React.Dispatch<SetStateAction<boolean>>;
-  moveAbove: (fromIndex: number) => void;
-  moveBelow: (fromIndex: number) => void;
   removeVideo: (index: number) => void;
-  isMoveUpEnabled: boolean;
-  isMoveDownEnabled: boolean;
 };
 
 export const VideoForm: React.FC<Props> = ({
@@ -58,11 +53,7 @@ export const VideoForm: React.FC<Props> = ({
   nestIndex,
   index,
   setHasValues,
-  moveAbove,
-  moveBelow,
   removeVideo,
-  isMoveUpEnabled,
-  isMoveDownEnabled,
 }) => {
   const {
     register,
@@ -125,41 +116,71 @@ export const VideoForm: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex space-x-[3px]">
-      {/* Left */}
-      <div className="flex flex-col flex-1">
-        {/* LT Label */}
-        <div className="flex items-center space-x-1.5 h-[25px] text-sm translate-x-[3px]">
-          <IoLogoYoutube className="translate-y-px" />
-          <span className="">YouTube Video URL</span>
+    <>
+      {/* Remove Video-URL Form */}
+      <button
+        type="button"
+        onClick={() => removeVideo(index)}
+        className="absolute right-2 top-2 group/remove outline-none"
+      >
+        <IoMdClose
+          size={24}
+          className="text-stone-400 group-[:is(:hover,:focus-visible)]/remove:text-[#222222] transition duration-300 opacity-0 group-hover/collection-item:opacity-100"
+        />
+      </button>
+
+      {/* Video-URL Form */}
+      <form
+        onSubmit={handleSubmit(onUpdate)}
+        className="h-full flex flex-col justify-center space-y-2 px-3"
+      >
+        {/* Video-URL label, a */}
+        <div className="flex space-x-2">
+          <label
+            htmlFor={`url-input-${nestIndex}-${index}`}
+            className="ml-1 w-fit text-xs text-stone-600 font-semibold tracking-wide"
+          >
+            YouTube Video URL
+          </label>
+
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.youtube.com/"
+            className="text-blue-500 underline hover:text flex items-center text-xs hover:text-blue-700"
+          >
+            {/* YouTube */}
+            <RiShareBoxLine />
+          </a>
         </div>
 
-        {/* LM URL Update Form */}
-        <form
-          onSubmit={handleSubmit(onUpdate)}
-          className="relative h-10 p-0.5 [&:has(:is(:focus-visible,:hover))_input]:ring-accent"
-        >
-          {/* URL Update Input */}
+        {/* Video-URL Input, Placeholder, Button */}
+        <div className="relative group/url-input h-9 rounded-sm flex">
+          {/* Video-URL input */}
           <input
             autoFocus
-            id="urlInput"
-            placeholder="https://www.youtube.com/watch?v=***********"
+            id={`url-input-${nestIndex}-${index}`}
+            placeholder="&nbsp;"
             {...register("url")}
-            className="peer w-full h-full bg-transparent pl-2 pr-10 outline-none placeholder:text-stone-400 transition-shadow duration-300 ring-2 ring-secondary"
+            className="peer z-10 flex-1 h-full px-3 outline-none text-stone-800 text-sm border border-stone-300 [&:is(:focus-visible,:hover)]:border-tonys-pink focus-visible:shadow-[0_0_2px_1px] [&:is(:hover,:focus-visible)]:shadow-tonys-pink/60 transition rounded-l-sm"
           />
 
-          {/* Url Update Button */}
-          <div className="absolute right-0 h-full w-10 top-1/2 -translate-y-1/2">
-            <button
-              // onClick={handleSubmit(onUpdate)}
-              className="w-full h-full grid place-items-center outline-none group/urlUpdateButton"
-            >
-              <SlMagnifierAdd className="text-stone-400 group-[:is(:hover,:focus-visible)]/urlUpdateButton:text-base-black transition-colors" />
-            </button>
-          </div>
-        </form>
+          {/* Video-URL Placeholder */}
+          <p className="absolute z-20 top-1/2 -translate-y-1/2 left-3 text-sm text-stone-400 tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0">
+            https://www.youtube.com/watch?v=***********
+          </p>
 
-        {/* LB Error Message */}
+          {/* Video-URL Button */}
+          <button className="group/url-button w-12 h-full bg-zinc-100 rounded-r-sm border-y border-r border-stone-300 grid place-items-center outline-none">
+            <SlMagnifierAdd
+              size={20}
+              className="text-stone-400 group-[:is(:hover,:focus-visible)]/url-button:text-slate-500 group-[:is(:hover,:focus-visible)]/url-button:scale-105 transition"
+            />
+          </button>
+        </div>
+
+        {/* TODO:  */}
+        {/* Video-URL Error Message */}
         {errors.url && (
           <div className="h-[25px] px-1 flex items-center space-x-1.5 text-red-600">
             <FaExclamationTriangle />
@@ -174,45 +195,7 @@ export const VideoForm: React.FC<Props> = ({
             エラーメッセージエラーメッセージエラーメッセージエラーメッセージ
           </p>
         </div> */}
-      </div>
-
-      {/* Right */}
-      <div className="flex flex-col space-y-[3px]">
-        {/* Remove Video */}
-        <button
-          type="button"
-          onClick={() => removeVideo(index)}
-          className="grid place-items-center bg-accent outline-none [&:is(:hover,:focus-visible)]:bg-red-600 transition-colors duration-300"
-        >
-          <IoMdClose size={24} className="text-white" />
-        </button>
-
-        {/* Move Video */}
-        <div className="flex flex-col space-y-[3px]">
-          <button
-            type="button"
-            onClick={() => moveAbove(index)}
-            disabled={!isMoveUpEnabled}
-            className="group/up grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
-          >
-            <VscTriangleUp
-              size={24}
-              className="text-white transition-transform h-[30px] pointer-events-none translate-y-px group-[:enabled:is(:hover,:focus-visible)]/up:animate-moveUpArrow"
-            />
-          </button>
-          <button
-            type="button"
-            onClick={() => moveBelow(index)}
-            disabled={!isMoveDownEnabled}
-            className="group/down grid place-items-center outline-none bg-accent disabled:cursor-not-allowed disabled:bg-secondary"
-          >
-            <VscTriangleDown
-              size={24}
-              className="text-white transition-transform h-[30px] pointer-events-none -translate-y-px group-[:enabled:is(:hover,:focus-visible)]/down:animate-moveDownArrow"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
+      </form>
+    </>
   );
 };

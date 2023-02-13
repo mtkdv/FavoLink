@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import avatar2 from "#/public/avatar2.png";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { HamburgerMenu } from "#/components/uiParts/HamburgerMenu";
@@ -43,7 +43,7 @@ export default function Home() {
             <div className="ml-4 flex items-center space-x-6 shrink-0">
               <div className="w-px h-6 bg-base-black/10"></div>
               <Image
-                src={profile.image ?? avatar2}
+                src={profile.image ?? silhouetteAvatar}
                 alt="avatar"
                 width={40}
                 height={40}

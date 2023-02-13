@@ -6,8 +6,8 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 
-import { VideoListItem } from "#/components/pages/my/add-video";
 import { Schema } from "#/pages/my/add-video";
+import { VideoListItem } from "#/components/pages/my/add-video";
 
 type Props = {
   videoFields: FieldArrayWithId<Schema, `youtube.${number}.video`, "id">[];
@@ -24,11 +24,10 @@ export const VideoList: React.FC<Props> = ({
   ...rest
 }) => {
   return (
-    <ul className="space-y-6">
+    <ul className="space-y-4">
       {videoFields.map((videoField, index) => (
         <VideoListItem
           key={videoField.id}
-          videoLength={videoFields.length}
           {...{ nestIndex, index, ...rest }}
         ></VideoListItem>
       ))}
