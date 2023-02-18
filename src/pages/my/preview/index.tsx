@@ -10,6 +10,8 @@ import { FaArrowLeft, FaShareSquare, FaUserCog } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { useGetLinks } from "#/hooks/useGetLinks";
 import { useGetCategories } from "#/hooks/useGetCategories";
+import { useGetCustom } from "#/hooks";
+import clsx from "clsx";
 
 const Preview = () => {
   const { data: session } = useSession();
@@ -36,14 +38,16 @@ const Preview = () => {
   // } = useGetCategories(session);
 
   const profileResult = useGetProfile(session);
+  const customResult = useGetCustom(session);
   const videosResult = useGetLinks(session);
   const categoriesResult = useGetCategories(session);
 
   if (profileResult.isError) {
     // return <Error statusCode={profileResult.error.code} title={profileResult.error.message} />;
     return <Error statusCode={404} title={profileResult.error.message} />;
-  }
-  if (videosResult.isError) {
+  } else if (customResult.isError) {
+    return <Error statusCode={404} />;
+  } else if (videosResult.isError) {
     return <Error statusCode={404} />;
   } else if (categoriesResult.isError) {
     return <Error statusCode={404} />;
@@ -51,6 +55,7 @@ const Preview = () => {
 
   if (
     profileResult.isLoading ||
+    customResult.isLoading ||
     videosResult.isLoading ||
     categoriesResult.isLoading
   ) {
@@ -58,27 +63,52 @@ const Preview = () => {
   }
 
   const { data: profile } = profileResult;
+  const { data: custom } = customResult;
   const { data: videos } = videosResult;
   const { data: categories } = categoriesResult;
 
-  // TODO: public pageとの違いはheaderの有無のみ。
+  // TODO: public pageとの違い：header、背景画像、Circle
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-red-200 via-red-300 to-yellow-200 pt-36 pb-6 overflow-hidden">
-      <header className="fixed z-20 bg-gradient-to-l from-gray-50/70 to-gray-200/70 top-0 h-12 w-full px-6 backdrop-blur-[2px] shadow-[0_1px_0_white]">
+    // <div className="min-h-screen bg-gradient-to-tr from-red-200 via-red-300 to-yellow-200 pt-36 pb-6 overflow-hidden">
+    <div className="min-h-screen pt-36 pb-6 overflow-hidden">
+      <div className="fixed top-0 w-full h-screen -z-10">
+        {custom.backgroundImage ? (
+          <Image
+            src={custom.backgroundImage}
+            alt="公開ページの背景画像"
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" />
+        )}
+        {/* <div className="h-full bg-gradient-to-r from-slate-900 to-slate-700" /> */}
+      </div>
+
+      <header
+        className={clsx(
+          "fixed z-20 top-0 h-14 w-full px-6 border-b border-white/25 shadow-[0_3px_10px_-3px] shadow-black/20 backdrop-blur-sm",
+          custom.mode === "LIGHT"
+            ? "bg-white/20 text-base-black"
+            : "bg-black/20 text-white"
+        )}
+      >
         <div className="relative max-w-3xl mx-auto h-full">
           {/* L: Go Back */}
           <div className="absolute top-1/2 -translate-y-1/2 flex items-center">
             <button
               onClick={() => Router.back()}
-              className="relative group flex p-2 w-8 rounded-full bg-transparent ring-1 ring-stone-400 [&:is(:hover,:focus-visible)]:ring-stone-500 [&:is(:hover,:focus-visible)]:w-28 transition-[box-shadow,width] duration-300 outline-none"
+              className={clsx(
+                "relative group flex p-2 w-8 rounded-full bg-transparent ring-1 [&:is(:hover,:focus-visible)]:w-28 transition-[color,background-color,width] duration-300 outline-none",
+                custom.mode === "LIGHT"
+                  ? "ring-base-black [&:is(:hover,:focus-visible)]:bg-base-black [&:is(:hover,:focus-visible)]:text-white"
+                  : "ring-white [&:is(:hover,:focus-visible)]:bg-white [&:is(:hover,:focus-visible)]:text-base-black"
+              )}
             >
-              <span className="absolute w-max opacity-0 scale-x-0 text-sm text-stone-500 leading-4 tracking-wide group-[:is(:hover,:focus-visible)]:opacity-100 left-0 group-[:is(:hover,:focus-visible)]:left-9 group-[:is(:hover,:focus-visible)]:scale-x-100 origin-left transition-[opacity,transform,left] duration-300">
+              <span className="absolute w-max opacity-0 scale-x-0 leading-4 tracking-wide group-[:is(:hover,:focus-visible)]:opacity-100 left-6 group-[:is(:hover,:focus-visible)]:left-8 group-[:is(:hover,:focus-visible)]:scale-x-100 origin-left transition-[opacity,transform,left] duration-300">
                 Go Back
               </span>
-              <FaArrowLeft
-                size={16}
-                className="text-stone-400 group-[:is(:hover,:focus-visible)]:text-stone-500 transition duration-300 w-4"
-              />
+              <FaArrowLeft size={16} className="w-4" />
             </button>
           </div>
 
@@ -98,9 +128,14 @@ const Preview = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`/${profile.slug}`}
-                className="relative group flex rounded-full bg-transparent ring-1 ring-orange-400 py-2 w-8 outline-none text-orange-400 [&:is(:hover,:focus-visible)]:text-orange-500 [&:is(:hover,:focus-visible)]:w-32 [&:is(:hover,:focus-visible)]:ring-2 transition-[color,box-shadow,width] duration-300 sm:w-32"
+                className={clsx(
+                  "relative group flex rounded-full bg-transparent ring-1 py-2 w-8 outline-none [&:is(:hover,:focus-visible)]:w-32 transition-[color,background-color,width] duration-300 sm:w-32",
+                  custom.mode === "LIGHT"
+                    ? "ring-base-black [&:is(:hover,:focus-visible)]:bg-base-black [&:is(:hover,:focus-visible)]:text-white"
+                    : "ring-white [&:is(:hover,:focus-visible)]:bg-white [&:is(:hover,:focus-visible)]:text-base-black"
+                )}
               >
-                <span className="absolute right-0 w-max opacity-0 scale-x-0 origin-right text-sm leading-4 tracking-wide font-semibold max-sm:group-[:is(:hover,:focus-visible)]:opacity-100 max-sm:group-[:is(:hover,:focus-visible)]:scale-x-100 max-sm:group-[:is(:hover,:focus-visible)]:right-2.5 transition-[opacity,transform,right] duration-300 sm:opacity-100 sm:scale-x-100 sm:right-2.5">
+                <span className="absolute right-0 w-max opacity-0 scale-x-0 origin-right text-sm leading-4 tracking-wide font-medium max-sm:group-[:is(:hover,:focus-visible)]:opacity-100 max-sm:group-[:is(:hover,:focus-visible)]:scale-x-100 max-sm:group-[:is(:hover,:focus-visible)]:right-2.5 transition-[opacity,transform,right] duration-300 sm:opacity-100 sm:scale-x-100 sm:right-2.5">
                   Public Page
                 </span>
                 <FaShareSquare className="ml-[9px] -translate-y-px" />
@@ -109,7 +144,12 @@ const Preview = () => {
               // TODO: Tooltip
               <Link
                 href="/my/profile"
-                className="relative group flex rounded-full bg-transparent ring-1 ring-stone-400 py-2 w-8 outline-none text-stone-400  [&:is(:hover,:focus-visible)]:text-stone-500 [&:is(:hover,:focus-visible)]:w-[168px] [&:is(:hover,:focus-visible)]:ring-2 transition-[color,box-shadow,width] duration-300 sm:w-[168px]"
+                className={clsx(
+                  "relative group flex rounded-full bg-transparent ring-1 py-2 w-8 outline-none [&:is(:hover,:focus-visible)]:w-[168px] transition-[color,background-color,width] duration-300 sm:w-[168px]",
+                  custom.mode === "LIGHT"
+                    ? "ring-base-black [&:is(:hover,:focus-visible)]:bg-base-black [&:is(:hover,:focus-visible)]:text-white"
+                    : "ring-white [&:is(:hover,:focus-visible)]:bg-white [&:is(:hover,:focus-visible)]:text-base-black"
+                )}
               >
                 <span className="absolute right-0 w-max opacity-0 scale-x-0 origin-right text-sm leading-4 tracking-wide font-semibold max-sm:group-[:is(:hover,:focus-visible)]:opacity-100 max-sm:group-[:is(:hover,:focus-visible)]:scale-x-100 max-sm:group-[:is(:hover,:focus-visible)]:right-2.5 transition-[opacity,transform,right] duration-300 sm:opacity-100 sm:scale-x-100 sm:right-2.5">
                   Setup Public Page
@@ -122,19 +162,27 @@ const Preview = () => {
       </header>
 
       {/* <main className="mt-12"> */}
-      {/* <main className="relative min-h-screen w-full overflow-hidden bg-gradient-to-tr from-red-200 via-red-300 to-yellow-200 px-6"> */}
       <main className="relative min-h-[calc(100vh_-_256px)] px-6">
         {/* Circle */}
-        <div className="absolute w-full h-full">
+        {/* <div className="absolute w-full h-full">
           <div className="absolute -top-[5%] -left-40 bg-gradient-to-tr from-white/40 to-white/10 rounded-full w-[450px] h-[450px] animate-[animate_7s_infinite]"></div>
           <div className="absolute top-[30%] -right-40 bg-gradient-to-bl from-white/40 to-white/0 rounded-full w-[550px] h-[550px] animate-[animate_10s_infinite]"></div>
           <div className="absolute bottom-[3%] left-10 bg-gradient-to-br from-white/40 to-white/0 rounded-full w-[400px] h-[400px] animate-[animate_6s_infinite]"></div>
-        </div>
+        </div> */}
 
         {/* Profile, Contents */}
         <div className="relative z-10 mt max-w-3xl mx-auto">
           {/* Profile */}
-          <div className="relative w-full h-32 space-y-4 bg-gradient-to-br from-white/50 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)]">
+          {/* <div className="relative w-full h-32 space-y-4 bg-gradient-to-br from-white/50 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)]"> */}
+          {/* <div className="relative w-full h-32 space-y-4 bg-white/20 text-base-black border-2 border-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm"> */}
+          <div
+            className={clsx(
+              "relative w-full h-32 space-y-4 border border-white/25 border-t-white/50 border-l-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm",
+              custom.mode === "LIGHT"
+                ? "bg-white/20 text-base-black"
+                : "bg-black/20 text-white"
+            )}
+          >
             <div className="absolute left-1/2 w-full px-6 -translate-x-1/2 -top-10 space-y-6">
               {/* Avatar */}
               <div className="flex justify-center">
@@ -148,7 +196,7 @@ const Preview = () => {
               </div>
 
               {/* Name */}
-              <p className="text-center font-semibold line-clamp-2 break-all">
+              <p className="text-center font-semibold tracking-wide line-clamp-2 break-all">
                 {profile.name}
               </p>
 
@@ -159,7 +207,7 @@ const Preview = () => {
 
           {/* Contents */}
           <div className="mt-12">
-            <CategorizedLink {...{ categories, videos }} />
+            <CategorizedLink {...{ categories, videos, custom }} />
           </div>
         </div>
       </main>
@@ -170,7 +218,7 @@ const Preview = () => {
             Favolink
           </p>
         </Link>
-        <p className="text-xs text-stone-500 drop-shadow-[0_1px_0_white]">
+        <p className="text-xs drop-shadow-[1px_1px_0_white]">
           Copyright &copy; 2023 All rights reserved.
         </p>
       </footer>

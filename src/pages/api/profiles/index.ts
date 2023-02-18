@@ -1,4 +1,5 @@
 import prisma from "#/lib/prisma";
+import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
@@ -47,6 +48,8 @@ export default async function handle(
 
     case "patchProfile": {
       const { slug, image, name, description } = req.body;
+      // console.log("image:", image); //=> undefined
+      // https://www.prisma.io/docs/concepts/components/prisma-client/null-and-undefined
       try {
         const profile = await prisma.profile.update({
           where: { userId },
@@ -59,6 +62,35 @@ export default async function handle(
         });
         res.json(profile);
       } catch (error) {}
+      break;
+    }
+
+    case "mutateCustom": {
+      const { backgroundImage } = req.body as {
+        backgroundImage: string | undefined;
+      };
+
+      try {
+        const profile = await prisma.profile.update({
+          where: { userId },
+          data: {
+            backgroundImage,
+          },
+          select: {
+            backgroundImage: true,
+          },
+        });
+        res.json(profile);
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("error.code dayo:", error.code);
+          res.status(404).json({ code: error.code, message: error.message });
+        }
+        // throw error;
+        // res.status(404).json("res.status().json()");
+        // throw new Error("throw new Error");
+      }
+
       break;
     }
 

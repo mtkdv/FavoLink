@@ -23,6 +23,17 @@
   .drop-shadow-white-black {
     filter: drop-shadow(1px 1px 0 white) drop-shadow(2px 2px 0 black);
   }
+
+  .neumorphism {
+    box-shadow: 10px 10px 30px rgba(18, 47, 61, 0.5),
+      -10px -10px 30px rgba(248, 253, 255, 0.9),
+      inset 10px 10px 30px transparent, inset -10px -10px 30px transparent;
+  }
+  .neumorphism:hover {
+    box-shadow: 10px 10px 30px transparent, -10px -10px 30px transparent,
+      inset 10px 10px 30px rgba(18, 47, 61, 0.5),
+      inset -10px -10px 30px rgba(248, 253, 255, 0.9);
+  }
 }
 
 /* スクロールバーカスタマイズ */

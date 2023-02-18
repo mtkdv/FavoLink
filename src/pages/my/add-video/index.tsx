@@ -17,20 +17,24 @@ import { useGetCategories } from "#/hooks";
 import { useGetLinks } from "#/hooks";
 import { useMutateVideo } from "#/hooks";
 import { schema } from "#/schema/addVideo";
+import { PuffLoader } from "react-spinners";
 
 export type Schema = z.infer<typeof schema>;
 
 const AddVideo: NextPageWithLayout = () => {
   const { data: session } = useSession();
-  const videosResult = useGetLinks(session);
-  const categoriesResult = useGetCategories(session);
+  // const videosResult = useGetLinks(session);
+  // const categoriesResult = useGetCategories(session);
+  const { data: videos } = useGetLinks(session);
+  const { data: categories } = useGetCategories(session);
   const [values, setValues] = useState<Schema>();
   const { mutateAsync } = useMutateVideo();
 
-  const { data: videos } = videosResult;
-  const { data: categories } = categoriesResult;
+  // const { data: videos } = videosResult;
+  // const { data: categories } = categoriesResult;
 
   useEffect(() => {
+    // console.log("useEffect");
     if (!videos || !categories) return;
     // console.log("videos:", videos);
     // 未追加の場合 => []
@@ -75,6 +79,7 @@ const AddVideo: NextPageWithLayout = () => {
     //   setValues({ youtube: values });
     // }, 5000);
     setValues({ youtube: values });
+    // }, [videos, categories]);
   }, [videos, categories]);
 
   const {
@@ -101,20 +106,12 @@ const AddVideo: NextPageWithLayout = () => {
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     // console.log("onSubmit data:", data);
+    // await new Promise((resolve) => setTimeout(() => resolve, 3000));
+
     mutateAsync(data, {
       onSuccess: () => toast.success("変更を反映しました。"),
     });
   };
-
-  if (videosResult.isError) {
-    return <Error statusCode={404} />;
-  } else if (categoriesResult.isError) {
-    return <Error statusCode={404} />;
-  }
-
-  if (videosResult.isLoading || categoriesResult.isLoading) {
-    return <p>Loading...</p>;
-  }
 
   const appendCategory = () => {
     append({ categoryId: "", categoryName: "", video: [] });
@@ -122,32 +119,56 @@ const AddVideo: NextPageWithLayout = () => {
     // scrollBottom();
   };
 
+  // if (videosResult.isError) {
+  //   return <Error statusCode={404} />;
+  // } else if (categoriesResult.isError) {
+  //   return <Error statusCode={404} />;
+  // }
+
+  // if (videosResult.isLoading || categoriesResult.isLoading) {
+  //   return <p>Loading...</p>;
+  // }
+  if (!videos || !categories) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div id="scroll-target" className="flex flex-col space-y-6 pb-6">
+    <div
+      id="scroll-target"
+      // className="flex flex-col space-y-6 pb-6 text-[#63594D]"
+      className="flex flex-col space-y-6 pb-6"
+    >
       {/* Sticky Header */}
       <div className="sticky top-0 z-30 h-16 bg-[#faf9f9] flex flex-col justify-end">
         <div className="px-4 space-y-2">
           <div className="relative">
             <div className="absolute right-0 bottom-0 flex justify-end space-x-4 h-8">
               {/* Add Collection Button */}
-              {categoryFields.length < 5 && (
-                <div className="flex justify-center">
-                  <button
-                    type="button"
-                    onClick={appendCategory}
-                    className="group/add-collection-button pointer-events-auto flex items-center rounded-sm space-x-1 pl-1 pr-2 bg-white outline-none text-tonys-pink ring-1 ring-tonys-pink transition duration-300 [&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:text-white shadow-sm"
-                  >
-                    <span className="relative">
-                      <RiAddLine
-                        size={24}
-                        className="absolute group-[:is(:hover,:focus-visible)]/add-collection-button:animate-myPing"
-                      />
-                      <RiAddLine size={24} className="" />
-                    </span>
-                    <span className="text-sm">Add Collection</span>
-                  </button>
-                </div>
-              )}
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={appendCategory}
+                  className={clsx(
+                    "group/add-collection-button pointer-events-auto flex items-center rounded-sm space-x-1 pl-1 pr-2 bg-white outline-none text-tonys-pink ring-1 ring-tonys-pink transition duration-300 shadow-sm",
+                    categoryFields.length < 5
+                      ? "[&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:text-white"
+                      : "ring-gray-300 cursor-not-allowed opacity-60 text-slate-400"
+                  )}
+                >
+                  <span className="relative">
+                    <RiAddLine
+                      size={24}
+                      className={clsx(
+                        "absolute",
+                        categoryFields.length < 5 &&
+                          "group-[:is(:hover,:focus-visible)]/add-collection-button:animate-myPing"
+                      )}
+                    />
+                    <RiAddLine size={24} className="" />
+                  </span>
+                  <span className="text-sm">Add Collection</span>
+                </button>
+              </div>
 
               {/* Save Button */}
               <div className="">
@@ -159,24 +180,22 @@ const AddVideo: NextPageWithLayout = () => {
                   <button
                     disabled={!isDirty || isSubmitting}
                     form="video-form"
+                    // FIXME: opacityと疑似要素でグラデーションのアニメーション
                     className={clsx(
-                      "group h-full w-24 rounded-sm bg-white outline-none overflow-hidden ring-1 transition",
+                      "group h-full w-24 rounded-md outline-none overflow-hidden transition bg-teal-600 flex justify-center items-center",
                       isDirty
-                        ? "ring-teal-600 [&:is(:hover,:focus-visible)]:bg-teal-600"
-                        : "ring-gray-400 cursor-not-allowed opacity-60",
-                      isSubmitting && "cursor-not-allowed"
+                        ? "hover:bg-teal-700 focus-visible:ring-2"
+                        : "cursor-not-allowed opacity-40",
+                      isSubmitting && "cursor-progress"
                     )}
                   >
-                    <span
-                      className={clsx(
-                        "text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] transition-colors",
-                        isDirty
-                          ? "text-teal-600 group-[:is(:hover,:focus-visible)]:text-white"
-                          : "text-slate-500"
-                      )}
-                    >
-                      {isSubmitting ? "..." : "変更を保存"}
-                    </span>
+                    {isSubmitting ? (
+                      <PuffLoader color="white" size={24} />
+                    ) : (
+                      <span className="text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] text-white">
+                        変更を保存
+                      </span>
+                    )}
                   </button>
                 </form>
               </div>
@@ -185,7 +204,7 @@ const AddVideo: NextPageWithLayout = () => {
             <h2 className="text-lg font-bold">動画リスト編集</h2>
           </div>
           <div className="shadow-md">
-            <Divider bgColor="bg-stone-300" />
+            <Divider />
           </div>
         </div>
       </div>

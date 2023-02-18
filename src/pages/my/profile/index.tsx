@@ -43,6 +43,7 @@ import { schema } from "#/schema/profile";
 import { useGetProfile } from "#/hooks/useGetProfile";
 import { usePatchProfile } from "#/hooks/usePatchProfile";
 import { uploadAndGetUrl } from "#/utils/firebaseStorage";
+import { PuffLoader } from "react-spinners";
 
 export type Schema = z.infer<typeof schema>;
 
@@ -73,7 +74,7 @@ const Profile: NextPageWithLayout = () => {
   const { data: profile, isLoading, isError, error } = useGetProfile(session);
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [previewFile, setPreviewFile] = useState<File>();
-  // const [previewData, setPreviewData] = useState<PreviewData>();
+  const [defaultFile, setDefaultFile] = useState(previewFile);
   // const [verifiedText, setVerifiedText] = useState("");
   const { mutateAsync } = usePatchProfile();
 
@@ -88,12 +89,20 @@ const Profile: NextPageWithLayout = () => {
     resolver: zodResolver(schema),
   });
 
-  const [defaultFile, setDefaultFile] = useState(previewFile);
+  const isProfileDirty = useMemo(() => {
+    return isDirty || defaultFile !== previewFile;
+  }, [isDirty, defaultFile, previewFile]);
+
+  const isFileError = useMemo(() => {
+    return (
+      previewFile &&
+      (previewFile.size > ONE_MEGA_BYTE * 2 ||
+        !ACCEPTED_IMAGE_TYPES.includes(previewFile.type))
+    );
+  }, [previewFile]);
 
   useEffect(() => {
-    if (isSubmitSuccessful) {
-      setDefaultFile(previewFile);
-    }
+    if (isSubmitSuccessful) setDefaultFile(previewFile);
   }, [isSubmitSuccessful]);
 
   /**
@@ -104,6 +113,8 @@ const Profile: NextPageWithLayout = () => {
     // console.log("typeof fData.slug:", typeof fData.slug);
     // console.log("fData.fileList", fData.fileList);
     console.log("onSubmit");
+
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
     // return;
 
     if (session === null || session.user === undefined) return;
@@ -267,7 +278,7 @@ const Profile: NextPageWithLayout = () => {
       {/* <div className="sticky top-0 z-10 bg-white shadow-[0_-32px_0_white] space-y-2"> */}
       <div className="sticky top-0 z-10 h-16 bg-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
-          <h2 className="text-lg font-bold">プロフィール編集</h2>
+          <h2 className="text-lg font-bold text-stone-600">プロフィール編集</h2>
           <Divider />
         </div>
       </div>
@@ -457,12 +468,12 @@ const Profile: NextPageWithLayout = () => {
                 id="name-input"
                 placeholder="&nbsp;"
                 type="text"
-                className="peer w-full h-full px-3 bg-transparent outline-none text-stone-800 text-sm tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-accent focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-md"
+                className="peer w-full h-full px-3 bg-transparent outline-none text-stone-600 tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-accent focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-md"
                 {...register("name")}
               />
 
               {/* Name Placeholder */}
-              <p className="absolute top-1/2 -translate-y-1/2 left-3 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0">
+              <p className="absolute top-1/2 -translate-y-1/2 left-3.5 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0">
                 Name
               </p>
             </div>
@@ -540,12 +551,12 @@ const Profile: NextPageWithLayout = () => {
                   id="slug-input"
                   placeholder="&nbsp;"
                   type="text"
-                  className="peer w-full h-full px-3 bg-transparent outline-none text-stone-800 text-sm tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-r-md"
+                  className="peer w-full h-full px-3 bg-transparent outline-none text-stone-600 tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-r-md"
                   {...register("slug")}
                 />
 
                 {/* URL Placeholder */}
-                <div className="absolute top-1/2 -translate-y-1/2 left-3 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0">
+                <div className="absolute top-1/2 -translate-y-1/2 left-3.5 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0">
                   your-content-path
                 </div>
               </div>
@@ -618,7 +629,7 @@ const Profile: NextPageWithLayout = () => {
                 Selected Video Description
               </label>
 
-              {/* Name Character Count */}
+              {/* Desc Character Count */}
               <div className="opacity-0 text-xxs text-stone-500 group-[:has(textarea:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
                 <InputCounter
                   name="description"
@@ -636,13 +647,13 @@ const Profile: NextPageWithLayout = () => {
                 id="desc-textarea"
                 placeholder="&nbsp;"
                 rows={6}
-                className="peer w-full h-full px-3 py-2 bg-transparent outline-none text-sm text-stone-800 tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-accent focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-md"
+                className="peer w-full h-full px-3 py-2 bg-transparent outline-none text-stone-600 tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-accent focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-md"
                 {...register("description")}
               />
 
               {/* Desc Placeholder */}
-              <p className="absolute top-2 left-3 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0">
-                Why you selected these videos
+              <p className="absolute top-2 left-3.5 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0">
+                why you selected these videos
               </p>
             </div>
 
@@ -688,38 +699,23 @@ const Profile: NextPageWithLayout = () => {
           className="flex justify-end"
         >
           <button
-            disabled={
-              (defaultFile === previewFile && !isDirty) ||
-              isSubmitting ||
-              (previewFile &&
-                (previewFile.size > ONE_MEGA_BYTE * 2 ||
-                  !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)))
-            }
+            disabled={!isProfileDirty || isSubmitting || isFileError}
             className={clsx(
-              // "bg-accent",
-              // "bg-emerald-600",
-              "bg-teal-600",
-              "relative py-2 w-28 rounded-md text-white outline-none shadow-md overflow-hidden",
-              isDirty || defaultFile !== previewFile
-                ? "[&:is(:hover,:focus-visible)]:opacity-80"
-                : "",
-              (defaultFile === previewFile && !isDirty) ||
-                (previewFile &&
-                  (previewFile.size > ONE_MEGA_BYTE * 2 ||
-                    !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)))
-                ? "cursor-not-allowed [&:is(:hover,:focus-visible)]:brightness-90"
-                : "",
-              isSubmitting && "cursor-not-allowed"
+              "relative h-9 w-28 rounded-md outline-none shadow-md overflow-hidden transition bg-teal-600 flex justify-center items-center",
+              !isProfileDirty || isFileError
+                ? "cursor-not-allowed opacity-40"
+                : "hover:bg-teal-700 focus-visible:ring-2",
+              isSubmitting && "cursor-progress"
             )}
           >
             <span className="absolute bottom-0 inset-x-0 h-1/2 bg-black/10"></span>
-            <p
-              className="text-sm -translate-y-0 tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.75)]"
-              // className="text-sm -translate-y-0 tracking-wider font-medium"
-              // style={{ textShadow: "0 1px 1px rgba(0, 0, 0, 0.75)" }}
-            >
-              {isSubmitting ? "..." : "変更を保存"}
-            </p>
+            {isSubmitting ? (
+              <PuffLoader color="white" size={24} />
+            ) : (
+              <span className="text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] text-white">
+                変更を保存
+              </span>
+            )}
           </button>
         </form>
       </div>

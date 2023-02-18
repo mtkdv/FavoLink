@@ -26,6 +26,12 @@ module.exports = {
         // accent: "#B6A0A1",
         // accent: "#5E4145",
         // accent: "#463f3a",
+
+        // accent: "#FFFCF8",
+        // accent: "#63594D",
+
+        // accent: "#DD8D43",
+
         accent: "#e8a78e",
         "tonys-pink": "#e8a78e",
         isabelline: {
@@ -54,6 +60,9 @@ module.exports = {
       fontSize: {
         xxxs: ["0.625rem", { lineHeight: "0.75rem" }],
         xxs: ["0.6875rem", { lineHeight: "0.875rem" }],
+      },
+      spacing: {
+        22: "5.5rem",
       },
       keyframes: {
         animate: {

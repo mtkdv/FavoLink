@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useGetProfile } from "#/hooks/useGetProfile";
 import { useEffect } from "react";
+import clsx from "clsx";
 
 const Public = () => {
   // console.log("Public");
@@ -60,19 +61,45 @@ const Public = () => {
     return <Error statusCode={404} title={error.message} />;
   }
 
-  const { profile, categories, links: videos } = data;
+  const { profile, categories, videos, custom } = data;
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-tr from-red-200 via-red-300 to-yellow-200 pt-36 pb-6 overflow-hidden">
-      {/* Sidebar */}
+    // <div className="relative min-h-screen bg-gradient-to-tr from-red-200 via-red-300 to-yellow-200 pt-36 pb-6 overflow-hidden">
+    <div className="min-h-screen pt-36 pb-6 overflow-hidden">
+      <div className="fixed top-0 w-full h-screen -z-10">
+        {custom.backgroundImage ? (
+          <Image
+            src={custom.backgroundImage}
+            alt="公開ページの背景画像"
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" />
+        )}
+        {/* <div className="h-full bg-gradient-to-r from-slate-900 to-slate-700" /> */}
+      </div>
+
+      {/* Setting button */}
       {session?.user && session.user.id === profile.userId && (
         <Link
           href="/my/profile"
-          className="absolute group top-3 right-6 p-3 bg-gradient-to-br from-white/50 to-white/20 rounded-full shadow"
+          className={clsx(
+            // "absolute group top-3 right-6 p-3 border border-white/25 border-t-white/50 border-l-white/50 rounded-full shadow-md hover:shadow-lg backdrop-blur-sm",
+            "absolute group top-3 right-6 p-3 border-2 border-white rounded-full shadow-[0_2px_8px_-2px] shadow-black/30 hover:shadow-lg backdrop-blur-sm transition outline-none focus-visible:ring-2",
+            custom.mode === "LIGHT"
+              ? "bg-white/20 hover:bg-white/40"
+              : "bg-black/20 hover:bg-white"
+          )}
         >
           <FaUserCog
             size={24}
-            className="text-stone-400 translate-x-0.5 group-[:is(:hover,:focus-visible)]:scale-110 group-[:is(:hover,:focus-visible)]:text-stone-600 transition"
+            className={clsx(
+              "translate-x-0.5 transition",
+              custom.mode === "LIGHT"
+                ? "text-stone-500 group-hover:text-base-black"
+                : "text-white group-hover:text-base-black"
+            )}
           />
         </Link>
       )}
@@ -80,16 +107,23 @@ const Public = () => {
       {/* <main className="relative min-h-screen w-full overflow-hidden bg-gradient-to-tr from-red-200 via-red-300 to-yellow-200 px-6"> */}
       <main className="relative min-h-[calc(100vh_-_256px)] px-6">
         {/* Circle */}
-        <div className="absolute w-full h-full">
+        {/* <div className="absolute w-full h-full">
           <div className="absolute -top-[5%] -left-40 bg-gradient-to-tr from-white/40 to-white/10 rounded-full w-[450px] h-[450px] animate-[animate_7s_infinite]"></div>
           <div className="absolute top-[30%] -right-40 bg-gradient-to-bl from-white/40 to-white/0 rounded-full w-[550px] h-[550px] animate-[animate_10s_infinite]"></div>
           <div className="absolute bottom-[3%] left-10 bg-gradient-to-br from-white/40 to-white/0 rounded-full w-[400px] h-[400px] animate-[animate_6s_infinite]"></div>
-        </div>
+        </div> */}
 
         {/* Profile, Contents */}
         <div className="relative z-10 mt max-w-3xl mx-auto">
           {/* Profile */}
-          <div className="relative w-full h-32 space-y-4 bg-gradient-to-br from-white/50 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)]">
+          <div
+            className={clsx(
+              "relative w-full h-32 space-y-4 border border-white/25 border-t-white/50 border-l-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm",
+              custom.mode === "LIGHT"
+                ? "bg-white/20 text-base-black"
+                : "bg-black/20 text-white"
+            )}
+          >
             <div className="absolute left-1/2 w-full px-6 -translate-x-1/2 -top-10 space-y-6">
               {/* Avatar */}
               <div className="flex justify-center">
@@ -103,7 +137,7 @@ const Public = () => {
               </div>
 
               {/* Name */}
-              <p className="text-center font-semibold line-clamp-2 break-all">
+              <p className="text-center font-semibold tracking-wide line-clamp-2 break-all">
                 {profile.name}
               </p>
 
@@ -114,7 +148,7 @@ const Public = () => {
 
           {/* Contents */}
           <div className="mt-12">
-            <CategorizedLink {...{ categories, videos }} />
+            <CategorizedLink {...{ categories, videos, custom }} />
           </div>
         </div>
       </main>
@@ -125,7 +159,7 @@ const Public = () => {
             Favolink
           </p>
         </Link>
-        <p className="text-xs text-stone-500 drop-shadow-[0_1px_0_white]">
+        <p className="text-xs drop-shadow-[1px_1px_0_white]">
           Copyright &copy; 2023 All rights reserved.
         </p>
       </footer>

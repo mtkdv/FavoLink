@@ -5,6 +5,16 @@ import GitHubProvider from "next-auth/providers/github";
 import TwitterProvider from "next-auth/providers/twitter";
 import prisma from "#/lib/prisma";
 
+// const createProfile = (message: { user: User }) => {
+//   prisma.profile.create({
+//     data: {
+//       name: message.user.name!,
+//       image: message.user.image,
+//       user: { connect: { id: message.user.id } },
+//     },
+//   });
+// };
+
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
@@ -35,13 +45,20 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     createUser: async (message) => {
-      await prisma.profile.create({
-        data: {
-          name: message.user.name!,
-          image: message.user.image,
-          user: { connect: { id: message.user.id } },
-        },
-      });
+      await Promise.all([
+        prisma.profile.create({
+          data: {
+            name: message.user.name!,
+            image: message.user.image,
+            user: { connect: { id: message.user.id } },
+          },
+        }),
+        prisma.custom.create({
+          data: {
+            user: { connect: { id: message.user.id } },
+          },
+        }),
+      ]);
     },
   },
 };
