@@ -1,8 +1,9 @@
-import prisma from "#/lib/prisma";
-import { Schema } from "#/pages/my/add-video";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
+
 import { authOptions } from "../auth/[...nextauth]";
+import prisma from "#/lib/prisma";
+import { Schema } from "#/pages/my/add-video";
 
 export default async function handle(
   req: NextApiRequest,
@@ -66,66 +67,70 @@ export default async function handle(
       });
 
       /** Upsert Category & Video */
-      const response = youtube.flatMap(
-        async ({ categoryId, categoryName: name, video }, ci) => {
-          if (name === "") return [];
-          // FIXME: index処理不要かも
-          const index = (ci + 1) * 1024;
-          const upsertedCategory = await prisma.category.upsert({
-            where: { id: categoryId },
-            update: { name, index },
-            create: {
-              name,
-              index,
-              user: {
-                // FIXME: とりあえずgetServerSessionの値を使用
-                connect: { id: userId },
-              },
-            },
-          });
-
-          const upsertedVideo = video.flatMap(
-            async (
-              {
-                id,
-                videoId,
-                title,
-                thumbnailUrl,
-                channelId,
-                channelTitle,
-                channelThumbnailUrl,
-              },
-              vi
-            ) => {
-              if (videoId === "") return [];
-              const index = (vi + 1) * 1024;
-              return await prisma.link.upsert({
-                where: { id },
-                update: { index },
-                create: {
-                  title,
-                  videoId,
-                  thumbnailUrl,
-                  channelId,
-                  channelTitle,
-                  channelThumbnailUrl,
-                  index,
-                  user: {
-                    connect: { id: userId },
-                  },
-                  category: {
-                    // カテゴリ作成時にはcategoryIdはまだ無いため。
-                    connect: { id: upsertedCategory.id },
-                  },
+      const response = await Promise.all(
+        youtube.flatMap(
+          async ({ categoryId, categoryName: name, video }, ci) => {
+            if (name === "") return [];
+            // FIXME: index処理不要かも
+            const index = (ci + 1) * 1024;
+            const upsertedCategory = await prisma.category.upsert({
+              where: { id: categoryId },
+              update: { name, index },
+              create: {
+                name,
+                index,
+                user: {
+                  // FIXME: とりあえずgetServerSessionの値を使用
+                  connect: { id: userId },
                 },
-              });
-            }
-          );
+              },
+            });
 
-          return { upsertedCategory, upsertedVideo };
-        }
+            const upsertedVideo = await Promise.all(
+              video.flatMap(
+                async (
+                  {
+                    id,
+                    videoId,
+                    title,
+                    thumbnailUrl,
+                    channelId,
+                    channelTitle,
+                    channelThumbnailUrl,
+                  },
+                  vi
+                ) => {
+                  if (videoId === "") return [];
+                  const index = (vi + 1) * 1024;
+                  return await prisma.link.upsert({
+                    where: { id },
+                    update: { index },
+                    create: {
+                      title,
+                      videoId,
+                      thumbnailUrl,
+                      channelId,
+                      channelTitle,
+                      channelThumbnailUrl,
+                      index,
+                      user: {
+                        connect: { id: userId },
+                      },
+                      category: {
+                        // カテゴリ作成時にはcategoryIdはまだ無いため。
+                        connect: { id: upsertedCategory.id },
+                      },
+                    },
+                  });
+                }
+              )
+            );
+
+            return { upsertedCategory, upsertedVideo };
+          }
+        )
       );
-      console.log("response:", response);
+      // console.log("response:", response);
       // res.json({ type: "success", response });
       res.json(response);
       break;

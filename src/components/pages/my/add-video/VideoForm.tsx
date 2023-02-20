@@ -124,7 +124,7 @@ export const VideoForm: React.FC<Props> = ({
         className="absolute right-2 top-2 group/remove outline-none"
       >
         <IoMdClose
-          size={24}
+          size={20}
           className="text-stone-400 group-[:is(:hover,:focus-visible)]/remove:text-[#222222] transition duration-300 opacity-0 group-hover/collection-item:opacity-100"
         />
       </button>
@@ -132,10 +132,10 @@ export const VideoForm: React.FC<Props> = ({
       {/* Video-URL Form */}
       <form
         onSubmit={handleSubmit(onUpdate)}
-        className="h-full flex flex-col justify-center space-y-2 px-3"
+        className="h-full w-full flex flex-col justify-center space-y-2 px-3"
       >
-        {/* Video-URL label, a */}
-        <div className="flex space-x-2">
+        {/* Video-URL Label, a */}
+        <div className="flex space-x-2 w-fit">
           <label
             htmlFor={`url-input-${nestIndex}-${index}`}
             className="ml-1 w-fit text-xs text-stone-600 font-semibold tracking-wide"
@@ -166,7 +166,8 @@ export const VideoForm: React.FC<Props> = ({
           />
 
           {/* Video-URL Placeholder */}
-          <p className="absolute z-20 top-1/2 -translate-y-1/2 left-3 text-sm text-stone-400 tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0">
+          {/* <p className="absolute z-20 top-1/2 -translate-y-1/2 left-3 text-sm text-stone-400 tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0"> */}
+          <p className="absolute z-20 top-1/2 -translate-y-1/2 left-3.5 text-sm text-stone-400 tracking-wider transition duration-300 pointer-events-none peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0">
             https://www.youtube.com/watch?v=***********
           </p>
 

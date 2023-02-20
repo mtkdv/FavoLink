@@ -45,7 +45,6 @@ export const schema = z.object({
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: SLUG_ERROR_CODE.RANGE,
-          // message: SLUG_ERROR_CODE.RANGE as typeof SLUG_ERROR_CODE[keyof typeof SLUG_ERROR_CODE],
         });
         return z.NEVER;
       }

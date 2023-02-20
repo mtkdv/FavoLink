@@ -1,31 +1,23 @@
-import { Schema } from "#/pages/my/add-video";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
+import { Schema } from "#/pages/my/add-video";
+
 export const useMutateVideo = () => {
   const queryClient = useQueryClient();
-  const videoMutation = useMutation({
-    mutationFn: async (data: Schema) => {
+  const videoMutation = useMutation<unknown, unknown, Schema>({
+    mutationFn: async (data) => {
       const res = await axios.put(`/api/video`, data);
-      // const res = await axios.post(`/api/category`, {
-      //   headers: { "Content-Type": "application/json" },
-      //   // body: JSON.stringify(body),
-      //   data,
-      // });
-      // return await res.json();
       return res.data;
     },
-    // FIXME: 不安定
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["youtube"] }),
-
-    // onSettled: () =>
-    //   queryClient.invalidateQueries({ queryKey: ["categories"] }),
-
-    // ["categories", "links"].forEach((queryKey) => {
-    //   queryClient.invalidateQueries({
-    //     queryKey: [queryKey],
-    //   });
-    // });
+    // onSuccess: () => queryClient.invalidateQueries({ queryKey: ["youtube"] }),
+    onSuccess: (data) => {
+      console.log("apiVideoResponse:", data);
+      queryClient.invalidateQueries({ queryKey: ["youtube"] });
+    },
+    // onSuccess: (data) => {
+    //   queryClient.setQueryData(["todo", { id: 5 }], data);
+    // },
   });
   return videoMutation;
 };

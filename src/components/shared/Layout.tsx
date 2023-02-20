@@ -4,7 +4,7 @@ import { Sidebar } from "./Sidebar";
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     // <div className="max-h-screen overflow-y-hidden bg-isabelline-light text-[color:#1D1D1D]">
-    <div className="max-h-screen overflow-y-hidden bg-isabelline-light text-[color:#222222]">
+    <div className="max-h-screen overflow-y-hidden bg-isabelline-light">
       <div className="max-w-3xl mx-auto flex">
         {/* L: Sidebar */}
         <Sidebar />

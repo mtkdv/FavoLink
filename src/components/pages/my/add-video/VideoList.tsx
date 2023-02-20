@@ -24,7 +24,7 @@ export const VideoList: React.FC<Props> = ({
   ...rest
 }) => {
   return (
-    <ul className="space-y-4">
+    <ul className="mt-6 space-y-4">
       {videoFields.map((videoField, index) => (
         <VideoListItem
           key={videoField.id}

@@ -42,7 +42,7 @@ export const VideoListItem: React.FC<Props> = ({
   };
 
   return (
-    <li className="group/video-item relative h-[90px] rounded-sm ring-1 ring-stone-300 bg-white">
+    <li className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white hover:ring-stone-400">
       {!hasValues ? (
         // Video Form
         <VideoForm
@@ -72,9 +72,10 @@ export const VideoListItem: React.FC<Props> = ({
             </button>
           )}
 
-          <div className="flex space-x-2">
+          <div className="w-full px-1 flex space-x-2">
             {/* Left */}
-            <div className="overflow-hidden shrink-0 border-r border-r-stone-300">
+            {/* <div className="overflow-hidden shrink-0 border-r border-r-stone-300"> */}
+            <div className="overflow-hidden shrink-0 ring-1 ring-stone-300">
               <Image
                 src={getValues(
                   `youtube.${nestIndex}.video.${index}.thumbnailUrl`
@@ -82,7 +83,7 @@ export const VideoListItem: React.FC<Props> = ({
                 alt="thumbnail"
                 width={160}
                 height={90}
-                className="rounded-l-sm hover:scale-105 transition-transform"
+                className="hover:scale-105 transition-transform"
               />
             </div>
 

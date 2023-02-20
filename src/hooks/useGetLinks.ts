@@ -7,6 +7,7 @@ export const useGetLinks = (session: Session | null) => {
     queryKey: ["youtube", "links"],
     queryFn: async () => {
       const res = await fetch(`/api/link`);
+      // console.log("useGetLinks");
       return (await res.json()) as Link[];
     },
     enabled: !!session,

@@ -72,7 +72,7 @@ export const CategoryListItem: React.FC<Props> = ({
     <li
       id={categoryField.categoryName}
       key={categoryField.id}
-      className="relative group/collection-item px-3 py-6 rounded-sm ring-1 ring-stone-300 flex flex-col shadow-[0_0_3px_1px] shadow-isabelline"
+      className="relative group/collection-item px-3 py-6 rounded-sm ring-1 ring-stone-300 flex flex-col shadow-[0_0_3px_1px] shadow-isabelline hover:ring-stone-400"
     >
       {/* Move Category Up Down */}
       {index === 0 || (
@@ -127,7 +127,7 @@ export const CategoryListItem: React.FC<Props> = ({
             />
 
             {/* Collection Placeholder */}
-            <p className="absolute top-1/2 -translate-y-1/2 left-3 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0">
+            <p className="absolute top-1/2 -translate-y-1/2 left-3 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0">
               Collection
             </p>
 
@@ -156,9 +156,9 @@ export const CategoryListItem: React.FC<Props> = ({
         )}
       </div>
 
-      <div className="mt-6">
+      {videoFields.length ? (
         <VideoList {...{ videoFields, index, move, remove, ...rest }} />
-      </div>
+      ) : null}
 
       {/* コレクション内のvideoが重複している場合のエラーメッセージ */}
       {errors.youtube && errors.youtube[index]?.video?.message && (

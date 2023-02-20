@@ -59,7 +59,7 @@ export const PublicOrPrivateSwitch = () => {
             onChange={handleChange}
             className="sr-only"
           />
-          {/* TODO: スイッチの見た目変更 */}
+          {/* FIXME: スイッチの見た目変更 */}
           <div
             className={clsx(
               "h-6 w-11 rounded-full flex items-center cursor-pointer transition-colors",
