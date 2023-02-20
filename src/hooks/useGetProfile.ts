@@ -37,9 +37,10 @@ export const useGetProfile = (
           // id: "cld3xv2kq0000ie3g26vfe6cb",
         },
       });
-      // await new Promise((resolve) => {
-      //   setTimeout(resolve, 3000);
-      // });
+
+      // Loading Test
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       return res.data;
       // }
     },

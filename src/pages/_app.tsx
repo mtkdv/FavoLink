@@ -1,11 +1,12 @@
 import "#/styles/globals.css";
-import { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps, AppType } from "next/app";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import { Toaster } from "react-hot-toast";
+import { Loader } from "#/components/uiParts/Loader";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -26,7 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        {/* <Toaster
+        <Toaster
           position="bottom-right"
           // position="top-right"
           toastOptions={{
@@ -44,7 +45,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
               duration: 5000,
             },
           }}
-        /> */}
+        />
         {getLayout(<Component {...pageProps} />)}
       </QueryClientProvider>
     </SessionProvider>

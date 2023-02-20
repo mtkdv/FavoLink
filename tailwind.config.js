@@ -62,6 +62,7 @@ module.exports = {
         xxs: ["0.6875rem", { lineHeight: "0.875rem" }],
       },
       spacing: {
+        18: "4.5rem",
         22: "5.5rem",
       },
       keyframes: {
@@ -113,12 +114,20 @@ module.exports = {
             transform: "translateX(2px)",
           },
         },
-        pulse: {
-          "0%, 100%": {
-            transform: "scale(1)",
+        // pulse: {
+        //   "0%, 100%": {
+        //     transform: "scale(1)",
+        //   },
+        //   "50%": {
+        //     transform: "scale(1.01)",
+        //   },
+        // },
+        appearance: {
+          "0%": {
+            opacity: "0",
           },
-          "50%": {
-            transform: "scale(1.01)",
+          "100%": {
+            opacity: "1",
           },
         },
       },
@@ -127,7 +136,8 @@ module.exports = {
         moveDownArrow: "moveDownArrow 1s ease-out infinite",
         myPing: "myPing 1s linear infinite",
         shake: "shake 0.41s ease-in-out 0.2s both",
-        pulse: "pulse 3s ease-in-out infinite",
+        // pulse: "pulse 3s ease-in-out infinite",
+        appearance: "appearance 0.7s linear",
       },
     },
     screens: {
