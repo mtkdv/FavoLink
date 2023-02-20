@@ -26,6 +26,7 @@ export default async function handle(
           index: "asc",
         },
       });
+      // console.log("apiCategoryGetResponse:", categories);
       res.json(categories);
       break;
     }

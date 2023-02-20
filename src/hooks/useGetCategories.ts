@@ -7,7 +7,11 @@ export const useGetCategories = (session: Session | null) => {
     queryKey: ["youtube", "categories"],
     queryFn: async () => {
       const res = await fetch(`/api/category`);
+      // console.log("useGetCategories");
       return (await res.json()) as Category[];
+      // const resdata = (await res.json()) as Category[];
+      // console.log("useGetCategory response:", resdata);
+      // return resdata;
     },
     enabled: !!session,
   });

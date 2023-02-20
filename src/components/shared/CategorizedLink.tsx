@@ -1,7 +1,8 @@
 import { useGetCategories } from "#/hooks/useGetCategories";
 import { useGetLinks } from "#/hooks/useGetLinks";
-import { Category, Link } from "@prisma/client";
+import { Category, Custom, Link } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -16,11 +17,13 @@ type VideoCategories = {
 type CategorizedLink = {
   categories: Category[];
   videos: Link[];
+  custom: Custom;
 };
 
 export const CategorizedLink: FC<CategorizedLink> = ({
   categories,
   videos,
+  custom,
 }) => {
   const [VideoCategories, setVideoCategories] = useState<VideoCategories>();
 
@@ -57,8 +60,14 @@ export const CategorizedLink: FC<CategorizedLink> = ({
             VideoCategories.map((videoCategory) => (
               <li
                 key={videoCategory.id}
-                // className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-6 space-y-4 max-sm:max-w-xs max-sm:mx-auto"
-                className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-6 space-y-4"
+                // className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-6 space-y-4"
+                // className="bg-white/20 text-base-black border-2 border-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm p-6 space-y-4"
+                className={clsx(
+                  "border border-white/25 border-t-white/50 border-l-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm p-6 space-y-4",
+                  custom.mode === "LIGHT"
+                    ? "bg-white/20 text-base-black"
+                    : "bg-black/20 text-white"
+                )}
               >
                 <h2 className="text-center text-xl font-medium drop-shadow-md tracking-wide">
                   {/* <span className="relative">
@@ -75,7 +84,7 @@ export const CategorizedLink: FC<CategorizedLink> = ({
                           queryClient.setQueryData(["videoData"], video);
                           setIsModalOpen(true);
                         }}
-                        className="space-y-1 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 max-w-xs"
+                        className="space-y-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 max-w-xs"
                       >
                         <div className="overflow-hidden rounded-md shadow-md">
                           <Image
@@ -94,7 +103,7 @@ export const CategorizedLink: FC<CategorizedLink> = ({
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`https://www.youtube.com/channel/${video.channelId}`}
-                        className="flex items-center space-x-1 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="flex items-center space-x-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         <div className="overflow-hidden rounded-full">
                           <Image
@@ -105,7 +114,14 @@ export const CategorizedLink: FC<CategorizedLink> = ({
                             className="hover:scale-105 transition-transform"
                           />
                         </div>
-                        <p className="text-xs line-clamp-1 flex-1 text-black/70 hover:text-black">
+                        <p
+                          className={clsx(
+                            "text-xs line-clamp-1 flex-1",
+                            custom.mode === "LIGHT"
+                              ? "text-black/70 hover:text-base-black"
+                              : "text-white/70 hover:text-white"
+                          )}
+                        >
                           {video.channelTitle}
                         </p>
                       </a>

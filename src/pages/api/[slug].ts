@@ -1,5 +1,5 @@
 import prisma from "#/lib/prisma";
-import { Category, Link, Profile } from "@prisma/client";
+import { Category, Custom, Link, Profile } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export type PublicPageRes =
@@ -17,7 +17,8 @@ export type PublicPageRes =
 export type PublicPageData = {
   profile: Profile;
   categories: Category[];
-  links: Link[];
+  videos: Link[];
+  custom: Custom;
 };
 
 export default async function PublicPage(
@@ -37,6 +38,7 @@ export default async function PublicPage(
   });
 
   if (profile.published === false) {
+    // FIXME: res.status().json()
     throw new Error("publisled field is false");
   }
 
@@ -58,14 +60,21 @@ export default async function PublicPage(
         index: "asc",
       },
     });
+  const findCustom = () =>
+    prisma.custom.findUnique({
+      where: {
+        userId: profile.userId,
+      },
+    });
 
-  const [categories, links] = await Promise.all([
+  const [categories, videos, custom] = await Promise.all([
     findCategories(),
     findLinks(),
+    findCustom(),
   ]);
 
   // res.json({ type: "success", profile, categories, links });
-  res.json({ profile, categories, links });
+  res.json({ profile, categories, videos, custom });
   // } catch (error) {
   //   if (error instanceof Error) {
   //     console.error(error);
