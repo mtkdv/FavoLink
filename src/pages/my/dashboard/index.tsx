@@ -4,17 +4,47 @@ import { ReactElement } from "react";
 
 const Dashboard: NextPageWithLayout = () => {
   return (
-    <div className="w-80 h-80 bg-slate-200">
-      <div className="h-20 bg-red-300">Dashboard</div>
-      <div className="h-20 bg-blue-300 mt-10">Hoge</div>
-      {/* <div className="w-40 h-40 bg-blue-300">Customize</div> */}
-      {/* <div className="h-[100px] w-[150px]">Profile</div>
-      <div className="h-[100px] w-[200px]">Width</div> */}
-    </div>
+    <>
+      {/* <div className="px-10 h-[500px] border border-cyan-500 flex items-start">
+        <div className="w-40 min-w-[120px] bg-violet-400 aspect-[2/3]"></div>
+        <div className="w-40 min-w-[120px] bg-indigo-400 aspect-[2/3]"></div>
+      </div> */}
+
+      {/* <div className="mt-4 px-10 h-[800px] border border-cyan-500 flex flex-col items-start">
+        <div className="h-90 min-h-[240px] bg-violet-400 aspect-[2/3]"></div>
+        <div className="h-90  bg-indigo-400 aspect-[2/3]"></div>
+      </div> */}
+
+      {/* <div className="mt-4 px-10 h-[800px] border border-cyan-500 flex flex-col">
+        <div className="flex">
+          <span className="block w-60 min-w-[160px] bg-violet-400 aspect-[2/3]"></span>
+        </div>
+        <span className="block w-60  bg-indigo-400 aspect-[2/3]"></span>
+      </div> */}
+
+      {/* grid */}
+      {/* <div className="mt-4 px-10 border border-cyan-500 grid grid-cols-1">
+        <div className="flex">
+          <div className="w-60 min-w-[160px] bg-violet-400 aspect-[2/3]"></div>
+        </div>
+        <div className="w-60 bg-indigo-400 aspect-[2/3]"></div>
+      </div> */}
+
+      {/* <div className="mt-4 px-10 border border-cyan-500 bg-lime-400 bg-clip-content flex justify-around flex-wrap">
+        <div className="w-60 min-w-[160px] bg-violet-400 aspect-[2/3]"></div>
+        <div className="w-60 bg-indigo-400 aspect-[2/3]"></div>
+      </div> */}
+
+      <div className="mt-4 px-10 border border-cyan-500 bg-lime-400 bg-clip-content">
+        <div className="flex">
+          <div className="w-60 min-w-[160px] bg-violet-400 aspect-[2/3]"></div>
+        </div>
+        <div className="w-60 bg-indigo-400 aspect-[2/3]"></div>
+      </div>
+    </>
   );
 };
 
-// Dashboard.getLayout = function getLayout(page: ReactElement) {
 Dashboard.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>;
 };

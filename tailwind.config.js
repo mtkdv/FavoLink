@@ -64,6 +64,7 @@ module.exports = {
       spacing: {
         18: "4.5rem",
         22: "5.5rem",
+        90: "22.5rem",
       },
       keyframes: {
         animate: {
@@ -114,14 +115,15 @@ module.exports = {
             transform: "translateX(2px)",
           },
         },
-        // pulse: {
-        //   "0%, 100%": {
-        //     transform: "scale(1)",
-        //   },
-        //   "50%": {
-        //     transform: "scale(1.01)",
-        //   },
-        // },
+        loadingPulse: {
+          // "0%, 100%": {
+          //   transform: "scale(1)",
+          // },
+          "50%": {
+            opacity: "0.4",
+            // backgroundColor: "white",
+          },
+        },
         appearance: {
           "0%": {
             opacity: "0",
@@ -130,14 +132,32 @@ module.exports = {
             opacity: "1",
           },
         },
+        skeleton: {
+          "0%": {
+            transform: "translateX(-100%)",
+          },
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
+        skeleton2: {
+          "0%": {
+            backgroundPosition: 0,
+          },
+          "0%": {
+            backgroundPosition: "200%",
+          },
+        },
       },
       animation: {
         moveUpArrow: "moveUpArrow 1s ease-out infinite",
         moveDownArrow: "moveDownArrow 1s ease-out infinite",
         myPing: "myPing 1s linear infinite",
         shake: "shake 0.41s ease-in-out 0.2s both",
-        // pulse: "pulse 3s ease-in-out infinite",
+        loadingPulse: "loadingPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         appearance: "appearance 0.7s linear",
+        skeleton: "skeleton 1.2s linear infinite",
+        skeleton2: "skeleton2 1.2s linear infinite",
       },
     },
     screens: {

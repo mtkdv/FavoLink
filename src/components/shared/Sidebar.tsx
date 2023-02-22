@@ -52,11 +52,12 @@ export const Sidebar = () => {
           ))}
 
           {/* Public Page */}
-          {isLoading ? (
+          {/* {isLoading ? (
             <li className="h-14 md:h-12 md:px-3 flex items-center max-md:justify-center">
-              <div className="h-full md:h-5 w-full md:w-24 rounded-lg md:rounded-full bg-isabelline animate-pulse" />
+              <div className="h-full md:h-5 w-full md:w-24 rounded-lg md:rounded-full bg-isabelline animate-loadingPulse" />
             </li>
-          ) : profile.slug && profile.published ? (
+          ) : profile.slug && profile.published ? ( */}
+          {profile?.slug && profile.published ? (
             <li className="animate-appearance">
               <a
                 target="_blank"

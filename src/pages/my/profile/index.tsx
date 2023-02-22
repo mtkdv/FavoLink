@@ -44,7 +44,7 @@ import { useGetProfile } from "#/hooks/useGetProfile";
 import { usePatchProfile } from "#/hooks/usePatchProfile";
 import { uploadAndGetUrl } from "#/utils/firebaseStorage";
 import { PuffLoader } from "react-spinners";
-import { ProfileLoader } from "#/components/pages/my/profile/ProfileLoader";
+import { ProfileSkeleton } from "#/components/pages/my/profile/ProfileSkeleton";
 
 export type Schema = z.infer<typeof schema>;
 
@@ -280,7 +280,7 @@ const Profile: NextPageWithLayout = () => {
       </div>
 
       {isLoading ? (
-        <ProfileLoader />
+        <ProfileSkeleton />
       ) : (
         <div className="my-6 flex flex-col space-y-6 animate-appearance">
           {/* Profile Forms */}
@@ -308,7 +308,7 @@ const Profile: NextPageWithLayout = () => {
                     />
 
                     {/* Label */}
-                    <div className="absolute top-1/2 -translate-y-1/2 w-full h-full clip-path-circle">
+                    <div className="absolute w-full h-full clip-path-circle">
                       <label
                         htmlFor="img-input"
                         className="absolute group bottom-0 w-full h-2/5 bg-black/30 grid place-items-center cursor-pointer hover:bg-black/40 group-[:has(:focus-visible)]/avatar-inputs:bg-black/40 transition"
