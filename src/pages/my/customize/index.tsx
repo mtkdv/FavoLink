@@ -244,14 +244,15 @@ const Customize: NextPageWithLayout = () => {
                     disabled={!isDirty || isSubmitting}
                     form="customize-form"
                     className={clsx(
-                      "relative group h-full w-24 rounded-md outline-none overflow-hidden transition bg-gradient-to-b from-teal-300 to-teal-600 border border-teal-500 flex justify-center items-center",
+                      "relative group h-full w-28 rounded-md outline-none overflow-hidden transition bg-gradient-to-b from-teal-400 to-teal-600 border border-teal-500 flex justify-center items-center",
                       isDirty
                         ? "focus-visible:ring-2"
                         : "cursor-not-allowed opacity-40",
                       isSubmitting && "cursor-progress"
                     )}
                   >
-                    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-teal-400 to-teal-700 opacity-0 group-hover:opacity-100 transition"></span>
+                    {/* gradientにtransitionが効かないため、疑似要素のopacityで対応 */}
+                    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-teal-500 to-teal-700 opacity-0 group-hover:opacity-100 transition"></span>
                     {isSubmitting ? (
                       <PuffLoader color="white" size={24} />
                     ) : (
@@ -264,7 +265,7 @@ const Customize: NextPageWithLayout = () => {
               </div>
             </div>
             {/* ページタイトル */}
-            <h2 className="text-lg font-bold">カスタマイズ</h2>
+            <h2 className="ml-2 text-lg font-bold">カスタマイズ</h2>
           </div>
           <div className="shadow-md">
             <Divider />
@@ -294,7 +295,7 @@ const Customize: NextPageWithLayout = () => {
                   <div className="flex h-8 rounded-t-md">
                     <button
                       className={clsx(
-                        "flex-1 text-sm outline-none rounded-tl-md ring-inset focus-visible:ring-2",
+                        "flex-1 text-sm outline-none rounded-tl-md ring-inset focus-visible:ring-2 px-1",
                         "flex justify-center items-center space-x-1 cursor-not-allowed",
                         !hasBackground
                           ? "font-bold bg-isabelline"
@@ -308,7 +309,7 @@ const Customize: NextPageWithLayout = () => {
                     <div className="w-px h-full bg-stone-300"></div>
                     <button
                       className={clsx(
-                        "flex-1 text-sm outline-none rounded-tr-md ring-inset focus-visible:ring-2",
+                        "flex-1 text-sm outline-none rounded-tr-md ring-inset focus-visible:ring-2 px-1",
                         hasBackground
                           ? "font-bold bg-isabelline"
                           : "bg-isabelline-light"
@@ -324,9 +325,9 @@ const Customize: NextPageWithLayout = () => {
                 {hasBackground ? (
                   <div className="group/has-background">
                     {/* 画像プレビュー */}
-                    <div className="flex max-sm:flex-col max-sm:items-center max-sm:space-y-4 sm:justify-around md:justify-between px-9 py-6">
+                    <div className="flex max-sm:flex-col max-sm:items-center max-sm:space-y-4 sm:space-x-10 px-5 py-6">
                       {/* 左 現在設定中の画像 */}
-                      <div className="space-y-2 w-full">
+                      <div className="w-full">
                         <div className="flex justify-center">
                           <Image
                             // TODO: src
@@ -334,10 +335,11 @@ const Customize: NextPageWithLayout = () => {
                             alt="現在設定中の画像"
                             width={160}
                             height={240}
-                            className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] shadow-md object-cover"
+                            // className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] shadow-md object-cover"
+                            className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] shadow-md object-cover"
                           />
                         </div>
-                        <p className="text-sm text-center">現在設定中</p>
+                        <p className="mt-2 text-sm text-center">現在設定中</p>
                       </div>
 
                       {/* 右 アップロード */}
@@ -350,7 +352,7 @@ const Customize: NextPageWithLayout = () => {
                           onChange={handleChangeImage}
                           className="sr-only opacity-0 invisible hidden"
                         />
-                        <div className="flex flex-col">
+                        <div className="">
                           {previewUrl ? (
                             <>
                               <div className="relative flex justify-center">
@@ -358,7 +360,7 @@ const Customize: NextPageWithLayout = () => {
                                 <div className="absolute w-full flex justify-center">
                                   <button
                                     onClick={() => inputRef.current?.click()}
-                                    className="group max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] shadow-md [&:is(:hover,:focus-visible)]:bg-black/30 transition grid place-items-center outline-none"
+                                    className="group max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] [&:is(:hover,:focus-visible)]:bg-black/30 transition grid place-items-center outline-none focus-visible:ring-2 ring-offset-1"
                                   >
                                     <FaImage
                                       size={32}
@@ -371,7 +373,7 @@ const Customize: NextPageWithLayout = () => {
                                   alt="アップロード用に選択した画像"
                                   width={160}
                                   height={240}
-                                  className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] shadow-md object-cover ring-1 ring-amber-600 group-[:has(.error-message)]/has-background:ring-red-600 ring-offset-1"
+                                  className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] object-cover group-[:has(.error-message)]/has-background:ring-red-600 ring-offset-1"
                                 />
                               </div>
                               <p className="mt-2 text-sm text-center text-amber-600 group-[:has(.error-message)]/has-background:text-red-600">
@@ -383,7 +385,7 @@ const Customize: NextPageWithLayout = () => {
                               <div className="flex justify-center">
                                 <button
                                   onClick={() => inputRef.current?.click()}
-                                  className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] bg-stone-50 shadow-md [&:is(:hover,:focus-visible)]:bg-black/5 transition flex justify-center items-center outline-none"
+                                  className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-stone-50 border-2 border-black/5 [&:is(:hover,:focus-visible)]:bg-black/5 [&:is(:hover,:focus-visible)]:border-none transition-[background-color,_border-style,_box-shadow] flex justify-center items-center outline-none focus-visible:ring-2"
                                 >
                                   <FaImage size={32} className="opacity-50" />
                                 </button>
@@ -549,9 +551,8 @@ const Customize: NextPageWithLayout = () => {
                       "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]/light:shadow-md transition peer-checked/light:ring-2 peer-checked/light:ring-tonys-pink peer-checked/light:bg-tonys-pink/10 flex flex-col space-y-2 justify-center pl-5"
                     )}
                   >
-                    <p className="font-semibold text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.4)]">
-                      ライトモード
-                    </p>
+                    {/* <p className="font-semibold text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.4)]"> */}
+                    <p className="font-semibold">ライトモード</p>
                     <p className="text-xs text-black/70 break-all line-clamp-1">
                       明るい背景画像に向いています。
                     </p>

@@ -16,23 +16,21 @@ export const CustomizeSkeleton = () => {
             {/* 下 */}
             <div>
               {/* 画像プレビュー */}
-              <div className="flex max-sm:flex-col max-sm:items-center max-sm:space-y-4 sm:justify-around md:justify-between px-9 py-6">
+              <div className="flex max-sm:flex-col max-sm:items-center max-sm:space-y-4 sm:space-x-10 px-5 py-6">
                 {/* 左 現在設定中の画像 */}
-                <div className="space-y-2 w-full">
+                <div className="w-full">
                   <div className="flex justify-center">
-                    <div className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] bg-isabelline/75" />
+                    <div className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-isabelline/75" />
                   </div>
-                  <div className="h-5" />
+                  <div className="mt-2 h-5" />
                 </div>
 
                 {/* 右 アップロード */}
                 <div className="w-full">
-                  <div className="flex flex-col">
-                    <div className="flex justify-center">
-                      <div className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] bg-isabelline/75" />
-                    </div>
-                    <div className="mt-2 h-5" />
+                  <div className="flex justify-center">
+                    <div className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-isabelline/75" />
                   </div>
+                  <div className="mt-2 h-5" />
                 </div>
               </div>
 

@@ -15,7 +15,7 @@ export const useGetCustom = (session: Session | null) => {
       });
 
       // Loading Test
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
 
       return res.data;
     },
