@@ -1,58 +1,76 @@
 import Image from "next/image";
 import Link from "next/link";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
+import Error from "next/error";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
-import { HamburgerMenu } from "#/components/uiParts/HamburgerMenu";
-import { Navbar } from "#/components/pages/home/Navbar";
-import { SignInModal } from "#/components/pages/home/SignInModal";
-import { HamburgerMenuCheckBox } from "#/components/uiParts/HamburgerMenuCheckBox";
-import { NavbarWithoutIsMenuOpen } from "#/components/pages/home/NavbarWithoutIsMenuOpen";
+
+import { Divider } from "#/components/uiParts/Divider";
+import { Hamburger, Nav, SignInModal } from "#/components/pages/home";
 import { useGetProfile } from "#/hooks/useGetProfile";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export default function Home() {
-  const { data: session } = useSession();
-  const { data: profile } = useGetProfile(session);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status: sessionStatus } = useSession();
+  const { data: profile, isLoading, isError, error } = useGetProfile(session);
+
+  if (isError) {
+    // console.log("error object:", error);
+    if (error.response) {
+      return (
+        <Error
+          statusCode={error.response.status}
+          title={error.response.data.message}
+        />
+      );
+    } else {
+      console.log("no response error:", error);
+      // FIXME: レスポンスなしのエラー表示方法。カスタムエラーページ。
+      // return <Error />
+    }
+  }
 
   return (
     <>
-      {/* <header className="fixed top-0 inset-x-0 z-10 h-20 bg-base-white"> */}
-      <header className="group/header fixed top-0 inset-x-0 z-10 h-20 bg-base-white">
-        <div className="max-w-3xl mx-auto px-8 h-full flex items-center border-b border-b-black/10">
-          <div>
+      <header className="group/header fixed top-0 inset-x-0 z-10 h-20 bg-base-white text-stone-600">
+        <div className="max-w-3xl mx-auto px-8 h-full flex items-center">
+          {/* タイトル */}
+          <h1 className="text-3xl font-bold">
             <Link
               href={`/`}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className="outline-none focus-visible:ring-2 ring-blue-500 ring-offset-2"
             >
-              <h1 className="text-3xl font-bold">FavoLink</h1>
+              FavoLink
             </Link>
-          </div>
-          {/* FIXME: */}
-          <span className="flex-1"></span>
+          </h1>
 
-          {/* <Navbar {...{ isMenuOpen, setIsModalOpen }} /> */}
-          <NavbarWithoutIsMenuOpen {...{ setIsModalOpen }} />
+          <Nav />
 
-          {/* <HamburgerMenu {...{ isMenuOpen, setIsMenuOpen }} /> */}
-          <HamburgerMenuCheckBox />
+          <Hamburger />
 
-          {/* FIXME: useGetProfileのレスポンスを判別可能なユニオンにする。 */}
-          {session && profile && !profile.hasOwnProperty("message") ? (
-            <div className="ml-4 flex items-center space-x-6 shrink-0">
-              <div className="w-px h-6 bg-base-black/10"></div>
-              <Image
-                src={profile.image ?? silhouetteAvatar}
-                alt="avatar"
-                width={40}
-                height={40}
-                className="rounded-full w-10 h-10"
-              />
+          {/* Avatar Icon */}
+          {sessionStatus === "authenticated" ? (
+            <div className="ml-5 flex items-center shrink-0">
+              {isLoading ? (
+                <div className="rounded-full w-10 h-10 bg-isabelline/75 animate-loadingPulse" />
+              ) : (
+                !isError && (
+                  <Image
+                    src={profile.image ?? silhouetteAvatar}
+                    alt="avatar"
+                    width={40}
+                    height={40}
+                    className="rounded-full w-10 h-10 animate-appearance"
+                  />
+                )
+              )}
             </div>
           ) : null}
         </div>
+
+        <div className="max-w-3xl mx-auto px-2">
+          <Divider />
+        </div>
       </header>
+
       <main className="mt-20 space-y-14">
         <h1 className="text-7xl">Lorem ipsum dolor sit.</h1>
         <h1 className="text-7xl">Lorem ipsum dolor sit.</h1>
@@ -70,8 +88,10 @@ export default function Home() {
         <h1 className="text-7xl">Lorem ipsum dolor sit.</h1>
         <h1 className="text-7xl">Lorem ipsum dolor sit.</h1>
       </main>
+
       <footer></footer>
-      <SignInModal {...{ isModalOpen, setIsModalOpen }} />
+
+      <SignInModal />
     </>
   );
 }

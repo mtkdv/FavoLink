@@ -46,6 +46,16 @@
   }
 }
 
+.inset-text-shadow {
+  background-color: #000;
+  color: transparent;
+  /* フォントが小さいとぼかしがきれいに反映されない。 */
+  text-shadow: 0.5px 0.5px 0.5px rgba(255, 255, 255, 1);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+}
+
 /* スクロールバーカスタマイズ */
 /* TODO: コンテンツとスクロールバーの境界線を設定できないため、一旦オフ。 */
 /* .scrollbar::-webkit-scrollbar { */

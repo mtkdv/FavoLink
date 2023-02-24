@@ -25,7 +25,6 @@ import { Mode, Profile } from "@prisma/client";
 import { number, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TbCameraPlus } from "react-icons/tb";
-import { Button } from "#/components/uiParts/Button";
 import { PublicOrPrivateSwitch } from "#/components/pages/my/profile/PublicOrPrivateSwitch";
 import { FaImage, FaTools } from "react-icons/fa";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
@@ -232,31 +231,40 @@ const Customize: NextPageWithLayout = () => {
       <div className="sticky top-0 z-30 h-16 bg-[#faf9f9] flex flex-col justify-end">
         <div className="px-4 space-y-2">
           <div className="relative">
-            <div className="absolute right-0 bottom-0 flex justify-end h-9">
+            <div className="absolute right-2 bottom-0 flex justify-end">
               {/* Save Button */}
               <div className="">
                 <form
                   id="customize-form"
                   onSubmit={onSubmit}
-                  className="h-full"
+                  className="h-full flex space-x-4"
                 >
                   <button
                     disabled={!isDirty || isSubmitting}
                     form="customize-form"
                     className={clsx(
-                      "relative group h-full w-28 rounded-md outline-none overflow-hidden transition bg-gradient-to-b from-teal-400 to-teal-600 border border-teal-500 flex justify-center items-center",
+                      "relative group h-9 w-28 rounded outline-none overflow-hidden transition bg-teal-500 border border-teal-500 flex justify-center items-center ring-offset-1",
                       isDirty
-                        ? "focus-visible:ring-2"
+                        ? "focus-visible:ring-2 hover:bg-teal-600"
                         : "cursor-not-allowed opacity-40",
                       isSubmitting && "cursor-progress"
                     )}
+                    style={
+                      {
+                        // backgroundImage: "linear-gradient(to bottom, "
+                      }
+                    }
                   >
-                    {/* gradientにtransitionが効かないため、疑似要素のopacityで対応 */}
-                    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-teal-500 to-teal-700 opacity-0 group-hover:opacity-100 transition"></span>
+                    <div
+                      className={clsx(
+                        "absolute bottom-0 left-0 w-full h-1/2 rounded-b bg-teal-600 transition",
+                        isDirty ? "group-hover:bg-teal-700" : ""
+                      )}
+                    />
                     {isSubmitting ? (
                       <PuffLoader color="white" size={24} />
                     ) : (
-                      <span className="text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] text-white">
+                      <span className="text-sm tracking-wider font-semibold drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)] text-white">
                         変更を保存
                       </span>
                     )}
@@ -385,7 +393,7 @@ const Customize: NextPageWithLayout = () => {
                               <div className="flex justify-center">
                                 <button
                                   onClick={() => inputRef.current?.click()}
-                                  className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-stone-50 border-2 border-black/5 [&:is(:hover,:focus-visible)]:bg-black/5 [&:is(:hover,:focus-visible)]:border-none transition-[background-color,_border-style,_box-shadow] flex justify-center items-center outline-none focus-visible:ring-2"
+                                  className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-stone-50 border-2 border-black/5 [&:is(:hover,:focus-visible)]:bg-black/5 [&:is(:hover,:focus-visible)]:border-none transition-[background-color,_border-style,_box-shadow] flex justify-center items-center outline-none focus-visible:ring-2 ring-offset-1"
                                 >
                                   <FaImage size={32} className="opacity-50" />
                                 </button>

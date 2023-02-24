@@ -40,9 +40,16 @@ export default async function handle(
       try {
         const profile = await prisma.profile.findUniqueOrThrow({
           where: { userId },
+          // Prismaエラーを起こさせる。
+          // where: { userId: "hogehoge" },
         });
         res.json(profile);
-      } catch (error) {}
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          // console.error("error.code:", error.code); //=> P2025
+          res.status(404).json({ message: error.message });
+        }
+      }
       break;
     }
 
@@ -87,5 +94,9 @@ export default async function handle(
       }
       break;
     }
+
+    default:
+      // res.setHeader('Allow', ['GET', 'PUT'])
+      res.status(405).end(`Action type ${type} Not Allowed`);
   }
 }

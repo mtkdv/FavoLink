@@ -27,7 +27,8 @@ export const Divider: FC<Props> = ({ className, width, height, bgColor }) => {
         "rounded-full mx-auto",
         width ?? "w-full",
         height ?? "h-px",
-        bgColor ?? "bg-stone-300"
+        bgColor ?? "bg-stone-300",
+        className
       )}
 
       // className={`rounded-full bg-secondary w-full h-px ${iClassName}`}

@@ -18,7 +18,6 @@ import { Profile } from "@prisma/client";
 import { number, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TbCameraPlus } from "react-icons/tb";
-import { Button } from "#/components/uiParts/Button";
 import { PublicOrPrivateSwitch } from "#/components/pages/my/profile/PublicOrPrivateSwitch";
 import {
   FaCheck,

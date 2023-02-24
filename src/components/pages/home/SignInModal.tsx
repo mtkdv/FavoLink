@@ -1,22 +1,24 @@
+import { Fragment } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
 import { signIn } from "next-auth/react";
-import { Fragment } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { VscChromeClose } from "react-icons/vsc";
 import { SiTwitter } from "react-icons/si";
 
-export const SignInModal = ({
-  isModalOpen,
-  setIsModalOpen,
-}: {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+export const SignInModal = () => {
+  const { data: isModalShow } = useQuery({
+    queryKey: ["signInModal"],
+    initialData: false,
+    enabled: false,
+  });
+  const queryClient = useQueryClient();
+
   return (
-    <Transition appear show={isModalOpen} as={Fragment}>
+    <Transition appear show={isModalShow} as={Fragment}>
       <Dialog
         // open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => queryClient.setQueryData(["signInModal"], false)}
         className="relative z-50"
       >
         {/* <div className="fixed inset-0 bg-black/30" aria-hidden="true" /> */}
@@ -77,7 +79,9 @@ export const SignInModal = ({
                   </button>
                 </div>
                 <button
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() =>
+                    queryClient.setQueryData(["signInModal"], false)
+                  }
                   className="absolute top-3 right-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   <VscChromeClose size={20} />
