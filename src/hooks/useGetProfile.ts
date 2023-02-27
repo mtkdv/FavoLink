@@ -1,6 +1,6 @@
 import { Profile } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import axios, { isAxiosError } from "axios";
+import axios, { AxiosError, isAxiosError } from "axios";
 import { Session } from "next-auth";
 
 export const useGetProfile = (
@@ -9,8 +9,9 @@ export const useGetProfile = (
 ) => {
   // const profile = useQuery<Profile, { message: string }>({
   const profile = useQuery<
-    any,
-    { message: string },
+    unknown,
+    // { message: string },
+    AxiosError<{ message: string }>,
     // Pick<Profile, keyof typeof select>
     Profile
   >({
@@ -30,16 +31,23 @@ export const useGetProfile = (
       // return res.data;
       // } else {
       // const res = await axios.get<Profile>(`/api/profiles`, {
-      const res = await axios.get<Profile>(`/api/profiles`, {
-        params: {
-          type: "getProfile",
-          id: session!.user!.id,
-          // id: "cld3xv2kq0000ie3g26vfe6cb",
-        },
-      });
+      const res = await axios.get<Profile>(
+        `/api/profiles`,
+        // レスポンスなしエラーを発生させる。
+        // `http://localhost:1234/api/profiles`,
+        {
+          params: {
+            type: "getProfile",
+            // レスポンスありエラーを発生させる。
+            // type: "getProfileaaaa",
+            id: session!.user!.id,
+            // id: "cld3xv2kq0000ie3g26vfe6cb",
+          },
+        }
+      );
 
       // Loading Test
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
 
       return res.data;
       // }

@@ -13,6 +13,11 @@ export const useGetCustom = (session: Session | null) => {
           id: session!.user!.id,
         },
       });
+
+      // Loading Test
+      // FIXME: remove
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
+
       return res.data;
     },
     enabled: !!session && !!session.user,

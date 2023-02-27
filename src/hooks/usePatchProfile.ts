@@ -26,6 +26,10 @@ export const usePatchProfile = () => {
           id,
         },
       });
+
+      // loading test
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
+
       return res.data;
     },
     onSettled: () => queryClient.invalidateQueries(["profile"]),

@@ -34,6 +34,26 @@
       inset 10px 10px 30px rgba(18, 47, 61, 0.5),
       inset -10px -10px 30px rgba(248, 253, 255, 0.9);
   }
+
+  .skeleton {
+    background: linear-gradient(
+      to right,
+      rgba(238, 230, 226, 0.7) 8%,
+      rgb(255, 245, 245) 18%,
+      rgba(238, 230, 226, 0.7) 33%
+    );
+    background-size: 200%;
+  }
+}
+
+.inset-text-shadow {
+  background-color: #000;
+  color: transparent;
+  /* フォントが小さいとぼかしがきれいに反映されない。 */
+  text-shadow: 0.5px 0.5px 0.5px rgba(255, 255, 255, 1);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
 }
 
 /* スクロールバーカスタマイズ */

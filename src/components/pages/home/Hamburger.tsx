@@ -1,9 +1,6 @@
-import clsx from "clsx";
-import React, { Dispatch, FC, SetStateAction } from "react";
-
-export const HamburgerMenuCheckBox: FC = () => {
+export const Hamburger = () => {
   return (
-    <div className="md:hidden grid place-items-center">
+    <div className="ml-auto md:hidden grid place-items-center animate-appearance">
       <input type="checkbox" id="hamburger" className="hidden" />
       <label
         htmlFor="hamburger"
