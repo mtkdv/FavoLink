@@ -40,9 +40,16 @@ export default async function handle(
       try {
         const profile = await prisma.profile.findUniqueOrThrow({
           where: { userId },
+          // Prismaエラーを起こさせる。
+          // where: { userId: "hogehoge" },
         });
         res.json(profile);
-      } catch (error) {}
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          // console.error("error.code:", error.code); //=> P2025
+          res.status(404).json({ message: error.message });
+        }
+      }
       break;
     }
 
@@ -62,35 +69,6 @@ export default async function handle(
         });
         res.json(profile);
       } catch (error) {}
-      break;
-    }
-
-    case "mutateCustom": {
-      const { backgroundImage } = req.body as {
-        backgroundImage: string | undefined;
-      };
-
-      try {
-        const profile = await prisma.profile.update({
-          where: { userId },
-          data: {
-            backgroundImage,
-          },
-          select: {
-            backgroundImage: true,
-          },
-        });
-        res.json(profile);
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          console.error("error.code dayo:", error.code);
-          res.status(404).json({ code: error.code, message: error.message });
-        }
-        // throw error;
-        // res.status(404).json("res.status().json()");
-        // throw new Error("throw new Error");
-      }
-
       break;
     }
 
@@ -116,5 +94,9 @@ export default async function handle(
       }
       break;
     }
+
+    default:
+      // res.setHeader('Allow', ['GET', 'PUT'])
+      res.status(405).end(`Action type ${type} Not Allowed`);
   }
 }

@@ -44,7 +44,7 @@ export const PublicOrPrivateSwitch = () => {
         <p className="text-xs">
           現在の状態：
           {checked ? (
-            <span className="text-teal-600">公開中</span>
+            <span className="text-cocoa-400">公開中</span>
           ) : (
             <span className="text-stone-400">非公開</span>
           )}
@@ -64,7 +64,7 @@ export const PublicOrPrivateSwitch = () => {
             className={clsx(
               "h-6 w-11 rounded-full flex items-center cursor-pointer transition-colors",
               // checked ? "bg-blue-600" : "bg-gray-200"
-              checked ? "bg-teal-600" : "bg-gray-200"
+              checked ? "bg-cocoa-400" : "bg-gray-200"
               // "group-[:has(input:checked)]/pub-pri-switch:bg-blue-600 group-[:has(input:not(:checked))]/pub-pri-switch:bg-gray-200"
             )}
           >

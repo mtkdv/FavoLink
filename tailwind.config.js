@@ -11,7 +11,8 @@ module.exports = {
     extend: {
       colors: {
         "base-black": "#1D1D1D",
-        "base-white": "#FFFEFC",
+        // "base-white": "#FFFEFC",
+        "base-white": "#faf9f9",
         primary: "#FBF7F5",
         // 20 2 98
         secondary: "#EEE6E2",
@@ -46,6 +47,30 @@ module.exports = {
         "brand-dark": "#6d5146",
 
         cta: "#8ee8d4",
+        cocoa: {
+          50: "#fcfbf8",
+          100: "#faf0d9",
+          200: "#f5d7b1",
+          300: "#e7ae7d",
+          400: "#da804f",
+          500: "#c55d30",
+          600: "#a8431f",
+          700: "#823219",
+          800: "#5a2313",
+          900: "#39150c",
+        },
+        newOrange: {
+          50: "#fff8f1",
+          100: "#fbecdf",
+          200: "#f6d7bf",
+          300: "#e5ad8b",
+          400: "#d67a4a",
+          500: "#c4540b",
+          600: "#9c4303",
+          700: "#713707",
+          800: "#4a2702",
+          900: "#2c1b01",
+        },
       },
       fontFamily: {
         custom: [
@@ -64,6 +89,7 @@ module.exports = {
       spacing: {
         18: "4.5rem",
         22: "5.5rem",
+        90: "22.5rem",
       },
       keyframes: {
         animate: {
@@ -114,14 +140,15 @@ module.exports = {
             transform: "translateX(2px)",
           },
         },
-        // pulse: {
-        //   "0%, 100%": {
-        //     transform: "scale(1)",
-        //   },
-        //   "50%": {
-        //     transform: "scale(1.01)",
-        //   },
-        // },
+        loadingPulse: {
+          // "0%, 100%": {
+          //   transform: "scale(1)",
+          // },
+          "50%": {
+            opacity: "0.4",
+            // backgroundColor: "white",
+          },
+        },
         appearance: {
           "0%": {
             opacity: "0",
@@ -130,14 +157,32 @@ module.exports = {
             opacity: "1",
           },
         },
+        skeleton: {
+          "0%": {
+            transform: "translateX(-100%)",
+          },
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
+        skeleton2: {
+          "0%": {
+            backgroundPosition: 0,
+          },
+          "0%": {
+            backgroundPosition: "200%",
+          },
+        },
       },
       animation: {
         moveUpArrow: "moveUpArrow 1s ease-out infinite",
         moveDownArrow: "moveDownArrow 1s ease-out infinite",
         myPing: "myPing 1s linear infinite",
         shake: "shake 0.41s ease-in-out 0.2s both",
-        // pulse: "pulse 3s ease-in-out infinite",
+        loadingPulse: "loadingPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         appearance: "appearance 0.7s linear",
+        skeleton: "skeleton 1.2s linear infinite",
+        skeleton2: "skeleton2 1.2s linear infinite",
       },
     },
     screens: {
