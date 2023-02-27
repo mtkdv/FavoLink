@@ -28,7 +28,8 @@ export const Sidebar = () => {
           {/* TODO: logo作成 */}
           <SiReact
             size={40}
-            className="animate-[spin_10s_linear_infinite] text-[color:#61DAFB]"
+            // className="animate-[spin_10s_linear_infinite] text-[color:#61DAFB]"
+            className="animate-[spin_10s_linear_infinite] text-cocoa-400"
           />
           <span className="text-2xl font-extrabold tracking-wider max-md:hidden">
             FavoLink
@@ -43,8 +44,9 @@ export const Sidebar = () => {
             <li key={menu.title}>
               {menu.title === "Preview" ? (
                 // <div className="w-8 md:w-3/4 mx-auto h-px bg-secondary mb-4"></div>
-                <div className="mb-4">
-                  <Divider width="w-8 md:w-3/4" />
+                // <div className="mb-2 md:mb-4">
+                <div className="max-md:mt-2 mb-4">
+                  <Divider width="w-3/4" />
                 </div>
               ) : null}
               <LinkWithIcon {...menu} />
@@ -63,11 +65,13 @@ export const Sidebar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`/${profile.slug}`}
-                className="h-14 flex items-center rounded-md hover:bg-isabelline outline-none focus-visible:ring-2 focus-visible:ring-offset-[3px] focus-visible:ring-accent max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3"
+                className="h-14 flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
               >
                 <FaShareSquare />
-                <p className="text-xs md:hidden">Public</p>
-                <p className="text-sm max-md:hidden">Public Page</p>
+                <p className="md:hidden text-xs">Public</p>
+                <p className="max-md:hidden text-sm font-semibold tracking-wide">
+                  Public Page
+                </p>
               </a>
             </li>
           ) : null}
@@ -75,15 +79,17 @@ export const Sidebar = () => {
           {/* Logout Button */}
           <li className="!mt-auto space-y-4">
             <div className="mt-4">
-              <Divider width="w-8 md:w-3/4" />
+              <Divider width="w-3/4" />
             </div>
             <button
               type="button"
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="h-14 flex items-center rounded-md w-full hover:bg-secondary outline-none focus-visible:ring-2 focus-visible:ring-offset-[3px] focus-visible:ring-accent max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition-shadow"
+              className="h-14 w-full flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
             >
               <IoLogOut size={20} />
-              <p className="text-sm max-md:text-xs">Logout</p>
+              <p className="text-xs md:text-sm md:font-semibold md:tracking-wide">
+                Logout
+              </p>
             </button>
           </li>
         </ul>

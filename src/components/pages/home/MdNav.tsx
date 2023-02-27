@@ -32,7 +32,7 @@ export const MdNav = () => {
               className="group py-2 px-2 outline-none focus-visible:ring-2 ring-blue-500"
             >
               <span className="relative">
-                <span className="absolute -bottom-2 w-full h-0.5 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 transition duration-300 scale-x-0 origin-right group-hover:origin-left group-hover:scale-x-100" />
+                <span className="absolute -bottom-1 w-full h-0.5 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 transition duration-300 scale-x-0 origin-right group-hover:origin-left group-hover:scale-x-100" />
                 {title}
               </span>
             </Link>
@@ -45,22 +45,16 @@ export const MdNav = () => {
             "unauthenticated" ? (
             <button
               onClick={() => queryClient.setQueryData(["signInModal"], true)}
-              className="group py-2 px-2 outline-none focus-visible:ring-2 ring-blue-500 animate-appearance"
+              className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
             >
-              <span className="relative">
-                <span className="absolute -bottom-2 w-full h-0.5 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 transition duration-300 scale-x-0 origin-right group-hover:origin-left group-hover:scale-x-100" />
-                Login
-              </span>
+              Login
             </button>
           ) : (
             <button
               onClick={() => signOut()}
-              className="group py-2 px-2 outline-none focus-visible:ring-2 ring-blue-500 animate-appearance"
+              className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
             >
-              <span className="relative">
-                <span className="absolute -bottom-2 w-full h-0.5 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 transition duration-300 scale-x-0 origin-right group-hover:origin-left group-hover:scale-x-100" />
-                Logout
-              </span>
+              Logout
             </button>
           )}
         </li>

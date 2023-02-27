@@ -271,9 +271,9 @@ const Profile: NextPageWithLayout = () => {
   return (
     <div className="flex flex-col animate-appearance">
       {/* ページタイトル */}
-      <div className="sticky top-0 z-10 h-16 bg-white flex flex-col justify-end">
+      <div className="sticky top-0 z-10 h-16 bg-base-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
-          <h2 className="text-lg font-bold text-stone-600">プロフィール編集</h2>
+          <h2 className="text-lg font-bold">プロフィール編集</h2>
           <Divider />
         </div>
       </div>
@@ -290,13 +290,13 @@ const Profile: NextPageWithLayout = () => {
               <div className="space-y-2">
                 {/* Avatar Label */}
                 <div className="ml-1">
-                  <h3 className="text-xs text-stone-600 font-semibold tracking-wide">
+                  <h3 className="text-xs text-cocoa-800 font-semibold tracking-wide">
                     Profile Icon
                   </h3>
                 </div>
 
-                <div className="group/avatar rounded-md ring-1 ring-stone-200 px-2 py-3 flex space-x-2">
-                  {/* Avatar > L Inputs */}
+                <div className="group/avatar rounded-md border border-stone-300 px-2 py-3 flex space-x-2 [&:has(.error-message)]:border-red-600 ">
+                  {/* Avatar 左: Inputs */}
                   <div className="group/avatar-inputs relative flex items-center shrink-0">
                     <Image
                       src={previewUrl ?? profile.image ?? silhouetteAvatar}
@@ -330,34 +330,34 @@ const Profile: NextPageWithLayout = () => {
                     />
                   </div>
 
-                  {/* Avatar > R | Data & Error Message */}
+                  {/* Avatar 右: 詳細、エラーメッセージ  */}
                   <div className="grow flex flex-col justify-between">
                     {/* File Name */}
                     <div className="px-2">
-                      <p className="line-clamp-1 break-all h-5 text-stone-800 text-sm tracking-wide">
+                      <p className="line-clamp-1 break-all h-5 text-stone-600 text-sm tracking-wide">
                         {previewFile?.name}
                       </p>
                     </div>
 
-                    <Divider bgColor="bg-stone-200" />
+                    <Divider />
 
-                    {/* Size */}
+                    {/* ファイルサイズ */}
                     <div className="flex space-x-3 px-2">
-                      {/* L */}
+                      {/* 左 */}
                       <div className="w-11 shrink-0">
                         <p className="text-xs tracking-wide text-right leading-5 translate-y-[0.7px] text-stone-500">
                           Size:
                         </p>
                       </div>
-                      {/* R */}
+                      {/* 右 */}
                       <div className="flex-1">
                         {/* MB, KB */}
                         <p
                           className={clsx(
-                            "text-sm h-5 tracking-wide",
+                            "pl-px text-sm h-5 tracking-wide",
                             previewFile && previewFile.size > ONE_MEGA_BYTE * 2
                               ? "text-red-600"
-                              : "text-stone-800"
+                              : "text-cocoa-400"
                           )}
                         >
                           {previewFile && bytesToKilobytes(previewFile.size)}
@@ -367,7 +367,7 @@ const Profile: NextPageWithLayout = () => {
                           className={clsx(
                             "text-xxs line-clamp-1 break-all",
                             previewFile && previewFile.size > ONE_MEGA_BYTE * 2
-                              ? "text-red-600"
+                              ? "text-red-600 error-message"
                               : "text-stone-500"
                           )}
                         >
@@ -376,7 +376,7 @@ const Profile: NextPageWithLayout = () => {
                       </div>
                     </div>
 
-                    <Divider bgColor="bg-stone-200" />
+                    <Divider />
 
                     {/* File Format */}
                     <div className="flex space-x-3 px-2">
@@ -391,11 +391,11 @@ const Profile: NextPageWithLayout = () => {
                         {/* JPEG or PNG */}
                         <p
                           className={clsx(
-                            "text-sm h-5 tracking-wide",
+                            "pl-px text-sm h-5 tracking-wide",
                             previewFile &&
                               !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
                               ? "text-red-600"
-                              : "text-stone-800"
+                              : "text-cocoa-400"
                           )}
                         >
                           {previewFile && mimeToFileFormat(previewFile.type)}
@@ -406,7 +406,7 @@ const Profile: NextPageWithLayout = () => {
                             "text-xxs line-clamp-1 break-all",
                             previewFile &&
                               !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
-                              ? "text-red-600"
+                              ? "text-red-600 error-message"
                               : "text-stone-500"
                           )}
                         >
@@ -423,17 +423,15 @@ const Profile: NextPageWithLayout = () => {
                 {/* Name Label & Count */}
                 <div className="ml-1 flex justify-between items-end">
                   {/* Name Label */}
-                  <label htmlFor="name-input" className="flex">
-                    <span className="text-xs text-stone-600 font-semibold tracking-wide">
+                  <label htmlFor="name-input" className="flex text-cocoa-800">
+                    <span className="text-xs font-semibold tracking-wide">
                       Display Name
                     </span>
-                    <span className="text-stone-600 group-[:has(.error-message)]:text-red-600 leading-none">
-                      *
-                    </span>
+                    <span className="text-red-400 leading-none">*</span>
                   </label>
 
                   {/* Name Character Count */}
-                  <div className="opacity-0 text-xxs text-stone-500 group-[:has(input:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
+                  <div className="opacity-0 text-xxs text-cocoa-700 group-[:has(input:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
                     <InputCounter
                       name="name"
                       control={control}
@@ -450,7 +448,7 @@ const Profile: NextPageWithLayout = () => {
                     id="name-input"
                     placeholder="&nbsp;"
                     type="text"
-                    className="peer w-full h-full px-3 bg-transparent outline-none text-stone-600 tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-accent focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-md"
+                    className="peer w-full h-full px-3 rounded-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                     {...register("name")}
                   />
 
@@ -461,7 +459,6 @@ const Profile: NextPageWithLayout = () => {
                 </div>
 
                 {/* Name Note & Error Message */}
-
                 <div className="ml-1 flex space-x-2">
                   <div className="w-7 flex justify-center items-start">
                     <span className="w-full text-center rounded-sm bg-rose-400 text-xxxs text-white shrink-0">
@@ -502,13 +499,13 @@ const Profile: NextPageWithLayout = () => {
                   {/* URL Label */}
                   <label
                     htmlFor="slug-input"
-                    className="text-xs text-stone-600 font-semibold tracking-wide"
+                    className="text-xs text-cocoa-800 font-semibold tracking-wide"
                   >
                     Public URL
                   </label>
 
                   {/* URL Character Count */}
-                  <div className="opacity-0 text-xxs text-stone-500 group-[:has(input:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
+                  <div className="opacity-0 text-xxs text-cocoa-700 group-[:has(input:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
                     <InputCounter
                       name="slug"
                       control={control}
@@ -521,20 +518,20 @@ const Profile: NextPageWithLayout = () => {
                 {/* URL Inputs */}
                 <div className="h-10 flex">
                   {/* URL Prefix */}
-                  <div className="w-44 bg-primary grid place-items-center ring-1 ring-stone-200 rounded-l-md">
+                  <div className="w-44 bg-stone-100 grid place-items-center border border-r-0 border-stone-300 rounded-l-md">
                     <p className="text-stone-800 font-light tracking-wider">
                       https://favolink.com/
                     </p>
                   </div>
 
                   {/* URL Input & Plaseholder */}
-                  <div className="relative flex-1 bg-white">
+                  <div className="relative flex-1 bg-base-white">
                     <input
                       form="profile-form"
                       id="slug-input"
                       placeholder="&nbsp;"
                       type="text"
-                      className="peer w-full h-full px-3 bg-transparent outline-none text-stone-600 tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-r-md"
+                      className="peer w-full h-full px-3 rounded-r-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                       {...register("slug")}
                     />
 
@@ -607,13 +604,13 @@ const Profile: NextPageWithLayout = () => {
                   {/* Desc Label */}
                   <label
                     htmlFor="desc-textarea"
-                    className="text-xs text-stone-600 font-semibold tracking-wide"
+                    className="text-xs text-cocoa-800 font-semibold tracking-wide"
                   >
                     Selected Video Description
                   </label>
 
                   {/* Desc Character Count */}
-                  <div className="opacity-0 text-xxs text-stone-500 group-[:has(textarea:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
+                  <div className="opacity-0 text-xxs text-cocoa-700 group-[:has(textarea:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
                     <InputCounter
                       name="description"
                       control={control}
@@ -630,7 +627,7 @@ const Profile: NextPageWithLayout = () => {
                     id="desc-textarea"
                     placeholder="&nbsp;"
                     rows={6}
-                    className="peer w-full h-full px-3 py-2 bg-transparent outline-none text-stone-600 tracking-wider ring-1 ring-stone-200 [&:is(:focus-visible,:hover)]:ring-accent focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]:ring-red-600 group-[:has(.error-message)]:shadow-red-200 rounded-md"
+                    className="peer w-full h-full px-3 py-2 rounded-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                     {...register("description")}
                   />
 
@@ -684,18 +681,23 @@ const Profile: NextPageWithLayout = () => {
               <button
                 disabled={!isProfileDirty || isSubmitting || isFileError}
                 className={clsx(
-                  "relative h-9 w-28 rounded-md outline-none shadow-md overflow-hidden transition bg-teal-600 flex justify-center items-center",
-                  !isProfileDirty || isFileError
-                    ? "cursor-not-allowed opacity-40"
-                    : "hover:bg-teal-700 focus-visible:ring-2",
+                  "relative group h-9 w-28 rounded-md outline-none overflow-hidden transition bg-cocoa-400 border border-cocoa-400 flex justify-center items-center",
+                  isProfileDirty && !isFileError
+                    ? "focus-visible:ring-2 ring-cocoa-400 ring-offset-1 hover:bg-cocoa-500"
+                    : "cursor-not-allowed opacity-40",
                   isSubmitting && "cursor-progress"
                 )}
               >
-                <span className="absolute bottom-0 inset-x-0 h-1/2 bg-black/10"></span>
+                <div
+                  className={clsx(
+                    "absolute bottom-0 left-0 w-full h-1/2 rounded-b-md bg-cocoa-500 transition",
+                    isProfileDirty ? "group-hover:bg-cocoa-600" : ""
+                  )}
+                />
                 {isSubmitting ? (
                   <PuffLoader color="white" size={24} />
                 ) : (
-                  <span className="text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] text-white">
+                  <span className="text-sm tracking-wider font-semibold drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)] text-white">
                     変更を保存
                   </span>
                 )}
@@ -703,9 +705,7 @@ const Profile: NextPageWithLayout = () => {
             </form>
           </div>
 
-          <div className="px-4">
-            <Divider />
-          </div>
+          <Divider classWrapper="px-4" />
 
           <div className="px-6 pb-8">
             <PublicOrPrivateSwitch />

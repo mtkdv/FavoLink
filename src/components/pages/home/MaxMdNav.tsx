@@ -22,7 +22,7 @@ export const MaxMdNav = () => {
   const queryClient = useQueryClient();
 
   return (
-    <nav className="absolute top-[81px] inset-x-0 translate-x-full h-[calc(100vh_-_81px)] bg-base-white opacity-0 group-[:has(#hamburger:checked)]/header:translate-x-0 group-[:has(#hamburger:checked)]/header:opacity-100 transition duration-300">
+    <nav className="absolute top-14 inset-x-0 translate-x-full h-[calc(100vh_-_56px)] bg-base-white opacity-0 group-[:has(#hamburger:checked)]/header:translate-x-0 group-[:has(#hamburger:checked)]/header:opacity-100 transition duration-300">
       <ul className="mt-12 px-8">
         {/* Menu list */}
         {MENU_LIST.map(({ title, href }) => (

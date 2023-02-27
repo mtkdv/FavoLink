@@ -42,13 +42,15 @@ export const LinkWithIcon: FC<Props> = ({ title, href, icon }) => {
     <Link
       href={href}
       className={clsx(
-        "h-14 flex items-center rounded-md hover:bg-secondary outline-none focus-visible:ring-2 focus-visible:ring-offset-[3px] focus-visible:ring-accent max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition-shadow",
-        router.asPath === href && "bg-isabelline"
+        "h-14 flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
+        router.asPath === href && "bg-cocoa-200 text-cocoa-700"
       )}
     >
       {/* {icon} */}
       {Icon && <Icon />}
-      <p className="text-sm max-md:text-xs">{title}</p>
+      <p className="text-xs md:text-sm md:font-semibold md:tracking-wide">
+        {title}
+      </p>
     </Link>
   );
 };

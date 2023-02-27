@@ -15,7 +15,8 @@ export const useGetCustom = (session: Session | null) => {
       });
 
       // Loading Test
-      // await new Promise((resolve) => setTimeout(resolve, 5000));
+      // FIXME: remove
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
 
       return res.data;
     },

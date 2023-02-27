@@ -71,7 +71,8 @@ export const MainContent = ({
           ) : (
             <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" />
           )}
-          {/* <div className="h-full bg-gradient-to-r from-slate-900 to-slate-700" /> */}
+          {/* <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" /> */}
+          {/* <div className="h-full bg-base-white" /> */}
         </div>
 
         {/* プレビューヘッダー or 設定ボタン */}
@@ -103,7 +104,7 @@ export const MainContent = ({
                     width={80}
                     height={80}
                     className="rounded-full w-20 h-20 drop-shadow-md"
-                  ></Image>
+                  />
                 </div>
 
                 {/* Name */}

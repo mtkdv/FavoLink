@@ -47,7 +47,7 @@ export const useGetProfile = (
       );
 
       // Loading Test
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
 
       return res.data;
       // }

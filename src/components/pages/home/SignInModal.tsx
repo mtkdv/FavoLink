@@ -59,7 +59,7 @@ export const SignInModal = () => {
                 <div className="mt-12 space-y-4">
                   <button
                     onClick={() => {
-                      signIn("google", { callbackUrl: "/" });
+                      signIn("google", { callbackUrl: "/my/dashboard" });
                     }}
                     type="button"
                     className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -69,7 +69,7 @@ export const SignInModal = () => {
                   </button>
                   <button
                     onClick={() => {
-                      signIn("twitter", { callbackUrl: "/" });
+                      signIn("twitter", { callbackUrl: "/my/dashboard" });
                     }}
                     type="button"
                     className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

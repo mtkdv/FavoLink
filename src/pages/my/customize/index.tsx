@@ -226,7 +226,7 @@ const Customize: NextPageWithLayout = () => {
   }
 
   return (
-    <div className="flex flex-col space-y-6 text-stone-600 animate-appearance">
+    <div className="flex flex-col space-y-6 animate-appearance">
       {/* Sticky Header（ページタイトル、保存ボタン） */}
       <div className="sticky top-0 z-30 h-16 bg-[#faf9f9] flex flex-col justify-end">
         <div className="px-4 space-y-2">
@@ -237,28 +237,23 @@ const Customize: NextPageWithLayout = () => {
                 <form
                   id="customize-form"
                   onSubmit={onSubmit}
-                  className="h-full flex space-x-4"
+                  className="h-full"
                 >
                   <button
                     disabled={!isDirty || isSubmitting}
                     form="customize-form"
                     className={clsx(
-                      "relative group h-9 w-28 rounded outline-none overflow-hidden transition bg-teal-500 border border-teal-500 flex justify-center items-center ring-offset-1",
+                      "relative group h-9 w-28 rounded-md outline-none overflow-hidden transition bg-cocoa-400 border border-cocoa-400 flex justify-center items-center",
                       isDirty
-                        ? "focus-visible:ring-2 hover:bg-teal-600"
+                        ? "focus-visible:ring-2 ring-cocoa-400 ring-offset-1 hover:bg-cocoa-500"
                         : "cursor-not-allowed opacity-40",
                       isSubmitting && "cursor-progress"
                     )}
-                    style={
-                      {
-                        // backgroundImage: "linear-gradient(to bottom, "
-                      }
-                    }
                   >
                     <div
                       className={clsx(
-                        "absolute bottom-0 left-0 w-full h-1/2 rounded-b bg-teal-600 transition",
-                        isDirty ? "group-hover:bg-teal-700" : ""
+                        "absolute bottom-0 left-0 w-full h-1/2 rounded-b-md bg-cocoa-500 transition",
+                        isDirty ? "group-hover:bg-cocoa-600" : ""
                       )}
                     />
                     {isSubmitting ? (
@@ -272,9 +267,12 @@ const Customize: NextPageWithLayout = () => {
                 </form>
               </div>
             </div>
+
             {/* ページタイトル */}
             <h2 className="ml-2 text-lg font-bold">カスタマイズ</h2>
           </div>
+
+          {/* Divider */}
           <div className="shadow-md">
             <Divider />
           </div>
@@ -297,36 +295,35 @@ const Customize: NextPageWithLayout = () => {
                 </h3>
               </div>
 
-              <div className="rounded-md ring-1 pb-6 ring-stone-300">
+              {/* <div className="rounded-md pb-6 ring-1 ring-stone-300"> */}
+              <div className="rounded-md pb-6 border border-stone-300">
                 {/* 上、タブ */}
-                <div>
-                  <div className="flex h-8 rounded-t-md">
-                    <button
-                      className={clsx(
-                        "flex-1 text-sm outline-none rounded-tl-md ring-inset focus-visible:ring-2 px-1",
-                        "flex justify-center items-center space-x-1 cursor-not-allowed",
-                        !hasBackground
-                          ? "font-bold bg-isabelline"
-                          : "bg-isabelline-light"
-                      )}
-                    >
-                      {/* <FaTools /> */}
-                      🚧&nbsp;
-                      <span className="opacity-40">通常</span>
-                    </button>
-                    <div className="w-px h-full bg-stone-300"></div>
-                    <button
-                      className={clsx(
-                        "flex-1 text-sm outline-none rounded-tr-md ring-inset focus-visible:ring-2 px-1",
-                        hasBackground
-                          ? "font-bold bg-isabelline"
-                          : "bg-isabelline-light"
-                      )}
-                    >
-                      <span className="line-clamp-1">画像アップロード</span>
-                    </button>
-                  </div>
-                  <Divider />
+                <div className="flex h-8 rounded-t-md border-b border-stone-300">
+                  {/* 左、通常タブ */}
+                  <button
+                    className={clsx(
+                      "flex-1 text-sm outline-none rounded-tl-md ring-inset focus-visible:ring-2 px-1",
+                      "flex justify-center items-center space-x-1 cursor-not-allowed",
+                      !hasBackground ? "font-bold bg-cocoa-100" : "bg-orange-50"
+                    )}
+                  >
+                    {/* <FaTools /> */}
+                    🚧&nbsp;
+                    <span className="opacity-40">通常</span>
+                  </button>
+
+                  {/* 縦の境界線 */}
+                  <div className="w-px h-full bg-stone-300" />
+
+                  {/* 右、アップロードタブ */}
+                  <button
+                    className={clsx(
+                      "flex-1 text-sm outline-none rounded-tr-md ring-inset focus-visible:ring-2 px-1",
+                      hasBackground ? "font-bold bg-cocoa-100" : "bg-orange-50"
+                    )}
+                  >
+                    <span className="line-clamp-1">画像アップロード</span>
+                  </button>
                 </div>
 
                 {/* 下 */}
@@ -384,7 +381,7 @@ const Customize: NextPageWithLayout = () => {
                                   className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] object-cover group-[:has(.error-message)]/has-background:ring-red-600 ring-offset-1"
                                 />
                               </div>
-                              <p className="mt-2 text-sm text-center text-amber-600 group-[:has(.error-message)]/has-background:text-red-600">
+                              <p className="mt-2 text-sm text-center text-cocoa-400 group-[:has(.error-message)]/has-background:text-red-600">
                                 選択中の画像
                               </p>
                             </>
@@ -416,12 +413,12 @@ const Customize: NextPageWithLayout = () => {
                     {/* プレビュー詳細 */}
                     <div className="px-5">
                       {/* ラベル */}
-                      <p className="bg-isabelline py-1 px-2 w-fit text-xs rounded-t-md">
+                      <p className="bg-cocoa-100 border border-b-0 border-stone-300 py-1 px-2 w-fit text-xs rounded-t-md">
                         詳細情報
                       </p>
 
                       {/* フレーム */}
-                      <div className="space-y-2 border-2 border-isabelline rounded-tr-md rounded-b-md px-4 py-3">
+                      <div className="space-y-2 border border-stone-300 rounded-tr-md rounded-b-md px-4 py-3">
                         {/* ファイルサイズ */}
                         <div className="flex space-x-4 px-3">
                           {/* 左 */}
@@ -435,11 +432,11 @@ const Customize: NextPageWithLayout = () => {
                             {/* MB, KB */}
                             <p
                               className={clsx(
-                                "pl-[1.5px] text-sm h-5 tracking-wide",
+                                "pl-px text-sm h-5 tracking-wide break-all line-clamp-1",
                                 previewFile &&
                                   previewFile.size > ONE_MEGA_BYTE * 4
                                   ? "text-red-600 error-message"
-                                  : "text-amber-600"
+                                  : "text-cocoa-400"
                               )}
                             >
                               {previewFile &&
@@ -475,13 +472,13 @@ const Customize: NextPageWithLayout = () => {
                             {/* JPEG or PNG */}
                             <p
                               className={clsx(
-                                "text-sm h-5 tracking-wide",
+                                "pl-px text-sm h-5 tracking-wide break-all line-clamp-1",
                                 previewFile &&
                                   !ACCEPTED_IMAGE_TYPES.includes(
                                     previewFile.type
                                   )
                                   ? "text-red-600 error-message"
-                                  : "text-amber-600"
+                                  : "text-cocoa-400"
                               )}
                             >
                               {previewFile &&
@@ -552,16 +549,16 @@ const Customize: NextPageWithLayout = () => {
                     // onChange={(e) => setMode(e.target.value)}
                     onChange={handleChangeMode}
                     value="LIGHT"
-                    className="peer/light absolute top-3 right-4 outline-none appearance-none w-4 h-4 rounded-full border border-stone-300 checked:border-[5px] checked:border-amber-600 transition-all duration-100 cursor-pointer"
+                    className="peer/light absolute top-3 right-4 outline-none appearance-none w-4 h-4 rounded-full border border-stone-300 checked:border-[5px] checked:border-cocoa-400 transition-all duration-100 cursor-pointer"
                   />
                   <div
                     className={clsx(
-                      "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]/light:shadow-md transition peer-checked/light:ring-2 peer-checked/light:ring-tonys-pink peer-checked/light:bg-tonys-pink/10 flex flex-col space-y-2 justify-center pl-5"
+                      "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]/light:shadow-md transition peer-checked/light:ring-2 peer-checked/light:ring-cocoa-300 peer-checked/light:bg-cocoa-100/30 peer-checked/light:text-cocoa-700 flex flex-col space-y-2 justify-center pl-5"
                     )}
                   >
                     {/* <p className="font-semibold text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.4)]"> */}
                     <p className="font-semibold">ライトモード</p>
-                    <p className="text-xs text-black/70 break-all line-clamp-1">
+                    <p className="text-xs break-all line-clamp-1">
                       明るい背景画像に向いています。
                     </p>
                   </div>
@@ -580,11 +577,11 @@ const Customize: NextPageWithLayout = () => {
                     // onChange={(e) => setMode(e.target.value)}
                     onChange={handleChangeMode}
                     value="DARK"
-                    className="peer/dark absolute top-3 right-4 outline-none appearance-none w-4 h-4 rounded-full border border-stone-300 checked:border-[5px] checked:border-amber-600 transition-all duration-100 cursor-pointer"
+                    className="peer/dark absolute top-3 right-4 outline-none appearance-none w-4 h-4 rounded-full border border-stone-300 checked:border-[5px] checked:border-cocoa-400 transition-all duration-100 cursor-pointer"
                   />
                   <div
                     className={clsx(
-                      "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]/dark:shadow-md transition peer-checked/dark:ring-2 peer-checked/dark:ring-tonys-pink peer-checked/dark:bg-tonys-pink/10 flex flex-col space-y-2 justify-center pl-5"
+                      "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]/dark:shadow-md transition peer-checked/dark:ring-2 peer-checked/dark:ring-cocoa-300 peer-checked/dark:bg-cocoa-100/30 peer-checked/light:text-cocoa-700 flex flex-col space-y-2 justify-center pl-5"
                     )}
                   >
                     <p className="font-semibold text-base-black">

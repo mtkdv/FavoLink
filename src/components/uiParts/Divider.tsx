@@ -3,13 +3,20 @@ import { useEffect, useState } from "react";
 import { FC, useMemo } from "react";
 
 type Props = {
+  classWrapper?: string | undefined;
   className?: string | undefined;
   width?: string;
   height?: string;
   bgColor?: string;
 };
 
-export const Divider: FC<Props> = ({ className, width, height, bgColor }) => {
+export const Divider: FC<Props> = ({
+  classWrapper,
+  className,
+  width,
+  height,
+  bgColor,
+}) => {
   // const [iClassName, setIClassName] = useState<string>();
 
   // useEffect(() => {
@@ -22,17 +29,19 @@ export const Divider: FC<Props> = ({ className, width, height, bgColor }) => {
   // }, [className]);
 
   return (
-    <div
-      className={clsx(
-        "rounded-full mx-auto",
-        width ?? "w-full",
-        height ?? "h-px",
-        bgColor ?? "bg-stone-300",
-        className
-      )}
+    <div className={classWrapper}>
+      <div
+        className={clsx(
+          "rounded-full mx-auto",
+          width ?? "w-full",
+          height ?? "h-px",
+          bgColor ?? "bg-stone-300",
+          className
+        )}
 
-      // className={`rounded-full bg-secondary w-full h-px ${iClassName}`}
-      // className={clsx("rounded-full bg-secondary w-full h-px", iClassName)}
-    ></div>
+        // className={`rounded-full bg-secondary w-full h-px ${iClassName}`}
+        // className={clsx("rounded-full bg-secondary w-full h-px", iClassName)}
+      />
+    </div>
   );
 };
