@@ -44,6 +44,11 @@
     );
     background-size: 200%;
   }
+
+  .h-page {
+    /* my-4 + border */
+    height: calc(100vh - (16px * 2 + 1px * 2));
+  }
 }
 
 .inset-text-shadow {

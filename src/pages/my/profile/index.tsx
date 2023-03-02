@@ -1,35 +1,14 @@
-import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/shared/Layout";
-// import { Layout } from "#/components/shared/LayoutDefault";
-import { ReactElement, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import { uploadAndGetUrl } from "#/lib/firebaseStorage";
-// import { useGetProfile } from "#/lib/useGetProfile";
 import { useSession } from "next-auth/react";
-import { InputCounter } from "#/components/pages/my/profile/InputCounter";
 import clsx from "clsx";
-// import { usePatchProfile } from "#/lib/usePatchProfile";
-import { ResetVerifiedText } from "#/components/pages/my/profile/ResetVerifiedText";
 import axios from "axios";
-import { ValidateButton } from "#/components/pages/my/profile/ValidateButton";
 import { toast } from "react-hot-toast";
-import { Profile } from "@prisma/client";
-import { number, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PuffLoader } from "react-spinners";
 import { TbCameraPlus } from "react-icons/tb";
-import { PublicOrPrivateSwitch } from "#/components/pages/my/profile/PublicOrPrivateSwitch";
-import {
-  FaCheck,
-  FaCloudUploadAlt,
-  FaExclamationTriangle,
-  FaSave,
-} from "react-icons/fa";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
-import defaultAvatar from "#/public/247324.png";
-import { FiUploadCloud } from "react-icons/fi";
-import { Divider } from "#/components/uiParts/Divider";
-import Error from "next/error";
 import {
   MAX_FILE_SIZE,
   ACCEPTED_IMAGE_TYPES,
@@ -38,12 +17,19 @@ import {
   SLUG_ERROR_CODE,
   DESC_ERROR_CODE,
 } from "#/const/profile";
+
+import { NextPageWithLayout } from "#/pages/_app";
+import { Layout } from "#/components/shared";
+import {
+  InputCounter,
+  PublicOrPrivateSwitch,
+  ProfileSkeleton,
+} from "#/components/pages/my/profile";
+import { Divider } from "#/components/uiParts/Divider";
+import { useGetProfile, useMutateProfile } from "#/hooks";
 import { schema } from "#/schema/profile";
-import { useGetProfile } from "#/hooks/useGetProfile";
-import { usePatchProfile } from "#/hooks/usePatchProfile";
-import { uploadAndGetUrl } from "#/utils/firebaseStorage";
-import { PuffLoader } from "react-spinners";
-import { ProfileSkeleton } from "#/components/pages/my/profile/ProfileSkeleton";
+import { bytesToKilobytes, mimeToFileFormat, uploadAndGetUrl } from "#/utils";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export type Schema = z.infer<typeof schema>;
 
@@ -71,12 +57,12 @@ export type FileSchema = z.infer<typeof fileSchema>;
 
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
-  const { data: profile, isLoading, isError, error } = useGetProfile(session);
+  const { data: profile, isLoading } = useGetProfile(session);
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [previewFile, setPreviewFile] = useState<File>();
   const [defaultFile, setDefaultFile] = useState(previewFile);
   // const [verifiedText, setVerifiedText] = useState("");
-  const { mutateAsync } = usePatchProfile();
+  const { mutateAsync } = useMutateProfile();
 
   const {
     register,
@@ -121,25 +107,21 @@ const Profile: NextPageWithLayout = () => {
     const { id } = session.user;
 
     /** slug 重複検証 */
-    if (typeof fData.slug === "string" && fData.slug !== profile!.slug) {
+    if (fData.slug && fData.slug !== profile!.slug) {
       try {
-        const { data: profiles } = await axios.get<Profile[]>(
-          `/api/query/profiles`,
-          {
-            params: {
-              slug: fData.slug,
-            },
-          }
-        );
-        if (profiles.length > 0) {
-          setError("slug", {
-            type: "duplicate",
-            message: `「${fData.slug}」はすでに使用されています。`,
-          });
-          return;
-        }
+        await axios.get(`/api/profile`, {
+          params: {
+            type: "validateSlug",
+            id,
+            slug: fData.slug,
+          },
+        });
       } catch (error) {
-        console.error(error);
+        setError("slug", {
+          type: "duplicate",
+          message: `「${fData.slug}」はすでに使用されています。`,
+        });
+        return;
       }
     }
 
@@ -173,6 +155,12 @@ const Profile: NextPageWithLayout = () => {
       { id, data },
       {
         onSuccess: () => toast.success("プロフィールを更新しました"),
+        onError(error, variables, context) {
+          console.log("profile onSubmit onError:", error);
+          if (error.response?.data.code === "P2000") {
+            toast.error("ファイル名を短くし、アップロードし直してください。");
+          }
+        },
       }
     );
   };
@@ -225,48 +213,12 @@ const Profile: NextPageWithLayout = () => {
   //     return;
   //   }
   //   try {
-  //     const res = await axios.get(`/api/profiles/${slug}`);
+  //     const res = await axios.get(`/api/profile/${slug}`);
   //     res.data
   //       ? setVerifiedText("他の人により使用されています")
   //       : setVerifiedText("使用できます");
   //   } catch (error) {}
   // };
-
-  const mimeToFileFormat = (type: string) => {
-    const fileFormat = type.split("/")[1].toUpperCase();
-    return fileFormat;
-  };
-
-  const bytesToKilobytes = (bytes: number): string => {
-    const kiloByte = 1024;
-    const megaByte = kiloByte * 1024;
-
-    if (bytes >= megaByte) {
-      return `${(bytes / megaByte).toFixed(2)} MB`;
-    } else if (bytes >= kiloByte) {
-      return `${(bytes / kiloByte).toFixed(2)} KB`;
-    }
-    return `${bytes} B`;
-  };
-
-  /**
-   * zodで定義したエラーが発生しているかどうか。
-   * @param {string} message RHFのerrors.field.messageを渡す。zod schemaのmessageに記述したエラーコードを参照する。
-   */
-  const isErrorCodeExist = <T extends Record<string, string>>(
-    errorCodes: T,
-    message: string
-  ) => {
-    type ErrorCode = T[keyof T];
-
-    const values = Object.values(errorCodes) as ErrorCode[];
-
-    return values.includes(message as ErrorCode);
-  };
-
-  if (isError) {
-    return <Error statusCode={404} title={error.message} />;
-  }
 
   return (
     <div className="flex flex-col animate-appearance">
@@ -299,14 +251,14 @@ const Profile: NextPageWithLayout = () => {
                   {/* Avatar 左: Inputs */}
                   <div className="group/avatar-inputs relative flex items-center shrink-0">
                     <Image
-                      src={previewUrl ?? profile.image ?? silhouetteAvatar}
+                      src={previewUrl ?? profile?.image ?? silhouetteAvatar}
                       alt="avatar-inputs"
                       width={112}
                       height={112}
                       className="rounded-full w-28 h-28 object-cover shadow-md"
                     />
 
-                    {/* Label */}
+                    {/* Avatar Label */}
                     <div className="absolute w-full h-full clip-path-circle">
                       <label
                         htmlFor="img-input"
@@ -319,7 +271,7 @@ const Profile: NextPageWithLayout = () => {
                       </label>
                     </div>
 
-                    {/* Input type="file" sr-only */}
+                    {/* Avatar Input */}
                     <input
                       form="profile-form"
                       type="file"

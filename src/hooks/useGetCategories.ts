@@ -14,6 +14,7 @@ export const useGetCategories = (session: Session | null) => {
       // return resdata;
     },
     enabled: !!session,
+    useErrorBoundary: true,
   });
   return categories;
 };

@@ -1,37 +1,27 @@
-import prisma from "#/lib/prisma";
-import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]";
+import { getServerSession } from "next-auth";
+import { Prisma } from "@prisma/client";
 
-/** /api/profiles/[userId] */
+import prisma from "#/lib/prisma";
+import { authOptions } from "#/pages/api/auth/[...nextauth]";
+
+/** /api/profile */
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await unstable_getServerSession(req, res, authOptions);
+  const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
-    // console.log("!session:");
     res.status(401).json({ code: 401, message: "You must be logged in." });
     return;
   }
 
   const { id } = session.user!;
-  // const { userId } = req.query as { userId: string };
   const { type, id: userId } = req.query as { type: string; id: string };
 
-  // console.log(req.query);
-  // => { type: 'patchProfile', id: 'cld3xv2kq0000ie3g26vfe6cb' }
-  // console.log("type:", type);
-  // console.log("serverSessionId:", id);
-  // console.log("clientSessionId:", userId);
-  // return;
-  // console.log("id !== userId:", id !== userId);
-
   if (id !== userId) {
-    console.log("id !== userId");
-    res.status(403).json({ code: 403, message: "You are not authorized 5." });
+    res.status(403).json({ code: 403, message: "You are not authorized." });
     return;
   }
 
@@ -40,20 +30,41 @@ export default async function handle(
       try {
         const profile = await prisma.profile.findUniqueOrThrow({
           where: { userId },
-          // Prismaエラーを起こさせる。
           // where: { userId: "hogehoge" },
         });
         res.json(profile);
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          // console.error("error.code:", error.code); //=> P2025
+          console.error("getProfile, error", error);
           res.status(404).json({ message: error.message });
         }
       }
       break;
     }
 
-    case "patchProfile": {
+    case "validateSlug": {
+      const { slug } = req.query as { slug: string };
+      try {
+        const existingProfile = await prisma.profile.findUnique({
+          where: { slug },
+        });
+
+        if (existingProfile) {
+          res.status(409).json({ message: "Slug already exists" });
+          return;
+        }
+
+        res.status(200).json({ message: "OK" });
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("getProfile, error", error);
+          res.status(404).json({ message: error.message });
+        }
+      }
+      break;
+    }
+
+    case "mutateProfile": {
       const { slug, image, name, description } = req.body;
       // console.log("image:", image); //=> undefined
       // https://www.prisma.io/docs/concepts/components/prisma-client/null-and-undefined
@@ -68,7 +79,12 @@ export default async function handle(
           },
         });
         res.json(profile);
-      } catch (error) {}
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("error.code:", error.code);
+          res.status(404).json({ code: error.code, message: error.message });
+        }
+      }
       break;
     }
 

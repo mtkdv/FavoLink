@@ -27,6 +27,7 @@ const nextConfig = {
         hostname: "pbs.twimg.com",
       },
     ],
+    // disableStaticImages: true,
   },
   webpack(config) {
     config.module.rules.push({

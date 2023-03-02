@@ -9,17 +9,15 @@ export const useGetProfile = (
 ) => {
   // const profile = useQuery<Profile, { message: string }>({
   const profile = useQuery<
-    unknown,
-    // { message: string },
-    AxiosError<{ message: string }>,
+    Profile,
+    AxiosError<{ message: string }>
     // Pick<Profile, keyof typeof select>
-    Profile
   >({
     queryKey: ["profile"],
     queryFn: async () => {
       // if (select) {
       // const res = await axios.get<Pick<Profile, keyof typeof select>>(
-      //   `/api/profiles`,
+      //   `/api/profile`,
       //   {
       //     params: {
       //       type: "getProfile",
@@ -30,11 +28,11 @@ export const useGetProfile = (
       // );
       // return res.data;
       // } else {
-      // const res = await axios.get<Profile>(`/api/profiles`, {
+      // const res = await axios.get<Profile>(`/api/profile`, {
       const res = await axios.get<Profile>(
-        `/api/profiles`,
+        `/api/profile`,
         // レスポンスなしエラーを発生させる。
-        // `http://localhost:1234/api/profiles`,
+        // `http://localhost:1234/api/profile`,
         {
           params: {
             type: "getProfile",
@@ -53,6 +51,7 @@ export const useGetProfile = (
       // }
     },
     enabled: !!session && !!session.user,
+    useErrorBoundary: true,
   });
   return profile;
 };

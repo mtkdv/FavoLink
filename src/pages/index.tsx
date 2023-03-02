@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Error from "next/error";
 import { useSession } from "next-auth/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Divider } from "#/components/uiParts/Divider";
 import { Hamburger, Nav, SignInModal } from "#/components/pages/home";
@@ -13,28 +14,12 @@ import sample14 from "/public/sample14.png";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
 import UndrawMovieNight from "/public/undraw_movie_night_re_9umk.svg";
-import { useQueryClient } from "@tanstack/react-query";
+import Custom404 from "#/pages/404";
 
 export default function Home() {
   const { data: session, status: sessionStatus } = useSession();
-  const { data: profile, isLoading, isError, error } = useGetProfile(session);
+  const { data: profile, isLoading } = useGetProfile(session);
   const queryClient = useQueryClient();
-
-  if (isError) {
-    // console.log("error object:", error);
-    if (error.response) {
-      return (
-        <Error
-          statusCode={error.response.status}
-          title={error.response.data.message}
-        />
-      );
-    } else {
-      console.log("no response error:", error);
-      // FIXME: レスポンスなしのエラー表示方法。カスタムエラーページ。
-      // return <Error />
-    }
-  }
 
   return (
     <>
@@ -60,15 +45,13 @@ export default function Home() {
               {isLoading ? (
                 <div className="rounded-full w-10 h-10 bg-isabelline/75 animate-loadingPulse" />
               ) : (
-                !isError && (
-                  <Image
-                    src={profile.image ?? silhouetteAvatar}
-                    alt="avatar"
-                    width={40}
-                    height={40}
-                    className="rounded-full w-10 h-10 animate-appearance"
-                  />
-                )
+                <Image
+                  src={profile?.image ?? silhouetteAvatar}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full w-10 h-10 animate-appearance"
+                />
               )}
             </div>
           ) : null}

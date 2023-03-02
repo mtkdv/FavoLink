@@ -18,20 +18,17 @@ import { useGetLinks } from "#/hooks";
 import { useMutateVideo } from "#/hooks";
 import { schema } from "#/schema/addVideo";
 import { PuffLoader } from "react-spinners";
+import { Loader } from "#/components/uiParts";
 
 export type Schema = z.infer<typeof schema>;
 
 const AddVideo: NextPageWithLayout = () => {
   const { data: session } = useSession();
-  // const videosResult = useGetLinks(session);
-  // const categoriesResult = useGetCategories(session);
-  const { data: videos } = useGetLinks(session);
-  const { data: categories } = useGetCategories(session);
+  const { data: videos, isLoading: isLoadingLinks } = useGetLinks(session);
+  const { data: categories, isLoading: isLoadingCategories } =
+    useGetCategories(session);
   const [values, setValues] = useState<Schema>();
   const { mutateAsync } = useMutateVideo();
-
-  // const { data: videos } = videosResult;
-  // const { data: categories } = categoriesResult;
 
   useEffect(() => {
     // console.log("useEffect");
@@ -119,24 +116,15 @@ const AddVideo: NextPageWithLayout = () => {
     // scrollBottom();
   };
 
-  // if (videosResult.isError) {
-  //   return <Error statusCode={404} />;
-  // } else if (categoriesResult.isError) {
-  //   return <Error statusCode={404} />;
-  // }
-
-  // if (videosResult.isLoading || categoriesResult.isLoading) {
-  //   return <p>Loading...</p>;
-  // }
-  if (!videos || !categories) {
-    return <p>Loading...</p>;
+  if (isLoadingLinks || isLoadingCategories) {
+    return <Loader className="h-page" />;
   }
 
   return (
     <div
       id="scroll-target"
       // className="flex flex-col space-y-6 pb-6 text-[#63594D]"
-      className="flex flex-col space-y-6 pb-6"
+      className="flex flex-col space-y-6 pb-6 animate-appearance"
     >
       {/* Sticky Header */}
       <div className="sticky top-0 z-30 h-16 bg-[#faf9f9] flex flex-col justify-end">

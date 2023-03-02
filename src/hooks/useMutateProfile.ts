@@ -1,14 +1,15 @@
 import { Profile } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
-export const usePatchProfile = () => {
+export const useMutateProfile = () => {
   const queryClient = useQueryClient();
   const profileMutation = useMutation<
     Profile,
-    {
+    AxiosError<{
+      code: string;
       message: string;
-    },
+    }>,
     {
       id: string;
       data: {
@@ -20,9 +21,9 @@ export const usePatchProfile = () => {
     }
   >({
     mutationFn: async ({ id, data }) => {
-      const res = await axios.patch<Profile>(`/api/profiles`, data, {
+      const res = await axios.patch<Profile>(`/api/profile`, data, {
         params: {
-          type: "patchProfile",
+          type: "mutateProfile",
           id,
         },
       });

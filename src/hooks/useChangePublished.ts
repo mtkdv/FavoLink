@@ -17,7 +17,7 @@ export const useChangePublished = () => {
     }
   >({
     mutationFn: async ({ id, data }) => {
-      const res = await axios.patch<Profile>(`/api/profiles`, data, {
+      const res = await axios.patch<Profile>(`/api/profile`, data, {
         params: {
           type: "changePublished",
           id,

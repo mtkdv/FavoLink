@@ -16,7 +16,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { InputCounter } from "#/components/pages/my/profile/InputCounter";
 import clsx from "clsx";
-// import { usePatchProfile } from "#/lib/usePatchProfile";
 import { ResetVerifiedText } from "#/components/pages/my/profile/ResetVerifiedText";
 import axios from "axios";
 import { ValidateButton } from "#/components/pages/my/profile/ValidateButton";
@@ -75,8 +74,7 @@ export type FileSchema = z.infer<typeof fileSchema>;
 
 const Customize: NextPageWithLayout = () => {
   const { data: session } = useSession();
-  // const { data: profile, isLoading, isError, error } = useGetProfile(session);
-  const { data: custom, isLoading, isError, error } = useGetCustom(session);
+  const { data: custom, isLoading } = useGetCustom(session);
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [previewFile, setPreviewFile] = useState<File>();
   // const [previewData, setPreviewData] = useState<PreviewData>();
@@ -85,7 +83,6 @@ const Customize: NextPageWithLayout = () => {
   const [hasBackground, setHasBackground] = useState(true);
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const [mode, setMode] = useState("");
   const [mode, setMode] = useState<Mode>();
   const modeId = useId();
 
@@ -151,12 +148,9 @@ const Customize: NextPageWithLayout = () => {
         },
         onError(error, variables, context) {
           console.log("customize onSubmit onError:", error);
-          // FIXME: エラーのポップオーバーが表示される理由を確認する。
           if (error.response?.data.code === "P2000") {
             // toast.error(error.response.data.message);
-            toast.error(
-              "ファイル名を短くし、再度アップロードし直してください。"
-            );
+            toast.error("ファイル名を短くし、アップロードし直してください。");
           }
         },
         onSettled(data, error, variables, context) {
@@ -198,32 +192,9 @@ const Customize: NextPageWithLayout = () => {
     return `${bytes} B`;
   };
 
-  /**
-   * zodで定義したエラーが発生しているかどうか。
-   * @param {string} message RHFのerrors.field.messageを渡す。zod schemaのmessageに記述したエラーコードを参照する。
-   */
-  const isErrorCodeExist = <T extends Record<string, string>>(
-    errorCodes: T,
-    message: string
-  ) => {
-    type ErrorCode = T[keyof T];
-
-    const values = Object.values(errorCodes) as ErrorCode[];
-
-    return values.includes(message as ErrorCode);
-  };
-
   const handleChangeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMode(e.target.value as Mode);
   };
-
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
-
-  if (isError) {
-    return <Error statusCode={404} title={error.message} />;
-  }
 
   return (
     <div className="flex flex-col space-y-6 animate-appearance">
@@ -336,7 +307,7 @@ const Customize: NextPageWithLayout = () => {
                         <div className="flex justify-center">
                           <Image
                             // TODO: src
-                            src={custom.backgroundImage ?? silhouetteAvatar}
+                            src={custom?.backgroundImage ?? silhouetteAvatar}
                             alt="現在設定中の画像"
                             width={160}
                             height={240}
@@ -545,7 +516,7 @@ const Customize: NextPageWithLayout = () => {
                     type="radio"
                     name="mode"
                     id={`${modeId}-light`}
-                    defaultChecked={custom.mode === "LIGHT"}
+                    defaultChecked={custom?.mode === "LIGHT"}
                     // onChange={(e) => setMode(e.target.value)}
                     onChange={handleChangeMode}
                     value="LIGHT"
@@ -573,7 +544,7 @@ const Customize: NextPageWithLayout = () => {
                     type="radio"
                     name="mode"
                     id={`${modeId}-dark`}
-                    defaultChecked={custom.mode === "DARK"}
+                    defaultChecked={custom?.mode === "DARK"}
                     // onChange={(e) => setMode(e.target.value)}
                     onChange={handleChangeMode}
                     value="DARK"

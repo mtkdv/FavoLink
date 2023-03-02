@@ -1,13 +1,15 @@
-import Error from "next/error";
 import { useSession } from "next-auth/react";
 
-import { useGetProfile } from "#/hooks/useGetProfile";
-import { useGetLinks } from "#/hooks/useGetLinks";
-import { useGetCategories } from "#/hooks/useGetCategories";
-import { useGetCustom } from "#/hooks";
-import { MainContent } from "#/components/shared/MainContent";
+import { MainContent } from "#/components/shared";
 import { PreviewHeader } from "#/components/pages/my/preview/PreviewHeader";
-import { Loader } from "#/components/uiParts/Loader";
+import { Loader } from "#/components/uiParts";
+import {
+  useGetProfile,
+  useGetLinks,
+  useGetCategories,
+  useGetCustom,
+} from "#/hooks";
+import UndrawNotFound from "/public/undraw_page_not_found_re_e9o6.svg";
 
 const Preview = () => {
   const { data: session } = useSession();
@@ -16,24 +18,29 @@ const Preview = () => {
   const videosResult = useGetLinks(session);
   const categoriesResult = useGetCategories(session);
 
-  if (profileResult.isError) {
-    // return <Error statusCode={profileResult.error.code} title={profileResult.error.message} />;
-    return <Error statusCode={404} title={profileResult.error.message} />;
-  } else if (customResult.isError) {
-    return <Error statusCode={404} />;
-  } else if (videosResult.isError) {
-    return <Error statusCode={404} />;
-  } else if (categoriesResult.isError) {
-    return <Error statusCode={404} />;
-  }
-
   if (
     profileResult.isLoading ||
     customResult.isLoading ||
     videosResult.isLoading ||
     categoriesResult.isLoading
   ) {
-    return <Loader />;
+    return <Loader className="h-screen" />;
+  }
+
+  if (
+    profileResult.isError ||
+    customResult.isError ||
+    videosResult.isError ||
+    categoriesResult.isError
+  ) {
+    return (
+      <div
+        role="alert"
+        className="h-screen flex flex-col items-center animate-appearance pt-[10%]"
+      >
+        <UndrawNotFound />
+      </div>
+    );
   }
 
   const { data: profile } = profileResult;
