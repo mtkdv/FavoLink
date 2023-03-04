@@ -1,53 +1,24 @@
 import Image from "next/image";
-import NextLink from "next/link";
-import React, { useEffect, useMemo, useState } from "react";
-import { Category, Custom, Link, Profile } from "@prisma/client";
+import Link from "next/link";
+import React from "react";
+import { Custom, Profile } from "@prisma/client";
 import clsx from "clsx";
 
 import { CategorizedLink } from "#/components/shared/CategorizedLink";
+import { Videos } from "#/types";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
-import { PacmanLoader } from "react-spinners";
-import { Loader } from "#/components/uiParts/Loader";
-
-export type MainContentData = {
-  profile: Profile;
-  categories: Category[];
-  videos: Link[];
-  custom: Custom;
-};
 
 export const MainContent = ({
   profile,
-  categories,
   videos,
   custom,
-  // data,
-  // isLoading,
   children,
 }: {
   profile: Profile;
-  categories: Category[];
-  videos: Link[];
+  videos: Videos;
   custom: Custom;
-  // data: MainContentData | undefined;
-  // isLoading: boolean;
   children: React.ReactNode;
 }) => {
-  // const [isImageLoading, setIsImageLoading] = useState(true);
-
-  // const isLoadingAll = useMemo(() => {
-  //   return isLoading && !isImageLoading;
-  // }, [isLoading, isImageLoading])
-
-  // const { profile, categories, videos, custom } = data;
-
-  // const handleLoadingComplete = async () => {
-  //   console.log("handleLoadingComplete");
-  //   await new Promise((resolve) => setTimeout(resolve, 3000));
-  //   console.log("3000ms later");
-  //   setIsImageLoading(false);
-  // };
-
   return (
     <>
       {/* {isLoadingAll && <Loader color="red" className="h-screen" />} */}
@@ -117,6 +88,7 @@ export const MainContent = ({
                   {profile.name}
                 </p>
 
+                {/* TODO: */}
                 {/* Description */}
                 {/* <p className="whitespace-pre-wrap">{profile.description}</p> */}
               </div>
@@ -124,17 +96,17 @@ export const MainContent = ({
 
             {/* Contents */}
             <div className="mt-12">
-              <CategorizedLink {...{ categories, videos, custom }} />
+              <CategorizedLink {...{ videos, custom }} />
             </div>
           </div>
         </main>
 
         <footer className="mt-6 flex flex-col space-y-2 items-center">
-          <NextLink href="/">
+          <Link href="/">
             <p className="text-4xl font-black tracking-wide drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900">
               Favolink
             </p>
-          </NextLink>
+          </Link>
           <p className="text-xs drop-shadow-[1px_1px_0_white]">
             Copyright &copy; 2023 All rights reserved.
           </p>

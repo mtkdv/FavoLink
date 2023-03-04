@@ -8,7 +8,7 @@ import { SiTwitter } from "react-icons/si";
 
 export const SignInModal = () => {
   const { data: isModalShow } = useQuery({
-    queryKey: ["signInModal"],
+    queryKey: ["SignInModal"],
     initialData: false,
     enabled: false,
   });
@@ -18,7 +18,7 @@ export const SignInModal = () => {
     <Transition appear show={isModalShow} as={Fragment}>
       <Dialog
         // open={isModalOpen}
-        onClose={() => queryClient.setQueryData(["signInModal"], false)}
+        onClose={() => queryClient.setQueryData(["SignInModal"], false)}
         className="relative z-50"
       >
         {/* <div className="fixed inset-0 bg-black/30" aria-hidden="true" /> */}
@@ -80,7 +80,7 @@ export const SignInModal = () => {
                 </div>
                 <button
                   onClick={() =>
-                    queryClient.setQueryData(["signInModal"], false)
+                    queryClient.setQueryData(["SignInModal"], false)
                   }
                   className="absolute top-3 right-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >

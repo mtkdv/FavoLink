@@ -18,7 +18,7 @@ type Props = {
   setValue: UseFormSetValue<Schema>;
   getValues: UseFormGetValues<Schema>;
   errors: Partial<FieldErrorsImpl<Schema>>;
-  categoryFields: FieldArrayWithId<Schema, "youtube", "id">[];
+  categoryFields: FieldArrayWithId<Schema, "videos", "id">[];
   move: UseFieldArrayMove;
   remove: UseFieldArrayRemove;
 };
@@ -31,7 +31,7 @@ export const CategoryList: React.FC<Props> = ({ categoryFields, ...rest }) => {
           key={categoryField.id}
           categoryFieldsLength={categoryFields.length}
           {...{ categoryField, index, ...rest }}
-        ></CategoryListItem>
+        />
       ))}
     </ul>
   );

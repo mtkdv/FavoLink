@@ -1,17 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { Profile } from "@prisma/client";
 
-export const useGetProfile = () => {
+import { Videos } from "#/types";
+
+export const useListUserVideo = () => {
   const { data: session } = useSession();
 
-  return useQuery<Profile, AxiosError>({
-    queryKey: ["GetProfile"],
+  return useQuery<Videos, AxiosError>({
+    queryKey: ["ListUserVideo"],
     queryFn: async () => {
-      const res = await axios.get<Profile>(
-        `/api/users/${session!.user!.id}/profile`
-      );
+      const res = await axios.get(`/api/users/${session!.user!.id}/videos`);
 
       // Loading Test
       // await new Promise((r) => setTimeout(r, 3000));

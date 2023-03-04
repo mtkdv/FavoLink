@@ -1,6 +1,4 @@
-import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/shared/Layout";
-// import { Layout } from "#/components/shared/LayoutDefault";
+import Image from "next/image";
 import {
   ReactElement,
   useEffect,
@@ -9,51 +7,28 @@ import {
   useRef,
   useState,
 } from "react";
-import Image from "next/image";
-import { SubmitHandler, useForm } from "react-hook-form";
-// import { uploadAndGetUrl } from "#/lib/firebaseStorage";
-// import { useGetProfile } from "#/lib/useGetProfile";
-import { useSession } from "next-auth/react";
-import { InputCounter } from "#/components/pages/my/profile/InputCounter";
-import clsx from "clsx";
-import { ResetVerifiedText } from "#/components/pages/my/profile/ResetVerifiedText";
-import axios from "axios";
-import { ValidateButton } from "#/components/pages/my/profile/ValidateButton";
 import { toast } from "react-hot-toast";
-import { Mode, Profile } from "@prisma/client";
-import { number, z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { TbCameraPlus } from "react-icons/tb";
-import { PublicOrPrivateSwitch } from "#/components/pages/my/profile/PublicOrPrivateSwitch";
-import { FaImage, FaTools } from "react-icons/fa";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
-import { FiUploadCloud } from "react-icons/fi";
-import { Divider } from "#/components/uiParts/Divider";
-import Error from "next/error";
-import {
-  MAX_FILE_SIZE,
-  ACCEPTED_IMAGE_TYPES,
-  ONE_MEGA_BYTE,
-} from "#/const/customize";
-import { schema } from "#/schema/custom";
-import { useGetProfile } from "#/hooks/useGetProfile";
-import { uploadAndGetUrl } from "#/utils/firebaseStorage";
-import { useGetCustom, useMutateCustom } from "#/hooks";
-import { PuffLoader, SyncLoader } from "react-spinners";
-import { CustomizeSkeleton } from "#/components/pages/my/customize/CustomizeSkeleton";
+import clsx from "clsx";
+import { Mode } from "@prisma/client";
+import { z } from "zod";
+import { FaImage } from "react-icons/fa";
+import { PuffLoader } from "react-spinners";
 
-// export type Schema = z.infer<typeof schema>;
-type Schema = {
-  darkmode: boolean;
-};
+import { NextPageWithLayout } from "#/pages/_app";
+import { Layout } from "#/components/shared";
+import { CustomizeSkeleton } from "#/components/pages/my/customize/CustomizeSkeleton";
+import { Divider } from "#/components/uiParts";
+import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/customize";
+import { bytesToKilobytes, mimeToFileFormat, uploadAndGetUrl } from "#/utils";
+import { useGetCustom, usePatchCustom } from "#/hooks";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 const fileSchema = z.custom<File>().superRefine((file, ctx) => {
-  if (file.size > MAX_FILE_SIZE) {
-    // if (file.size > ONE_MEGA_BYTE) {
+  if (file.size > ONE_MEGA_BYTE * 4) {
     ctx.addIssue({
       code: z.ZodIssueCode.too_big,
       type: "number",
-      maximum: MAX_FILE_SIZE,
+      maximum: ONE_MEGA_BYTE * 4,
       inclusive: true,
       message: "ファイルサイズの上限は 4MB までです。",
     });
@@ -73,13 +48,11 @@ const fileSchema = z.custom<File>().superRefine((file, ctx) => {
 export type FileSchema = z.infer<typeof fileSchema>;
 
 const Customize: NextPageWithLayout = () => {
-  const { data: session } = useSession();
-  const { data: custom, isLoading } = useGetCustom(session);
+  const { data: custom, isLoading } = useGetCustom();
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [previewFile, setPreviewFile] = useState<File>();
-  // const [previewData, setPreviewData] = useState<PreviewData>();
   // const [verifiedText, setVerifiedText] = useState("");
-  const { mutateAsync } = useMutateCustom();
+  const { mutateAsync } = usePatchCustom();
   const [hasBackground, setHasBackground] = useState(true);
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,16 +79,10 @@ const Customize: NextPageWithLayout = () => {
    */
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log("onSubmit");
-
     setIsSubmitting(true);
-    // loading test
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // return;
-
-    if (session === null || session.user === undefined) return;
-    const { id } = session.user;
+    // Loading Test
+    // await new Promise((r) => setTimeout(r, 3000));
 
     /**
      * Cloud Storage for Firebaseへの画像の保存とdownloadURLの取得
@@ -139,31 +106,25 @@ const Customize: NextPageWithLayout = () => {
       mode,
     };
 
-    mutateAsync(
-      { id, data },
-      {
-        onSuccess(data, variables, context) {
-          setIsSubmitSuccessful(true);
-          toast.success("変更を保存しました。");
-        },
-        onError(error, variables, context) {
-          console.log("customize onSubmit onError:", error);
-          if (error.response?.data.code === "P2000") {
-            // toast.error(error.response.data.message);
-            toast.error("ファイル名を短くし、アップロードし直してください。");
-          }
-        },
-        onSettled(data, error, variables, context) {
-          setIsSubmitting(false);
-        },
-      }
-    );
+    mutateAsync(data, {
+      onSuccess(data, variables, context) {
+        setIsSubmitSuccessful(true);
+        toast.success("変更を保存しました。");
+      },
+      onError(error, variables, context) {
+        console.log("customize onSubmit onError:", error);
+        if (error.response?.data.code === "P2000") {
+          // toast.error(error.response.data.message);
+          toast.error("ファイル名を短くし、アップロードし直してください。");
+        }
+      },
+      onSettled(data, error, variables, context) {
+        setIsSubmitting(false);
+      },
+    });
   };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("handleChangeImage");
-    // return;
-
     if (!e.target.files) return;
     const file: File | null = e.target.files.item(0);
 
@@ -173,23 +134,6 @@ const Customize: NextPageWithLayout = () => {
     setPreviewFile(file);
 
     setPreviewUrl(URL.createObjectURL(file));
-  };
-
-  const mimeToFileFormat = (type: string) => {
-    const fileFormat = type.split("/")[1].toUpperCase();
-    return fileFormat;
-  };
-
-  const bytesToKilobytes = (bytes: number): string => {
-    const kiloByte = 1024;
-    const megaByte = kiloByte * 1024;
-
-    if (bytes >= megaByte) {
-      return `${(bytes / megaByte).toFixed(2)} MB`;
-    } else if (bytes >= kiloByte) {
-      return `${(bytes / kiloByte).toFixed(2)} KB`;
-    }
-    return `${bytes} B`;
   };
 
   const handleChangeMode = (e: React.ChangeEvent<HTMLInputElement>) => {

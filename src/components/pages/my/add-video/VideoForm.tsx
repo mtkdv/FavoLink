@@ -102,13 +102,19 @@ export const VideoForm: React.FC<Props> = ({
     //   thumbnailUrl,
     // };
     // update(index, updateData);
-    setValue(`youtube.${nestIndex}.video.${index}.videoId`, videoId);
-    setValue(`youtube.${nestIndex}.video.${index}.title`, title);
-    setValue(`youtube.${nestIndex}.video.${index}.thumbnailUrl`, thumbnailUrl);
-    setValue(`youtube.${nestIndex}.video.${index}.channelId`, channelId);
-    setValue(`youtube.${nestIndex}.video.${index}.channelTitle`, channelTitle);
+    setValue(`videos.${nestIndex}.categoryLinks.${index}.videoId`, videoId);
+    setValue(`videos.${nestIndex}.categoryLinks.${index}.title`, title);
     setValue(
-      `youtube.${nestIndex}.video.${index}.channelThumbnailUrl`,
+      `videos.${nestIndex}.categoryLinks.${index}.thumbnailUrl`,
+      thumbnailUrl
+    );
+    setValue(`videos.${nestIndex}.categoryLinks.${index}.channelId`, channelId);
+    setValue(
+      `videos.${nestIndex}.categoryLinks.${index}.channelTitle`,
+      channelTitle
+    );
+    setValue(
+      `videos.${nestIndex}.categoryLinks.${index}.channelThumbnailUrl`,
       channelThumbnailUrl
     );
 

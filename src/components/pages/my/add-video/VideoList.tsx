@@ -10,7 +10,11 @@ import { Schema } from "#/pages/my/add-video";
 import { VideoListItem } from "#/components/pages/my/add-video";
 
 type Props = {
-  videoFields: FieldArrayWithId<Schema, `youtube.${number}.video`, "id">[];
+  videoFields: FieldArrayWithId<
+    Schema,
+    `videos.${number}.categoryLinks`,
+    "id"
+  >[];
   index: number;
   getValues: UseFormGetValues<Schema>;
   move: UseFieldArrayMove;
@@ -26,10 +30,7 @@ export const VideoList: React.FC<Props> = ({
   return (
     <ul className="mt-6 space-y-4">
       {videoFields.map((videoField, index) => (
-        <VideoListItem
-          key={videoField.id}
-          {...{ nestIndex, index, ...rest }}
-        ></VideoListItem>
+        <VideoListItem key={videoField.id} {...{ nestIndex, index, ...rest }} />
       ))}
     </ul>
   );

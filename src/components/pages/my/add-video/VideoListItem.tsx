@@ -30,7 +30,7 @@ export const VideoListItem: React.FC<Props> = ({
   setValue,
 }) => {
   const [hasValues, setHasValues] = useState(() => {
-    return !!getValues(`youtube.${nestIndex}.video.${index}.videoId`);
+    return !!getValues(`videos.${nestIndex}.categoryLinks.${index}.videoId`);
   });
 
   const removeVideo = (index: number) => {
@@ -78,7 +78,7 @@ export const VideoListItem: React.FC<Props> = ({
             <div className="overflow-hidden shrink-0 ring-1 ring-stone-300">
               <Image
                 src={getValues(
-                  `youtube.${nestIndex}.video.${index}.thumbnailUrl`
+                  `videos.${nestIndex}.categoryLinks.${index}.thumbnailUrl`
                 )}
                 alt="thumbnail"
                 width={160}
@@ -92,7 +92,9 @@ export const VideoListItem: React.FC<Props> = ({
               <div className="flex items-start space-x-1">
                 {/* Title */}
                 <p className="flex-1 line-clamp-2 text-sm break-all">
-                  {getValues(`youtube.${nestIndex}.video.${index}.title`)}
+                  {getValues(
+                    `videos.${nestIndex}.categoryLinks.${index}.title`
+                  )}
                 </p>
 
                 {/* Remove Video Button */}
@@ -121,7 +123,7 @@ export const VideoListItem: React.FC<Props> = ({
                 <div className="overflow-hidden rounded-full">
                   <Image
                     src={getValues(
-                      `youtube.${nestIndex}.video.${index}.channelThumbnailUrl`
+                      `videos.${nestIndex}.categoryLinks.${index}.channelThumbnailUrl`
                     )}
                     alt="channelThumbnail"
                     width={33}
@@ -131,7 +133,7 @@ export const VideoListItem: React.FC<Props> = ({
                 </div>
                 <p className="text-xs line-clamp-1 flex-1 break-all text-base-black/70 hover:text-base-black transition-colors duration-300">
                   {getValues(
-                    `youtube.${nestIndex}.video.${index}.channelTitle`
+                    `videos.${nestIndex}.categoryLinks.${index}.channelTitle`
                   )}
                 </p>
               </div>

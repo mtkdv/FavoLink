@@ -1,67 +1,29 @@
-import { useGetCategories } from "#/hooks/useGetCategories";
-import { useGetLinks } from "#/hooks/useGetLinks";
-import { Category, Custom, Link } from "@prisma/client";
-import { useQueryClient } from "@tanstack/react-query";
-import clsx from "clsx";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
-import { VideoPlayerModal } from "./VideoPlayerModal";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Custom } from "@prisma/client";
+import clsx from "clsx";
 
-type VideoCategories = {
-  id: string;
-  name: string;
-  videos: Link[];
-}[];
+import { Videos } from "#/types";
+import { VideoPlayerModal } from "#/components/shared";
 
-type CategorizedLink = {
-  categories: Category[];
-  videos: Link[];
-  custom: Custom;
-};
-
-export const CategorizedLink: FC<CategorizedLink> = ({
-  categories,
+export const CategorizedLink = ({
   videos,
   custom,
+}: {
+  videos: Videos;
+  custom: Custom;
 }) => {
-  const [VideoCategories, setVideoCategories] = useState<VideoCategories>();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (!videos || !categories) return;
-
-    const newVideoCategories = categories.flatMap((category) => {
-      const categoryVideos = videos.filter((video) => {
-        return category.id === video.categoryId;
-      });
-      return categoryVideos.length
-        ? [
-            {
-              id: category.id,
-              name: category.name,
-              videos: categoryVideos,
-            },
-          ]
-        : [];
-    });
-
-    setVideoCategories(newVideoCategories);
-  }, [videos, categories]);
 
   return (
     <>
       <ul className="space-y-8">
-        {/* TODO: */}
-        {VideoCategories ? (
-          VideoCategories.length > 0 ? (
-            VideoCategories.map((videoCategory) => (
+        {videos.length
+          ? videos.map((video) => (
               <li
-                key={videoCategory.id}
-                // className="bg-gradient-to-tr from-white/30 to-white/20 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.05)] backdrop-blur-sm p-6 space-y-4"
-                // className="bg-white/20 text-base-black border-2 border-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm p-6 space-y-4"
+                key={video.categoryId}
                 className={clsx(
                   "border border-white/25 border-t-white/50 border-l-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm p-6 space-y-4",
                   custom.mode === "LIGHT"
@@ -70,25 +32,22 @@ export const CategorizedLink: FC<CategorizedLink> = ({
                 )}
               >
                 <h2 className="text-center text-xl font-medium drop-shadow-md tracking-wide">
-                  {/* <span className="relative">
-                    <span className="absolute w-[175%] min-w-[120px] left-1/2 -translate-x-1/2 h-px -bottom-1 bg-gradient-to-r from-transparent via-white to-transparent"></span> */}
-                  {videoCategory.name}
-                  {/* </span> */}
+                  {video.categoryName}
                 </h2>
                 <ul className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center">
-                  {videoCategory.videos.map((video) => (
-                    <li key={video.videoId} className="space-y-1">
+                  {video.categoryLinks.map((link) => (
+                    <li key={link.videoId} className="space-y-1">
                       <button
                         type="button"
                         onClick={() => {
-                          queryClient.setQueryData(["videoData"], video);
+                          queryClient.setQueryData(["VideoData"], link);
                           setIsModalOpen(true);
                         }}
                         className="space-y-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 max-w-xs"
                       >
                         <div className="overflow-hidden rounded-md shadow-md">
                           <Image
-                            src={video.thumbnailUrl}
+                            src={link.thumbnailUrl}
                             alt="thumbnail"
                             width={320}
                             height={180}
@@ -96,18 +55,18 @@ export const CategorizedLink: FC<CategorizedLink> = ({
                           />
                         </div>
                         <h3 className="line-clamp-2 drop-shadow-md">
-                          {video.title}
+                          {link.title}
                         </h3>
                       </button>
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`https://www.youtube.com/channel/${video.channelId}`}
+                        href={`https://www.youtube.com/channel/${link.channelId}`}
                         className="flex items-center space-x-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         <div className="overflow-hidden rounded-full">
                           <Image
-                            src={video.channelThumbnailUrl}
+                            src={link.channelThumbnailUrl}
                             alt="channelThumbnail"
                             width={33}
                             height={33}
@@ -122,7 +81,7 @@ export const CategorizedLink: FC<CategorizedLink> = ({
                               : "text-white/70 hover:text-white"
                           )}
                         >
-                          {video.channelTitle}
+                          {link.channelTitle}
                         </p>
                       </a>
                     </li>
@@ -130,10 +89,7 @@ export const CategorizedLink: FC<CategorizedLink> = ({
                 </ul>
               </li>
             ))
-          ) : null
-        ) : (
-          <p>loading...</p>
-        )}
+          : null}
       </ul>
       <VideoPlayerModal {...{ isModalOpen, setIsModalOpen }} />
     </>

@@ -44,7 +44,7 @@ export const MdNav = () => {
           {sessionStatus === "loading" ? null : sessionStatus ===
             "unauthenticated" ? (
             <button
-              onClick={() => queryClient.setQueryData(["signInModal"], true)}
+              onClick={() => queryClient.setQueryData(["SignInModal"], true)}
               className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
             >
               Login

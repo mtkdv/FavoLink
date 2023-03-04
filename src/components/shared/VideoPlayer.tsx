@@ -7,7 +7,7 @@ const ReactPlayer = dynamic(() => import("react-player/youtube"), {
 });
 
 export const VideoPlayer = () => {
-  const { data } = useQuery<Link>(["videoData"], { enabled: false });
+  const { data } = useQuery<Link>(["VideoData"], { enabled: false });
 
   return (
     <ReactPlayer

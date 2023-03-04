@@ -26,7 +26,7 @@ type Props = {
   errors: Partial<FieldErrorsImpl<Schema>>;
   move: UseFieldArrayMove;
   remove: UseFieldArrayRemove;
-  categoryField: FieldArrayWithId<Schema, "youtube", "id">;
+  categoryField: FieldArrayWithId<Schema, "videos", "id">;
   index: number;
   categoryFieldsLength: number;
 };
@@ -48,7 +48,7 @@ export const CategoryListItem: React.FC<Props> = ({
     move,
     remove,
   } = useFieldArray({
-    name: `youtube.${index}.video`,
+    name: `videos.${index}.categoryLinks`,
     control,
   });
 
@@ -122,7 +122,7 @@ export const CategoryListItem: React.FC<Props> = ({
               id={`collection-input-${index}`}
               placeholder="&nbsp;"
               type="text"
-              {...register(`youtube.${index}.categoryName` as const)}
+              {...register(`videos.${index}.categoryName` as const)}
               className="peer w-full h-full p-3 pr-14 bg-white outline-none text-stone-800 text-base tracking-wider ring-1 ring-stone-300 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]/collection-inputs-errors:ring-red-600 group-[:has(.error-message)]/collection-inputs-errors:shadow-red-200 rounded-sm"
             />
 
@@ -146,11 +146,11 @@ export const CategoryListItem: React.FC<Props> = ({
         </div>
 
         {/* Collection Errors */}
-        {errors.youtube && errors.youtube[index]?.categoryName && (
+        {errors.videos && errors.videos[index]?.categoryName && (
           <div className="px-1 flex items-center space-x-1.5 text-red-600">
             <FaExclamationTriangle />
             <p className="text-sm line-clamp-1 break-all">
-              {errors.youtube[index]?.categoryName?.message}
+              {errors.videos[index]?.categoryName?.message}
             </p>
           </div>
         )}
@@ -161,11 +161,11 @@ export const CategoryListItem: React.FC<Props> = ({
       ) : null}
 
       {/* コレクション内のvideoが重複している場合のエラーメッセージ */}
-      {errors.youtube && errors.youtube[index]?.video?.message && (
+      {errors.videos && errors.videos[index]?.categoryLinks?.message && (
         <div className="mt-2 px-1 flex items-center space-x-1.5 text-red-600">
           <FaExclamationTriangle />
           <p className="text-sm line-clamp-1 break-all">
-            {errors.youtube[index]?.video?.message}
+            {errors.videos[index]?.categoryLinks?.message}
           </p>
         </div>
       )}

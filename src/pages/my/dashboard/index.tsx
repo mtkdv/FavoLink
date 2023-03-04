@@ -12,7 +12,7 @@ type JsonUser = {
 
 const Dashboard: NextPageWithLayout = () => {
   const { data, isLoading } = useQuery<JsonUser[]>({
-    queryKey: ["getUsers"],
+    queryKey: ["GetUsers"],
     queryFn: async () => {
       const { data } = await axios.get(
         `https://jsonplaceholder.typicode.com/users`

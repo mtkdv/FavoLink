@@ -1,83 +1,25 @@
-import { ReactElement, useEffect, useState } from "react";
-import Error from "next/error";
-import { useSession } from "next-auth/react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
+import { PuffLoader } from "react-spinners";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
 
 import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/shared/Layout";
+import { Layout } from "#/components/shared";
 import { CategoryList } from "#/components/pages/my/add-video";
-import { Divider } from "#/components/uiParts/Divider";
-import { useGetCategories } from "#/hooks";
-import { useGetLinks } from "#/hooks";
-import { useMutateVideo } from "#/hooks";
+import { Divider, Loader } from "#/components/uiParts";
+import { useUpsertUserVideo, useListUserVideo, useFormatData } from "#/hooks";
 import { schema } from "#/schema/addVideo";
-import { PuffLoader } from "react-spinners";
-import { Loader } from "#/components/uiParts";
 
 export type Schema = z.infer<typeof schema>;
 
 const AddVideo: NextPageWithLayout = () => {
-  const { data: session } = useSession();
-  const { data: videos, isLoading: isLoadingLinks } = useGetLinks(session);
-  const { data: categories, isLoading: isLoadingCategories } =
-    useGetCategories(session);
-  const [values, setValues] = useState<Schema>();
-  const { mutateAsync } = useMutateVideo();
-
-  useEffect(() => {
-    // console.log("useEffect");
-    if (!videos || !categories) return;
-    // console.log("videos:", videos);
-    // 未追加の場合 => []
-    // console.log("categories:", categories);
-    // 未追加の場合 => []
-
-    /**
-     * @returns videosとcategoriesが[]の場合、[]が返る。
-     */
-    const values = categories.map((category) => {
-      const videosOnCategory = videos.filter((video) => {
-        return category.id === video.categoryId;
-      });
-      const videoData = videosOnCategory.map(
-        ({
-          id,
-          videoId,
-          title,
-          thumbnailUrl,
-          channelId,
-          channelTitle,
-          channelThumbnailUrl,
-        }) => ({
-          id,
-          videoId,
-          title,
-          thumbnailUrl,
-          channelId,
-          channelTitle,
-          channelThumbnailUrl,
-        })
-      );
-
-      return {
-        categoryId: category.id,
-        categoryName: category.name,
-        video: videoData,
-      };
-    });
-
-    // setTimeout(() => {
-    //   setValues({ youtube: values });
-    // }, 5000);
-    setValues({ youtube: values });
-    // }, [videos, categories]);
-  }, [videos, categories]);
+  const { data: videos, isLoading } = useListUserVideo();
+  const { mutateAsync } = useUpsertUserVideo();
+  const values = useFormatData(videos);
 
   const {
     register,
@@ -97,7 +39,7 @@ const AddVideo: NextPageWithLayout = () => {
     move,
     remove,
   } = useFieldArray({
-    name: "youtube",
+    name: "videos",
     control,
   });
 
@@ -111,12 +53,13 @@ const AddVideo: NextPageWithLayout = () => {
   };
 
   const appendCategory = () => {
-    append({ categoryId: "", categoryName: "", video: [] });
+    append({ categoryId: "", categoryName: "", categoryLinks: [] });
 
     // scrollBottom();
   };
 
-  if (isLoadingLinks || isLoadingCategories) {
+  // if (isLoadingLinks || isLoadingCategories) {
+  if (isLoading) {
     return <Loader className="h-page" />;
   }
 
@@ -246,11 +189,11 @@ const AddVideo: NextPageWithLayout = () => {
 
       {/* FIXME: 表示位置 */}
       {/* Error Message（コレクション名の重複など） */}
-      {errors.youtube && errors.youtube.message && (
+      {errors.videos && errors.videos.message && (
         <div className="mt-4 px-1 flex items-center space-x-1.5 text-red-600">
           <FaExclamationTriangle />
           <p className="text-sm line-clamp-1 break-all">
-            {errors.youtube.message}
+            {errors.videos.message}
           </p>
         </div>
       )}
@@ -258,7 +201,7 @@ const AddVideo: NextPageWithLayout = () => {
   );
 };
 
-AddVideo.getLayout = (page: ReactElement) => {
+AddVideo.getLayout = (page: React.ReactElement) => {
   return <Layout>{page}</Layout>;
 };
 

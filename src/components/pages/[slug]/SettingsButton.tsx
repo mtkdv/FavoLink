@@ -4,11 +4,14 @@ import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import { FaUserCog } from "react-icons/fa";
 
-import { PublicPageData } from "#/pages/api/[slug]";
+import { PublicResources } from "#/types";
 
 export const SettingsButton = () => {
   const { data: session } = useSession();
-  const { data } = useQuery<PublicPageData>(["public"], { enabled: false });
+  const { data } = useQuery<Omit<PublicResources, "videos">>(
+    ["PublicResources"],
+    { enabled: false }
+  );
 
   return session?.user && session.user.id === data?.profile.userId ? (
     <Link

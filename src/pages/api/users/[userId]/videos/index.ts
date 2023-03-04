@@ -1,29 +1,68 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 
-import { authOptions } from "../auth/[...nextauth]";
 import prisma from "#/lib/prisma";
+import { authOptions } from "#/pages/api/auth/[...nextauth]";
 import { Schema } from "#/pages/my/add-video";
+import { generateVideos } from "#/utils";
 
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await unstable_getServerSession(req, res, authOptions);
+  const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
-    res.status(401).json({ message: "You must be logged in." });
+    res.status(401).json({ code: "401", message: "You must be logged in." });
     return;
   }
 
-  const { id: userId } = session.user!;
+  const { id } = session.user!;
+  const userId = req.query.userId as string;
+
+  if (id !== userId) {
+    res.status(403).json({ code: "403", message: "You are not authorized." });
+    return;
+  }
 
   switch (req.method) {
+    case "GET": {
+      try {
+        const findCategories = () =>
+          prisma.category.findMany({
+            where: { userId },
+            orderBy: {
+              index: "asc",
+            },
+          });
+        const findLinks = () =>
+          prisma.link.findMany({
+            where: { userId },
+            orderBy: {
+              index: "asc",
+            },
+          });
+
+        const [categories, links] = await Promise.all([
+          findCategories(),
+          findLinks(),
+        ]);
+
+        const videos = generateVideos({ categories, links });
+        res.json(videos);
+      } catch (error: any) {
+        // FIXME:
+        res.status(404).json({ message: error.message });
+      }
+      break;
+    }
+
+    // FIXME: try/catch
     case "PUT": {
-      const { youtube } = req.body as Schema;
+      const { videos } = req.body as Schema;
 
       /** Delete Category */
-      const inputCategories = youtube.map(({ categoryId }) => categoryId);
+      const inputCategories = videos.map(({ categoryId }) => categoryId);
 
       const dataCategories = await prisma.category.findMany({
         where: { userId },
@@ -44,8 +83,8 @@ export default async function handle(
       });
 
       /** Delete Video */
-      const inputVideos = youtube.flatMap(({ video }) => {
-        return video.map(({ id }) => id);
+      const inputVideos = videos.flatMap(({ categoryLinks }) => {
+        return categoryLinks.map(({ id }) => id);
       });
 
       const dataVideos = await prisma.link.findMany({
@@ -68,8 +107,8 @@ export default async function handle(
 
       /** Upsert Category & Video */
       const response = await Promise.all(
-        youtube.flatMap(
-          async ({ categoryId, categoryName: name, video }, ci) => {
+        videos.flatMap(
+          async ({ categoryId, categoryName: name, categoryLinks }, ci) => {
             if (name === "") return [];
             // FIXME: index処理不要かも
             const index = (ci + 1) * 1024;
@@ -87,7 +126,7 @@ export default async function handle(
             });
 
             const upsertedVideo = await Promise.all(
-              video.flatMap(
+              categoryLinks.flatMap(
                 async (
                   {
                     id,
@@ -135,5 +174,9 @@ export default async function handle(
       res.json(response);
       break;
     }
+
+    default:
+      res.status(405).end();
+      break;
   }
 }

@@ -9,24 +9,23 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PuffLoader } from "react-spinners";
 import { TbCameraPlus } from "react-icons/tb";
+
 import {
-  MAX_FILE_SIZE,
   ACCEPTED_IMAGE_TYPES,
   ONE_MEGA_BYTE,
   NAME_ERROR_CODE,
   SLUG_ERROR_CODE,
   DESC_ERROR_CODE,
 } from "#/const/profile";
-
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/shared";
 import {
   InputCounter,
-  PublicOrPrivateSwitch,
   ProfileSkeleton,
+  TogglePublishedSwitch,
 } from "#/components/pages/my/profile";
-import { Divider } from "#/components/uiParts/Divider";
-import { useGetProfile, useMutateProfile } from "#/hooks";
+import { Divider } from "#/components/uiParts";
+import { useGetProfile, usePatchProfileBaseInfo } from "#/hooks";
 import { schema } from "#/schema/profile";
 import { bytesToKilobytes, mimeToFileFormat, uploadAndGetUrl } from "#/utils";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
@@ -34,11 +33,11 @@ import silhouetteAvatar from "/public/silhouette-avatar.png";
 export type Schema = z.infer<typeof schema>;
 
 const fileSchema = z.custom<File>().superRefine((file, ctx) => {
-  if (file.size > MAX_FILE_SIZE) {
+  if (file.size > ONE_MEGA_BYTE * 2) {
     ctx.addIssue({
       code: z.ZodIssueCode.too_big,
       type: "number",
-      maximum: MAX_FILE_SIZE,
+      maximum: ONE_MEGA_BYTE * 2,
       inclusive: true,
       message: "ファイルサイズの上限は 2MB までです。",
     });
@@ -57,12 +56,13 @@ export type FileSchema = z.infer<typeof fileSchema>;
 
 const Profile: NextPageWithLayout = () => {
   const { data: session } = useSession();
-  const { data: profile, isLoading } = useGetProfile(session);
+  const { data: profile, isLoading } = useGetProfile();
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [previewFile, setPreviewFile] = useState<File>();
   const [defaultFile, setDefaultFile] = useState(previewFile);
   // const [verifiedText, setVerifiedText] = useState("");
-  const { mutateAsync } = useMutateProfile();
+  // const { mutateAsync } = useMutateProfile();
+  const { mutateAsync } = usePatchProfileBaseInfo();
 
   const {
     register,
@@ -95,24 +95,14 @@ const Profile: NextPageWithLayout = () => {
    * @param {string | null} fData.slug 初期値はschema.prismaのString?によりnull
    */
   const onSubmit: SubmitHandler<Schema> = async (fData) => {
-    // console.log("profile.slug:", profile!.slug);
-    // console.log("typeof fData.slug:", typeof fData.slug);
-    // console.log("fData.fileList", fData.fileList);
-    console.log("onSubmit");
-
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    // await new Promise((r) => setTimeout(r, 3000));
     // return;
-
-    if (session === null || session.user === undefined) return;
-    const { id } = session.user;
 
     /** slug 重複検証 */
     if (fData.slug && fData.slug !== profile!.slug) {
       try {
-        await axios.get(`/api/profile`, {
+        await axios.get(`/api/query/profiles`, {
           params: {
-            type: "validateSlug",
-            id,
             slug: fData.slug,
           },
         });
@@ -151,18 +141,15 @@ const Profile: NextPageWithLayout = () => {
       description,
     };
 
-    mutateAsync(
-      { id, data },
-      {
-        onSuccess: () => toast.success("プロフィールを更新しました"),
-        onError(error, variables, context) {
-          console.log("profile onSubmit onError:", error);
-          if (error.response?.data.code === "P2000") {
-            toast.error("ファイル名を短くし、アップロードし直してください。");
-          }
-        },
-      }
-    );
+    mutateAsync(data, {
+      onSuccess: () => toast.success("プロフィールを更新しました"),
+      onError(error, variables, context) {
+        console.log("profile onSubmit onError:", error);
+        if (error.response?.data.code === "P2000") {
+          toast.error("ファイル名を短くし、アップロードし直してください。");
+        }
+      },
+    });
   };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -660,7 +647,7 @@ const Profile: NextPageWithLayout = () => {
           <Divider classWrapper="px-4" />
 
           <div className="px-6 pb-8">
-            <PublicOrPrivateSwitch />
+            <TogglePublishedSwitch />
           </div>
         </div>
       )}

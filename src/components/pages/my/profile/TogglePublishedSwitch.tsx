@@ -1,39 +1,30 @@
-import { useChangePublished } from "#/hooks/useChangePublished";
-import { useGetProfile } from "#/hooks/useGetProfile";
-import clsx from "clsx";
-import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import clsx from "clsx";
 
-export const PublicOrPrivateSwitch = () => {
-  const { data: session } = useSession();
-  const { data: profile } = useGetProfile(session);
-  const { mutateAsync } = useChangePublished();
+import { usePatchProfilePublished } from "#/hooks";
+import { useGetProfile } from "#/hooks/useGetProfile";
+
+export const TogglePublishedSwitch = () => {
+  const { data: profile } = useGetProfile();
+  const { mutateAsync } = usePatchProfilePublished();
   const [checked, setChecked] = useState(profile?.published);
 
   const handleChange = async () => {
-    if (session === null || session.user === undefined) return;
-    const { id } = session.user;
-
     setChecked((current) => !current);
 
     const data = {
       published: !checked,
     };
 
-    mutateAsync(
-      { id, data },
-      {
-        onSuccess: (data) => {
-          toast.success(
-            data.published ? "公開しました。" : "非公開にしました。"
-          );
-        },
-        onError(error) {
-          toast.error(error.message);
-        },
-      }
-    );
+    mutateAsync(data, {
+      onSuccess: (data) => {
+        toast.success(data.published ? "公開しました。" : "非公開にしました。");
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+    });
   };
 
   return profile ? (
@@ -59,7 +50,7 @@ export const PublicOrPrivateSwitch = () => {
             onChange={handleChange}
             className="sr-only"
           />
-          {/* FIXME: スイッチの見た目変更 */}
+          {/* FIXME: スイッチのデザイン変更 */}
           <div
             className={clsx(
               "h-6 w-11 rounded-full flex items-center cursor-pointer transition-colors",

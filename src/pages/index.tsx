@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import Error from "next/error";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -14,11 +13,10 @@ import sample14 from "/public/sample14.png";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
 import UndrawMovieNight from "/public/undraw_movie_night_re_9umk.svg";
-import Custom404 from "#/pages/404";
 
 export default function Home() {
-  const { data: session, status: sessionStatus } = useSession();
-  const { data: profile, isLoading } = useGetProfile(session);
+  const { status: sessionStatus } = useSession();
+  const { data: profile, isLoading } = useGetProfile();
   const queryClient = useQueryClient();
 
   return (
@@ -72,7 +70,7 @@ export default function Home() {
             {sessionStatus === "loading" ? null : sessionStatus ===
               "unauthenticated" ? (
               <button
-                onClick={() => queryClient.setQueryData(["signInModal"], true)}
+                onClick={() => queryClient.setQueryData(["SignInModal"], true)}
                 className="py-2 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80 text-xl"
               >
                 Login

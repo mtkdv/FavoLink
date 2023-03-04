@@ -41,7 +41,7 @@ export const MaxMdNav = () => {
           {sessionStatus === "loading" ? null : sessionStatus ===
             "unauthenticated" ? (
             <button
-              onClick={() => queryClient.setQueryData(["signInModal"], true)}
+              onClick={() => queryClient.setQueryData(["SignInModal"], true)}
               className="block py-4 px-2 w-full text-left hover:bg-black/5 outline-none focus-visible:ring-2 ring-blue-500 animate-appearance"
             >
               Login

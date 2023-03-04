@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { FaShareSquare } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
 import { SiReact } from "react-icons/si";
@@ -10,9 +10,7 @@ import { MENU_LIST } from "#/const/menu-list";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const Sidebar = () => {
-  const { data: session } = useSession();
-
-  const { data: profile, isLoading } = useGetProfile(session);
+  const { data: profile, isLoading } = useGetProfile();
 
   return (
     <div className="h-screen w-20 md:w-60 px-2 md:px-6 flex flex-col overflow-y-scroll scrollbar-hidden">
