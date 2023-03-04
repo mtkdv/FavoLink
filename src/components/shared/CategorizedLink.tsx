@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Custom } from "@prisma/client";
 import clsx from "clsx";
@@ -15,7 +14,6 @@ export const CategorizedLink = ({
   videos: Videos;
   custom: Custom;
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   return (
@@ -45,7 +43,11 @@ export const CategorizedLink = ({
                             queryKeys.playVideoData,
                             link
                           );
-                          setIsModalOpen(true);
+                          // setIsModalOpen(true);
+                          queryClient.setQueryData(
+                            queryKeys.videoPlayerModal,
+                            true
+                          );
                         }}
                         className="space-y-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 max-w-xs"
                       >
@@ -95,7 +97,7 @@ export const CategorizedLink = ({
             ))
           : null}
       </ul>
-      <VideoPlayerModal {...{ isModalOpen, setIsModalOpen }} />
+      <VideoPlayerModal />
     </>
   );
 };

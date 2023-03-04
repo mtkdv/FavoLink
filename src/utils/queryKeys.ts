@@ -5,4 +5,5 @@ export const queryKeys = {
   publicResources: ["publicResources"],
   signInModal: ["signInModal"],
   playVideoData: ["playVideoData"],
+  videoPlayerModal: ["videoPlayerModal"],
 } as const;
