@@ -2,12 +2,14 @@ import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@prisma/client";
 
+import { queryKeys } from "#/utils";
+
 const ReactPlayer = dynamic(() => import("react-player/youtube"), {
   ssr: false,
 });
 
 export const VideoPlayer = () => {
-  const { data } = useQuery<Link>(["VideoData"], { enabled: false });
+  const { data } = useQuery<Link>(queryKeys.playVideoData, { enabled: false });
 
   return (
     <ReactPlayer

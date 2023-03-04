@@ -4,8 +4,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Custom } from "@prisma/client";
 import clsx from "clsx";
 
-import { Videos } from "#/types";
 import { VideoPlayerModal } from "#/components/shared";
+import { Videos } from "#/types";
+import { queryKeys } from "#/utils";
 
 export const CategorizedLink = ({
   videos,
@@ -40,7 +41,10 @@ export const CategorizedLink = ({
                       <button
                         type="button"
                         onClick={() => {
-                          queryClient.setQueryData(["VideoData"], link);
+                          queryClient.setQueryData(
+                            queryKeys.playVideoData,
+                            link
+                          );
                           setIsModalOpen(true);
                         }}
                         className="space-y-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 max-w-xs"

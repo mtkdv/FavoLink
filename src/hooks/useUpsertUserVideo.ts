@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 
 import { Schema } from "#/pages/my/add-video";
+import { queryKeys } from "#/utils";
 
 export const useUpsertUserVideo = () => {
   const { data: session } = useSession();
@@ -18,7 +19,7 @@ export const useUpsertUserVideo = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["ListUserVideo"] });
+      queryClient.invalidateQueries(queryKeys.listUserVideo);
     },
   });
   return videoMutation;

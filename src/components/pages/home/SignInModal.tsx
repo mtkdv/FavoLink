@@ -6,9 +6,11 @@ import { FcGoogle } from "react-icons/fc";
 import { VscChromeClose } from "react-icons/vsc";
 import { SiTwitter } from "react-icons/si";
 
+import { queryKeys } from "#/utils";
+
 export const SignInModal = () => {
   const { data: isModalShow } = useQuery({
-    queryKey: ["SignInModal"],
+    queryKey: queryKeys.signInModal,
     initialData: false,
     enabled: false,
   });
@@ -18,7 +20,7 @@ export const SignInModal = () => {
     <Transition appear show={isModalShow} as={Fragment}>
       <Dialog
         // open={isModalOpen}
-        onClose={() => queryClient.setQueryData(["SignInModal"], false)}
+        onClose={() => queryClient.setQueryData(queryKeys.signInModal, false)}
         className="relative z-50"
       >
         {/* <div className="fixed inset-0 bg-black/30" aria-hidden="true" /> */}
@@ -80,7 +82,7 @@ export const SignInModal = () => {
                 </div>
                 <button
                   onClick={() =>
-                    queryClient.setQueryData(["SignInModal"], false)
+                    queryClient.setQueryData(queryKeys.signInModal, false)
                   }
                   className="absolute top-3 right-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >

@@ -3,9 +3,10 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { Divider } from "#/components/uiParts/Divider";
+import { Divider } from "#/components/uiParts";
 import { Hamburger, Nav, SignInModal } from "#/components/pages/home";
 import { useGetProfile } from "#/hooks/useGetProfile";
+import { queryKeys } from "#/utils";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 import sample17 from "/public/sample17.png";
 import sample16 from "/public/sample16.png";
@@ -70,7 +71,9 @@ export default function Home() {
             {sessionStatus === "loading" ? null : sessionStatus ===
               "unauthenticated" ? (
               <button
-                onClick={() => queryClient.setQueryData(["SignInModal"], true)}
+                onClick={() =>
+                  queryClient.setQueryData(queryKeys.signInModal, true)
+                }
                 className="py-2 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80 text-xl"
               >
                 Login

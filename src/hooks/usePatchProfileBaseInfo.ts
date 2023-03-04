@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { Profile } from "@prisma/client";
 
 import { ProfileFormData } from "#/types";
+import { queryKeys } from "#/utils";
 
 export const usePatchProfileBaseInfo = () => {
   const { data: session } = useSession();
@@ -25,6 +26,6 @@ export const usePatchProfileBaseInfo = () => {
 
       return res.data;
     },
-    onSettled: () => queryClient.invalidateQueries(["GetProfile"]),
+    onSettled: () => queryClient.invalidateQueries(queryKeys.getProfile),
   });
 };

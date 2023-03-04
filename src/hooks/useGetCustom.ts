@@ -3,11 +3,13 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { Custom } from "@prisma/client";
 
+import { queryKeys } from "#/utils";
+
 export const useGetCustom = () => {
   const { data: session } = useSession();
 
   return useQuery<Custom, AxiosError>({
-    queryKey: ["GetCustom"],
+    queryKey: queryKeys.getCustom,
     queryFn: async () => {
       const res = await axios.get(`/api/users/${session!.user!.id}/custom`);
 

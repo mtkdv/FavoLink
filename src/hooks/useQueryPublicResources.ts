@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 import { PublicResources } from "#/types";
+import { queryKeys } from "#/utils";
 
 export const useQueryPublicResources = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ export const useQueryPublicResources = () => {
       message: string;
     }>
   >({
-    queryKey: ["PublicResources"],
+    queryKey: queryKeys.publicResources,
     queryFn: async () => {
       const res = await axios.get(`/api/query/public-resources`, {
         params: {

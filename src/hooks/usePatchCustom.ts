@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { Custom } from "@prisma/client";
 
 import { CustomFormData } from "#/types";
+import { queryKeys } from "#/utils";
 
 export const usePatchCustom = () => {
   const { data: session } = useSession();
@@ -25,7 +26,7 @@ export const usePatchCustom = () => {
 
       return res.data;
     },
-    onSettled: () => queryClient.invalidateQueries(["GetCustom"]),
+    onSettled: () => queryClient.invalidateQueries(queryKeys.getCustom),
     // useErrorBoundary(error) {
     //   if (!error.response) {
     //     return true;

@@ -3,11 +3,13 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { Profile } from "@prisma/client";
 
+import { queryKeys } from "#/utils";
+
 export const useGetProfile = () => {
   const { data: session } = useSession();
 
   return useQuery<Profile, AxiosError>({
-    queryKey: ["GetProfile"],
+    queryKey: queryKeys.getProfile,
     queryFn: async () => {
       const res = await axios.get<Profile>(
         `/api/users/${session!.user!.id}/profile`

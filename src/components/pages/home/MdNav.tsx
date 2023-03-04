@@ -2,6 +2,8 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { queryKeys } from "#/utils";
+
 const MENU_LIST = [
   {
     title: "Dashboard",
@@ -44,7 +46,9 @@ export const MdNav = () => {
           {sessionStatus === "loading" ? null : sessionStatus ===
             "unauthenticated" ? (
             <button
-              onClick={() => queryClient.setQueryData(["SignInModal"], true)}
+              onClick={() =>
+                queryClient.setQueryData(queryKeys.signInModal, true)
+              }
               className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
             >
               Login

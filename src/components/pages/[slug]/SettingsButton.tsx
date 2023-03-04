@@ -5,11 +5,12 @@ import { useSession } from "next-auth/react";
 import { FaUserCog } from "react-icons/fa";
 
 import { PublicResources } from "#/types";
+import { queryKeys } from "#/utils";
 
 export const SettingsButton = () => {
   const { data: session } = useSession();
   const { data } = useQuery<Omit<PublicResources, "videos">>(
-    ["PublicResources"],
+    queryKeys.publicResources,
     { enabled: false }
   );
 

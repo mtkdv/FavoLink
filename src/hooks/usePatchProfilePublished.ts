@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 
+import { queryKeys } from "#/utils";
+
 export const usePatchProfilePublished = () => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -24,7 +26,7 @@ export const usePatchProfilePublished = () => {
       );
       return res.data;
     },
-    onSettled: () => queryClient.invalidateQueries(["GetProfile"]),
+    onSettled: () => queryClient.invalidateQueries(queryKeys.getProfile),
   });
   return profileMutation;
 };
