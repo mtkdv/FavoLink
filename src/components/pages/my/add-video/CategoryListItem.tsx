@@ -15,7 +15,7 @@ import { RiAddLine } from "react-icons/ri";
 import { TfiExchangeVertical } from "react-icons/tfi";
 
 import { Schema } from "#/pages/my/add-video";
-import { VideoList } from "#/components/pages/my/add-video";
+import { LinkListItem } from "#/components/pages/my/add-video";
 // import { InputCounter } from "#/components/pages/my/profile/InputCounter";
 
 type Props = {
@@ -27,13 +27,13 @@ type Props = {
   move: UseFieldArrayMove;
   remove: UseFieldArrayRemove;
   categoryField: FieldArrayWithId<Schema, "videos", "id">;
-  index: number;
+  categoryIndex: number;
   categoryFieldsLength: number;
 };
 
 export const CategoryListItem: React.FC<Props> = ({
   categoryField,
-  index,
+  categoryIndex,
   categoryFieldsLength,
   move: moveCategory,
   remove: removeCategory,
@@ -43,12 +43,12 @@ export const CategoryListItem: React.FC<Props> = ({
   ...rest
 }) => {
   const {
-    fields: videoFields,
+    fields: linkFields,
     append,
     move,
     remove,
   } = useFieldArray({
-    name: `videos.${index}.categoryLinks`,
+    name: `videos.${categoryIndex}.categoryLinks`,
     control,
   });
 
@@ -75,10 +75,10 @@ export const CategoryListItem: React.FC<Props> = ({
       className="relative group/collection-item px-3 py-6 rounded-sm ring-1 ring-stone-300 flex flex-col shadow-[0_0_3px_1px] shadow-isabelline hover:ring-stone-400"
     >
       {/* Move Category Up Down */}
-      {index === 0 || (
+      {categoryIndex === 0 || (
         <button
           type="button"
-          onClick={() => swapCategory(index)}
+          onClick={() => swapCategory(categoryIndex)}
           className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-1 rounded-sm ring-1 ring-tonys-pink shadow p-1 bg-white [&:is(:hover,:focus-visible)]:bg-tonys-pink transition duration-300"
         >
           <TfiExchangeVertical
@@ -91,7 +91,7 @@ export const CategoryListItem: React.FC<Props> = ({
       {/* Remove Collection Button */}
       <button
         type="button"
-        onClick={() => removeCategory(index)}
+        onClick={() => removeCategory(categoryIndex)}
         className="absolute right-2 top-2 group/remove outline-none"
       >
         <IoMdClose
@@ -105,7 +105,10 @@ export const CategoryListItem: React.FC<Props> = ({
         {/* Collection Inputs */}
         <div className="space-y-2">
           {/* Collection Label */}
-          <label htmlFor={`collection-input-${index}`} className="flex w-fit">
+          <label
+            htmlFor={`collection-input-${categoryIndex}`}
+            className="flex w-fit"
+          >
             <span className="ml-1 text-xs text-stone-600 font-semibold tracking-wide">
               Collection Title
             </span>
@@ -119,10 +122,10 @@ export const CategoryListItem: React.FC<Props> = ({
             {/* Collection input */}
             <input
               form="video-form"
-              id={`collection-input-${index}`}
+              id={`collection-input-${categoryIndex}`}
               placeholder="&nbsp;"
               type="text"
-              {...register(`videos.${index}.categoryName` as const)}
+              {...register(`videos.${categoryIndex}.categoryName` as const)}
               className="peer w-full h-full p-3 pr-14 bg-white outline-none text-stone-800 text-base tracking-wider ring-1 ring-stone-300 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]/collection-inputs-errors:ring-red-600 group-[:has(.error-message)]/collection-inputs-errors:shadow-red-200 rounded-sm"
             />
 
@@ -146,32 +149,40 @@ export const CategoryListItem: React.FC<Props> = ({
         </div>
 
         {/* Collection Errors */}
-        {errors.videos && errors.videos[index]?.categoryName && (
+        {errors.videos && errors.videos[categoryIndex]?.categoryName && (
           <div className="px-1 flex items-center space-x-1.5 text-red-600">
             <FaExclamationTriangle />
             <p className="text-sm line-clamp-1 break-all">
-              {errors.videos[index]?.categoryName?.message}
+              {errors.videos[categoryIndex]?.categoryName?.message}
             </p>
           </div>
         )}
       </div>
 
-      {videoFields.length ? (
-        <VideoList {...{ videoFields, index, move, remove, ...rest }} />
+      {linkFields.length ? (
+        <ul className="mt-6 space-y-4">
+          {linkFields.map((linkField, linkIndex) => (
+            <LinkListItem
+              key={linkField.id}
+              {...{ categoryIndex, linkIndex, move, remove, ...rest }}
+            />
+          ))}
+        </ul>
       ) : null}
 
       {/* コレクション内のvideoが重複している場合のエラーメッセージ */}
-      {errors.videos && errors.videos[index]?.categoryLinks?.message && (
-        <div className="mt-2 px-1 flex items-center space-x-1.5 text-red-600">
-          <FaExclamationTriangle />
-          <p className="text-sm line-clamp-1 break-all">
-            {errors.videos[index]?.categoryLinks?.message}
-          </p>
-        </div>
-      )}
+      {errors.videos &&
+        errors.videos[categoryIndex]?.categoryLinks?.message && (
+          <div className="mt-2 px-1 flex items-center space-x-1.5 text-red-600">
+            <FaExclamationTriangle />
+            <p className="text-sm line-clamp-1 break-all">
+              {errors.videos[categoryIndex]?.categoryLinks?.message}
+            </p>
+          </div>
+        )}
 
       {/* Add Video Button */}
-      {videoFields.length < 6 && (
+      {linkFields.length < 6 && (
         <div className="mt-5 flex justify-center">
           <button
             type="button"

@@ -1,5 +1,5 @@
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
 import {
   UseFieldArrayMove,
   UseFieldArrayRemove,
@@ -10,27 +10,29 @@ import { IoMdClose } from "react-icons/io";
 import { AiOutlineSwap } from "react-icons/ai";
 
 import { Schema } from "#/pages/my/add-video";
-import { VideoForm } from "#/components/pages/my/add-video";
+import { LinkForm } from "#/components/pages/my/add-video";
 
 type Props = {
   getValues: UseFormGetValues<Schema>;
-  nestIndex: number;
-  index: number;
+  categoryIndex: number;
+  linkIndex: number;
   move: UseFieldArrayMove;
   remove: UseFieldArrayRemove;
   setValue: UseFormSetValue<Schema>;
 };
 
-export const VideoListItem: React.FC<Props> = ({
+export const LinkListItem: React.FC<Props> = ({
   getValues,
-  nestIndex,
-  index,
+  categoryIndex,
+  linkIndex,
   move,
   remove,
   setValue,
 }) => {
   const [hasValues, setHasValues] = useState(() => {
-    return !!getValues(`videos.${nestIndex}.categoryLinks.${index}.videoId`);
+    return !!getValues(
+      `videos.${categoryIndex}.categoryLinks.${linkIndex}.videoId`
+    );
   });
 
   const removeVideo = (index: number) => {
@@ -44,12 +46,12 @@ export const VideoListItem: React.FC<Props> = ({
   return (
     <li className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white hover:ring-stone-400">
       {!hasValues ? (
-        // Video Form
-        <VideoForm
+        // Link Add Form
+        <LinkForm
           {...{
             setValue,
-            nestIndex,
-            index,
+            categoryIndex,
+            linkIndex,
             setHasValues,
             removeVideo,
           }}
@@ -58,10 +60,10 @@ export const VideoListItem: React.FC<Props> = ({
         // Video Preview, Result
         <>
           {/* Video Move Up Down */}
-          {index === 0 || (
+          {linkIndex === 0 || (
             <button
               type="button"
-              onClick={() => swapVideoItem(index)}
+              onClick={() => swapVideoItem(linkIndex)}
               className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-0.5 rounded-sm ring-1 ring-stone-300 shadow p-0.5 bg-white [&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:ring-tonys-pink transition duration-300"
             >
               <AiOutlineSwap
@@ -78,7 +80,7 @@ export const VideoListItem: React.FC<Props> = ({
             <div className="overflow-hidden shrink-0 ring-1 ring-stone-300">
               <Image
                 src={getValues(
-                  `videos.${nestIndex}.categoryLinks.${index}.thumbnailUrl`
+                  `videos.${categoryIndex}.categoryLinks.${linkIndex}.thumbnailUrl`
                 )}
                 alt="thumbnail"
                 width={160}
@@ -93,14 +95,14 @@ export const VideoListItem: React.FC<Props> = ({
                 {/* Title */}
                 <p className="flex-1 line-clamp-2 text-sm break-all">
                   {getValues(
-                    `videos.${nestIndex}.categoryLinks.${index}.title`
+                    `videos.${categoryIndex}.categoryLinks.${linkIndex}.title`
                   )}
                 </p>
 
                 {/* Remove Video Button */}
                 <button
                   type="button"
-                  onClick={() => removeVideo(index)}
+                  onClick={() => removeVideo(linkIndex)}
                   className="group/remove outline-none"
                 >
                   <IoMdClose
@@ -123,7 +125,7 @@ export const VideoListItem: React.FC<Props> = ({
                 <div className="overflow-hidden rounded-full">
                   <Image
                     src={getValues(
-                      `videos.${nestIndex}.categoryLinks.${index}.channelThumbnailUrl`
+                      `videos.${categoryIndex}.categoryLinks.${linkIndex}.channelThumbnailUrl`
                     )}
                     alt="channelThumbnail"
                     width={33}
@@ -133,7 +135,7 @@ export const VideoListItem: React.FC<Props> = ({
                 </div>
                 <p className="text-xs line-clamp-1 flex-1 break-all text-base-black/70 hover:text-base-black transition-colors duration-300">
                   {getValues(
-                    `videos.${nestIndex}.categoryLinks.${index}.channelTitle`
+                    `videos.${categoryIndex}.categoryLinks.${linkIndex}.channelTitle`
                   )}
                 </p>
               </div>

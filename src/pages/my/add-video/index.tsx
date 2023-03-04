@@ -9,7 +9,7 @@ import { RiAddLine } from "react-icons/ri";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/shared";
-import { CategoryList } from "#/components/pages/my/add-video";
+import { CategoryListItem } from "#/components/pages/my/add-video";
 import { Divider, Loader } from "#/components/uiParts";
 import { useUpsertUserVideo, useListUserVideo, useFormatData } from "#/hooks";
 import { schema } from "#/schema/addVideo";
@@ -44,8 +44,7 @@ const AddVideo: NextPageWithLayout = () => {
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    // console.log("onSubmit data:", data);
-    // await new Promise((resolve) => setTimeout(() => resolve, 3000));
+    // await new Promise((r) => setTimeout(() => r, 3000));
 
     mutateAsync(data, {
       onSuccess: () => toast.success("変更を反映しました。"),
@@ -58,7 +57,6 @@ const AddVideo: NextPageWithLayout = () => {
     // scrollBottom();
   };
 
-  // if (isLoadingLinks || isLoadingCategories) {
   if (isLoading) {
     return <Loader className="h-page" />;
   }
@@ -140,51 +138,46 @@ const AddVideo: NextPageWithLayout = () => {
         </div>
       </div>
 
-      {/* <CategoryList>
-        <CategoryListItem>
-          <VideoList>
-            <VideoListItem />
-          </VideoList>
-        </CategoryListItem>
-      </CategoryList> */}
-
       <div className="px-6 pt-6">
-        <CategoryList
-          {...{
-            control,
-            register,
-            setValue,
-            getValues,
-            errors,
-            categoryFields,
-            move,
-            remove,
-          }}
-        >
-          {/* <ul id="target-ul" className="space-y-8">
-          {categoryFields.map((categoryField, index) => (
-            <CategoryListItem key={categoryField.id}>
-              <li>
-                <div id="move button"></div>
-                <div>
-                  <input id="collection-input" />
-                </div>
-                <VideoList>
-                  <ul>
-                    {videoFields.map((videoField) => (
-                      <VideoListItem key={videoField.id}>
-                        <li>{!hasValue ? <div></div> : <div></div>}</li>
-                      </VideoListItem>
-                    ))}
-                  </ul>
-                </VideoList>
-                <p>{errors.youtube[nestIndex]?.video?.message}</p>
-                <button>add video button</button>
-              </li>
-            </CategoryListItem>
+        {/* <ul id="target-ul" className="space-y-8">
+          {categoryFields.map((categoryField, categoryIndex) => (
+            <li key={categoryField.id}>
+              <div id="move button"></div>
+              <div>
+                <input id="collection-input" />
+              </div>
+              <ul>
+                {linkFields.map((linkField) => (
+                  <li key={linkField.id}>
+                    {!hasValue ? <div></div> : <div></div>}
+                  </li>
+                ))}
+              </ul>
+              <p>{errors.videos[categoryIndex]?.video?.message}</p>
+              <button>add video button</button>
+            </li>
           ))}
         </ul> */}
-        </CategoryList>
+
+        <ul id="target-ul" className="space-y-6">
+          {categoryFields.map((categoryField, categoryIndex) => (
+            <CategoryListItem
+              key={categoryField.id}
+              categoryFieldsLength={categoryFields.length}
+              {...{
+                categoryField,
+                categoryIndex,
+                control,
+                register,
+                setValue,
+                getValues,
+                errors,
+                move,
+                remove,
+              }}
+            />
+          ))}
+        </ul>
       </div>
 
       {/* FIXME: 表示位置 */}

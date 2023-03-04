@@ -8,11 +8,7 @@ import { SlMagnifierAdd } from "react-icons/sl";
 import { RiShareBoxLine } from "react-icons/ri";
 
 import { Schema } from "#/pages/my/add-video";
-import {
-  getYouTubeVideoIdFromUrl,
-  listChannels,
-  listVideos,
-} from "#/utils/youtube";
+import { getYouTubeVideoIdFromUrl, listChannels, listVideos } from "#/utils";
 
 const schemaVF = z.object({
   url: z
@@ -42,16 +38,16 @@ type SchemaVF = z.infer<typeof schemaVF>;
 
 type Props = {
   setValue: UseFormSetValue<Schema>;
-  nestIndex: number;
-  index: number;
+  categoryIndex: number;
+  linkIndex: number;
   setHasValues: React.Dispatch<SetStateAction<boolean>>;
   removeVideo: (index: number) => void;
 };
 
-export const VideoForm: React.FC<Props> = ({
+export const LinkForm: React.FC<Props> = ({
   setValue,
-  nestIndex,
-  index,
+  categoryIndex,
+  linkIndex,
   setHasValues,
   removeVideo,
 }) => {
@@ -102,19 +98,25 @@ export const VideoForm: React.FC<Props> = ({
     //   thumbnailUrl,
     // };
     // update(index, updateData);
-    setValue(`videos.${nestIndex}.categoryLinks.${index}.videoId`, videoId);
-    setValue(`videos.${nestIndex}.categoryLinks.${index}.title`, title);
     setValue(
-      `videos.${nestIndex}.categoryLinks.${index}.thumbnailUrl`,
+      `videos.${categoryIndex}.categoryLinks.${linkIndex}.videoId`,
+      videoId
+    );
+    setValue(`videos.${categoryIndex}.categoryLinks.${linkIndex}.title`, title);
+    setValue(
+      `videos.${categoryIndex}.categoryLinks.${linkIndex}.thumbnailUrl`,
       thumbnailUrl
     );
-    setValue(`videos.${nestIndex}.categoryLinks.${index}.channelId`, channelId);
     setValue(
-      `videos.${nestIndex}.categoryLinks.${index}.channelTitle`,
+      `videos.${categoryIndex}.categoryLinks.${linkIndex}.channelId`,
+      channelId
+    );
+    setValue(
+      `videos.${categoryIndex}.categoryLinks.${linkIndex}.channelTitle`,
       channelTitle
     );
     setValue(
-      `videos.${nestIndex}.categoryLinks.${index}.channelThumbnailUrl`,
+      `videos.${categoryIndex}.categoryLinks.${linkIndex}.channelThumbnailUrl`,
       channelThumbnailUrl
     );
 
@@ -126,7 +128,7 @@ export const VideoForm: React.FC<Props> = ({
       {/* Remove Video-URL Form */}
       <button
         type="button"
-        onClick={() => removeVideo(index)}
+        onClick={() => removeVideo(linkIndex)}
         className="absolute right-2 top-2 group/remove outline-none"
       >
         <IoMdClose
@@ -143,7 +145,7 @@ export const VideoForm: React.FC<Props> = ({
         {/* Video-URL Label, a */}
         <div className="flex space-x-2 w-fit">
           <label
-            htmlFor={`url-input-${nestIndex}-${index}`}
+            htmlFor={`url-input-${categoryIndex}-${linkIndex}`}
             className="ml-1 w-fit text-xs text-stone-600 font-semibold tracking-wide"
           >
             YouTube Video URL
@@ -165,7 +167,7 @@ export const VideoForm: React.FC<Props> = ({
           {/* Video-URL input */}
           <input
             autoFocus
-            id={`url-input-${nestIndex}-${index}`}
+            id={`url-input-${categoryIndex}-${linkIndex}`}
             placeholder="&nbsp;"
             {...register("url")}
             className="peer z-10 flex-1 h-full px-3 outline-none text-stone-800 text-sm border border-stone-300 [&:is(:focus-visible,:hover)]:border-tonys-pink focus-visible:shadow-[0_0_2px_1px] [&:is(:hover,:focus-visible)]:shadow-tonys-pink/60 transition rounded-l-sm"
