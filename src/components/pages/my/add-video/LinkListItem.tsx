@@ -44,7 +44,7 @@ export const LinkListItem: React.FC<Props> = ({
   };
 
   return (
-    <li className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white hover:ring-stone-400">
+    <li className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white/50 hover:ring-stone-400">
       {!hasValues ? (
         // Link Add Form
         <LinkForm

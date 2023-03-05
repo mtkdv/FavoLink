@@ -16,6 +16,9 @@ export const useUpsertUserVideo = () => {
         `/api/users/${session!.user!.id}/videos`,
         data
       );
+
+      // await new Promise((r) => setTimeout(r, 3000));
+
       return res.data;
     },
     onSuccess: (data) => {

@@ -34,7 +34,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <Toaster
+        {/* <Toaster
           position="bottom-right"
           // position="top-right"
           toastOptions={{
@@ -52,7 +52,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
               duration: 5000,
             },
           }}
-        />
+        /> */}
 
         <ErrorBoundaries>
           {getLayout(<Component {...pageProps} />)}

@@ -72,7 +72,7 @@ export const CategoryListItem: React.FC<Props> = ({
     <li
       id={categoryField.categoryName}
       key={categoryField.id}
-      className="relative group/collection-item px-3 py-6 rounded-sm ring-1 ring-stone-300 flex flex-col shadow-[0_0_3px_1px] shadow-isabelline hover:ring-stone-400"
+      className="relative group/collection-item px-3 py-6 rounded-md ring-1 ring-stone-300 flex flex-col shadow-[0_0_3px_1px] shadow-isabelline hover:ring-stone-400 bg-base-white/80"
     >
       {/* Move Category Up Down */}
       {categoryIndex === 0 || (
@@ -126,7 +126,7 @@ export const CategoryListItem: React.FC<Props> = ({
               placeholder="&nbsp;"
               type="text"
               {...register(`videos.${categoryIndex}.categoryName` as const)}
-              className="peer w-full h-full p-3 pr-14 bg-white outline-none text-stone-800 text-base tracking-wider ring-1 ring-stone-300 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]/collection-inputs-errors:ring-red-600 group-[:has(.error-message)]/collection-inputs-errors:shadow-red-200 rounded-sm"
+              className="peer w-full h-full p-3 pr-14 bg-white/50 outline-none text-stone-800 text-base tracking-wider ring-1 ring-stone-300 [&:is(:focus-visible,:hover)]:ring-tonys-pink focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]/collection-inputs-errors:ring-red-600 group-[:has(.error-message)]/collection-inputs-errors:shadow-red-200 rounded-sm"
             />
 
             {/* Collection Placeholder */}

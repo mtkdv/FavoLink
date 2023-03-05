@@ -1,23 +1,15 @@
-import { ProfileSkeleton } from "#/components/pages/my/profile/ProfileSkeleton";
 import React from "react";
 import { Sidebar } from "./Sidebar";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    // <div className="max-h-screen overflow-y-hidden bg-gradient-to-bl from-cocoa-100 via-cocoa-100/50 to-cocoa-100 text-cocoa-800 flex">
     <div className="h-screen bg-gradient-to-bl from-cocoa-100 via-cocoa-100/50 to-cocoa-100 text-cocoa-800 flex">
       {/* 左 */}
       <Sidebar />
 
       {/* 右 */}
       <div className="flex-1 my-4 mr-4 overflow-x-hidden bg-base-white border border-stone-300">
-        <div
-          id="scroll-element"
-          // className="max-w-3xl mx-auto min-h-[calc(100vh_-_34px)] flex"
-          // className="max-w-3xl mx-auto min-h-full flex"
-          // className="max-w-3xl mx-auto min-h-full"
-          className="max-w-3xl mx-auto min-h-full relative"
-        >
+        <div id="scroll-element" className="max-w-3xl mx-auto relative">
           {children}
         </div>
       </div>

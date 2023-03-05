@@ -29,7 +29,7 @@ export const MainContent = ({
         )}
       >
         {/* ページ背景 */}
-        <div className="fixed top-0 w-full h-screen -z-10">
+        <div className="fixed top-0 w-full h-screen">
           {custom.backgroundImage ? (
             <Image
               src={custom.backgroundImage}
@@ -49,7 +49,7 @@ export const MainContent = ({
         {/* プレビューヘッダー or 設定ボタン */}
         {children}
 
-        <main className="relative min-h-[calc(100vh_-_256px)] px-6">
+        <main className="relative min-h-main-content px-6">
           {/* Circle */}
           {/* <div className="absolute w-full h-full">
           <div className="absolute -top-[5%] -left-40 bg-gradient-to-tr from-white/40 to-white/10 rounded-full w-[450px] h-[450px] animate-[animate_7s_infinite]"></div>
@@ -102,10 +102,11 @@ export const MainContent = ({
         </main>
 
         <footer className="mt-6 flex flex-col space-y-2 items-center">
-          <Link href="/">
-            <p className="text-4xl font-black tracking-wide drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900">
-              Favolink
-            </p>
+          <Link
+            href="/"
+            className="text-4xl font-black tracking-wide drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900"
+          >
+            Favolink
           </Link>
           <p className="text-xs drop-shadow-[1px_1px_0_white]">
             Copyright &copy; 2023 All rights reserved.

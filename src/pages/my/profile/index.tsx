@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import clsx from "clsx";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -55,7 +54,6 @@ const fileSchema = z.custom<File>().superRefine((file, ctx) => {
 export type FileSchema = z.infer<typeof fileSchema>;
 
 const Profile: NextPageWithLayout = () => {
-  const { data: session } = useSession();
   const { data: profile, isLoading } = useGetProfile();
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [previewFile, setPreviewFile] = useState<File>();
@@ -97,6 +95,7 @@ const Profile: NextPageWithLayout = () => {
   const onSubmit: SubmitHandler<Schema> = async (fData) => {
     // await new Promise((r) => setTimeout(r, 3000));
     // return;
+    console.log("onSubmit");
 
     /** slug 重複検証 */
     if (fData.slug && fData.slug !== profile!.slug) {
@@ -207,34 +206,47 @@ const Profile: NextPageWithLayout = () => {
   //   } catch (error) {}
   // };
 
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
+
   return (
-    <div className="flex flex-col animate-appearance">
-      {/* ページタイトル */}
-      <div className="sticky top-0 z-10 h-16 bg-base-white flex flex-col justify-end">
+    <div className="relative min-h-page flex flex-col animate-appearance">
+      {/* ヘッダー */}
+      <header className="sticky top-0 z-20 h-16 bg-base-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
-          <h2 className="text-lg font-bold">プロフィール編集</h2>
+          <h2 className="text-lg font-bold w-fit">プロフィール編集</h2>
           <Divider />
         </div>
-      </div>
+      </header>
 
-      {isLoading ? (
-        <ProfileSkeleton />
-      ) : (
-        <div className="my-6 flex flex-col space-y-6 animate-appearance">
+      {/* メイン */}
+      <main>
+        {/* 背景 */}
+        <div className="sticky top-16 h-page-main overflow-hidden">
+          <div className="bg-img-profile h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-base-white/90 bg-blend-lighten" />
+        </div>
+
+        {/* フォーム */}
+        <div className="-mt-page-main relative z-10 mb-6 flex flex-col space-y-6 animate-appearance">
           {/* Profile Forms */}
-          <div className="px-6 py-4 space-y-12">
+          <form
+            id="profile-form"
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-6 px-6 py-4 space-y-12"
+          >
             {/* Profile Inputs */}
             <div className="flex flex-col space-y-12">
               {/* Avatar */}
               <div className="space-y-2">
                 {/* Avatar Label */}
                 <div className="ml-1">
-                  <h3 className="text-xs text-cocoa-800 font-semibold tracking-wide">
+                  <h3 className="text-xs w-fit text-cocoa-800 font-semibold tracking-wide">
                     Profile Icon
                   </h3>
                 </div>
 
-                <div className="group/avatar rounded-md border border-stone-300 px-2 py-3 flex space-x-2 [&:has(.error-message)]:border-red-600 ">
+                <div className="group/avatar rounded-md bg-white/50 border border-stone-300 px-2 py-3 flex space-x-2 [&:has(.error-message)]:border-red-600 ">
                   {/* Avatar 左: Inputs */}
                   <div className="group/avatar-inputs relative flex items-center shrink-0">
                     <Image
@@ -387,7 +399,7 @@ const Profile: NextPageWithLayout = () => {
                     id="name-input"
                     placeholder="&nbsp;"
                     type="text"
-                    className="peer w-full h-full px-3 rounded-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
+                    className="peer w-full h-full px-3 rounded-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                     {...register("name")}
                   />
 
@@ -457,20 +469,20 @@ const Profile: NextPageWithLayout = () => {
                 {/* URL Inputs */}
                 <div className="h-10 flex">
                   {/* URL Prefix */}
-                  <div className="w-44 bg-stone-100 grid place-items-center border border-r-0 border-stone-300 rounded-l-md">
+                  <div className="w-44 bg-stone-100/90 grid place-items-center border border-r-0 border-stone-300 rounded-l-md">
                     <p className="text-stone-800 font-light tracking-wider">
                       https://favolink.com/
                     </p>
                   </div>
 
                   {/* URL Input & Plaseholder */}
-                  <div className="relative flex-1 bg-base-white">
+                  <div className="relative flex-1">
                     <input
                       form="profile-form"
                       id="slug-input"
                       placeholder="&nbsp;"
                       type="text"
-                      className="peer w-full h-full px-3 rounded-r-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
+                      className="peer w-full h-full px-3 rounded-r-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                       {...register("slug")}
                     />
 
@@ -566,7 +578,7 @@ const Profile: NextPageWithLayout = () => {
                     id="desc-textarea"
                     placeholder="&nbsp;"
                     rows={6}
-                    className="peer w-full h-full px-3 py-2 rounded-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
+                    className="peer w-full h-full px-3 py-2 rounded-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                     {...register("description")}
                   />
 
@@ -611,13 +623,11 @@ const Profile: NextPageWithLayout = () => {
               </div>
             </div>
 
-            {/* Form > Button */}
-            <form
-              id="profile-form"
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex justify-end"
-            >
+            {/* Button */}
+            {/* <div className="flex justify-end"> */}
+            <div className="h-9 w-28 ml-auto rounded-md bg-base-white">
               <button
+                form="profile-form"
                 disabled={!isProfileDirty || isSubmitting || isFileError}
                 className={clsx(
                   "relative group h-9 w-28 rounded-md outline-none overflow-hidden transition bg-cocoa-400 border border-cocoa-400 flex justify-center items-center",
@@ -627,7 +637,7 @@ const Profile: NextPageWithLayout = () => {
                   isSubmitting && "cursor-progress"
                 )}
               >
-                <div
+                <span
                   className={clsx(
                     "absolute bottom-0 left-0 w-full h-1/2 rounded-b-md bg-cocoa-500 transition",
                     isProfileDirty ? "group-hover:bg-cocoa-600" : ""
@@ -641,16 +651,16 @@ const Profile: NextPageWithLayout = () => {
                   </span>
                 )}
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
 
-          <Divider classWrapper="px-4" />
+          <Divider bgColor="bg-stone-400" classWrapper="px-4" />
 
           <div className="px-6 pb-8">
             <TogglePublishedSwitch />
           </div>
         </div>
-      )}
+      </main>
     </div>
   );
 };
