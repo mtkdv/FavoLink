@@ -1,86 +1,29 @@
-import { ReactElement, useEffect, useState } from "react";
-import Error from "next/error";
-import { useSession } from "next-auth/react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import clsx from "clsx";
 import { toast } from "react-hot-toast";
+import { PuffLoader } from "react-spinners";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
 
 import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/shared/Layout";
-import { CategoryList } from "#/components/pages/my/add-video";
-import { Divider } from "#/components/uiParts/Divider";
-import { useGetCategories } from "#/hooks";
-import { useGetLinks } from "#/hooks";
-import { useMutateVideo } from "#/hooks";
+import { Layout } from "#/components/shared";
+import {
+  AddVideoSkeleton,
+  CategoryListItem,
+} from "#/components/pages/my/add-video";
+import { Divider, Loader } from "#/components/uiParts";
+import { useUpsertUserVideo, useListUserVideo, useFormatData } from "#/hooks";
 import { schema } from "#/schema/addVideo";
-import { PuffLoader } from "react-spinners";
+import { useEffect, useState } from "react";
 
 export type Schema = z.infer<typeof schema>;
 
 const AddVideo: NextPageWithLayout = () => {
-  const { data: session } = useSession();
-  // const videosResult = useGetLinks(session);
-  // const categoriesResult = useGetCategories(session);
-  const { data: videos } = useGetLinks(session);
-  const { data: categories } = useGetCategories(session);
-  const [values, setValues] = useState<Schema>();
-  const { mutateAsync } = useMutateVideo();
-
-  // const { data: videos } = videosResult;
-  // const { data: categories } = categoriesResult;
-
-  useEffect(() => {
-    // console.log("useEffect");
-    if (!videos || !categories) return;
-    // console.log("videos:", videos);
-    // 未追加の場合 => []
-    // console.log("categories:", categories);
-    // 未追加の場合 => []
-
-    /**
-     * @returns videosとcategoriesが[]の場合、[]が返る。
-     */
-    const values = categories.map((category) => {
-      const videosOnCategory = videos.filter((video) => {
-        return category.id === video.categoryId;
-      });
-      const videoData = videosOnCategory.map(
-        ({
-          id,
-          videoId,
-          title,
-          thumbnailUrl,
-          channelId,
-          channelTitle,
-          channelThumbnailUrl,
-        }) => ({
-          id,
-          videoId,
-          title,
-          thumbnailUrl,
-          channelId,
-          channelTitle,
-          channelThumbnailUrl,
-        })
-      );
-
-      return {
-        categoryId: category.id,
-        categoryName: category.name,
-        video: videoData,
-      };
-    });
-
-    // setTimeout(() => {
-    //   setValues({ youtube: values });
-    // }, 5000);
-    setValues({ youtube: values });
-    // }, [videos, categories]);
-  }, [videos, categories]);
+  const { data: videos, isLoading } = useListUserVideo();
+  const { mutateAsync } = useUpsertUserVideo();
+  const values = useFormatData(videos);
 
   const {
     register,
@@ -100,13 +43,12 @@ const AddVideo: NextPageWithLayout = () => {
     move,
     remove,
   } = useFieldArray({
-    name: "youtube",
+    name: "videos",
     control,
   });
 
   const onSubmit: SubmitHandler<Schema> = async (data) => {
-    // console.log("onSubmit data:", data);
-    // await new Promise((resolve) => setTimeout(() => resolve, 3000));
+    // await new Promise((r) => setTimeout(r, 3000));
 
     mutateAsync(data, {
       onSuccess: () => toast.success("変更を反映しました。"),
@@ -114,35 +56,23 @@ const AddVideo: NextPageWithLayout = () => {
   };
 
   const appendCategory = () => {
-    append({ categoryId: "", categoryName: "", video: [] });
+    append({ categoryId: "", categoryName: "", categoryLinks: [] });
 
     // scrollBottom();
   };
 
-  // if (videosResult.isError) {
-  //   return <Error statusCode={404} />;
-  // } else if (categoriesResult.isError) {
-  //   return <Error statusCode={404} />;
-  // }
-
-  // if (videosResult.isLoading || categoriesResult.isLoading) {
-  //   return <p>Loading...</p>;
-  // }
-  if (!videos || !categories) {
-    return <p>Loading...</p>;
+  if (isLoading) {
+    // return <Loader className="h-page" />;
+    return <AddVideoSkeleton />;
   }
 
   return (
-    <div
-      id="scroll-target"
-      // className="flex flex-col space-y-6 pb-6 text-[#63594D]"
-      className="flex flex-col space-y-6 pb-6"
-    >
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-30 h-16 bg-[#faf9f9] flex flex-col justify-end">
+    <div id="scroll-target" className="flex flex-col animate-appearance">
+      {/* ヘッダー */}
+      <header className="sticky top-0 z-20 h-16 bg-base-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
           <div className="relative">
-            <div className="absolute right-0 bottom-0 flex justify-end space-x-4 h-8">
+            <div className="absolute right-2 bottom-0 flex justify-end space-x-4">
               {/* Add Collection Button */}
               <div className="flex justify-center">
                 <button
@@ -180,19 +110,24 @@ const AddVideo: NextPageWithLayout = () => {
                   <button
                     disabled={!isDirty || isSubmitting}
                     form="video-form"
-                    // FIXME: opacityと疑似要素でグラデーションのアニメーション
                     className={clsx(
-                      "group h-full w-24 rounded-md outline-none overflow-hidden transition bg-teal-600 flex justify-center items-center",
+                      "relative group h-9 w-28 rounded-md outline-none overflow-hidden transition bg-teal-500 border border-teal-500 flex justify-center items-center",
                       isDirty
-                        ? "hover:bg-teal-700 focus-visible:ring-2"
+                        ? "focus-visible:ring-2 ring-teal-500 ring-offset-1 hover:bg-teal-600"
                         : "cursor-not-allowed opacity-40",
                       isSubmitting && "cursor-progress"
                     )}
                   >
+                    <span
+                      className={clsx(
+                        "absolute bottom-0 left-0 w-full h-1/2 rounded-b-md bg-teal-600 transition",
+                        isDirty ? "group-hover:bg-teal-700" : ""
+                      )}
+                    />
                     {isSubmitting ? (
                       <PuffLoader color="white" size={24} />
                     ) : (
-                      <span className="text-sm tracking-wider font-medium drop-shadow-[0_1px_0_rgba(0,0,0,0.1)] text-white">
+                      <span className="text-sm tracking-wider font-semibold drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)] text-white">
                         変更を保存
                       </span>
                     )}
@@ -201,68 +136,70 @@ const AddVideo: NextPageWithLayout = () => {
               </div>
             </div>
 
-            <h2 className="text-lg font-bold">動画リスト編集</h2>
+            <h2 className="text-lg font-bold w-fit">動画リスト編集</h2>
           </div>
           <div className="shadow-md">
             <Divider />
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* <CategoryList>
-        <CategoryListItem>
-          <VideoList>
-            <VideoListItem />
-          </VideoList>
-        </CategoryListItem>
-      </CategoryList> */}
+      {/* メイン */}
+      <main>
+        <div className="sticky top-16 h-page-main overflow-hidden">
+          <div className="bg-img-add-video h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-base-white/50 bg-blend-lighten" />
+        </div>
 
-      <div className="px-6 pt-6">
-        <CategoryList
-          {...{
-            control,
-            register,
-            setValue,
-            getValues,
-            errors,
-            categoryFields,
-            move,
-            remove,
-          }}
-        >
+        <div className="-mt-page-main relative z-10 px-6 pt-12 pb-6">
           {/* <ul id="target-ul" className="space-y-8">
-          {categoryFields.map((categoryField, index) => (
-            <CategoryListItem key={categoryField.id}>
-              <li>
-                <div id="move button"></div>
-                <div>
-                  <input id="collection-input" />
-                </div>
-                <VideoList>
-                  <ul>
-                    {videoFields.map((videoField) => (
-                      <VideoListItem key={videoField.id}>
-                        <li>{!hasValue ? <div></div> : <div></div>}</li>
-                      </VideoListItem>
-                    ))}
-                  </ul>
-                </VideoList>
-                <p>{errors.youtube[nestIndex]?.video?.message}</p>
-                <button>add video button</button>
-              </li>
-            </CategoryListItem>
+          {categoryFields.map((categoryField, categoryIndex) => (
+            <li key={categoryField.id}>
+              <div id="move button"></div>
+              <div>
+                <input id="collection-input" />
+              </div>
+              <ul>
+                {linkFields.map((linkField) => (
+                  <li key={linkField.id}>
+                    {!hasValue ? <div></div> : <div></div>}
+                  </li>
+                ))}
+              </ul>
+              <p>{errors.videos[categoryIndex]?.video?.message}</p>
+              <button>add video button</button>
+            </li>
           ))}
         </ul> */}
-        </CategoryList>
-      </div>
+
+          <ul id="target-ul" className="space-y-6">
+            {categoryFields.map((categoryField, categoryIndex) => (
+              <CategoryListItem
+                key={categoryField.id}
+                categoryFieldsLength={categoryFields.length}
+                {...{
+                  categoryField,
+                  categoryIndex,
+                  control,
+                  register,
+                  setValue,
+                  getValues,
+                  errors,
+                  move,
+                  remove,
+                }}
+              />
+            ))}
+          </ul>
+        </div>
+      </main>
 
       {/* FIXME: 表示位置 */}
       {/* Error Message（コレクション名の重複など） */}
-      {errors.youtube && errors.youtube.message && (
+      {errors.videos && errors.videos.message && (
         <div className="mt-4 px-1 flex items-center space-x-1.5 text-red-600">
           <FaExclamationTriangle />
           <p className="text-sm line-clamp-1 break-all">
-            {errors.youtube.message}
+            {errors.videos.message}
           </p>
         </div>
       )}
@@ -270,7 +207,7 @@ const AddVideo: NextPageWithLayout = () => {
   );
 };
 
-AddVideo.getLayout = (page: ReactElement) => {
+AddVideo.getLayout = (page: React.ReactElement) => {
   return <Layout>{page}</Layout>;
 };
 

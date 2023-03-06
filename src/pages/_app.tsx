@@ -1,12 +1,19 @@
 import "#/styles/globals.css";
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode, Suspense } from "react";
 import type { NextPage } from "next";
 import type { AppProps, AppType } from "next/app";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import {
+  QueryClientProvider,
+  QueryClient,
+  QueryErrorResetBoundary,
+} from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import { Toaster } from "react-hot-toast";
-import { Loader } from "#/components/uiParts/Loader";
+import ErrorBoundaryClass from "#/components/shared/ErrorBoudary";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundaries, ErrorFallback } from "#/components/shared";
+import { handleError } from "#/utils/handleError";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -27,7 +34,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <Toaster
+        {/* <Toaster
           position="bottom-right"
           // position="top-right"
           toastOptions={{
@@ -45,8 +52,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
               duration: 5000,
             },
           }}
-        />
-        {getLayout(<Component {...pageProps} />)}
+        /> */}
+
+        <ErrorBoundaries>
+          {getLayout(<Component {...pageProps} />)}
+        </ErrorBoundaries>
       </QueryClientProvider>
     </SessionProvider>
   );

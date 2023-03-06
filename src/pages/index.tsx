@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import Error from "next/error";
 import { useSession } from "next-auth/react";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { Divider } from "#/components/uiParts/Divider";
+import { Divider } from "#/components/uiParts";
 import { Hamburger, Nav, SignInModal } from "#/components/pages/home";
 import { useGetProfile } from "#/hooks/useGetProfile";
+import { queryKeys } from "#/utils";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 import sample17 from "/public/sample17.png";
 import sample16 from "/public/sample16.png";
@@ -13,28 +14,11 @@ import sample14 from "/public/sample14.png";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
 import UndrawMovieNight from "/public/undraw_movie_night_re_9umk.svg";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function Home() {
-  const { data: session, status: sessionStatus } = useSession();
-  const { data: profile, isLoading, isError, error } = useGetProfile(session);
+  const { status: sessionStatus } = useSession();
+  const { data: profile, isLoading } = useGetProfile();
   const queryClient = useQueryClient();
-
-  if (isError) {
-    // console.log("error object:", error);
-    if (error.response) {
-      return (
-        <Error
-          statusCode={error.response.status}
-          title={error.response.data.message}
-        />
-      );
-    } else {
-      console.log("no response error:", error);
-      // FIXME: レスポンスなしのエラー表示方法。カスタムエラーページ。
-      // return <Error />
-    }
-  }
 
   return (
     <>
@@ -60,15 +44,13 @@ export default function Home() {
               {isLoading ? (
                 <div className="rounded-full w-10 h-10 bg-isabelline/75 animate-loadingPulse" />
               ) : (
-                !isError && (
-                  <Image
-                    src={profile.image ?? silhouetteAvatar}
-                    alt="avatar"
-                    width={40}
-                    height={40}
-                    className="rounded-full w-10 h-10 animate-appearance"
-                  />
-                )
+                <Image
+                  src={profile?.image ?? silhouetteAvatar}
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full w-10 h-10 animate-appearance"
+                />
               )}
             </div>
           ) : null}
@@ -89,7 +71,9 @@ export default function Home() {
             {sessionStatus === "loading" ? null : sessionStatus ===
               "unauthenticated" ? (
               <button
-                onClick={() => queryClient.setQueryData(["signInModal"], true)}
+                onClick={() =>
+                  queryClient.setQueryData(queryKeys.signInModal, true)
+                }
                 className="py-2 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80 text-xl"
               >
                 Login

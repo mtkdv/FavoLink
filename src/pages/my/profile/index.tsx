@@ -1,58 +1,42 @@
-import { NextPageWithLayout } from "#/pages/_app";
-import { Layout } from "#/components/shared/Layout";
-// import { Layout } from "#/components/shared/LayoutDefault";
-import { ReactElement, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import { uploadAndGetUrl } from "#/lib/firebaseStorage";
-// import { useGetProfile } from "#/lib/useGetProfile";
-import { useSession } from "next-auth/react";
-import { InputCounter } from "#/components/pages/my/profile/InputCounter";
 import clsx from "clsx";
-// import { usePatchProfile } from "#/lib/usePatchProfile";
-import { ResetVerifiedText } from "#/components/pages/my/profile/ResetVerifiedText";
 import axios from "axios";
-import { ValidateButton } from "#/components/pages/my/profile/ValidateButton";
 import { toast } from "react-hot-toast";
-import { Profile } from "@prisma/client";
-import { number, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PuffLoader } from "react-spinners";
 import { TbCameraPlus } from "react-icons/tb";
-import { PublicOrPrivateSwitch } from "#/components/pages/my/profile/PublicOrPrivateSwitch";
+
 import {
-  FaCheck,
-  FaCloudUploadAlt,
-  FaExclamationTriangle,
-  FaSave,
-} from "react-icons/fa";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
-import defaultAvatar from "#/public/247324.png";
-import { FiUploadCloud } from "react-icons/fi";
-import { Divider } from "#/components/uiParts/Divider";
-import Error from "next/error";
-import {
-  MAX_FILE_SIZE,
   ACCEPTED_IMAGE_TYPES,
   ONE_MEGA_BYTE,
   NAME_ERROR_CODE,
   SLUG_ERROR_CODE,
   DESC_ERROR_CODE,
 } from "#/const/profile";
+import { NextPageWithLayout } from "#/pages/_app";
+import { Layout } from "#/components/shared";
+import {
+  InputCounter,
+  ProfileSkeleton,
+  TogglePublishedSwitch,
+} from "#/components/pages/my/profile";
+import { Divider } from "#/components/uiParts";
+import { useGetProfile, usePatchProfileBaseInfo } from "#/hooks";
 import { schema } from "#/schema/profile";
-import { useGetProfile } from "#/hooks/useGetProfile";
-import { usePatchProfile } from "#/hooks/usePatchProfile";
-import { uploadAndGetUrl } from "#/utils/firebaseStorage";
-import { PuffLoader } from "react-spinners";
-import { ProfileSkeleton } from "#/components/pages/my/profile/ProfileSkeleton";
+import { bytesToKilobytes, mimeToFileFormat, uploadAndGetUrl } from "#/utils";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export type Schema = z.infer<typeof schema>;
 
 const fileSchema = z.custom<File>().superRefine((file, ctx) => {
-  if (file.size > MAX_FILE_SIZE) {
+  if (file.size > ONE_MEGA_BYTE * 2) {
     ctx.addIssue({
       code: z.ZodIssueCode.too_big,
       type: "number",
-      maximum: MAX_FILE_SIZE,
+      maximum: ONE_MEGA_BYTE * 2,
       inclusive: true,
       message: "ファイルサイズの上限は 2MB までです。",
     });
@@ -70,13 +54,13 @@ const fileSchema = z.custom<File>().superRefine((file, ctx) => {
 export type FileSchema = z.infer<typeof fileSchema>;
 
 const Profile: NextPageWithLayout = () => {
-  const { data: session } = useSession();
-  const { data: profile, isLoading, isError, error } = useGetProfile(session);
+  const { data: profile, isLoading } = useGetProfile();
   const [previewUrl, setPreviewUrl] = useState<string>();
   const [previewFile, setPreviewFile] = useState<File>();
   const [defaultFile, setDefaultFile] = useState(previewFile);
   // const [verifiedText, setVerifiedText] = useState("");
-  const { mutateAsync } = usePatchProfile();
+  // const { mutateAsync } = useMutateProfile();
+  const { mutateAsync } = usePatchProfileBaseInfo();
 
   const {
     register,
@@ -109,37 +93,24 @@ const Profile: NextPageWithLayout = () => {
    * @param {string | null} fData.slug 初期値はschema.prismaのString?によりnull
    */
   const onSubmit: SubmitHandler<Schema> = async (fData) => {
-    // console.log("profile.slug:", profile!.slug);
-    // console.log("typeof fData.slug:", typeof fData.slug);
-    // console.log("fData.fileList", fData.fileList);
+    // await new Promise((r) => setTimeout(r, 3000));
+    // return;
     console.log("onSubmit");
 
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
-    // return;
-
-    if (session === null || session.user === undefined) return;
-    const { id } = session.user;
-
     /** slug 重複検証 */
-    if (typeof fData.slug === "string" && fData.slug !== profile!.slug) {
+    if (fData.slug && fData.slug !== profile!.slug) {
       try {
-        const { data: profiles } = await axios.get<Profile[]>(
-          `/api/query/profiles`,
-          {
-            params: {
-              slug: fData.slug,
-            },
-          }
-        );
-        if (profiles.length > 0) {
-          setError("slug", {
-            type: "duplicate",
-            message: `「${fData.slug}」はすでに使用されています。`,
-          });
-          return;
-        }
+        await axios.get(`/api/query/profiles`, {
+          params: {
+            slug: fData.slug,
+          },
+        });
       } catch (error) {
-        console.error(error);
+        setError("slug", {
+          type: "duplicate",
+          message: `「${fData.slug}」はすでに使用されています。`,
+        });
+        return;
       }
     }
 
@@ -169,12 +140,15 @@ const Profile: NextPageWithLayout = () => {
       description,
     };
 
-    mutateAsync(
-      { id, data },
-      {
-        onSuccess: () => toast.success("プロフィールを更新しました"),
-      }
-    );
+    mutateAsync(data, {
+      onSuccess: () => toast.success("プロフィールを更新しました"),
+      onError(error, variables, context) {
+        console.log("profile onSubmit onError:", error);
+        if (error.response?.data.code === "P2000") {
+          toast.error("ファイル名を短くし、アップロードし直してください。");
+        }
+      },
+    });
   };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -225,88 +199,65 @@ const Profile: NextPageWithLayout = () => {
   //     return;
   //   }
   //   try {
-  //     const res = await axios.get(`/api/profiles/${slug}`);
+  //     const res = await axios.get(`/api/profile/${slug}`);
   //     res.data
   //       ? setVerifiedText("他の人により使用されています")
   //       : setVerifiedText("使用できます");
   //   } catch (error) {}
   // };
 
-  const mimeToFileFormat = (type: string) => {
-    const fileFormat = type.split("/")[1].toUpperCase();
-    return fileFormat;
-  };
-
-  const bytesToKilobytes = (bytes: number): string => {
-    const kiloByte = 1024;
-    const megaByte = kiloByte * 1024;
-
-    if (bytes >= megaByte) {
-      return `${(bytes / megaByte).toFixed(2)} MB`;
-    } else if (bytes >= kiloByte) {
-      return `${(bytes / kiloByte).toFixed(2)} KB`;
-    }
-    return `${bytes} B`;
-  };
-
-  /**
-   * zodで定義したエラーが発生しているかどうか。
-   * @param {string} message RHFのerrors.field.messageを渡す。zod schemaのmessageに記述したエラーコードを参照する。
-   */
-  const isErrorCodeExist = <T extends Record<string, string>>(
-    errorCodes: T,
-    message: string
-  ) => {
-    type ErrorCode = T[keyof T];
-
-    const values = Object.values(errorCodes) as ErrorCode[];
-
-    return values.includes(message as ErrorCode);
-  };
-
-  if (isError) {
-    return <Error statusCode={404} title={error.message} />;
+  if (isLoading) {
+    return <ProfileSkeleton />;
   }
 
   return (
-    <div className="flex flex-col animate-appearance">
-      {/* ページタイトル */}
-      <div className="sticky top-0 z-10 h-16 bg-base-white flex flex-col justify-end">
+    <div className="relative min-h-page flex flex-col animate-appearance">
+      {/* ヘッダー */}
+      <header className="sticky top-0 z-20 h-16 bg-base-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
-          <h2 className="text-lg font-bold">プロフィール編集</h2>
+          <h2 className="text-lg font-bold w-fit">プロフィール編集</h2>
           <Divider />
         </div>
-      </div>
+      </header>
 
-      {isLoading ? (
-        <ProfileSkeleton />
-      ) : (
-        <div className="my-6 flex flex-col space-y-6 animate-appearance">
+      {/* メイン */}
+      <main>
+        {/* 背景 */}
+        <div className="sticky top-16 h-page-main overflow-hidden">
+          <div className="bg-img-profile h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-base-white/90 bg-blend-lighten" />
+        </div>
+
+        {/* フォーム */}
+        <div className="-mt-page-main relative z-10 mb-6 flex flex-col space-y-6 animate-appearance">
           {/* Profile Forms */}
-          <div className="px-6 py-4 space-y-12">
+          <form
+            id="profile-form"
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-6 px-6 py-4 space-y-12"
+          >
             {/* Profile Inputs */}
             <div className="flex flex-col space-y-12">
               {/* Avatar */}
               <div className="space-y-2">
                 {/* Avatar Label */}
                 <div className="ml-1">
-                  <h3 className="text-xs text-cocoa-800 font-semibold tracking-wide">
+                  <h3 className="text-xs w-fit text-cocoa-800 font-semibold tracking-wide">
                     Profile Icon
                   </h3>
                 </div>
 
-                <div className="group/avatar rounded-md border border-stone-300 px-2 py-3 flex space-x-2 [&:has(.error-message)]:border-red-600 ">
+                <div className="group/avatar rounded-md bg-white/50 border border-stone-300 px-2 py-3 flex space-x-2 [&:has(.error-message)]:border-red-600 ">
                   {/* Avatar 左: Inputs */}
                   <div className="group/avatar-inputs relative flex items-center shrink-0">
                     <Image
-                      src={previewUrl ?? profile.image ?? silhouetteAvatar}
+                      src={previewUrl ?? profile?.image ?? silhouetteAvatar}
                       alt="avatar-inputs"
                       width={112}
                       height={112}
                       className="rounded-full w-28 h-28 object-cover shadow-md"
                     />
 
-                    {/* Label */}
+                    {/* Avatar Label */}
                     <div className="absolute w-full h-full clip-path-circle">
                       <label
                         htmlFor="img-input"
@@ -319,7 +270,7 @@ const Profile: NextPageWithLayout = () => {
                       </label>
                     </div>
 
-                    {/* Input type="file" sr-only */}
+                    {/* Avatar Input */}
                     <input
                       form="profile-form"
                       type="file"
@@ -448,7 +399,7 @@ const Profile: NextPageWithLayout = () => {
                     id="name-input"
                     placeholder="&nbsp;"
                     type="text"
-                    className="peer w-full h-full px-3 rounded-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
+                    className="peer w-full h-full px-3 rounded-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                     {...register("name")}
                   />
 
@@ -518,20 +469,20 @@ const Profile: NextPageWithLayout = () => {
                 {/* URL Inputs */}
                 <div className="h-10 flex">
                   {/* URL Prefix */}
-                  <div className="w-44 bg-stone-100 grid place-items-center border border-r-0 border-stone-300 rounded-l-md">
+                  <div className="w-44 bg-stone-100/90 grid place-items-center border border-r-0 border-stone-300 rounded-l-md">
                     <p className="text-stone-800 font-light tracking-wider">
                       https://favolink.com/
                     </p>
                   </div>
 
                   {/* URL Input & Plaseholder */}
-                  <div className="relative flex-1 bg-base-white">
+                  <div className="relative flex-1">
                     <input
                       form="profile-form"
                       id="slug-input"
                       placeholder="&nbsp;"
                       type="text"
-                      className="peer w-full h-full px-3 rounded-r-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
+                      className="peer w-full h-full px-3 rounded-r-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                       {...register("slug")}
                     />
 
@@ -627,7 +578,7 @@ const Profile: NextPageWithLayout = () => {
                     id="desc-textarea"
                     placeholder="&nbsp;"
                     rows={6}
-                    className="peer w-full h-full px-3 py-2 rounded-md bg-transparent outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
+                    className="peer w-full h-full px-3 py-2 rounded-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"
                     {...register("description")}
                   />
 
@@ -672,13 +623,11 @@ const Profile: NextPageWithLayout = () => {
               </div>
             </div>
 
-            {/* Form > Button */}
-            <form
-              id="profile-form"
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex justify-end"
-            >
+            {/* Button */}
+            {/* <div className="flex justify-end"> */}
+            <div className="h-9 w-28 ml-auto rounded-md bg-base-white">
               <button
+                form="profile-form"
                 disabled={!isProfileDirty || isSubmitting || isFileError}
                 className={clsx(
                   "relative group h-9 w-28 rounded-md outline-none overflow-hidden transition bg-cocoa-400 border border-cocoa-400 flex justify-center items-center",
@@ -688,7 +637,7 @@ const Profile: NextPageWithLayout = () => {
                   isSubmitting && "cursor-progress"
                 )}
               >
-                <div
+                <span
                   className={clsx(
                     "absolute bottom-0 left-0 w-full h-1/2 rounded-b-md bg-cocoa-500 transition",
                     isProfileDirty ? "group-hover:bg-cocoa-600" : ""
@@ -702,16 +651,16 @@ const Profile: NextPageWithLayout = () => {
                   </span>
                 )}
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
 
-          <Divider classWrapper="px-4" />
+          <Divider bgColor="bg-stone-400" classWrapper="px-4" />
 
           <div className="px-6 pb-8">
-            <PublicOrPrivateSwitch />
+            <TogglePublishedSwitch />
           </div>
         </div>
-      )}
+      </main>
     </div>
   );
 };

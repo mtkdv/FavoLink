@@ -1,26 +1,24 @@
-import { Custom } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Session } from "next-auth";
+import axios, { AxiosError } from "axios";
+import { useSession } from "next-auth/react";
+import { Custom } from "@prisma/client";
 
-export const useGetCustom = (session: Session | null) => {
-  const custom = useQuery<any, { code: string; message: string }, Custom>({
-    queryKey: ["custom"],
+import { queryKeys } from "#/utils";
+
+export const useGetCustom = () => {
+  const { data: session } = useSession();
+
+  return useQuery<Custom, AxiosError>({
+    queryKey: queryKeys.getCustom,
     queryFn: async () => {
-      const res = await axios.get<Custom>(`/api/custom`, {
-        params: {
-          type: "getCustom",
-          id: session!.user!.id,
-        },
-      });
+      const res = await axios.get(`/api/users/${session!.user!.id}/custom`);
 
       // Loading Test
-      // FIXME: remove
-      // await new Promise((resolve) => setTimeout(resolve, 3000));
+      // await new Promise((r) => setTimeout(r, 3000));
 
       return res.data;
     },
     enabled: !!session && !!session.user,
+    useErrorBoundary: true,
   });
-  return custom;
 };

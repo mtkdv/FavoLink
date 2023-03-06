@@ -9,6 +9,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "img-profile": "url('/profile.svg')",
+        "img-add-video": "url('/add_video.svg')",
+      },
+      backgroundPosition: {
+        "center-90": "center 90%",
+      },
       colors: {
         "base-black": "#1D1D1D",
         // "base-white": "#FFFEFC",
@@ -90,6 +97,18 @@ module.exports = {
         18: "4.5rem",
         22: "5.5rem",
         90: "22.5rem",
+        "3xl": "768px",
+        nav: "calc(100vh - 56px)",
+        // (my-4 + border) = (16px * 2 + 1px * 2) => 34px
+        page: "calc(100vh - 34px)",
+        // (page + header) = (34px + 16 * 4px) => 98px
+        "page-main": "calc(100vh - 98px)",
+      },
+      minHeight: {
+        page: "calc(100vh - 34px)",
+        // (pt-36 + mt-6 + text-4xl + space-y-2 + text-xs + pb-6)
+        // = (36 * 4px + 6 * 4px + 40px + 2 * 4px + 16px + 6 * 4px) => 256px
+        "main-content": "calc(100vh - 256px)",
       },
       keyframes: {
         animate: {
@@ -186,7 +205,7 @@ module.exports = {
       },
     },
     screens: {
-      xs: "600px",
+      xs: "560px",
       ...defaultTheme.screens,
     },
   },

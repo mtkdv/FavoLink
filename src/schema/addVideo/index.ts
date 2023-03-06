@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const schema = z.object({
-  youtube: z
+  videos: z
     .array(
       z.object({
         categoryId: z.string(),
@@ -16,7 +16,8 @@ export const schema = z.object({
               });
             }
           }),
-        video: z
+        // video: z
+        categoryLinks: z
           .array(
             z.object({
               id: z.string(),

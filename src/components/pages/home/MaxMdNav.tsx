@@ -2,6 +2,8 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { queryKeys } from "#/utils";
+
 const MENU_LIST = [
   {
     title: "Dashboard",
@@ -22,7 +24,7 @@ export const MaxMdNav = () => {
   const queryClient = useQueryClient();
 
   return (
-    <nav className="absolute top-14 inset-x-0 translate-x-full h-[calc(100vh_-_56px)] bg-base-white opacity-0 group-[:has(#hamburger:checked)]/header:translate-x-0 group-[:has(#hamburger:checked)]/header:opacity-100 transition duration-300">
+    <nav className="absolute top-14 inset-x-0 translate-x-full h-nav bg-base-white opacity-0 group-[:has(#hamburger:checked)]/header:translate-x-0 group-[:has(#hamburger:checked)]/header:opacity-100 transition duration-300">
       <ul className="mt-12 px-8">
         {/* Menu list */}
         {MENU_LIST.map(({ title, href }) => (
@@ -41,7 +43,9 @@ export const MaxMdNav = () => {
           {sessionStatus === "loading" ? null : sessionStatus ===
             "unauthenticated" ? (
             <button
-              onClick={() => queryClient.setQueryData(["signInModal"], true)}
+              onClick={() =>
+                queryClient.setQueryData(queryKeys.signInModal, true)
+              }
               className="block py-4 px-2 w-full text-left hover:bg-black/5 outline-none focus-visible:ring-2 ring-blue-500 animate-appearance"
             >
               Login

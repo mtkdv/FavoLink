@@ -1,17 +1,26 @@
-import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { VideoPlayer } from "./VideoPlayer";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Dialog, Transition } from "@headlessui/react";
 
-export const VideoPlayerModal = ({
-  isModalOpen,
-  setIsModalOpen,
-}: {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+import { VideoPlayer } from "#/components/shared/VideoPlayer";
+import { queryKeys } from "#/utils";
+
+export const VideoPlayerModal = () => {
+  const { data: isModalShow } = useQuery({
+    queryKey: queryKeys.videoPlayerModal,
+    initialData: false,
+    enabled: false,
+  });
+  const queryClient = useQueryClient();
+
   return (
-    <Transition appear show={isModalOpen} as={Fragment}>
-      <Dialog onClose={() => setIsModalOpen(false)} className="relative z-50">
+    <Transition appear show={isModalShow} as={Fragment}>
+      <Dialog
+        onClose={() =>
+          queryClient.setQueryData(queryKeys.videoPlayerModal, false)
+        }
+        className="relative z-50"
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
