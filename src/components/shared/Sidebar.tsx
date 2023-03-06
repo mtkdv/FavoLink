@@ -1,24 +1,16 @@
-import { Loader } from "#/components/uiParts/Loader";
-import { MENU_LIST } from "#/const/menu-list";
-import { useGetProfile } from "#/hooks/useGetProfile";
-import { signOut, useSession } from "next-auth/react";
-import Error from "next/error";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
 import { FaShareSquare } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
 import { SiReact } from "react-icons/si";
-import { Divider } from "../uiParts/Divider";
-import { LinkWithIcon } from "../uiParts/LinkWithIcon";
+
+import { Divider, LinkWithIcon } from "#/components/uiParts";
+import { useGetProfile } from "#/hooks";
+import { MENU_LIST } from "#/const/menu-list";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const Sidebar = () => {
-  const { data: session } = useSession();
-
-  const { data: profile, isLoading, isError, error } = useGetProfile(session);
-
-  if (isError) {
-    return <Error statusCode={404} title={error.message} />;
-  }
+  const { data: profile, isLoading } = useGetProfile();
 
   return (
     <div className="h-screen w-20 md:w-60 px-2 md:px-6 flex flex-col overflow-y-scroll scrollbar-hidden">

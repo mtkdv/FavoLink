@@ -1,4 +1,3 @@
-export const MAX_FILE_SIZE = 2_000_000;
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png"];
 export const ONE_MEGA_BYTE = 1_048_576;
 
