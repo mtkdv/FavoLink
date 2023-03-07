@@ -2,7 +2,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { queryKeys } from "#/utils";
+import { pagesPath, queryKeys } from "#/const";
 
 const MENU_LIST = [
   {
@@ -27,8 +27,8 @@ export const MdNav = () => {
         {sessionStatus === "authenticated" && (
           <li>
             <Link
-              // href={`/my/dashboard`}
-              href={`/my/add-video`}
+              // href={pagesPath.my.dashboard}
+              href={pagesPath.my.addVideo}
               className="group py-2 px-2 outline-none focus-visible:ring-2 ring-blue-500"
             >
               <span className="relative">

@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { VscChromeClose } from "react-icons/vsc";
 import { SiTwitter } from "react-icons/si";
 
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const SignInModal = () => {
   const { data: isModalShow } = useQuery({

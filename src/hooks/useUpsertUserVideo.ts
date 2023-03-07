@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 
 import { Schema } from "#/pages/my/add-video";
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const useUpsertUserVideo = () => {
   const { data: session } = useSession();

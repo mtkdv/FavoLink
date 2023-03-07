@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 
 import { Videos } from "#/types";
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const useListUserVideo = () => {
   const { data: session } = useSession();

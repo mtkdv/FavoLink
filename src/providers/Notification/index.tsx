@@ -1,6 +1,6 @@
 import { Toaster } from "react-hot-toast";
 
-export const Toast = () => {
+export const Notification = () => {
   return (
     <Toaster
       // position="bottom-right"

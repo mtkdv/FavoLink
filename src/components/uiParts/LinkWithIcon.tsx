@@ -10,6 +10,7 @@ import {
 } from "react-icons/ri";
 import { IoLogoYoutube } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
+import { pagesPath } from "#/const";
 
 const IconObj = {
   RiDashboardFill,
@@ -44,7 +45,7 @@ export const LinkWithIcon: FC<Props> = ({ title, href, icon }) => {
       <Link
         // href=""
         // href="javascript:void(0)"
-        href="/my/dashboard"
+        href={pagesPath.my.dashboard}
         onClick={(e) => e.preventDefault()}
         tabIndex={-1}
         className={clsx(

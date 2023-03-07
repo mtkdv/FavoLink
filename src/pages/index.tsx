@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Divider } from "#/components/uiParts";
 import { Hamburger, Nav, SignInModal } from "#/components/pages/home";
 import { useGetProfile } from "#/hooks/useGetProfile";
-import { queryKeys } from "#/utils";
+import { pagesPath, queryKeys } from "#/const";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 import sample17 from "/public/sample17.png";
 import sample16 from "/public/sample16.png";
@@ -27,7 +27,7 @@ export default function Home() {
           {/* タイトル */}
           <h1 className="text-xl font-bold">
             <Link
-              href={`/`}
+              href={pagesPath.top}
               className="outline-none focus-visible:ring-2 ring-blue-500 ring-offset-2"
             >
               FavoLink
@@ -81,8 +81,8 @@ export default function Home() {
                 </button>
               ) : (
                 <Link
-                  // href="/my/dashboard"
-                  href="/my/add-video"
+                  // href={pagesPath.my.dashboard}
+                  href={pagesPath.my.addVideo}
                   className="py-2 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
                 >
                   ページを作成

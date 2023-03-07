@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { Profile } from "@prisma/client";
 
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const useGetProfile = () => {
   const { data: session } = useSession();

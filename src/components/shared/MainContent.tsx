@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { CategorizedLink } from "#/components/shared/CategorizedLink";
 import { Videos } from "#/types";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
+import { pagesPath } from "#/const";
 
 export const MainContent = ({
   profile,
@@ -103,7 +104,7 @@ export const MainContent = ({
 
         <footer className="mt-6 flex flex-col space-y-2 items-center">
           <Link
-            href="/"
+            href={pagesPath.top}
             className="text-4xl font-black tracking-wide drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900"
           >
             Favolink

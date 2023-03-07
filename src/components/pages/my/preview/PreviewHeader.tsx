@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { FaArrowLeft, FaShareSquare, FaUserCog } from "react-icons/fa";
 import Link from "next/link";
 import { Custom, Profile } from "@prisma/client";
+import { pagesPath } from "#/const";
 
 export const PreviewHeader = ({
   profile,
@@ -70,7 +71,7 @@ export const PreviewHeader = ({
           ) : (
             // TODO: Tooltip
             <Link
-              href="/my/profile"
+              href={pagesPath.my.profile}
               className={clsx(
                 "relative group flex rounded-full bg-transparent ring-1 py-2 w-8 outline-none [&:is(:hover,:focus-visible)]:w-[168px] transition-[color,background-color,width] duration-300 sm:w-[168px]",
                 custom.mode === "LIGHT"
