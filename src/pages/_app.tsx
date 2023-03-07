@@ -1,22 +1,16 @@
-import "#/styles/globals.css";
-import React, { ReactElement, ReactNode, Suspense } from "react";
 import type { NextPage } from "next";
 import type { AppProps, AppType } from "next/app";
-import {
-  QueryClientProvider,
-  QueryClient,
-  QueryErrorResetBoundary,
-} from "@tanstack/react-query";
-import { SessionProvider } from "next-auth/react";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Session } from "next-auth";
-import { Toaster } from "react-hot-toast";
-import ErrorBoundaryClass from "#/components/shared/ErrorBoudary";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorBoundaries, ErrorFallback } from "#/components/shared";
-import { handleError } from "#/utils/handleError";
+import { SessionProvider, useSession } from "next-auth/react";
+
+import "#/styles/globals.css";
+import { ErrorBoundaries } from "#/components/shared";
+import { Toast } from "#/components/pages/_app";
+import { NextRouter, useRouter } from "next/router";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -34,28 +28,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        {/* <Toaster
-          position="bottom-right"
-          // position="top-right"
-          toastOptions={{
-            style: {
-              backgroundColor: "#333",
-              color: "#fff",
-            },
-            // className:
-            //   "bg-accent text-white ring-2 ring-offset-[3px] ring-accent",
-            success: {
-              iconTheme: {
-                primary: "teal",
-                secondary: "#fff",
-              },
-              duration: 5000,
-            },
-          }}
-        /> */}
-
         <ErrorBoundaries>
-          {getLayout(<Component {...pageProps} />)}
+          <Toast />
+          <AccessControl>
+            {getLayout(<Component {...pageProps} />)}
+          </AccessControl>
         </ErrorBoundaries>
       </QueryClientProvider>
     </SessionProvider>
@@ -63,3 +40,50 @@ const MyApp: AppType<{ session: Session | null }> = ({
 };
 
 export default MyApp;
+
+const AccessControl = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
+  const { status } = useSession();
+
+  if (/^\/my\/.+/.test(router.asPath)) {
+    switch (status) {
+      case "loading": {
+        return null;
+      }
+
+      case "unauthenticated": {
+        return <Redirect type="replace" destination="/" />;
+      }
+    }
+  }
+
+  // FIXME: Dashboardページを一時的に無効化。
+  if (/^\/my\/dashboard$/.test(router.asPath)) {
+    return <Redirect type="back" />;
+  }
+
+  return <>{children}</>;
+};
+
+type Destination =
+  | "/"
+  | "/my/dashboard"
+  | "/my/profile"
+  | "/my/add-video"
+  | "/my/customize"
+  | "/my/preview";
+
+type RedirectBaseOptions =
+  | { type: "replace" | "push"; destination: Destination }
+  | { type: "back" };
+
+const Redirect = (opts: RedirectBaseOptions) => {
+  const router = useRouter();
+  if (opts.type === "back") {
+    router.back();
+  } else {
+    router[opts.type](opts.destination);
+  }
+
+  return null;
+};

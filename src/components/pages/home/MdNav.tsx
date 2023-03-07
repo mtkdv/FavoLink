@@ -6,10 +6,6 @@ import { queryKeys } from "#/utils";
 
 const MENU_LIST = [
   {
-    title: "Dashboard",
-    href: "/my/dashboard",
-  },
-  {
     title: "About",
     href: "/about",
   },
@@ -23,10 +19,27 @@ export const MdNav = () => {
   const { status: sessionStatus } = useSession();
   const queryClient = useQueryClient();
 
+  if (sessionStatus === "loading") return null;
+
   return (
     <nav className="ml-10 flex-1 max-md:hidden animate-appearance">
       <ul className="flex items-center space-x-4">
-        {/* Menu-list */}
+        {sessionStatus === "authenticated" && (
+          <li>
+            <Link
+              // href={`/my/dashboard`}
+              href={`/my/add-video`}
+              className="group py-2 px-2 outline-none focus-visible:ring-2 ring-blue-500"
+            >
+              <span className="relative">
+                <span className="absolute -bottom-1 w-full h-0.5 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 transition duration-300 scale-x-0 origin-right group-hover:origin-left group-hover:scale-x-100" />
+                Dashboard
+              </span>
+            </Link>
+          </li>
+        )}
+
+        {/* About, Contact */}
         {MENU_LIST.map(({ title, href }) => (
           <li key={title}>
             <Link
@@ -41,10 +54,9 @@ export const MdNav = () => {
           </li>
         ))}
 
-        {/* Login menu */}
+        {/* Login/Logout */}
         <li className="!ml-auto">
-          {sessionStatus === "loading" ? null : sessionStatus ===
-            "unauthenticated" ? (
+          {sessionStatus === "unauthenticated" ? (
             <button
               onClick={() =>
                 queryClient.setQueryData(queryKeys.signInModal, true)

@@ -34,13 +34,9 @@ export const Sidebar = () => {
         <ul className="h-full flex flex-col space-y-2 md:space-y-4">
           {MENU_LIST.map((menu) => (
             <li key={menu.title}>
-              {menu.title === "Preview" ? (
-                // <div className="w-8 md:w-3/4 mx-auto h-px bg-secondary mb-4"></div>
-                // <div className="mb-2 md:mb-4">
-                <div className="max-md:mt-2 mb-4">
-                  <Divider width="w-3/4" />
-                </div>
-              ) : null}
+              {menu.title === "Preview" && (
+                <Divider width="w-3/4" classWrapper="max-md:mt-2 mb-4" />
+              )}
               <LinkWithIcon {...menu} />
             </li>
           ))}

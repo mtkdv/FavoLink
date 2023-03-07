@@ -187,7 +187,7 @@ const Profile: NextPageWithLayout = () => {
     // reader.readAsDataURL(e.target.files[0]);
   };
 
-  /** slug重複確認ボタン */
+  // slug重複確認ボタン
   // const handleValidateButton = async (
   //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   // ) => {
