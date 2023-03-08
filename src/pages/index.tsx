@@ -22,7 +22,8 @@ export default function Home() {
 
   return (
     <>
-      <header className="group/header fixed top-0 inset-x-0 z-10 h-14 bg-base-white/50 backdrop-blur-sm [&:has(#hamburger:checked)]:bg-base-white dark:[&:has(#hamburger:checked)]:bg-base-black dark:bg-base-black/50 dark:text-base-white font-medium transition">
+      {/* <header className="group/header fixed top-0 inset-x-0 z-10 h-14 bg-base-white/50 backdrop-blur-sm [&:has(#hamburger:checked)]:bg-base-white dark:[&:has(#hamburger:checked)]:bg-base-black dark:bg-base-black/50 dark:text-base-white font-medium transition"> */}
+      <header className="group/header fixed top-0 w-screen z-10 h-14 pr-3.5 bg-base-white/50 backdrop-blur-sm [&:has(#hamburger:checked)]:bg-base-white dark:[&:has(#hamburger:checked)]:bg-base-black dark:bg-base-black/50 dark:text-base-white font-medium transition">
         <div className="h-[55px] pt-0.5 max-w-5xl mx-auto flex items-center px-4">
           {/* タイトル */}
           <h1 className="text-xl font-bold">
@@ -139,7 +140,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* カスタマイズ */}
         <section className="mt-36 w-full flex flex-col items-center">
           <h2 className="text-4xl font-black">カスタマイズ</h2>
           <p className="mt-5 text-center text-stone-500 dark:text-stone-200">

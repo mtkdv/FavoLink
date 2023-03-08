@@ -15,7 +15,7 @@ export const PreviewHeader = ({
   return (
     <header
       className={clsx(
-        "fixed z-20 top-0 h-14 w-full px-6 border-b border-white/25 shadow-[0_3px_10px_-3px] shadow-black/20 backdrop-blur-sm",
+        "fixed z-20 top-0 h-14 w-screen pr-3.5 border-b border-white/25 shadow-[0_3px_10px_-3px] shadow-black/20 backdrop-blur-sm",
         custom.mode === "LIGHT"
           ? "bg-white/20 text-base-black"
           : "bg-black/20 text-white"
