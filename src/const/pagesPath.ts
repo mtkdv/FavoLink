@@ -7,6 +7,9 @@ export const pagesPath = {
     customize: "/my/customize",
     preview: "/my/preview",
   },
+  privacyPolicy: "/privacy-policy",
+  terms: "/terms",
+  user: "/user/",
 } as const;
 
 type FlattenObjectValues<T> = T extends object

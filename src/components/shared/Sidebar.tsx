@@ -8,6 +8,7 @@ import { Divider, LinkWithIcon } from "#/components/uiParts";
 import { useGetProfile } from "#/hooks";
 import { MENU_LIST } from "#/const/menu-list";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
+import { pagesPath } from "#/const";
 
 export const Sidebar = () => {
   const { data: profile, isLoading } = useGetProfile();
@@ -52,7 +53,7 @@ export const Sidebar = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`/${profile.slug}`}
+                href={`${pagesPath.user}${profile.slug}`}
                 className="h-14 flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
               >
                 <FaShareSquare />

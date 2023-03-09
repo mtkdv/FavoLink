@@ -55,7 +55,7 @@ export const PreviewHeader = ({
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href={`/${profile.slug}`}
+              href={`${pagesPath.user}${profile.slug}`}
               className={clsx(
                 "relative group flex rounded-full bg-transparent ring-1 py-2 w-8 outline-none [&:is(:hover,:focus-visible)]:w-32 transition-[color,background-color,width] duration-300 sm:w-32",
                 custom.mode === "LIGHT"
