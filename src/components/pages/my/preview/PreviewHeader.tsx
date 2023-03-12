@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { FaArrowLeft, FaShareSquare, FaUserCog } from "react-icons/fa";
 import Link from "next/link";
 import { Custom, Profile } from "@prisma/client";
-import { pagesPath } from "#/const";
+import { pagesInfo } from "#/const";
 
 export const PreviewHeader = ({
   profile,
@@ -55,7 +55,7 @@ export const PreviewHeader = ({
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href={`${pagesPath.user}${profile.slug}`}
+              href={`${pagesInfo.user.href}${profile.slug}`}
               className={clsx(
                 "relative group flex rounded-full bg-transparent ring-1 py-2 w-8 outline-none [&:is(:hover,:focus-visible)]:w-32 transition-[color,background-color,width] duration-300 sm:w-32",
                 custom.mode === "LIGHT"
@@ -71,7 +71,8 @@ export const PreviewHeader = ({
           ) : (
             // TODO: Tooltip
             <Link
-              href={pagesPath.my.profile}
+              href={pagesInfo.my.profile.href}
+              // href={getPagesPath(["my", "profile"])}
               className={clsx(
                 "relative group flex rounded-full bg-transparent ring-1 py-2 w-8 outline-none [&:is(:hover,:focus-visible)]:w-[168px] transition-[color,background-color,width] duration-300 sm:w-[168px]",
                 custom.mode === "LIGHT"

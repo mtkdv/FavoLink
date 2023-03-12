@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { FaUserCog } from "react-icons/fa";
 
 import { PublicResources } from "#/types";
-import { pagesPath, queryKeys } from "#/const";
+import { pagesInfo, queryKeys } from "#/const";
 
 export const SettingsButton = () => {
   const { data: session } = useSession();
@@ -16,7 +16,7 @@ export const SettingsButton = () => {
 
   return session?.user && session.user.id === data?.profile.userId ? (
     <Link
-      href={pagesPath.my.profile}
+      href={pagesInfo.my.profile.href}
       className={clsx(
         "absolute group top-3 right-6 p-3 border border-white rounded-full shadow-[0_2px_8px_-2px] shadow-black/30 hover:shadow-lg backdrop-blur-sm transition outline-none focus-visible:ring-2",
         data.custom.mode === "LIGHT"

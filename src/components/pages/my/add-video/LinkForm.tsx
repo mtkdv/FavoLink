@@ -9,7 +9,7 @@ import { RiShareBoxLine } from "react-icons/ri";
 
 import { Schema } from "#/pages/my/add-video";
 import { getYouTubeVideoIdFromUrl, listChannels, listVideos } from "#/utils";
-import { staticPath } from "#/const";
+import { urls } from "#/const";
 
 const schemaVF = z.object({
   url: z
@@ -155,7 +155,7 @@ export const LinkForm: React.FC<Props> = ({
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href={staticPath.youtube}
+            href={urls.youtube}
             className="text-blue-500 underline hover:text flex items-center text-xs hover:text-blue-700"
           >
             {/* YouTube */}

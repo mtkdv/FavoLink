@@ -4,8 +4,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-import "#/styles/globals.css";
 import { AccessControl, ErrorBoundary, Notification } from "#/providers";
+import "#/styles/globals.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;

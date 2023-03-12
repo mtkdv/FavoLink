@@ -18,8 +18,8 @@ export const AccessControl = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  // FIXME: Dashboardページを一時的に無効化。
-  if (/^\/my\/dashboard$/.test(router.asPath)) {
+  // FIXME: Dashboard、Contactページを一時的に無効化。
+  if (/^\/(my\/dashboard|contact)$/.test(router.asPath)) {
     // return <Redirect type="back" />;
     return <Redirect type="replace" destination="/" />;
   }

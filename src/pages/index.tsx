@@ -3,16 +3,15 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { NextPageWithLayout } from "#/pages/_app";
+import { TopLayout } from "#/components/shared/TopLayout";
 import { Divider } from "#/components/uiParts";
-import { pagesPath, queryKeys } from "#/const";
+import { pagesInfo, queryKeys } from "#/const";
 import sample17 from "/public/sample17.png";
 import sample16 from "/public/sample16.png";
 import sample14 from "/public/sample14.png";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
-import UndrawMovieNight from "/public/undraw_movie_night_re_9umk.svg";
-import { TopLayout } from "#/components/shared/TopLayout";
-import { NextPageWithLayout } from "#/pages/_app";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
@@ -41,8 +40,8 @@ const Home: NextPageWithLayout = () => {
               </button>
             ) : (
               <Link
-                // href={pagesPath.my.dashboard}
-                href={pagesPath.my.addVideo}
+                // href={pagesInfo.my.dashboard.href}
+                href={pagesInfo.my.addVideo.href}
                 className="py-2 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
               >
                 ページを作成
@@ -50,8 +49,16 @@ const Home: NextPageWithLayout = () => {
             )}
           </div>
         </div>
+
+        {/* TODO:  */}
         <div className="mt-20">
-          <UndrawMovieNight />
+          <Image
+            // TODO: pathを管理する。
+            src="/undraw_movie_night_re_9umk.svg"
+            width={845}
+            height={332}
+            alt="hero"
+          />
         </div>
       </section>
 
@@ -106,9 +113,12 @@ const Home: NextPageWithLayout = () => {
           <br />
           背景に合わせてライトモード、ダークモードを選択できます。
         </p>
-        <div className="mt-14 w-full flex justify-center gap-x-16">
+        {/* <div className="mt-14 w-full flex justify-center gap-x-16"> */}
+        <div className="mt-14 flex justify-center gap-x-16">
           <Image src={sample12} alt="sample" className="rounded-xl max-w-xs" />
           <Image src={sample13} alt="sample" className="rounded-xl max-w-xs" />
+          {/* <Image src={sample12} alt="sample" className="rounded-xl" />
+          <Image src={sample13} alt="sample" className="rounded-xl" /> */}
         </div>
       </section>
     </>

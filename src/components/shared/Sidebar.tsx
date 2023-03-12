@@ -6,25 +6,23 @@ import { SiReact } from "react-icons/si";
 
 import { Divider, LinkWithIcon } from "#/components/uiParts";
 import { useGetProfile } from "#/hooks";
-import { MENU_LIST } from "#/const/menu-list";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
-import { pagesPath } from "#/const";
+import { pagesInfo, sideMenuList } from "#/const";
 
 export const Sidebar = () => {
   const { data: profile, isLoading } = useGetProfile();
 
   return (
-    <div className="h-screen w-20 md:w-60 px-2 md:px-6 flex flex-col overflow-y-scroll scrollbar-hidden">
+    <div className="h-screen pt-4 w-20 md:w-60 px-2 md:px-6 flex flex-col overflow-y-scroll scrollbar-hidden">
       {/* Logo */}
-      <div className="relative min-h-[128px]">
+      <div className="relative min-h-[128px] max-md:hidden">
         <div className="absolute flex flex-col items-center left-1/2 -translate-x-1/2 top-[60%] -translate-y-1/2">
           {/* TODO: logo作成 */}
-          <SiReact
+          {/* <SiReact
             size={40}
-            // className="animate-[spin_10s_linear_infinite] text-[color:#61DAFB]"
             className="animate-[spin_10s_linear_infinite] text-cocoa-400"
-          />
-          <span className="text-2xl font-extrabold tracking-wider max-md:hidden">
+          /> */}
+          <span className="text-2xl font-extrabold tracking-wider">
             FavoLink
           </span>
         </div>
@@ -33,8 +31,8 @@ export const Sidebar = () => {
       {/* Menu */}
       <nav className="grow">
         <ul className="h-full flex flex-col space-y-2 md:space-y-4">
-          {MENU_LIST.map((menu) => (
-            <li key={menu.title}>
+          {sideMenuList.map((menu) => (
+            <li key={menu.href}>
               {menu.title === "Preview" && (
                 <Divider width="w-3/4" classWrapper="max-md:mt-2 mb-4" />
               )}
@@ -53,7 +51,7 @@ export const Sidebar = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`${pagesPath.user}${profile.slug}`}
+                href={`${pagesInfo.user.href}${profile.slug}`}
                 className="h-14 flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
               >
                 <FaShareSquare />
@@ -67,9 +65,8 @@ export const Sidebar = () => {
 
           {/* Logout Button */}
           <li className="!mt-auto space-y-4">
-            <div className="mt-4">
-              <Divider width="w-3/4" />
-            </div>
+            <Divider width="w-3/4" classWrapper="mt-4" />
+
             <button
               type="button"
               onClick={() => signOut({ callbackUrl: "/" })}
