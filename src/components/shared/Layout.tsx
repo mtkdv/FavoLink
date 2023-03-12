@@ -1,4 +1,3 @@
-import React from "react";
 import { Sidebar } from "./Sidebar";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {

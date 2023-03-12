@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { Profile } from "@prisma/client";
 
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const useGetProfile = () => {
   const { data: session } = useSession();
@@ -16,7 +16,7 @@ export const useGetProfile = () => {
       );
 
       // Loading Test
-      // await new Promise((r) => setTimeout(r, 3000));
+      await new Promise((r) => setTimeout(r, 1000));
 
       return res.data;
     },

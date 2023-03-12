@@ -4,8 +4,9 @@ import React from "react";
 import { Custom, Profile } from "@prisma/client";
 import clsx from "clsx";
 
-import { CategorizedLink } from "#/components/shared/CategorizedLink";
+import { CategorizedLink } from "#/components/shared";
 import { Videos } from "#/types";
+import { pagesInfo } from "#/const";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const MainContent = ({
@@ -22,14 +23,9 @@ export const MainContent = ({
   return (
     <>
       {/* {isLoadingAll && <Loader color="red" className="h-screen" />} */}
-      <div
-        className={clsx(
-          "min-h-screen pt-36 pb-6 overflow-hidden animate-appearance"
-          // isLoadingAll && "hidden"
-        )}
-      >
+      <div className="animate-appearance">
         {/* ページ背景 */}
-        <div className="fixed top-0 w-full h-screen">
+        <div className="fixed top-0 w-screen h-screen">
           {custom.backgroundImage ? (
             <Image
               src={custom.backgroundImage}
@@ -49,7 +45,7 @@ export const MainContent = ({
         {/* プレビューヘッダー or 設定ボタン */}
         {children}
 
-        <main className="relative min-h-main-content px-6">
+        <main className="relative mt-36 min-h-main-content px-6">
           {/* Circle */}
           {/* <div className="absolute w-full h-full">
           <div className="absolute -top-[5%] -left-40 bg-gradient-to-tr from-white/40 to-white/10 rounded-full w-[450px] h-[450px] animate-[animate_7s_infinite]"></div>
@@ -101,9 +97,10 @@ export const MainContent = ({
           </div>
         </main>
 
-        <footer className="mt-6 flex flex-col space-y-2 items-center">
+        <footer className="my-6 flex flex-col space-y-2 items-center">
           <Link
-            href="/"
+            href={pagesInfo.top.href}
+            // href={getPagesPath(["top"])}
             className="text-4xl font-black tracking-wide drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900"
           >
             Favolink

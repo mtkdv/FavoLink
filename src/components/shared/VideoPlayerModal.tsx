@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
 
 import { VideoPlayer } from "#/components/shared/VideoPlayer";
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const VideoPlayerModal = () => {
   const { data: isModalShow } = useQuery({

@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { Custom } from "@prisma/client";
 
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const useGetCustom = () => {
   const { data: session } = useSession();
@@ -14,7 +14,7 @@ export const useGetCustom = () => {
       const res = await axios.get(`/api/users/${session!.user!.id}/custom`);
 
       // Loading Test
-      // await new Promise((r) => setTimeout(r, 3000));
+      await new Promise((r) => setTimeout(r, 1000));
 
       return res.data;
     },

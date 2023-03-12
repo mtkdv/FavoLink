@@ -6,21 +6,26 @@ import { FcGoogle } from "react-icons/fc";
 import { VscChromeClose } from "react-icons/vsc";
 import { SiTwitter } from "react-icons/si";
 
-import { queryKeys } from "#/utils";
+import { pagesInfo, queryKeys } from "#/const";
 
 export const SignInModal = () => {
-  const { data: isModalShow } = useQuery({
+  const { data: isOpen } = useQuery({
     queryKey: queryKeys.signInModal,
     initialData: false,
     enabled: false,
   });
   const queryClient = useQueryClient();
 
+  const closeModal = () => {
+    queryClient.setQueryData(queryKeys.signInModal, false);
+  };
+
   return (
-    <Transition appear show={isModalShow} as={Fragment}>
+    <Transition appear show={isOpen} as={Fragment}>
       <Dialog
-        // open={isModalOpen}
-        onClose={() => queryClient.setQueryData(queryKeys.signInModal, false)}
+        // open={isOpen}
+        // onClose={() => queryClient.setQueryData(queryKeys.signInModal, false)}
+        onClose={closeModal}
         className="relative z-50"
       >
         {/* <div className="fixed inset-0 bg-black/30" aria-hidden="true" /> */}
@@ -37,7 +42,7 @@ export const SignInModal = () => {
           <div className="fixed inset-0 bg-black/5 backdrop-blur-[1px]" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto">
+        <div className="fixed inset-y-0 w-screen pr-3.5 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={Fragment}
@@ -61,7 +66,11 @@ export const SignInModal = () => {
                 <div className="mt-12 space-y-4">
                   <button
                     onClick={() => {
-                      signIn("google", { callbackUrl: "/my/dashboard" });
+                      // signIn("google", { callbackUrl: pagesInfo.my.dashboard.href });
+                      signIn("google", { callbackUrl: pagesInfo.top.href });
+                      // signIn("google", {
+                      //   callbackUrl: getPagesPath(["my", "addVideo"]),
+                      // });
                     }}
                     type="button"
                     className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -71,7 +80,9 @@ export const SignInModal = () => {
                   </button>
                   <button
                     onClick={() => {
-                      signIn("twitter", { callbackUrl: "/my/dashboard" });
+                      // signIn("twitter", { callbackUrl: pagesInfo.my.dashboard.href });
+                      // signIn("twitter", { callbackUrl: pagesInfo.my.addVideo.href });
+                      signIn("twitter", { callbackUrl: pagesInfo.top.href });
                     }}
                     type="button"
                     className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -81,9 +92,10 @@ export const SignInModal = () => {
                   </button>
                 </div>
                 <button
-                  onClick={() =>
-                    queryClient.setQueryData(queryKeys.signInModal, false)
-                  }
+                  // onClick={() =>
+                  //   queryClient.setQueryData(queryKeys.signInModal, false)
+                  // }
+                  onClick={closeModal}
                   className="absolute top-3 right-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   <VscChromeClose size={20} />

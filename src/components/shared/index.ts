@@ -1,7 +1,5 @@
 export * from "./CategorizedLink";
 export * from "./ErrorBoudary";
-export * from "./ErrorBoundaries";
-export * from "./ErrorFallback";
 export * from "./Layout";
 export * from "./MainContent";
 export * from "./Sidebar";
