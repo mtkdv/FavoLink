@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
-import { privacyPolicy } from "#/const";
+import { privacyPolicy, urls } from "#/const";
 import { Divider } from "#/components/uiParts";
 
 const PrivacyPolicy: NextPageWithLayout = () => {
@@ -58,7 +58,17 @@ const PrivacyPolicy: NextPageWithLayout = () => {
         ))}
       </ol>
 
-      <p className="mt-12 mb-28">以上</p>
+      <div className="mt-8 mb-20">
+        <p>
+          E-mail:&nbsp;
+          <a
+            href={`mailto:${urls.gmail.href}`}
+            className="text-blue-500 hover:underline underline-offset-4"
+          >
+            {urls.gmail.href}
+          </a>
+        </p>
+      </div>
     </>
   );
 };

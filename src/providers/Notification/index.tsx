@@ -4,7 +4,7 @@ export const Notification = () => {
   return (
     <Toaster
       // position="bottom-right"
-      position="top-center"
+      position="top-right"
       toastOptions={{
         style: {
           // backgroundColor: "#333",

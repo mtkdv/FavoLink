@@ -1,7 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { menuList, queryKeys } from "#/const";
+import { menuList, pagesInfo, queryKeys } from "#/const";
 import { FullNavItem } from "#/components/pages/home";
 
 export const FullNav = () => {
@@ -20,7 +20,7 @@ export const FullNav = () => {
         <li className="">
           {sessionStatus === "authenticated" ? (
             <button
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
               className="block py-4 px-2 w-full text-left hover:bg-black/5 outline-none focus-visible:ring-2 ring-blue-500 animate-appearance"
             >
               Logout

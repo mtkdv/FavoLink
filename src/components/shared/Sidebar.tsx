@@ -69,7 +69,7 @@ export const Sidebar = () => {
 
             <button
               type="button"
-              onClick={() => signOut({ callbackUrl: "/" })}
+              onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
               className="h-14 w-full flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
             >
               <IoLogOut size={20} />
