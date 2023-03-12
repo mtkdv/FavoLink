@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { Custom } from "@prisma/client";
 
 import { CustomFormData } from "#/types";
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const usePatchCustom = () => {
   const { data: session } = useSession();

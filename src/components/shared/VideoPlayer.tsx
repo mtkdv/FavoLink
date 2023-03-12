@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@prisma/client";
 
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 const ReactPlayer = dynamic(() => import("react-player/youtube"), {
   ssr: false,

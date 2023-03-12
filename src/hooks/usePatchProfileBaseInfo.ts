@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { Profile } from "@prisma/client";
 
 import { ProfileFormData } from "#/types";
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const usePatchProfileBaseInfo = () => {
   const { data: session } = useSession();

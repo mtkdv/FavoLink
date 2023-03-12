@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 import { PublicResources } from "#/types";
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const useQueryPublicResources = () => {
   const router = useRouter();

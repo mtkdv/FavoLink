@@ -16,12 +16,11 @@ import { PuffLoader } from "react-spinners";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/shared";
-import { CustomizeSkeleton } from "#/components/pages/my/customize/CustomizeSkeleton";
+import { CustomizeSkeleton } from "#/components/pages/my/customize";
 import { Divider } from "#/components/uiParts";
 import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/customize";
 import { bytesToKilobytes, mimeToFileFormat, uploadAndGetUrl } from "#/utils";
 import { useGetCustom, usePatchCustom } from "#/hooks";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 const fileSchema = z.custom<File>().superRefine((file, ctx) => {
   if (file.size > ONE_MEGA_BYTE * 4) {
@@ -250,15 +249,20 @@ const Customize: NextPageWithLayout = () => {
                     {/* 左 現在設定中の画像 */}
                     <div className="w-full">
                       <div className="flex justify-center">
-                        <Image
-                          // TODO: src
-                          src={custom?.backgroundImage ?? silhouetteAvatar}
-                          alt="現在設定中の画像"
-                          width={160}
-                          height={240}
-                          // className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] shadow-md object-cover"
-                          className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] shadow-md object-cover"
-                        />
+                        {custom?.backgroundImage ? (
+                          <Image
+                            src={custom.backgroundImage}
+                            alt="現在設定中の画像"
+                            width={160}
+                            height={240}
+                            // className="max-sm:w-60 max-sm:min-w-[160px] sm:w-40 aspect-[2/3] shadow-md object-cover"
+                            className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] shadow-md object-cover"
+                          />
+                        ) : (
+                          <div className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-stone-50 border-2 border-black/5 flex justify-center items-center px-1">
+                            <p>画像が設定されていません</p>
+                          </div>
+                        )}
                       </div>
                       <p className="mt-2 text-sm text-center">現在設定中</p>
                     </div>

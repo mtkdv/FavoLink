@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 
-import { queryKeys } from "#/utils";
+import { queryKeys } from "#/const";
 
 export const usePatchProfilePublished = () => {
   const { data: session } = useSession();

@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 import { VideoPlayerModal } from "#/components/shared";
 import { Videos } from "#/types";
-import { queryKeys } from "#/utils";
+import { queryKeys, urls } from "#/const";
 
 export const CategorizedLink = ({
   videos,
@@ -67,7 +67,7 @@ export const CategorizedLink = ({
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`https://www.youtube.com/channel/${link.channelId}`}
+                        href={`${urls.youtubeChannel}${link.channelId}`}
                         className="flex items-center space-x-2 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         <div className="overflow-hidden rounded-full">
