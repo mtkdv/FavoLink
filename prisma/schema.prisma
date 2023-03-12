@@ -11,19 +11,21 @@ datasource db {
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  oauth_token        String? @db.Text
+  oauth_token_secret String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -50,6 +52,7 @@ model User {
   categories    Category[]
   links         Link[]
   profile       Profile?
+  Custom        Custom?
 }
 
 model VerificationToken {
@@ -61,14 +64,30 @@ model VerificationToken {
 }
 
 model Profile {
-  id          String  @id @default(cuid())
-  name        String?
-  image       String?
-  slug        String? @unique
-  description String?
-  published   Boolean @default(false)
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String  @unique
+  id              String  @id @default(cuid())
+  name            String
+  image           String?
+  slug            String? @unique
+  description     String?
+  backgroundImage String? @db.VarChar(255)
+  published       Boolean @default(false)
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String  @unique
+}
+
+enum Mode {
+  LIGHT
+  DARK
+}
+
+model Custom {
+  id              String  @id @default(cuid())
+  backgroundImage String? @db.VarChar(255)
+  mode            Mode    @default(LIGHT)
+  color           String?
+  fontFamily      String?
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String  @unique
 }
 
 model Category {
@@ -84,15 +103,18 @@ model Category {
 }
 
 model Link {
-  id           String    @id @default(cuid())
-  title        String
-  url          String
-  thumbnailUrl String
-  index        Int
-  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String?
-  category     Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId   String?
+  id                  String    @id @default(cuid())
+  title               String
+  videoId             String
+  thumbnailUrl        String
+  channelId           String
+  channelTitle        String
+  channelThumbnailUrl String
+  index               Int
+  user                User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String?
+  category            Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId          String?
 
   @@index([userId])
   @@index([categoryId])

@@ -8,7 +8,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.ytimg.com",
         // port: '',
-        pathname: "/vi/**",
+        // pathname: "/vi/**",
+      },
+      {
+        protocol: "https",
+        hostname: "yt3.ggpht.com",
       },
       {
         protocol: "https",
@@ -18,7 +22,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "firebasestorage.googleapis.com",
       },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+      },
     ],
+    // disableStaticImages: true,
   },
   webpack(config) {
     config.module.rules.push({

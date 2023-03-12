@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* スクロールバー非表示 */
+  .scrollbar-hidden {
+    /* IE・Edge*/
+    -ms-overflow-style: none;
+    /* Firefox*/
+    scrollbar-width: none;
+  }
+
+  /* Chrome・Safari */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .clip-path-circle {
+    clip-path: circle(50%);
+  }
+
+  .drop-shadow-white-black {
+    filter: drop-shadow(1px 1px 0 white) drop-shadow(2px 2px 0 black);
+  }
+
+  .neumorphism {
+    box-shadow: 10px 10px 30px rgba(18, 47, 61, 0.5),
+      -10px -10px 30px rgba(248, 253, 255, 0.9),
+      inset 10px 10px 30px transparent, inset -10px -10px 30px transparent;
+  }
+  .neumorphism:hover {
+    box-shadow: 10px 10px 30px transparent, -10px -10px 30px transparent,
+      inset 10px 10px 30px rgba(18, 47, 61, 0.5),
+      inset -10px -10px 30px rgba(248, 253, 255, 0.9);
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      to right,
+      rgba(238, 230, 226, 0.7) 8%,
+      rgb(255, 245, 245) 18%,
+      rgba(238, 230, 226, 0.7) 33%
+    );
+    background-size: 200%;
+  }
+}
+
+.inset-text-shadow {
+  background-color: #000;
+  color: transparent;
+  /* フォントが小さいとぼかしがきれいに反映されない。 */
+  text-shadow: 0.5px 0.5px 0.5px rgba(255, 255, 255, 1);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+}
+
+/* スクロールバーカスタマイズ */
+/* TODO: コンテンツとスクロールバーの境界線を設定できないため、一旦オフ。 */
+/* .scrollbar::-webkit-scrollbar { */
+/* ::-webkit-scrollbar {
+  @apply w-3;
+} */
+
+/* .scrollbar::-webkit-scrollbar-track { */
+::-webkit-scrollbar-track {
+  @apply bg-white;
+}
+
+/* .scrollbar::-webkit-scrollbar-thumb { */
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary rounded-full border-[3px] border-solid border-white;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-accent;
+}
+
+/* 選択範囲 */
+/* ::selection {
+  @apply bg-accent text-white;
+} */
