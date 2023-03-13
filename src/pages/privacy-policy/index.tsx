@@ -1,7 +1,7 @@
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
-import { privacyPolicy, urls } from "#/const";
 import { Divider } from "#/components/uiParts";
+import { privacyPolicy, gmail } from "#/const";
 
 const PrivacyPolicy: NextPageWithLayout = () => {
   return (
@@ -62,10 +62,11 @@ const PrivacyPolicy: NextPageWithLayout = () => {
         <p>
           E-mail:&nbsp;
           <a
-            href={`mailto:${urls.gmail.href}`}
+            // href={`mailto:${urls.gmail.href}`}
+            href={`mailto:${gmail.href}`}
             className="text-blue-500 hover:underline underline-offset-4"
           >
-            {urls.gmail.href}
+            {gmail.href}
           </a>
         </p>
       </div>

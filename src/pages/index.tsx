@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { Divider } from "#/components/uiParts";
-import { pagesInfo, queryKeys } from "#/const";
+import { pagesInfo, publicPath, queryKeys } from "#/const";
 import sample17 from "/public/sample17.png";
 import sample16 from "/public/sample16.png";
 import sample14 from "/public/sample14.png";
@@ -53,8 +53,8 @@ const Home: NextPageWithLayout = () => {
         {/* TODO:  */}
         <div className="mt-20">
           <Image
-            // TODO: pathを管理する。
-            src="/undraw_movie_night_re_9umk.svg"
+            src={publicPath.movieNight}
+            priority
             width={845}
             height={332}
             alt="hero"

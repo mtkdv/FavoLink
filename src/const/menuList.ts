@@ -1,6 +1,6 @@
 import { IconKeys } from "#/components/pages/home/DropDownItem";
 import { pagesInfo } from "#/const/pagesInfo";
-import { urls } from "#/const/urls";
+import { urls } from "#/const/staticData";
 
 export type MenuList = MenuItem[];
 

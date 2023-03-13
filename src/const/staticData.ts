@@ -12,9 +12,14 @@ export const urls = {
     href: "https://github.com/mtkdv/FavoLink",
     icon: "FaGithub",
   },
-  gmail: {
-    title: "Gmail",
-    href: "favolink.app@gmail.com",
-    // icon: "",
-  },
 } as const;
+
+export const gmail = {
+  title: "Gmail",
+  href: "favolink.app@gmail.com",
+  // icon: "",
+};
+
+export const publicPath = {
+  movieNight: "/undraw_movie_night_re_9umk.svg",
+};
