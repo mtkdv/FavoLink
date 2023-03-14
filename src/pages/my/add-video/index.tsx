@@ -149,7 +149,7 @@ const AddVideo: NextPageWithLayout = () => {
           <div className="bg-img-add-video h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-base-white/50 bg-blend-lighten" />
         </div>
 
-        <div className="-mt-page-main relative z-10 px-6 pt-12 pb-6">
+        <div className="-mt-dashboard-page-main relative z-10 px-6 pt-12 pb-6">
           {/* <ul id="target-ul" className="space-y-8">
           {categoryFields.map((categoryField, categoryIndex) => (
             <li key={categoryField.id}>

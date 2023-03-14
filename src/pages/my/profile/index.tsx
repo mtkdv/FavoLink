@@ -228,7 +228,7 @@ const Profile: NextPageWithLayout = () => {
         </div>
 
         {/* フォーム */}
-        <div className="-mt-page-main relative z-10 mb-6 flex flex-col space-y-6 animate-appearance">
+        <div className="-mt-dashboard-page-main relative z-10 mb-6 flex flex-col space-y-6 animate-appearance">
           {/* Profile Forms */}
           <form
             id="profile-form"
