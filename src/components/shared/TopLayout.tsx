@@ -74,19 +74,20 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
       </header>
 
       <main className="mt-14 min-h-top-main">
+        {/* FIXME: */}
         <div className="max-w-5xl mx-auto">{children}</div>
       </main>
 
-      <footer className="h-20">
+      <footer className="h-30 md:h-20">
         <div className="absolute w-full">
           <Divider classWrapper="px-2" />
         </div>
 
-        <div className="h-20 max-w-5xl mx-auto px-4 pt-px flex justify-between items-center">
+        <div className="h-full max-w-5xl mx-auto px-4 pt-px flex max-md:flex-col justify-center gap-y-4 md:justify-between items-center">
           <div className="flex space-x-4">
             <Link href={pagesInfo.terms.href} className="relative group">
-              <span className="absolute -bottom-px w-full h-0.5 bg-base-black scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
-              <span className="text-stone-600 group-hover:text-base-black transition duration-300">
+              <span className="absolute bottom-0 w-full h-0.5 bg-base-black/70 scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
+              <span className="group-hover:text-base-black transition duration-300">
                 利用規約
               </span>
             </Link>
@@ -94,8 +95,8 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
               href={pagesInfo.privacyPolicy.href}
               className="relative group"
             >
-              <span className="absolute -bottom-px w-full h-0.5 bg-base-black scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
-              <span className="text-stone-600 group-hover:text-base-black transition duration-300">
+              <span className="absolute bottom-0 w-full h-0.5 bg-base-black/70 scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
+              <span className="group-hover:text-base-black transition duration-300">
                 プライバシーポリシー
               </span>
             </Link>
@@ -105,10 +106,14 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
               href={pagesInfo.contact.href}
               className="cursor-not-allowed text-stone-400"
             >
-              お問い合わせ
+              🚧 お問い合わせ
             </Link>
           </div>
-          <p>Copyright &copy; 2023 FavoLink. All rights reserved.</p>
+          <div className="">
+            <p className="text-zinc-400 text-sm">
+              Copyright &copy; 2023 FavoLink. All rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
 
