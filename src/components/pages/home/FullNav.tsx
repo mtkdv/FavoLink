@@ -11,7 +11,7 @@ export const FullNav = () => {
   if (sessionStatus === "loading") return null;
 
   return (
-    <nav className="fixed top-14 inset-x-0 translate-x-full h-nav overflow-y-auto bg-base-white invisible group-[:has(#hamburger:checked)]/header:translate-x-0 group-[:has(#hamburger:checked)]/header:visible transition-[transform,_visibility] duration-300">
+    <nav className="fixed top-14 inset-x-0 translate-x-full h-full-nav overflow-y-auto bg-base-white invisible group-[:has(#hamburger:checked)]/header:translate-x-0 group-[:has(#hamburger:checked)]/header:visible transition-[transform,_visibility] duration-300">
       <ul className="py-14 px-8 space-y-14">
         {menuList.map((menu) => (
           <FullNavItem key={menu.title} {...{ menu }} />

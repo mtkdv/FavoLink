@@ -62,7 +62,6 @@ const AddVideo: NextPageWithLayout = () => {
   };
 
   if (isLoading) {
-    // return <Loader className="h-page" />;
     return <AddVideoSkeleton />;
   }
 
@@ -146,7 +145,7 @@ const AddVideo: NextPageWithLayout = () => {
 
       {/* メイン */}
       <main>
-        <div className="sticky top-16 h-page-main overflow-hidden">
+        <div className="sticky top-16 h-dashboard-page-main overflow-hidden">
           <div className="bg-img-add-video h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-base-white/50 bg-blend-lighten" />
         </div>
 

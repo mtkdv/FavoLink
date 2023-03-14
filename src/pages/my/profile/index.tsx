@@ -211,7 +211,7 @@ const Profile: NextPageWithLayout = () => {
   }
 
   return (
-    <div className="relative min-h-page flex flex-col animate-appearance">
+    <div className="relative min-h-dashboard-page flex flex-col animate-appearance">
       {/* ヘッダー */}
       <header className="sticky top-0 z-20 h-16 bg-base-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
@@ -223,7 +223,7 @@ const Profile: NextPageWithLayout = () => {
       {/* メイン */}
       <main>
         {/* 背景 */}
-        <div className="sticky top-16 h-page-main overflow-hidden">
+        <div className="sticky top-16 h-dashboard-page-main overflow-hidden">
           <div className="bg-img-profile h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-base-white/90 bg-blend-lighten" />
         </div>
 

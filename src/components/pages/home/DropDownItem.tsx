@@ -30,13 +30,10 @@ export const DropDownItem = ({
   const iconKey = iconKeys.find((iconKey) => iconKey === icon);
   const Icon = iconKey ? iconObj[iconKey] : undefined;
 
-  // FIXME: /contactが未実装の間、以下をレンダリング。
+  // FIXME: /contactが未実装の間。
   if (title === "Contact") {
     return (
-      <li
-        key={href}
-        className="h-10 w-32 rounded-lg hover:bg-base-black/5 transition duration-300 group/item"
-      >
+      <li key={href} className="h-10 w-32 rounded-lg group/item">
         <Link
           href={href}
           onClick={(e) => e.preventDefault()}
@@ -44,7 +41,7 @@ export const DropDownItem = ({
           className="px-3 flex w-full h-full items-center space-x-2 cursor-not-allowed text-stone-400"
         >
           <span className="text-sm">🚧</span>
-          <span className="text-sm transition duration-300">{title}</span>
+          <span className="text-sm">{title}</span>
         </Link>
       </li>
     );

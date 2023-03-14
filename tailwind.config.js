@@ -96,19 +96,21 @@ module.exports = {
       spacing: {
         18: "4.5rem",
         22: "5.5rem",
+        30: "7.5rem",
         90: "22.5rem",
         "3xl": "768px",
-        nav: "calc(100vh - 56px)",
-        // (my-4 + border) = (16px * 2 + 1px * 2) => 34px
-        page: "calc(100vh - 34px)",
+        "full-nav": "calc(100vh - 56px)",
         // (page + header) = (34px + 16 * 4px) => 98px
-        "page-main": "calc(100vh - 98px)",
+        "dashboard-page-main": "calc(100vh - 98px)",
       },
       minHeight: {
-        page: "calc(100vh - 34px)",
+        // (my-4 + border) = (16px * 2 + 1px * 2) => 34px
+        "dashboard-page": "calc(100vh - 34px)",
         // (pt-36 + mt-6 + text-4xl + space-y-2 + text-xs + pb-6)
         // = (36 * 4px + 6 * 4px + 40px + 2 * 4px + 16px + 6 * 4px) => 256px
         "main-content": "calc(100vh - 256px)",
+        // (h-14 * 4px + Divider 1px + Divider 1px h-20 * 4px) => 138px
+        "top-main": "calc(100vh - 138px)",
       },
       keyframes: {
         animate: {

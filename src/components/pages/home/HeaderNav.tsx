@@ -11,7 +11,6 @@ export const HeaderNav = () => {
   if (sessionStatus === "loading") return null;
 
   return (
-    // <nav className="ml-auto max-md:hidden animate-appearance">
     <nav className="animate-appearance">
       <ul className="flex items-center space-x-2">
         {menuList.map((menu) => (
@@ -19,8 +18,7 @@ export const HeaderNav = () => {
         ))}
 
         {/* Login/Logout */}
-        {/* <li className="!ml-auto"> */}
-        <li className="">
+        <li className="!ml-3">
           {sessionStatus === "unauthenticated" ? (
             <button
               onClick={() =>
