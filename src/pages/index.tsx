@@ -19,10 +19,10 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <>
-      <section className="flex flex-col items-center">
-        <div className="mt-28 flex flex-col items-center justify-center gap-y-14">
-          <h1 className="text-6xl font-black">好きな動画を共有</h1>
-          <p className="text-lg">
+      <section className="flex flex-col items-center overflow-x-hidden">
+        <div className="mt-28 px-8 flex flex-col items-center justify-center gap-y-14">
+          <h1 className="text-6xl font-black text-center">好きな動画を共有</h1>
+          <p className="text-lg text-center">
             好きな YouTube 動画を集めた、あなただけのページを作成し、SNS
             で公開しよう
           </p>
@@ -58,27 +58,27 @@ const Home: NextPageWithLayout = () => {
             width={845}
             height={332}
             alt="hero"
+            className="min-w-xl"
           />
         </div>
       </section>
 
       <Divider classWrapper="w-full" />
 
-      <section className="mt-28 w-full space-y-20">
-        <div className="grid grid-cols-12">
-          <div className="col-span-5 grid place-content-center">
+      <section className="mt-36 w-full px-8 space-y-28 xs:space-y-20">
+        <article className="xs:grid xs:grid-cols-12">
+          <div className="xs:col-span-5 grid place-content-center">
             <h2 className="text-4xl font-black text-center leading-relaxed">
               カテゴリーを作成し
               <br />
               動画を登録
             </h2>
           </div>
-          <Image src={sample14} alt="sample" className="col-span-7" />
-        </div>
+          <Image src={sample14} alt="sample" className="xs:col-span-7" />
+        </article>
 
-        <div className="grid grid-cols-12">
-          <Image src={sample17} alt="sample" className="col-span-7" />
-          <div className="col-span-5 grid place-content-center">
+        <article className="xs:grid xs:grid-cols-12">
+          <div className="order-2 xs:col-span-5 grid place-content-center">
             <h2 className="text-4xl font-black text-center leading-relaxed">
               カテゴリーは５つまで
               <br />
@@ -88,10 +88,15 @@ const Home: NextPageWithLayout = () => {
               動画はカテゴリーごとに６つまで登録可能
             </p>
           </div>
-        </div>
+          <Image
+            src={sample17}
+            alt="sample"
+            className="order-1 xs:col-span-7"
+          />
+        </article>
 
-        <div className="w-full grid grid-cols-12">
-          <div className="col-span-5 grid place-content-center">
+        <article className="max-xs:space-y-5 xs:grid xs:grid-cols-12">
+          <div className="xs:col-span-5 grid place-content-center">
             <h2 className="text-4xl font-black text-center leading-relaxed">
               気になった動画を
               <br />
@@ -101,24 +106,33 @@ const Home: NextPageWithLayout = () => {
           <Image
             src={sample16}
             alt="sample"
-            className="col-span-7 rounded-3xl"
+            className="xs:col-span-7 rounded-3xl"
           />
-        </div>
+        </article>
       </section>
 
-      <section className="mt-36 mb-28 w-full flex flex-col items-center">
+      {/* カスタマイズ */}
+      <section className="mt-36 mb-28 w-full px-8 flex flex-col items-center">
         <h2 className="text-4xl font-black">カスタマイズ</h2>
+
         <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
           背景を自由に設定することができます。
           <br />
           背景に合わせてライトモード、ダークモードを選択できます。
         </p>
-        {/* <div className="mt-14 w-full flex justify-center gap-x-16"> */}
-        <div className="mt-14 flex justify-center gap-x-16">
-          <Image src={sample12} alt="sample" className="rounded-xl max-w-xs" />
-          <Image src={sample13} alt="sample" className="rounded-xl max-w-xs" />
-          {/* <Image src={sample12} alt="sample" className="rounded-xl" />
-          <Image src={sample13} alt="sample" className="rounded-xl" /> */}
+
+        <div className="mt-10 max-w-2xl max-xs:space-y-12 xs:grid xs:grid-cols-11">
+          <Image
+            src={sample12}
+            alt="sample"
+            className="rounded-xl max-xs:w-80 xs:col-span-5"
+          />
+          <div className="max-xs:hidden xs:col-span-1" />
+          <Image
+            src={sample13}
+            alt="sample"
+            className="rounded-xl max-xs:w-80 xs:col-span-5"
+          />
         </div>
       </section>
     </>

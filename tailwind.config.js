@@ -112,6 +112,9 @@ module.exports = {
         // (h-14 * 4px + Divider 1px + Divider 1px h-20 * 4px) => 138px
         "top-main": "calc(100vh - 138px)",
       },
+      minWidth: {
+        xl: "36rem" /** 576px */,
+      },
       keyframes: {
         animate: {
           "0%, 100%": { transform: "translateY(-20px)" },
