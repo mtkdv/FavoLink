@@ -73,9 +73,8 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
 
-      <main className="mt-14 min-h-top-main">
-        {/* FIXME: */}
-        <div className="max-w-5xl mx-auto">{children}</div>
+      <main className="mt-14 min-h-top-main md:min-h-md-top-main">
+        {children}
       </main>
 
       <footer className="h-30 md:h-20">

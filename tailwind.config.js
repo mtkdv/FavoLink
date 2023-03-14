@@ -109,8 +109,10 @@ module.exports = {
         // (pt-36 + mt-6 + text-4xl + space-y-2 + text-xs + pb-6)
         // = (36 * 4px + 6 * 4px + 40px + 2 * 4px + 16px + 6 * 4px) => 256px
         "main-content": "calc(100vh - 256px)",
+        // (h-14 * 4px + Divider 1px + Divider 1px h-30 * 4px) => 148px
+        "top-main": "calc(100vh - 148px)",
         // (h-14 * 4px + Divider 1px + Divider 1px h-20 * 4px) => 138px
-        "top-main": "calc(100vh - 138px)",
+        "md-top-main": "calc(100vh - 138px)",
       },
       minWidth: {
         xl: "36rem" /** 576px */,
