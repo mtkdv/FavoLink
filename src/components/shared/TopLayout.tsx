@@ -11,13 +11,13 @@ import {
 import { Divider, Spacer } from "#/components/uiParts";
 import { pagesInfo } from "#/const";
 import { useGetProfile } from "#/hooks";
-import { useMediumScreen } from "#/hooks";
+import { useScreen } from "#/hooks";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const TopLayout = ({ children }: { children: React.ReactNode }) => {
   const { status: sessionStatus } = useSession();
   const { data: profile, isLoading } = useGetProfile();
-  const isMdScreen = useMediumScreen();
+  const isMdScreen = useScreen("md");
 
   return (
     <>

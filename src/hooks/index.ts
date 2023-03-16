@@ -2,7 +2,7 @@ export * from "./useFormatData";
 export * from "./useGetCustom";
 export * from "./useGetProfile";
 export * from "./useListUserVideo";
-export * from "./useMediumScreen";
+export * from "./useScreen";
 export * from "./usePatchCustom";
 export * from "./usePatchProfileBaseInfo";
 export * from "./usePatchProfilePublished";
