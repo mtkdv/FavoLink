@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { PuffLoader } from "react-spinners";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
+import { motion } from "framer-motion";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/shared";
@@ -170,7 +171,7 @@ const AddVideo: NextPageWithLayout = () => {
           ))}
         </ul> */}
 
-          <ul id="target-ul" className="space-y-6">
+          <motion.ul layout id="target-ul" className="space-y-6">
             {categoryFields.map((categoryField, categoryIndex) => (
               <CategoryListItem
                 key={categoryField.id}
@@ -188,7 +189,7 @@ const AddVideo: NextPageWithLayout = () => {
                 }}
               />
             ))}
-          </ul>
+          </motion.ul>
         </div>
       </main>
 

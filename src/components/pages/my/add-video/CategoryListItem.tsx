@@ -13,6 +13,7 @@ import { IoMdClose } from "react-icons/io";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
 import { TfiExchangeVertical } from "react-icons/tfi";
+import { motion } from "framer-motion";
 
 import { Schema } from "#/pages/my/add-video";
 import { LinkListItem } from "#/components/pages/my/add-video";
@@ -69,7 +70,8 @@ export const CategoryListItem: React.FC<Props> = ({
   };
 
   return (
-    <li
+    <motion.li
+      layout
       id={categoryField.categoryName}
       key={categoryField.id}
       className="relative group/collection-item px-3 py-6 rounded-md ring-1 ring-stone-300 flex flex-col shadow-[0_0_3px_1px] shadow-isabelline hover:ring-stone-400 bg-base-white/80"
@@ -200,6 +202,6 @@ export const CategoryListItem: React.FC<Props> = ({
           </button>
         </div>
       )}
-    </li>
+    </motion.li>
   );
 };
