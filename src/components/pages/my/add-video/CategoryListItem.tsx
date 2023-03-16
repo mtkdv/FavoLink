@@ -162,14 +162,14 @@ export const CategoryListItem: React.FC<Props> = ({
       </div>
 
       {linkFields.length ? (
-        <ul className="mt-6 space-y-4">
+        <motion.ul layout className="mt-6 space-y-4">
           {linkFields.map((linkField, linkIndex) => (
             <LinkListItem
               key={linkField.id}
               {...{ categoryIndex, linkIndex, move, remove, ...rest }}
             />
           ))}
-        </ul>
+        </motion.ul>
       ) : null}
 
       {/* コレクション内のvideoが重複している場合のエラーメッセージ */}
