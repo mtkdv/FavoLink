@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { Divider } from "#/components/uiParts";
+import { MotionAbout, MotionCustomize } from "#/components/pages/home";
 import { pagesInfo, publicPath, queryKeys } from "#/const";
 import sample17 from "/public/sample17.png";
 import sample16 from "/public/sample16.png";
@@ -74,7 +75,9 @@ const Home: NextPageWithLayout = () => {
               動画を登録
             </h2>
           </div>
-          <Image src={sample14} alt="sample" className="xs:col-span-7" />
+          <MotionAbout className="xs:col-span-7">
+            <Image src={sample14} alt="sample" />
+          </MotionAbout>
         </div>
 
         <div className="xs:grid xs:grid-cols-12">
@@ -88,11 +91,9 @@ const Home: NextPageWithLayout = () => {
               動画はカテゴリーごとに６つまで登録可能
             </p>
           </div>
-          <Image
-            src={sample17}
-            alt="sample"
-            className="order-1 xs:col-span-7"
-          />
+          <MotionAbout className="order-1 xs:col-span-7">
+            <Image src={sample17} alt="sample" />
+          </MotionAbout>
         </div>
 
         <div className="max-xs:space-y-5 xs:grid xs:grid-cols-12">
@@ -103,11 +104,9 @@ const Home: NextPageWithLayout = () => {
               その場で再生
             </h2>
           </div>
-          <Image
-            src={sample16}
-            alt="sample"
-            className="xs:col-span-7 rounded-3xl"
-          />
+          <MotionAbout className="xs:col-span-7">
+            <Image src={sample16} alt="sample" className="rounded-3xl" />
+          </MotionAbout>
         </div>
       </section>
 
@@ -124,17 +123,19 @@ const Home: NextPageWithLayout = () => {
         </p>
 
         <div className="mt-10 max-w-2xl max-xs:space-y-12 xs:grid xs:grid-cols-11">
-          <Image
-            src={sample12}
-            alt="sample"
-            className="rounded-xl max-xs:w-80 xs:col-span-5"
-          />
+          <MotionCustomize
+            initial="offScreenLeft"
+            className="max-xs:w-80 xs:col-span-5"
+          >
+            <Image src={sample12} alt="sample" className="rounded-xl" />
+          </MotionCustomize>
           <div className="max-xs:hidden xs:col-span-1" />
-          <Image
-            src={sample13}
-            alt="sample"
-            className="rounded-xl max-xs:w-80 xs:col-span-5"
-          />
+          <MotionCustomize
+            initial="offScreenRight"
+            className="max-xs:w-80 xs:col-span-5"
+          >
+            <Image src={sample13} alt="sample" className="rounded-xl" />
+          </MotionCustomize>
         </div>
       </section>
     </>

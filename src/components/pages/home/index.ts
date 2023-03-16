@@ -4,4 +4,6 @@ export * from "./FullNavItem";
 export * from "./Hamburger";
 export * from "./HeaderNav";
 export * from "./HeaderNavItem";
+export * from "./MotionAbout";
+export * from "./MotionCustomize";
 export * from "./SignInModal";
