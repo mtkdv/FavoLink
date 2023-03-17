@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import {
   FullNav,
   Hamburger,
+  HeaderDivider,
   HeaderNav,
   SignInModal,
 } from "#/components/pages/home";
@@ -68,9 +69,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
           )}
         </div>
 
-        <div className="absolute bottom-0 w-full pr-3.5">
-          <Divider classWrapper="px-2" />
-        </div>
+        <HeaderDivider />
       </header>
 
       <main

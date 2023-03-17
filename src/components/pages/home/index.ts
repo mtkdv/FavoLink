@@ -2,6 +2,7 @@ export * from "./DropDownItem";
 export * from "./FullNav";
 export * from "./FullNavItem";
 export * from "./Hamburger";
+export * from "./HeaderDivider";
 export * from "./HeaderNav";
 export * from "./HeaderNavItem";
 export * from "./MotionAbout";

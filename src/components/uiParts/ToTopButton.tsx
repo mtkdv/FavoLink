@@ -1,31 +1,20 @@
 import { Transition } from "@headlessui/react";
-import { forwardRef, useEffect, useState } from "react";
 import { FaChevronUp } from "react-icons/fa";
 
-// export const ToTopButton = ({ ref }: { ref: React.RefObject<HTMLElement> }) => {
+import { usePageOffset } from "#/hooks";
+
 export const ToTopButton = ({
   refCurrent,
 }: {
   refCurrent: HTMLElement | null;
 }) => {
+  const isShow = usePageOffset("y", 100);
+
   const handleScrollTop = () => {
     refCurrent?.scrollIntoView({
       behavior: "smooth",
     });
   };
-
-  const [isShow, setIsShow] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsShow(window.pageYOffset >= 100);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <Transition

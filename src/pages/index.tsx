@@ -64,7 +64,7 @@ const Home: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <Divider classWrapper="max-w-5xl mx-auto" />
+      <Divider classWrapper="max-w-5xl mx-auto px-4" />
 
       <section className="my-18 max-w-5xl mx-auto px-8 space-y-28 xs:space-y-20">
         <div className="xs:grid xs:grid-cols-12">
@@ -110,7 +110,7 @@ const Home: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <Divider classWrapper="max-w-5xl mx-auto" />
+      <Divider classWrapper="max-w-5xl mx-auto px-4" />
 
       {/* カスタマイズ */}
       <section className="mt-18 mb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
