@@ -2,12 +2,10 @@ import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { FaShareSquare } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
-import { SiReact } from "react-icons/si";
 
 import { Divider, LinkWithIcon } from "#/components/uiParts";
 import { useGetProfile } from "#/hooks";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
-import { pagesInfo, sideMenuList } from "#/const";
+import { pagesInfo, publicPath, sideMenuList } from "#/const";
 
 export const Sidebar = () => {
   const { data: profile, isLoading } = useGetProfile();
@@ -92,7 +90,7 @@ export const Sidebar = () => {
         ) : (
           <div className="h-full flex items-center md:space-x-2 max-md:justify-center animate-appearance">
             <Image
-              src={profile?.image ?? silhouetteAvatar}
+              src={profile?.image ?? publicPath.silhouetteAvatar}
               alt="profile-icon"
               width={40}
               height={40}

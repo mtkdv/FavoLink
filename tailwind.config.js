@@ -199,6 +199,20 @@ module.exports = {
             backgroundPosition: "200%",
           },
         },
+        toTop: {
+          "0%": {
+            transform: "translateY(0%)",
+          },
+          "50%": {
+            transform: "translateY(-120%)",
+          },
+          "51%": {
+            transform: "translateY(120%)",
+          },
+          "100%": {
+            transform: "translateY(0%)",
+          },
+        },
       },
       animation: {
         moveUpArrow: "moveUpArrow 1s ease-out infinite",
@@ -209,6 +223,7 @@ module.exports = {
         appearance: "appearance 0.7s linear",
         skeleton: "skeleton 1.2s linear infinite",
         skeleton2: "skeleton2 1.2s linear infinite",
+        toTop: "toTop 0.s ease-in",
       },
     },
     screens: {

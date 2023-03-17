@@ -6,8 +6,7 @@ import clsx from "clsx";
 
 import { CategorizedLink } from "#/components/shared";
 import { Videos } from "#/types";
-import { pagesInfo } from "#/const";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
+import { pagesInfo, publicPath } from "#/const";
 
 export const MainContent = ({
   profile,
@@ -66,7 +65,7 @@ export const MainContent = ({
                 {/* Avatar */}
                 <div className="flex justify-center min-w-max">
                   <Image
-                    src={profile.image ?? silhouetteAvatar}
+                    src={profile.image ?? publicPath.silhouetteAvatar}
                     alt="avatar"
                     width={80}
                     height={80}

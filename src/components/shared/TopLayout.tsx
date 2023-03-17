@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useRef } from "react";
 import { useSession } from "next-auth/react";
 
 import {
@@ -8,16 +9,15 @@ import {
   HeaderNav,
   SignInModal,
 } from "#/components/pages/home";
-import { Divider, Spacer } from "#/components/uiParts";
-import { pagesInfo } from "#/const";
-import { useGetProfile } from "#/hooks";
-import { useScreen } from "#/hooks";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
+import { Divider, Spacer, ToTopButton } from "#/components/uiParts";
+import { pagesInfo, publicPath } from "#/const";
+import { useGetProfile, useScreen } from "#/hooks";
 
 export const TopLayout = ({ children }: { children: React.ReactNode }) => {
   const { status: sessionStatus } = useSession();
   const { data: profile, isLoading } = useGetProfile();
   const isMdScreen = useScreen("md");
+  const scrollTopRef = useRef<HTMLElement>(null);
 
   return (
     <>
@@ -55,7 +55,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="rounded-full w-10 h-10 bg-isabelline/75 animate-loadingPulse" />
                   ) : (
                     <Image
-                      src={profile?.image ?? silhouetteAvatar}
+                      src={profile?.image ?? publicPath.silhouetteAvatar}
                       alt="avatar"
                       width={40}
                       height={40}
@@ -73,8 +73,13 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
 
-      <main className="mt-14 min-h-top-main md:min-h-md-top-main">
+      <main
+        ref={scrollTopRef}
+        className="pt-14 min-h-top-main md:min-h-md-top-main"
+      >
         {children}
+
+        <ToTopButton refCurrent={scrollTopRef.current} />
       </main>
 
       <footer className="h-30 md:h-20">

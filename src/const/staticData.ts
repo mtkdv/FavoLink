@@ -22,4 +22,5 @@ export const gmail = {
 
 export const publicPath = {
   movieNight: "/undraw_movie_night_re_9umk.svg",
+  silhouetteAvatar: "/silhouette-avatar.png",
 };
