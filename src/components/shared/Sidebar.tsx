@@ -5,7 +5,8 @@ import { IoLogOut } from "react-icons/io5";
 
 import { Divider, LinkWithIcon } from "#/components/uiParts";
 import { useGetProfile } from "#/hooks";
-import { pagesInfo, publicPath, sideMenuList } from "#/const";
+import { pagesInfo, sideMenuList } from "#/const";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const Sidebar = () => {
   const { data: profile, isLoading } = useGetProfile();
@@ -90,7 +91,7 @@ export const Sidebar = () => {
         ) : (
           <div className="h-full flex items-center md:space-x-2 max-md:justify-center animate-appearance">
             <Image
-              src={profile?.image ?? publicPath.silhouetteAvatar}
+              src={profile?.image ?? silhouetteAvatar}
               alt="profile-icon"
               width={40}
               height={40}

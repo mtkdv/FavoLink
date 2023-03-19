@@ -7,11 +7,11 @@ import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { MotionAbout, MotionCustomize } from "#/components/pages/home";
 import { pagesInfo, publicPath, queryKeys } from "#/const";
+import sample12 from "/public/sample12.png";
+import sample13 from "/public/sample13.png";
 import sample18 from "/public/sample18.png";
 import sample19 from "/public/sample19.png";
 import sample20 from "/public/sample20.png";
-import sample12 from "/public/sample12.png";
-import sample13 from "/public/sample13.png";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
@@ -52,14 +52,7 @@ const Home: NextPageWithLayout = () => {
 
         {/* TODO:  */}
         <div className="mt-20">
-          <Image
-            src={publicPath.movieNight}
-            priority
-            width={845}
-            height={332}
-            alt="hero"
-            className="min-w-xl"
-          />
+          <Image {...publicPath.movieNight} priority className="min-w-xl" />
         </div>
       </section>
 

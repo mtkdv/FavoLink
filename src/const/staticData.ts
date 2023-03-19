@@ -21,6 +21,10 @@ export const gmail = {
 };
 
 export const publicPath = {
-  movieNight: "/undraw_movie_night_re_9umk.svg",
-  silhouetteAvatar: "/silhouette-avatar.png",
+  movieNight: {
+    src: "/undraw_movie_night_re_9umk.svg",
+    width: 845,
+    height: 332,
+    alt: "hero",
+  },
 };

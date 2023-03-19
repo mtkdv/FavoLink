@@ -11,8 +11,9 @@ import {
   SignInModal,
 } from "#/components/pages/home";
 import { Spacer, ToTopButton } from "#/components/uiParts";
-import { pagesInfo, publicPath } from "#/const";
+import { pagesInfo } from "#/const";
 import { useGetProfile, useScreen } from "#/hooks";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const TopLayout = ({ children }: { children: React.ReactNode }) => {
   const { status: sessionStatus } = useSession();
@@ -56,7 +57,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="rounded-full w-10 h-10 bg-isabelline/75 animate-loadingPulse" />
                   ) : (
                     <Image
-                      src={profile?.image ?? publicPath.silhouetteAvatar}
+                      src={profile?.image ?? silhouetteAvatar}
                       alt="avatar"
                       width={40}
                       height={40}

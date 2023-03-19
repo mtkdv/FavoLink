@@ -27,7 +27,7 @@ import { Divider } from "#/components/uiParts";
 import { useGetProfile, usePatchProfileBaseInfo } from "#/hooks";
 import { schema } from "#/schema/profile";
 import { bytesToKilobytes, mimeToFileFormat, uploadAndGetUrl } from "#/utils";
-import { publicPath } from "#/const";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export type Schema = z.infer<typeof schema>;
 
@@ -250,11 +250,7 @@ const Profile: NextPageWithLayout = () => {
                   {/* Avatar 左: Inputs */}
                   <div className="group/avatar-inputs relative flex items-center shrink-0">
                     <Image
-                      src={
-                        previewUrl ??
-                        profile?.image ??
-                        publicPath.silhouetteAvatar
-                      }
+                      src={previewUrl ?? profile?.image ?? silhouetteAvatar}
                       alt="avatar-inputs"
                       width={112}
                       height={112}
