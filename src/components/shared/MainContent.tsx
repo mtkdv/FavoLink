@@ -38,7 +38,7 @@ export const MainContent = ({
             <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" />
           )}
           {/* <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" /> */}
-          {/* <div className="h-full bg-base-white" /> */}
+          {/* <div className="h-full bg-white" /> */}
         </div>
 
         {/* プレビューヘッダー or 設定ボタン */}

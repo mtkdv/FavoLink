@@ -10,7 +10,7 @@ import {
   HeaderNav,
   SignInModal,
 } from "#/components/pages/home";
-import { Divider, Spacer, ToTopButton } from "#/components/uiParts";
+import { Spacer, ToTopButton } from "#/components/uiParts";
 import { pagesInfo, publicPath } from "#/const";
 import { useGetProfile, useScreen } from "#/hooks";
 
@@ -74,17 +74,17 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
       <main
         ref={scrollTopRef}
-        className="pt-14 min-h-top-main md:min-h-md-top-main"
+        className="pt-14 min-h-top-main md:min-h-md-top-main bg-white"
       >
         {children}
 
         <ToTopButton refCurrent={scrollTopRef.current} />
       </main>
 
-      <footer className="h-30 md:h-20">
-        <div className="absolute w-full">
+      <footer className="h-30 md:h-20 bg-neutral-100">
+        {/* <div className="absolute w-full">
           <Divider classWrapper="px-2" />
-        </div>
+        </div> */}
 
         <div className="h-full max-w-5xl mx-auto px-4 pt-px flex max-md:flex-col justify-center gap-y-4 md:justify-between items-center">
           <div className="flex space-x-4">

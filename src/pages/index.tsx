@@ -5,12 +5,11 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
-import { Divider } from "#/components/uiParts";
 import { MotionAbout, MotionCustomize } from "#/components/pages/home";
 import { pagesInfo, publicPath, queryKeys } from "#/const";
-import sample17 from "/public/sample17.png";
-import sample16 from "/public/sample16.png";
-import sample14 from "/public/sample14.png";
+import sample18 from "/public/sample18.png";
+import sample19 from "/public/sample19.png";
+import sample20 from "/public/sample20.png";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
 
@@ -64,53 +63,55 @@ const Home: NextPageWithLayout = () => {
         </div>
       </section>
 
-      <Divider classWrapper="max-w-5xl mx-auto px-4" />
+      {/* <Divider classWrapper="max-w-5xl mx-auto px-4" /> */}
 
-      <section className="my-18 max-w-5xl mx-auto px-8 space-y-28 xs:space-y-20">
-        <div className="xs:grid xs:grid-cols-12">
-          <div className="xs:col-span-5 grid place-content-center">
-            <h2 className="text-4xl font-black text-center leading-relaxed">
-              カテゴリーを作成し
-              <br />
-              動画を登録
-            </h2>
+      <section className="py-24 w-full relative bg-neutral-100">
+        <div className="max-w-5xl mx-auto px-8 space-y-10">
+          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
+            <div className="sm:col-span-5 grid place-content-center">
+              <h2 className="text-4xl font-black text-center leading-relaxed">
+                カテゴリーを作成し
+                <br />
+                動画を登録
+              </h2>
+            </div>
+            <MotionAbout className="sm:col-span-7">
+              <Image src={sample18} alt="sample" />
+            </MotionAbout>
           </div>
-          <MotionAbout className="xs:col-span-7">
-            <Image src={sample14} alt="sample" />
-          </MotionAbout>
-        </div>
 
-        <div className="xs:grid xs:grid-cols-12">
-          <div className="order-2 xs:col-span-5 grid place-content-center">
-            <h2 className="text-4xl font-black text-center leading-relaxed">
-              カテゴリーは５つまで
-              <br />
-              作成可能
-            </h2>
-            <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
-              動画はカテゴリーごとに６つまで登録可能
-            </p>
+          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
+            <div className="order-2 sm:col-span-5 grid place-content-center">
+              <h2 className="text-4xl font-black text-center leading-relaxed">
+                カテゴリーは５つまで
+                <br />
+                作成可能
+              </h2>
+              <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
+                動画はカテゴリーごとに６つまで登録可能
+              </p>
+            </div>
+            <MotionAbout className="order-1 sm:col-span-7">
+              <Image src={sample19} alt="sample" />
+            </MotionAbout>
           </div>
-          <MotionAbout className="order-1 xs:col-span-7">
-            <Image src={sample17} alt="sample" />
-          </MotionAbout>
-        </div>
 
-        <div className="max-xs:space-y-5 xs:grid xs:grid-cols-12">
-          <div className="xs:col-span-5 grid place-content-center">
-            <h2 className="text-4xl font-black text-center leading-relaxed">
-              気になった動画を
-              <br />
-              その場で再生
-            </h2>
+          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
+            <div className="sm:col-span-5 grid place-content-center">
+              <h2 className="text-4xl font-black text-center leading-relaxed">
+                気になった動画を
+                <br />
+                その場で再生
+              </h2>
+            </div>
+            <MotionAbout className="max-sm:mt-5 sm:col-span-7 p-2">
+              <Image src={sample20} alt="sample" className="rounded-3xl" />
+            </MotionAbout>
           </div>
-          <MotionAbout className="xs:col-span-7">
-            <Image src={sample16} alt="sample" className="rounded-3xl" />
-          </MotionAbout>
         </div>
       </section>
 
-      <Divider classWrapper="max-w-5xl mx-auto px-4" />
+      {/* <Divider classWrapper="max-w-5xl mx-auto px-4" /> */}
 
       {/* カスタマイズ */}
       <section className="mt-18 mb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
