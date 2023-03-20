@@ -9,12 +9,12 @@ export const LegalMain = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="mb-28">
+    <div className="pb-28 max-w-5xl mx-auto">
       <div>
-        <div className="mt-28">
+        <div className="py-20">
           <h2 className="text-3xl font-black text-center">{docs.title}</h2>
         </div>
-        <div className="mt-8 px-8">
+        <div className="px-8">
           <p className="flex justify-end space-x-2">
             <span className="w-30">{docs.createdAt}</span>
             <span>制定</span>

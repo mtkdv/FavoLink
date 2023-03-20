@@ -21,7 +21,7 @@ export const FullNav = () => {
           {sessionStatus === "authenticated" ? (
             <button
               onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
-              className="block py-4 px-2 w-full text-left hover:bg-black/5 outline-none focus-visible:ring-2 ring-blue-500 animate-appearance"
+              className="block py-4 px-2 w-full text-left hover:bg-black/5 outline-none focus-visible:ring-2 ring-blue-400 ring-inset animate-appearance"
             >
               Logout
             </button>
@@ -30,7 +30,7 @@ export const FullNav = () => {
               onClick={() =>
                 queryClient.setQueryData(queryKeys.signInModal, true)
               }
-              className="py-3 w-full rounded-md bg-base-black text-base-white text-lg hover:opacity-90 outline-none focus-visible:ring-2 ring-blue-500 animate-appearance"
+              className="py-3 w-full rounded-md bg-base-black text-base-white text-lg hover:opacity-90 outline-none focus-visible:ring-2 ring-blue-400 ring-inset animate-appearance"
             >
               Login
             </button>

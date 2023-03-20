@@ -37,7 +37,7 @@ export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
     >
       <button
         onClick={toggleMenu}
-        className="h-9 rounded-full hover:bg-base-black/5 transition flex space-x-0.5 items-center pl-3 pr-2"
+        className="h-9 rounded-full hover:bg-base-black/5 transition flex space-x-0.5 items-center pl-3 pr-2 outline-none focus-visible:ring-2 ring-blue-400"
       >
         <span className="text-sm">{menu.title}</span>
         <RxCaretDown

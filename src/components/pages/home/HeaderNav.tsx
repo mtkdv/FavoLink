@@ -24,14 +24,14 @@ export const HeaderNav = () => {
               onClick={() =>
                 queryClient.setQueryData(queryKeys.signInModal, true)
               }
-              className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
+              className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-400 ring-offset-1 animate-appearance hover:opacity-80"
             >
               Login
             </button>
           ) : (
             <button
               onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
-              className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black text-sm outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
+              className="py-1.5 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black text-sm outline-none focus-visible:ring-2 ring-blue-400 ring-offset-1 animate-appearance hover:opacity-80"
             >
               Logout
             </button>

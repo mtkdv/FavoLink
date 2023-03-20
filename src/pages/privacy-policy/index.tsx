@@ -11,9 +11,8 @@ const PrivacyPolicy: NextPageWithLayout = () => {
         <p>
           E-mail:&nbsp;
           <a
-            // href={`mailto:${urls.gmail.href}`}
             href={`mailto:${gmail.href}`}
-            className="text-blue-500 hover:underline underline-offset-4"
+            className="px-0.5 text-sky-500 hover:underline underline-offset-2 outline-none focus-visible:ring-2 ring-blue-400"
           >
             {gmail.href}
           </a>

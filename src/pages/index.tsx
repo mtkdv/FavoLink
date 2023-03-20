@@ -34,7 +34,7 @@ const Home: NextPageWithLayout = () => {
                 onClick={() =>
                   queryClient.setQueryData(queryKeys.signInModal, true)
                 }
-                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80 text-xl tracking-wider"
+                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-400 ring-offset-1 animate-appearance hover:opacity-80 text-xl tracking-wider"
               >
                 Login
               </button>
@@ -42,7 +42,7 @@ const Home: NextPageWithLayout = () => {
               <Link
                 // href={pagesInfo.my.dashboard.href}
                 href={pagesInfo.my.addVideo.href}
-                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
+                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-400 ring-offset-1 animate-appearance hover:opacity-80"
               >
                 ページを作成
               </Link>
@@ -107,7 +107,7 @@ const Home: NextPageWithLayout = () => {
       {/* <Divider classWrapper="max-w-5xl mx-auto px-4" /> */}
 
       {/* カスタマイズ */}
-      <section className="mt-18 mb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
+      <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
         <h2 className="text-4xl font-black">カスタマイズ</h2>
 
         <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
