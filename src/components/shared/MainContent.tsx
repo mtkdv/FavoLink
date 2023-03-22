@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 import { CategorizedLink } from "#/components/shared";
 import { Videos } from "#/types";
-import { pagesInfo } from "#/const";
+import { pagesInfo, publicPath } from "#/const";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const MainContent = ({
@@ -39,7 +39,7 @@ export const MainContent = ({
             <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" />
           )}
           {/* <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" /> */}
-          {/* <div className="h-full bg-base-white" /> */}
+          {/* <div className="h-full bg-white" /> */}
         </div>
 
         {/* プレビューヘッダー or 設定ボタン */}

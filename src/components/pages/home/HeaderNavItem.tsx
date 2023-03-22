@@ -37,11 +37,14 @@ export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
     >
       <button
         onClick={toggleMenu}
-        className="h-9 rounded-full hover:bg-base-black/5 transition flex space-x-0.5 items-center pl-3 pr-2"
+        className="h-9 rounded-full hover:bg-base-black/5 transition flex space-x-0.5 items-center pl-3 pr-2 outline-none focus-visible:ring-2 ring-blue-400"
       >
         <span className="text-sm">{menu.title}</span>
         <RxCaretDown
-          className={clsx("transition delay-150", isOpen && "rotate-180")}
+          className={clsx(
+            "transition duration-200 ease-in",
+            isOpen && "-scale-y-100"
+          )}
         />
       </button>
 
@@ -49,11 +52,11 @@ export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
         show={isOpen}
         // show={true}
         enter="transition delay-150"
-        enterFrom="opacity-0 scale-90"
-        enterTo="opacity-1 scale-100"
-        leave="transition delay-150"
-        leaveFrom="opacity-1 scale-100"
-        leaveTo="opacity-0 scale-90"
+        enterFrom="opacity-0 -translate-y-3"
+        enterTo="opacity-1 translate-y-0"
+        leave="transition"
+        leaveFrom="opacity-1 translate-y-0"
+        leaveTo="opacity-0 -translate-y-3"
       >
         <div className="absolute pt-4 w-max">
           {/* FIXME: leaveのdelay中にbackdrop-blurが機能しなくなる。 */}

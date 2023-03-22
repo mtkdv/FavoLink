@@ -24,7 +24,7 @@ export const CategorizedLink = ({
               <li
                 key={video.categoryId}
                 className={clsx(
-                  "border border-white/25 border-t-white/50 border-l-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm p-6 space-y-4",
+                  "border border-white/25 border-t-white/50 border-l-white/50 rounded-2xl shadow-[0_3px_8px] shadow-black/20 backdrop-blur-sm p-6 space-y-4",
                   custom.mode === "LIGHT"
                     ? "bg-white/20 text-base-black"
                     : "bg-black/20 text-white"

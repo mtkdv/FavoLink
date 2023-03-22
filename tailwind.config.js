@@ -96,19 +96,26 @@ module.exports = {
       spacing: {
         18: "4.5rem",
         22: "5.5rem",
+        30: "7.5rem",
         90: "22.5rem",
         "3xl": "768px",
-        nav: "calc(100vh - 56px)",
-        // (my-4 + border) = (16px * 2 + 1px * 2) => 34px
-        page: "calc(100vh - 34px)",
+        "full-nav": "calc(100vh - 56px)",
         // (page + header) = (34px + 16 * 4px) => 98px
-        "page-main": "calc(100vh - 98px)",
+        "dashboard-page-main": "calc(100vh - 98px)",
       },
       minHeight: {
-        page: "calc(100vh - 34px)",
+        // (my-4 + border) = (16px * 2 + 1px * 2) => 34px
+        "dashboard-page": "calc(100vh - 34px)",
         // (pt-36 + mt-6 + text-4xl + space-y-2 + text-xs + pb-6)
         // = (36 * 4px + 6 * 4px + 40px + 2 * 4px + 16px + 6 * 4px) => 256px
         "main-content": "calc(100vh - 256px)",
+        // (h-30 * 4px) => 120px
+        "top-main": "calc(100vh - 120px)",
+        // (h-20 * 4px) => 80px
+        "md-top-main": "calc(100vh - 80px)",
+      },
+      minWidth: {
+        xl: "36rem" /** 576px */,
       },
       keyframes: {
         animate: {
@@ -192,6 +199,20 @@ module.exports = {
             backgroundPosition: "200%",
           },
         },
+        toTop: {
+          "0%": {
+            transform: "translateY(0%)",
+          },
+          "50%": {
+            transform: "translateY(-120%)",
+          },
+          "51%": {
+            transform: "translateY(120%)",
+          },
+          "100%": {
+            transform: "translateY(0%)",
+          },
+        },
       },
       animation: {
         moveUpArrow: "moveUpArrow 1s ease-out infinite",
@@ -202,6 +223,7 @@ module.exports = {
         appearance: "appearance 0.7s linear",
         skeleton: "skeleton 1.2s linear infinite",
         skeleton2: "skeleton2 1.2s linear infinite",
+        toTop: "toTop 0.s ease-in",
       },
     },
     screens: {

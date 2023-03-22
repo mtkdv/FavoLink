@@ -260,7 +260,9 @@ const Customize: NextPageWithLayout = () => {
                           />
                         ) : (
                           <div className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-stone-50 border-2 border-black/5 flex justify-center items-center px-1">
-                            <p>画像が設定されていません</p>
+                            <p className="text-center">
+                              背景画像が設定されていません
+                            </p>
                           </div>
                         )}
                       </div>

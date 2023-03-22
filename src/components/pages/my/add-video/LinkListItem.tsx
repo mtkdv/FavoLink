@@ -6,6 +6,7 @@ import {
   UseFormGetValues,
   UseFormSetValue,
 } from "react-hook-form";
+import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineSwap } from "react-icons/ai";
 
@@ -44,7 +45,10 @@ export const LinkListItem: React.FC<Props> = ({
   };
 
   return (
-    <li className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white/50 hover:ring-stone-400">
+    <motion.li
+      layout
+      className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white/50 hover:ring-stone-400"
+    >
       {!hasValues ? (
         // Link Add Form
         <LinkForm
@@ -143,6 +147,6 @@ export const LinkListItem: React.FC<Props> = ({
           </div>
         </>
       )}
-    </li>
+    </motion.li>
   );
 };
