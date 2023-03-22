@@ -2,12 +2,11 @@ import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { FaShareSquare } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
-import { SiReact } from "react-icons/si";
 
 import { Divider, LinkWithIcon } from "#/components/uiParts";
 import { useGetProfile } from "#/hooks";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
 import { pagesInfo, sideMenuList } from "#/const";
+import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const Sidebar = () => {
   const { data: profile, isLoading } = useGetProfile();

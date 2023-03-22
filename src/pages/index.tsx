@@ -5,13 +5,13 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
-import { Divider } from "#/components/uiParts";
-import { pagesInfo, queryKeys } from "#/const";
-import sample17 from "/public/sample17.png";
-import sample16 from "/public/sample16.png";
-import sample14 from "/public/sample14.png";
+import { MotionAbout, MotionCustomize } from "#/components/pages/home";
+import { pagesInfo, publicPath, queryKeys } from "#/const";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
+import sample18 from "/public/sample18.png";
+import sample19 from "/public/sample19.png";
+import sample20 from "/public/sample20.png";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
@@ -19,10 +19,10 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <>
-      <section className="flex flex-col items-center">
-        <div className="mt-28 flex flex-col items-center justify-center gap-y-14">
-          <h1 className="text-6xl font-black">好きな動画を共有</h1>
-          <p className="text-lg">
+      <section className="pb-18 flex flex-col items-center overflow-x-hidden">
+        <div className="mt-28 px-8 flex flex-col items-center justify-center gap-y-14">
+          <h1 className="text-6xl font-black text-center">好きな動画を共有</h1>
+          <p className="text-lg text-center">
             好きな YouTube 動画を集めた、あなただけのページを作成し、SNS
             で公開しよう
           </p>
@@ -34,7 +34,7 @@ const Home: NextPageWithLayout = () => {
                 onClick={() =>
                   queryClient.setQueryData(queryKeys.signInModal, true)
                 }
-                className="py-2 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80 text-xl"
+                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-400 ring-offset-1 animate-appearance hover:opacity-80 text-xl tracking-wider"
               >
                 Login
               </button>
@@ -42,7 +42,7 @@ const Home: NextPageWithLayout = () => {
               <Link
                 // href={pagesInfo.my.dashboard.href}
                 href={pagesInfo.my.addVideo.href}
-                className="py-2 px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-500 animate-appearance hover:opacity-80"
+                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-blue-400 ring-offset-1 animate-appearance hover:opacity-80"
               >
                 ページを作成
               </Link>
@@ -52,73 +52,84 @@ const Home: NextPageWithLayout = () => {
 
         {/* TODO:  */}
         <div className="mt-20">
-          <Image
-            // TODO: pathを管理する。
-            src="/undraw_movie_night_re_9umk.svg"
-            width={845}
-            height={332}
-            alt="hero"
-          />
+          <Image {...publicPath.movieNight} priority className="min-w-xl" />
         </div>
       </section>
 
-      <Divider classWrapper="w-full" />
+      {/* <Divider classWrapper="max-w-5xl mx-auto px-4" /> */}
 
-      <section className="mt-28 w-full space-y-20">
-        <div className="grid grid-cols-12">
-          <div className="col-span-5 grid place-content-center">
-            <h2 className="text-4xl font-black text-center leading-relaxed">
-              カテゴリーを作成し
-              <br />
-              動画を登録
-            </h2>
+      <section className="py-24 w-full relative bg-neutral-100">
+        <div className="max-w-5xl mx-auto px-8 space-y-10">
+          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
+            <div className="sm:col-span-5 grid place-content-center">
+              <h2 className="text-4xl font-black text-center leading-relaxed">
+                カテゴリーを作成し
+                <br />
+                動画を登録
+              </h2>
+            </div>
+            <MotionAbout className="sm:col-span-7">
+              <Image src={sample18} alt="sample" />
+            </MotionAbout>
           </div>
-          <Image src={sample14} alt="sample" className="col-span-7" />
-        </div>
 
-        <div className="grid grid-cols-12">
-          <Image src={sample17} alt="sample" className="col-span-7" />
-          <div className="col-span-5 grid place-content-center">
-            <h2 className="text-4xl font-black text-center leading-relaxed">
-              カテゴリーは５つまで
-              <br />
-              作成可能
-            </h2>
-            <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
-              動画はカテゴリーごとに６つまで登録可能
-            </p>
+          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
+            <div className="order-2 sm:col-span-5 grid place-content-center">
+              <h2 className="text-4xl font-black text-center leading-relaxed">
+                カテゴリーは５つまで
+                <br />
+                作成可能
+              </h2>
+              <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
+                動画はカテゴリーごとに６つまで登録可能
+              </p>
+            </div>
+            <MotionAbout className="order-1 sm:col-span-7">
+              <Image src={sample19} alt="sample" />
+            </MotionAbout>
           </div>
-        </div>
 
-        <div className="w-full grid grid-cols-12">
-          <div className="col-span-5 grid place-content-center">
-            <h2 className="text-4xl font-black text-center leading-relaxed">
-              気になった動画を
-              <br />
-              その場で再生
-            </h2>
+          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
+            <div className="sm:col-span-5 grid place-content-center">
+              <h2 className="text-4xl font-black text-center leading-relaxed">
+                気になった動画を
+                <br />
+                その場で再生
+              </h2>
+            </div>
+            <MotionAbout className="max-sm:mt-5 sm:col-span-7 p-2">
+              <Image src={sample20} alt="sample" className="rounded-3xl" />
+            </MotionAbout>
           </div>
-          <Image
-            src={sample16}
-            alt="sample"
-            className="col-span-7 rounded-3xl"
-          />
         </div>
       </section>
 
-      <section className="mt-36 mb-28 w-full flex flex-col items-center">
+      {/* <Divider classWrapper="max-w-5xl mx-auto px-4" /> */}
+
+      {/* カスタマイズ */}
+      <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
         <h2 className="text-4xl font-black">カスタマイズ</h2>
+
         <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
           背景を自由に設定することができます。
           <br />
           背景に合わせてライトモード、ダークモードを選択できます。
         </p>
-        {/* <div className="mt-14 w-full flex justify-center gap-x-16"> */}
-        <div className="mt-14 flex justify-center gap-x-16">
-          <Image src={sample12} alt="sample" className="rounded-xl max-w-xs" />
-          <Image src={sample13} alt="sample" className="rounded-xl max-w-xs" />
-          {/* <Image src={sample12} alt="sample" className="rounded-xl" />
-          <Image src={sample13} alt="sample" className="rounded-xl" /> */}
+
+        <div className="mt-10 max-w-2xl max-xs:space-y-12 xs:grid xs:grid-cols-11">
+          <MotionCustomize
+            initial="offScreenLeft"
+            className="max-xs:w-80 xs:col-span-5"
+          >
+            <Image src={sample12} alt="sample" className="rounded-xl" />
+          </MotionCustomize>
+          <div className="max-xs:hidden xs:col-span-1" />
+          <MotionCustomize
+            initial="offScreenRight"
+            className="max-xs:w-80 xs:col-span-5"
+          >
+            <Image src={sample13} alt="sample" className="rounded-xl" />
+          </MotionCustomize>
         </div>
       </section>
     </>

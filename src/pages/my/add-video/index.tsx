@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { PuffLoader } from "react-spinners";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
+import { motion } from "framer-motion";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/shared";
@@ -62,7 +63,6 @@ const AddVideo: NextPageWithLayout = () => {
   };
 
   if (isLoading) {
-    // return <Loader className="h-page" />;
     return <AddVideoSkeleton />;
   }
 
@@ -146,11 +146,11 @@ const AddVideo: NextPageWithLayout = () => {
 
       {/* メイン */}
       <main>
-        <div className="sticky top-16 h-page-main overflow-hidden">
+        <div className="sticky top-16 h-dashboard-page-main overflow-hidden">
           <div className="bg-img-add-video h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-base-white/50 bg-blend-lighten" />
         </div>
 
-        <div className="-mt-page-main relative z-10 px-6 pt-12 pb-6">
+        <div className="-mt-dashboard-page-main relative z-10 px-6 pt-12 pb-6">
           {/* <ul id="target-ul" className="space-y-8">
           {categoryFields.map((categoryField, categoryIndex) => (
             <li key={categoryField.id}>
@@ -171,7 +171,7 @@ const AddVideo: NextPageWithLayout = () => {
           ))}
         </ul> */}
 
-          <ul id="target-ul" className="space-y-6">
+          <motion.ul layout id="target-ul" className="space-y-6">
             {categoryFields.map((categoryField, categoryIndex) => (
               <CategoryListItem
                 key={categoryField.id}
@@ -189,7 +189,7 @@ const AddVideo: NextPageWithLayout = () => {
                 }}
               />
             ))}
-          </ul>
+          </motion.ul>
         </div>
       </main>
 
