@@ -18,7 +18,7 @@ export const FullNavItem = ({ menu }: { menu: MenuItem }) => {
       <ul className="mt-2">
         {menu.items.map(({ title, href, icon }) => {
           // FIXME: /contactが未実装の間。
-          if (title === "Contact") {
+          if (title.en === "Contact") {
             return (
               <li key={href} className="border-b border-b-black/10">
                 <Link
@@ -28,7 +28,7 @@ export const FullNavItem = ({ menu }: { menu: MenuItem }) => {
                   className="flex py-4 px-2 outline-none items-center space-x-1 cursor-not-allowed text-neutral-400"
                 >
                   <span>🚧</span>
-                  <span>{title}</span>
+                  <span>{title.en}</span>
                 </Link>
               </li>
             );
@@ -43,14 +43,14 @@ export const FullNavItem = ({ menu }: { menu: MenuItem }) => {
                   href={href}
                   className="block py-4 px-2 hover:bg-black/5 outline-none focus-visible:ring-2 ring-blue-400 ring-inset"
                 >
-                  {title}
+                  {title.en}
                 </a>
               ) : (
                 <Link
                   href={href}
                   className="block py-4 px-2 hover:bg-black/5 outline-none focus-visible:ring-2 ring-blue-400 ring-inset"
                 >
-                  {title}
+                  {title.en}
                 </Link>
               )}
             </li>

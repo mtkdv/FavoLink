@@ -24,7 +24,7 @@ const iconObj = {
 export type IconKeys = keyof typeof iconObj;
 
 type Props = {
-  title: string;
+  title: { en: string };
   href: string;
   icon: IconKeys;
 };
@@ -37,7 +37,7 @@ export const LinkWithIcon = ({ title, href, icon }: Props) => {
   const Icon = iconKey ? iconObj[iconKey] : undefined;
 
   // FIXME: Dashboardページを一時的に無効化。
-  if (title === "Dashboard") {
+  if (title.en === "Dashboard") {
     return (
       <Link
         // href=""
@@ -52,7 +52,7 @@ export const LinkWithIcon = ({ title, href, icon }: Props) => {
       >
         <span className="text-xs">🚧</span>
         <p className="text-xs md:text-sm md:font-semibold md:tracking-wide">
-          {title}
+          {title.en}
         </p>
       </Link>
     );
@@ -63,13 +63,12 @@ export const LinkWithIcon = ({ title, href, icon }: Props) => {
       href={href}
       className={clsx(
         "h-14 flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
-        router.asPath === href && "bg-cocoa-200 text-cocoa-700"
+        router.asPath === href && "bg-cocoa-100 text-cocoa-700"
       )}
     >
-      {/* {icon} */}
       {Icon && <Icon />}
       <p className="text-xs md:text-sm md:font-semibold md:tracking-wide">
-        {title}
+        {title.en}
       </p>
     </Link>
   );

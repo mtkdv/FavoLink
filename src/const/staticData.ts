@@ -8,10 +8,11 @@ export const urls = {
   //   icon: "FaTwitter",
   // },
   github: {
-    title: "Github",
+    title: { en: "Github" },
     href: "https://github.com/mtkdv/FavoLink",
     icon: "FaGithub",
   },
+  domain: "https://favolink.com/",
 } as const;
 
 export const gmail = {
@@ -25,6 +26,5 @@ export const publicPath = {
     src: "/undraw_movie_night_re_9umk.svg",
     width: 845,
     height: 332,
-    alt: "hero",
   },
 };
