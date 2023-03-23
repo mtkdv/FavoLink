@@ -32,7 +32,7 @@ export const Sidebar = () => {
         <ul className="h-full flex flex-col space-y-2 md:space-y-4">
           {sideMenuList.map((menu) => (
             <li key={menu.href}>
-              {menu.title === "Preview" && (
+              {menu.title.en === "Preview" && (
                 <Divider width="w-3/4" classWrapper="max-md:mt-2 mb-4" />
               )}
               <LinkWithIcon {...menu} />

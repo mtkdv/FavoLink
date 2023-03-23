@@ -1,6 +1,6 @@
 export const ProfileSkeleton = () => {
   return (
-    <div className="flex flex-col animate-appearance animate-loadingPulse">
+    <div className="flex flex-col animate-appearance animate-loadingPulse max-w-3xl mx-auto">
       {/* Header */}
       <div className="sticky top-0 z-10 h-16 bg-base-white flex flex-col justify-end">
         <div className="px-4 space-y-2">

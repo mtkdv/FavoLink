@@ -12,6 +12,7 @@ import sample13 from "/public/sample13.png";
 import sample18 from "/public/sample18.png";
 import sample19 from "/public/sample19.png";
 import sample20 from "/public/sample20.png";
+import { Spacer } from "#/components/uiParts";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
@@ -50,13 +51,14 @@ const Home: NextPageWithLayout = () => {
           </div>
         </div>
 
-        {/* TODO:  */}
-        <div className="mt-20">
-          <Image {...publicPath.movieNight} priority className="min-w-xl" />
-        </div>
+        <Spacer size={80} axis="column" />
+        <Image
+          {...publicPath.movieNight}
+          alt="hero"
+          priority
+          className="min-w-xl"
+        />
       </section>
-
-      {/* <Divider classWrapper="max-w-5xl mx-auto px-4" /> */}
 
       <section className="py-24 w-full relative bg-neutral-100">
         <div className="max-w-5xl mx-auto px-8 space-y-10">
@@ -103,8 +105,6 @@ const Home: NextPageWithLayout = () => {
           </div>
         </div>
       </section>
-
-      {/* <Divider classWrapper="max-w-5xl mx-auto px-4" /> */}
 
       {/* カスタマイズ */}
       <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">

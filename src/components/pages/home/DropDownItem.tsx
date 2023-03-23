@@ -31,7 +31,7 @@ export const DropDownItem = ({
   const Icon = iconKey ? iconObj[iconKey] : undefined;
 
   // FIXME: /contactが未実装の間。
-  if (title === "Contact") {
+  if (title.en === "Contact") {
     return (
       <li key={href} className="h-10 w-32 rounded-lg group/item">
         <Link
@@ -41,7 +41,7 @@ export const DropDownItem = ({
           className="px-3 flex w-full h-full items-center space-x-2 cursor-not-allowed text-stone-400"
         >
           <span className="text-sm">🚧</span>
-          <span className="text-sm">{title}</span>
+          <span className="text-sm">{title.en}</span>
         </Link>
       </li>
     );
@@ -71,7 +71,7 @@ export const DropDownItem = ({
                 : "group-hover/item:translate-x-1"
             )}
           >
-            {title}
+            {title.en}
           </span>
         </a>
       ) : (
@@ -90,7 +90,7 @@ export const DropDownItem = ({
                 : "group-hover/item:translate-x-1"
             )}
           >
-            {title}
+            {title.en}
           </span>
         </Link>
       )}

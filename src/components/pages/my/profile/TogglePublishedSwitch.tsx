@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import clsx from "clsx";
 
-import { usePatchProfilePublished } from "#/hooks";
-import { useGetProfile } from "#/hooks/useGetProfile";
+import { useGetProfile, usePatchProfilePublished } from "#/hooks";
 
 export const TogglePublishedSwitch = () => {
   const { data: profile } = useGetProfile();

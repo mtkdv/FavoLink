@@ -1,49 +1,67 @@
 export const pagesInfo = {
   contact: {
-    title: "Contact",
+    title: {
+      en: "Contact",
+    },
     href: "/contact",
     icon: "GrMail",
   },
   my: {
     dashboard: {
-      title: "Dashboard",
+      title: {
+        en: "Dashboard",
+      },
       href: "/my/dashboard",
       icon: "RiDashboardFill",
     },
     profile: {
-      title: "Profile",
+      key: "profile",
+      title: {
+        en: "Profile",
+        ja: "プロフィール編集",
+      },
       href: "/my/profile",
       icon: "RiUser5Fill",
     },
     addVideo: {
-      title: "Add Video",
+      key: "addVideo",
+      title: {
+        en: "Add Video",
+        ja: "動画リスト編集",
+      },
       href: "/my/add-video",
       icon: "IoLogoYoutube",
     },
     customize: {
-      title: "Customize",
+      key: "customize",
+      title: {
+        en: "Customize",
+        ja: "カスタマイズ",
+      },
       href: "/my/customize",
       icon: "RiMagicFill",
     },
     preview: {
-      title: "Preview",
+      title: {
+        en: "Preview",
+      },
       href: "/my/preview",
       icon: "FaEye",
     },
   },
   privacyPolicy: {
-    title: "Privacy Policy",
+    title: { en: "Privacy Policy" },
     href: "/privacy-policy",
   },
   terms: {
-    title: "Terms",
+    title: { en: "Terms" },
     href: "/terms",
   },
   user: {
     href: "/user/",
   },
   top: {
-    title: "Top",
+    title: { en: "Top" },
     href: "/",
     icon: "RiHomeSmileFill",
   },
@@ -55,8 +73,12 @@ type FlattenObjectValues<T> = T extends PageInfo
   ? T["href"]
   : { [K in keyof T]: FlattenObjectValues<T[K]> }[keyof T];
 
-export type PageInfo = {
-  title?: string;
+type PageInfo = {
+  key?: string;
+  title?: {
+    en?: string;
+    ja?: string;
+  };
   href: string;
   icon?: string;
 };
