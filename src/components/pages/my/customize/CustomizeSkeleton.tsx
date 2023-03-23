@@ -1,6 +1,6 @@
 export const CustomizeSkeleton = () => {
   return (
-    <div className="flex flex-col space-y-6 animate-appearance animate-loadingPulse">
+    <div className="flex flex-col space-y-6 animate-appearance animate-loadingPulse max-w-3xl mx-auto">
       {/* Header */}
       <div className="sticky top-0 z-30 h-16 bg-base-white flex flex-col justify-end">
         <div className="px-4 space-y-2">
@@ -8,7 +8,7 @@ export const CustomizeSkeleton = () => {
             <div className="absolute right-2 bottom-0 flex justify-end">
               {/* Save Button */}
               <div className="h-full">
-                <div className="relative h-9 w-28 rounded-md bg-isabelline/75" />
+                <div className="relative h-11 w-28 rounded-md bg-isabelline/75" />
               </div>
             </div>
 

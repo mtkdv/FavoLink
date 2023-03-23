@@ -10,7 +10,9 @@ export type MenuItem = {
 };
 
 export type Item = {
-  title: string;
+  title: {
+    en: string;
+  };
   href: string;
   icon?: IconKeys;
   // icon?: string;

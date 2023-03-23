@@ -44,6 +44,22 @@
     );
     background-size: 200%;
   }
+
+  /* スクロールバーカスタマイズ */
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-3.5;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-white my-3 rounded-full;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-cocoa-300 rounded-full border-[3px] border-solid border-white;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-cocoa-400;
+  }
 }
 
 .inset-text-shadow {
@@ -54,27 +70,6 @@
   -webkit-background-clip: text;
   -moz-background-clip: text;
   background-clip: text;
-}
-
-/* スクロールバーカスタマイズ */
-/* TODO: コンテンツとスクロールバーの境界線を設定できないため、一旦オフ。 */
-/* .scrollbar::-webkit-scrollbar { */
-/* ::-webkit-scrollbar {
-  @apply w-3;
-} */
-
-/* .scrollbar::-webkit-scrollbar-track { */
-::-webkit-scrollbar-track {
-  @apply bg-white;
-}
-
-/* .scrollbar::-webkit-scrollbar-thumb { */
-::-webkit-scrollbar-thumb {
-  @apply bg-secondary rounded-full border-[3px] border-solid border-white;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-accent;
 }
 
 /* 選択範囲 */

@@ -18,42 +18,16 @@ module.exports = {
       },
       colors: {
         "base-black": "#1D1D1D",
-        // "base-white": "#FFFEFC",
         "base-white": "#faf9f9",
-        primary: "#FBF7F5",
-        // 20 2 98
-        secondary: "#EEE6E2",
-        // 20 5 93
-        // accent: "#EEE9E7",
-        // accent: "#c1a5a3",
-        // accent: "#d78e85",
-        // accent: "#f9869d",
-        // accent: "#DFDAD6",
-        // accent: "#FCEDD9",
-        // accent: "#E6BDAD",
-        // accent: "#B6A0A1",
-        // accent: "#5E4145",
-        // accent: "#463f3a",
-
-        // accent: "#FFFCF8",
-        // accent: "#63594D",
-
-        // accent: "#DD8D43",
-
         accent: "#e8a78e",
         "tonys-pink": "#e8a78e",
         isabelline: {
+          50: "#FFFBF9",
           // light: "#fbf9f8",
           light: "#FBF7F5",
           DEFAULT: "#eee6e2",
-          // dark: "#706c6a",
         },
 
-        "brand-light": "#fbe9e2",
-        brand: "#e8a78e",
-        "brand-dark": "#6d5146",
-
-        cta: "#8ee8d4",
         cocoa: {
           50: "#fcfbf8",
           100: "#faf0d9",
@@ -65,18 +39,6 @@ module.exports = {
           700: "#823219",
           800: "#5a2313",
           900: "#39150c",
-        },
-        newOrange: {
-          50: "#fff8f1",
-          100: "#fbecdf",
-          200: "#f6d7bf",
-          300: "#e5ad8b",
-          400: "#d67a4a",
-          500: "#c4540b",
-          600: "#9c4303",
-          700: "#713707",
-          800: "#4a2702",
-          900: "#2c1b01",
         },
       },
       fontFamily: {
