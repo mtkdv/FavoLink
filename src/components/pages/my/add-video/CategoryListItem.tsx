@@ -1,3 +1,4 @@
+import { useId } from "react";
 import {
   Control,
   FieldArrayWithId,
@@ -9,6 +10,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
 import { IoMdClose } from "react-icons/io";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiAddLine } from "react-icons/ri";
@@ -17,6 +19,7 @@ import { motion } from "framer-motion";
 
 import { Schema } from "#/pages/my/add-video";
 import { LinkListItem } from "#/components/pages/my/add-video";
+import { queryKeys } from "#/const";
 // import { InputCounter } from "#/components/pages/my/profile/InputCounter";
 
 type Props = {
@@ -43,6 +46,14 @@ export const CategoryListItem: React.FC<Props> = ({
   control,
   ...rest
 }) => {
+  const categoryInputId = useId();
+
+  const { data: formId } = useQuery<string>({
+    queryKey: queryKeys.form.addVideo,
+    initialData: "",
+    enabled: false,
+  });
+
   const {
     fields: linkFields,
     append,
@@ -108,11 +119,12 @@ export const CategoryListItem: React.FC<Props> = ({
         <div className="space-y-2">
           {/* Collection Label */}
           <label
-            htmlFor={`collection-input-${categoryIndex}`}
+            // htmlFor={`collection-input-${categoryIndex}`}
+            htmlFor={categoryInputId}
             className="flex w-fit"
           >
             <span className="ml-1 text-xs text-stone-600 font-semibold tracking-wide">
-              Collection Title
+              Category Title
             </span>
             <span className="text-stone-600 group-[:has(.error-message)]/collection-inputs-errors:text-red-600 leading-none">
               *
@@ -123,8 +135,8 @@ export const CategoryListItem: React.FC<Props> = ({
           <div className="relative h-10">
             {/* Collection input */}
             <input
-              form="video-form"
-              id={`collection-input-${categoryIndex}`}
+              form={formId}
+              id={categoryInputId}
               placeholder="&nbsp;"
               type="text"
               {...register(`videos.${categoryIndex}.categoryName` as const)}

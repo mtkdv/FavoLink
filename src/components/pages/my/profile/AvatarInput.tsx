@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { TbCameraPlus } from "react-icons/tb";
@@ -18,6 +18,7 @@ export const AvatarInput = ({
   previewFile: File | undefined;
   setPreviewFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }) => {
+  const inputId = useId();
   const { data: profile } = useGetProfile();
   const [previewUrl, setPreviewUrl] = useState<string>();
 
@@ -85,7 +86,7 @@ export const AvatarInput = ({
           {/* Avatar Label */}
           <div className="absolute w-full h-full clip-path-circle">
             <label
-              htmlFor="img-input"
+              htmlFor={inputId}
               className="absolute group bottom-0 w-full h-2/5 bg-black/30 grid place-items-center cursor-pointer hover:bg-black/40 group-[:has(:focus-visible)]/avatar-inputs:bg-black/40 transition"
             >
               <TbCameraPlus
@@ -100,7 +101,7 @@ export const AvatarInput = ({
             form={formId}
             type="file"
             accept="image/*"
-            id="img-input"
+            id={inputId}
             className="sr-only"
             onChange={handleChangeImage}
           />

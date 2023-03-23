@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -30,6 +31,7 @@ export const PublicUrlInput = ({
     description: string | null;
   }>;
 }) => {
+  const inputId = useId();
   const { data: formId } = useQuery<string>({
     queryKey: queryKeys.form.profile,
     initialData: "",
@@ -42,7 +44,7 @@ export const PublicUrlInput = ({
       <div className="ml-1 flex justify-between items-end">
         {/* URL Label */}
         <label
-          htmlFor="slug-input"
+          htmlFor={inputId}
           className="text-xs text-cocoa-800 font-semibold tracking-wide"
         >
           Public URL
@@ -72,7 +74,7 @@ export const PublicUrlInput = ({
         <div className="relative flex-1">
           <input
             form={formId}
-            id="slug-input"
+            id={inputId}
             placeholder="&nbsp;"
             type="text"
             className="peer w-full h-full px-3 rounded-r-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"

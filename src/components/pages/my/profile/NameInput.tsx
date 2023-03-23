@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -30,6 +31,7 @@ export const NameInput = ({
     description: string | null;
   }>;
 }) => {
+  const inputId = useId();
   const { data: formId } = useQuery<string>({
     queryKey: queryKeys.form.profile,
     initialData: "",
@@ -41,7 +43,7 @@ export const NameInput = ({
       {/* Name Label & Count */}
       <div className="ml-1 flex justify-between items-end">
         {/* Name Label */}
-        <label htmlFor="name-input" className="flex text-cocoa-800">
+        <label htmlFor={inputId} className="flex text-cocoa-800">
           <span className="text-xs font-semibold tracking-wide">
             Display Name
           </span>
@@ -59,7 +61,7 @@ export const NameInput = ({
         {/* Name input */}
         <input
           form={formId}
-          id="name-input"
+          id={inputId}
           placeholder="&nbsp;"
           type="text"
           className="peer w-full h-full px-3 rounded-md bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-cocoa-300 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-cocoa-200 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300"

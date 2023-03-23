@@ -17,7 +17,7 @@ const modes = [
     title: "ダークモード",
     text: "暗い背景画像に向いています。",
   },
-];
+] as const;
 
 export const ModeSelect = ({
   setMode,
