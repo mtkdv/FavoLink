@@ -3,7 +3,6 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "react-hot-toast";
-import { motion } from "framer-motion";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 import { NextPageWithLayout } from "#/pages/_app";
@@ -98,7 +97,7 @@ const AddVideo: NextPageWithLayout = () => {
             {...{ onSubmit, handleSubmit }}
           >
             {/* TODO:  */}
-            <motion.ul layout id="target-ul" className="space-y-6">
+            <ul id="target-ul" className="space-y-6">
               {categoryFields.map((categoryField, categoryIndex) => (
                 <CategoryListItem
                   key={categoryField.id}
@@ -116,7 +115,7 @@ const AddVideo: NextPageWithLayout = () => {
                   }}
                 />
               ))}
-            </motion.ul>
+            </ul>
           </DashboardForm>
           <Spacer size={80} axis="column" />
         </DashboardBackground>

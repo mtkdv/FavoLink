@@ -6,29 +6,27 @@ import {
   UseFormGetValues,
   UseFormSetValue,
 } from "react-hook-form";
-import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineSwap } from "react-icons/ai";
 
 import { Schema } from "#/pages/my/add-video";
 import { LinkForm } from "#/components/pages/my/add-video";
+import { useLayoutAnimation } from "#/hooks";
 
-type Props = {
-  getValues: UseFormGetValues<Schema>;
-  categoryIndex: number;
-  linkIndex: number;
-  move: UseFieldArrayMove;
-  remove: UseFieldArrayRemove;
-  setValue: UseFormSetValue<Schema>;
-};
-
-export const LinkListItem: React.FC<Props> = ({
+export const LinkListItem = ({
   getValues,
   categoryIndex,
   linkIndex,
   move,
   remove,
   setValue,
+}: {
+  getValues: UseFormGetValues<Schema>;
+  categoryIndex: number;
+  linkIndex: number;
+  move: UseFieldArrayMove;
+  remove: UseFieldArrayRemove;
+  setValue: UseFormSetValue<Schema>;
 }) => {
   const [hasValues, setHasValues] = useState(() => {
     return !!getValues(
@@ -44,10 +42,13 @@ export const LinkListItem: React.FC<Props> = ({
     move(fromIndex, fromIndex - 1);
   };
 
+  // Layout Animation
+  const { liRef } = useLayoutAnimation(linkIndex);
+
   return (
-    <motion.li
-      layout
-      className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white/50 hover:ring-stone-400"
+    <li
+      ref={liRef}
+      className="group/video-item relative h-24 flex items-center rounded-sm border border-stone-300 bg-white/50 hover:border-stone-400"
     >
       {!hasValues ? (
         // Link Add Form
@@ -147,6 +148,6 @@ export const LinkListItem: React.FC<Props> = ({
           </div>
         </>
       )}
-    </motion.li>
+    </li>
   );
 };

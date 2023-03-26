@@ -1,6 +1,7 @@
+import { Control } from "react-hook-form";
+
 import { InputCounter } from "#/components/pages/my/profile";
 import { Schema } from "#/pages/my/profile";
-import { Control } from "react-hook-form";
 
 export const ProfileInputCounter = ({
   name,
