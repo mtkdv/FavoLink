@@ -132,7 +132,7 @@ const Customize: NextPageWithLayout = () => {
       </DashboardHeader>
 
       <DashboardMain>
-        <Spacer size={40} axis="column" />
+        <Spacer size={64} axis="column" />
         <DashboardForm formKey={customizePage.key} {...{ onSubmit }}>
           <BackgroundSelect
             {...{

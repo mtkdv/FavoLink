@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { toast } from "react-hot-toast";
 import clsx from "clsx";
 
 import { useGetProfile, usePatchProfilePublished } from "#/hooks";
 
 export const TogglePublishedSwitch = () => {
+  const inputId = useId();
   const { data: profile } = useGetProfile();
   const { mutateAsync } = usePatchProfilePublished();
   const [checked, setChecked] = useState(profile?.published);
@@ -41,10 +42,10 @@ export const TogglePublishedSwitch = () => {
         </p>
       </div>
       <div className="flex items-center">
-        <label htmlFor="published">
+        <label htmlFor={inputId}>
           <input
             type="checkbox"
-            id="published"
+            id={inputId}
             checked={checked}
             onChange={handleChange}
             className="sr-only"
