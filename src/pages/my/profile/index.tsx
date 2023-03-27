@@ -19,12 +19,11 @@ import {
   AvatarInput,
   DescriptionTextarea,
   NameInput,
-  ProfileInputs,
   ProfileSkeleton,
   PublicUrlInput,
   TogglePublishedSwitch,
 } from "#/components/pages/my/profile";
-import { DashboardButton, Divider, Flex, Spacer } from "#/components/uiParts";
+import { DashboardButton, Divider, Spacer } from "#/components/uiParts";
 import { useGetProfile, usePatchProfileBaseInfo } from "#/hooks";
 import { schema } from "#/schema/profile";
 import { uploadAndGetUrl } from "#/utils";
@@ -178,26 +177,26 @@ const Profile: NextPageWithLayout = () => {
 
       <DashboardMain>
         <DashboardBackground bgImage="profile">
-          <Spacer size={40} axis="column" />
+          <Spacer size={64} axis="column" />
           <DashboardForm
             formKey={profilePage.key}
             {...{ onSubmit, handleSubmit }}
           >
-            <ProfileInputs>
+            <div className="space-y-12">
               <AvatarInput {...{ previewFile, setPreviewFile }} />
               <NameInput {...{ control, register, errors }} />
               <PublicUrlInput {...{ control, register, errors }} />
               <DescriptionTextarea {...{ control, register, errors }} />
-            </ProfileInputs>
+            </div>
 
             <Spacer size={48} axis="column" />
-            <Flex justify="end">
+            <div className="flex justify-end">
               <DashboardButton
                 formKey={profilePage.key}
                 isEnabled={isProfileDirty && !isFileError}
                 isSubmitting={isSubmitting}
               />
-            </Flex>
+            </div>
           </DashboardForm>
           <Spacer size={40} axis="column" />
           <Divider bgColor="bg-stone-400" />

@@ -8,7 +8,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <Sidebar />
 
       {/* 右 */}
-      <div className="flex-1 my-4 mr-4 overflow-x-hidden bg-cocoa-50 border border-stone-300 overflow-y-scroll rounded-2xl custom-scrollbar">
+      <div className="flex-1 my-4 mr-4 overflow-x-hidden bg-white border border-stone-300 overflow-y-scroll rounded-2xl custom-scrollbar">
         <div
           id="scroll-element"
           className="relative min-h-dashboard-page border-r border-stone-300"

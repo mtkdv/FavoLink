@@ -1,6 +1,7 @@
 export * from "./useFormatData";
 export * from "./useGetCustom";
 export * from "./useGetProfile";
+export * from "./useLayoutAnimation";
 export * from "./useListUserVideo";
 export * from "./usePageOffset";
 export * from "./usePatchCustom";

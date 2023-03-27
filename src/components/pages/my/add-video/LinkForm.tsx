@@ -1,4 +1,4 @@
-import { SetStateAction } from "react";
+import { useId } from "react";
 import { z } from "zod";
 import { SubmitHandler, useForm, UseFormSetValue } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -41,7 +41,7 @@ type Props = {
   setValue: UseFormSetValue<Schema>;
   categoryIndex: number;
   linkIndex: number;
-  setHasValues: React.Dispatch<SetStateAction<boolean>>;
+  setHasValues: React.Dispatch<React.SetStateAction<boolean>>;
   removeVideo: (index: number) => void;
 };
 
@@ -52,6 +52,7 @@ export const LinkForm: React.FC<Props> = ({
   setHasValues,
   removeVideo,
 }) => {
+  const linkInputId = useId();
   const {
     register,
     handleSubmit,
@@ -146,7 +147,8 @@ export const LinkForm: React.FC<Props> = ({
         {/* Video-URL Label, a */}
         <div className="flex space-x-2 w-fit">
           <label
-            htmlFor={`url-input-${categoryIndex}-${linkIndex}`}
+            // htmlFor={`url-input-${categoryIndex}-${linkIndex}`}
+            htmlFor={linkInputId}
             className="ml-1 w-fit text-xs text-stone-600 font-semibold tracking-wide"
           >
             YouTube Video URL
@@ -168,7 +170,7 @@ export const LinkForm: React.FC<Props> = ({
           {/* Video-URL input */}
           <input
             autoFocus
-            id={`url-input-${categoryIndex}-${linkIndex}`}
+            id={linkInputId}
             placeholder="&nbsp;"
             {...register("url")}
             className="peer z-10 flex-1 h-full px-3 outline-none text-stone-800 text-sm border border-stone-300 [&:is(:focus-visible,:hover)]:border-tonys-pink focus-visible:shadow-[0_0_2px_1px] [&:is(:hover,:focus-visible)]:shadow-tonys-pink/60 transition rounded-l-sm"
