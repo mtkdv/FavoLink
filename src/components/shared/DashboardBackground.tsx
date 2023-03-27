@@ -18,7 +18,7 @@ export const DashboardBackground = ({
       <div className="-mx-6 sticky top-16 h-dashboard-page-main overflow-hidden">
         <div
           className={clsx(
-            "h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-cocoa-50/80 bg-blend-lighten",
+            "h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-white/80 bg-blend-lighten",
             bgImages[bgImage]
           )}
         />
