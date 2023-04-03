@@ -53,17 +53,19 @@ export const DashboardForm = (props: Props) => {
   };
 
   return (
-    <form
-      id={id}
-      onSubmit={
-        isReactHookForm(props)
-          ? isProfileForm(props)
-            ? props.handleSubmit(props.onSubmit)
-            : props.handleSubmit(props.onSubmit)
-          : props.onSubmit
-      }
-    >
-      {props.children}
-    </form>
+    <>
+      <form
+        id={id}
+        onSubmit={
+          isReactHookForm(props)
+            ? isProfileForm(props)
+              ? props.handleSubmit(props.onSubmit)
+              : props.handleSubmit(props.onSubmit)
+            : props.onSubmit
+        }
+        className="sr-only"
+      />
+      <div>{props.children}</div>
+    </>
   );
 };
