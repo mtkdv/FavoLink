@@ -53,6 +53,7 @@ export const LinkForm: React.FC<Props> = ({
   removeVideo,
 }) => {
   const linkInputId = useId();
+  const linkFormId = useId();
   const {
     register,
     handleSubmit,
@@ -142,6 +143,7 @@ export const LinkForm: React.FC<Props> = ({
       {/* Video-URL Form */}
       <form
         onSubmit={handleSubmit(onUpdate)}
+        id={linkFormId}
         className="h-full w-full flex flex-col justify-center space-y-2 px-3"
       >
         {/* Video-URL Label, a */}
@@ -171,6 +173,7 @@ export const LinkForm: React.FC<Props> = ({
           <input
             autoFocus
             id={linkInputId}
+            form={linkFormId}
             placeholder="&nbsp;"
             {...register("url")}
             className="peer z-10 flex-1 h-full px-3 outline-none text-stone-800 text-sm border border-stone-300 [&:is(:focus-visible,:hover)]:border-tonys-pink focus-visible:shadow-[0_0_2px_1px] [&:is(:hover,:focus-visible)]:shadow-tonys-pink/60 transition rounded-l-sm"
@@ -183,7 +186,10 @@ export const LinkForm: React.FC<Props> = ({
           </p>
 
           {/* Video-URL Button */}
-          <button className="group/url-button w-12 h-full bg-zinc-100 rounded-r-sm border-y border-r border-stone-300 grid place-items-center outline-none">
+          <button
+            form={linkFormId}
+            className="group/url-button w-12 h-full bg-zinc-100 rounded-r-sm border-y border-r border-stone-300 grid place-items-center outline-none"
+          >
             <SlMagnifierAdd
               size={20}
               className="text-stone-400 group-[:is(:hover,:focus-visible)]/url-button:text-slate-500 group-[:is(:hover,:focus-visible)]/url-button:scale-105 transition"
