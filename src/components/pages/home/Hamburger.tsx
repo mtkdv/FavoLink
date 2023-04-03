@@ -50,7 +50,7 @@ export const Hamburger = () => {
       />
       <label
         htmlFor="hamburger"
-        className="relative flex items-center justify-center w-8 h-6 overflow-hidden cursor-pointer peer-focus-visible:ring-2 ring-blue-400"
+        className="relative flex items-center justify-center w-8 h-6 overflow-hidden cursor-pointer peer-focus-visible:ring-2 ring-juniper-500"
       >
         <Bar position="top" />
         <Bar position="middle" />
@@ -72,7 +72,7 @@ const Bar = ({ position }: { position: keyof typeof positions }) => {
   return (
     <span
       className={clsx(
-        "absolute bg-base-black h-0.5 w-6 rounded-full shadow-md transition duration-300",
+        "absolute bg-liver h-0.5 w-6 rounded-full shadow-md transition duration-300",
         positions[position]
       )}
     />

@@ -19,26 +19,22 @@ module.exports = {
       colors: {
         "base-black": "#1D1D1D",
         "base-white": "#faf9f9",
-        accent: "#e8a78e",
-        "tonys-pink": "#e8a78e",
-        isabelline: {
-          50: "#FFFBF9",
-          // light: "#fbf9f8",
-          light: "#FBF7F5",
-          DEFAULT: "#eee6e2",
+        isabelline: "#eee6e2",
+        liver: "#56423D",
+        stone: {
+          150: "#EFEEEE",
         },
-
-        cocoa: {
-          50: "#fcfbf8",
-          100: "#faf0d9",
-          200: "#f5d7b1",
-          300: "#e7ae7d",
-          400: "#da804f",
-          500: "#c55d30",
-          600: "#a8431f",
-          700: "#823219",
-          800: "#5a2313",
-          900: "#39150c",
+        juniper: {
+          50: "#f8f9f9",
+          100: "#f1f3f4",
+          200: "#dbe2e3",
+          300: "#c5d0d1",
+          400: "#9aadaf",
+          500: "#6E8A8D",
+          600: "#637c7f",
+          700: "#53686a",
+          800: "#425355",
+          900: "#364445",
         },
       },
       fontFamily: {
@@ -61,7 +57,8 @@ module.exports = {
         30: "7.5rem",
         90: "22.5rem",
         "3xl": "768px",
-        "full-nav": "calc(100vh - 56px)",
+        // h24(header) * 4px => 96px
+        "full-nav": "calc(100vh - 96px)",
         // (page + header) = (34px + 16 * 4px) => 98px
         "dashboard-page-main": "calc(100vh - 98px)",
       },
@@ -71,9 +68,9 @@ module.exports = {
         // (pt-36 + mt-6 + text-4xl + space-y-2 + text-xs + pb-6)
         // = (36 * 4px + 6 * 4px + 40px + 2 * 4px + 16px + 6 * 4px) => 256px
         "main-content": "calc(100vh - 256px)",
-        // (h-30 * 4px) => 120px
+        // h-30(footer) * 4px => 120px
         "top-main": "calc(100vh - 120px)",
-        // (h-20 * 4px) => 80px
+        // h-20(md:footer) * 4px => 80px
         "md-top-main": "calc(100vh - 80px)",
       },
       minWidth: {

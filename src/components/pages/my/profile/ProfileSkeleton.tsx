@@ -12,7 +12,7 @@ export const ProfileSkeleton = () => {
       </div>
 
       {/* Main */}
-      <div className="my-6 flex flex-col space-y-6">
+      <div className="mt-14 flex flex-col space-y-6">
         <div className="px-6 py-4 space-y-12">
           <div className="flex flex-col space-y-12">
             {/* Avatar */}

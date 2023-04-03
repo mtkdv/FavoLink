@@ -24,7 +24,7 @@ export const AddVideoSkeleton = () => {
       </div>
 
       {/* Main */}
-      <ul className="px-6 pt-12 pb-6 space-y-6">
+      <ul className="px-6 pt-14 pb-6 space-y-6">
         <CategoryListItemSkeleton>
           <LinkListItemSkeleton />
           <LinkListItemSkeleton />

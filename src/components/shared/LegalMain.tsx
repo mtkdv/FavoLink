@@ -9,10 +9,10 @@ export const LegalMain = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="pb-28 max-w-5xl mx-auto">
+    <div className="pb-28 max-w-5xl mx-auto text-base-black">
       <div>
         <div className="py-20">
-          <h2 className="text-3xl font-black text-center">{docs.title}</h2>
+          <h2 className="text-3xl text-center">{docs.title}</h2>
         </div>
         <div className="px-8">
           <p className="flex justify-end space-x-2">
@@ -33,7 +33,7 @@ export const LegalMain = ({
         <ol className="px-8 mt-16 space-y-14">
           {docs.articles.map((article, articleIndex) => (
             <li key={article.heading}>
-              <h3 className="text-2xl font-black">
+              <h3 className="text-2xl">
                 第{articleIndex + 1}条（{article.heading}）
               </h3>
 

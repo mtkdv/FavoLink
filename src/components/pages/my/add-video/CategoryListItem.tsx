@@ -103,11 +103,11 @@ export const CategoryListItem = ({
         <button
           type="button"
           onClick={() => swapCategory(categoryIndex)}
-          className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-1 rounded-sm border border-cocoa-300 shadow p-1 bg-white [&:is(:hover,:focus-visible)]:bg-cocoa-300 transition duration-300"
+          className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-1 rounded-sm border border-juniper-500 shadow p-1 bg-white [&:is(:hover,:focus-visible)]:bg-juniper-500 transition duration-300 outline-none"
         >
           <TfiExchangeVertical
             size={24}
-            className="text-cocoa-300 group-[:is(:hover,:focus-visible)]/swap:text-white transition duration-300"
+            className="text-juniper-500 group-[:is(:hover,:focus-visible)]/swap:text-white transition duration-300"
           />
         </button>
       )}
@@ -134,10 +134,10 @@ export const CategoryListItem = ({
             htmlFor={categoryInputId}
             className="flex w-fit"
           >
-            <span className="ml-1 text-xs text-cocoa-800 font-semibold tracking-wide">
+            <span className="ml-1 text-xs font-semibold tracking-wide">
               Category Title
             </span>
-            <span className="text-cocoa-800 group-[:has(.error-message)]/collection-inputs-errors:text-red-600 leading-none">
+            <span className="group-[:has(.error-message)]/collection-inputs-errors:text-red-600 leading-none">
               *
             </span>
           </label>
@@ -153,7 +153,7 @@ export const CategoryListItem = ({
               placeholder="&nbsp;"
               type="text"
               {...register(`videos.${categoryIndex}.categoryName` as const)}
-              className="peer w-full h-full p-3 pr-14 bg-white/50 outline-none text-stone-800 tracking-wider border border-stone-300 [&:is(:focus-visible,:hover)]:border-cocoa-300 focus-visible:shadow-[0_0_3px_2px_rgba(230,189,173,0.4)] transition group-[:has(.error-message)]/collection-inputs-errors:ring-red-600 group-[:has(.error-message)]/collection-inputs-errors:shadow-red-200 rounded-sm"
+              className="peer w-full h-full p-3 pr-14 bg-white/50 outline-none text-stone-800 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-juniper-500 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-juniper-400 transition group-[:has(.error-message)]/collection-inputs-errors:ring-red-600 group-[:has(.error-message)]/collection-inputs-errors:shadow-red-200 rounded-sm"
             />
 
             {/* Collection Placeholder */}
@@ -220,18 +220,17 @@ export const CategoryListItem = ({
               <button
                 type="button"
                 onClick={appendVideo}
-                className="group/add-video-button flex items-center rounded-lg space-x-1 py-2 pl-1.5 pr-2.5 bg-cocoa-100 outline-none text-cocoa-600 border border-cocoa-100 transition duration-300 [&:is(:hover,:focus-visible)]:bg-cocoa-200 shadow-sm"
+                className="group h-11 rounded-lg pl-1.5 pr-3 bg-white outline-none text-teal-600 border border-teal-600 transition duration-300 flex items-center [&:is(:hover,:focus-visible)]:bg-teal-600 [&:is(:hover,:focus-visible)]:text-white"
               >
                 <span className="relative">
                   <RiAddLine
                     size={24}
-                    className="absolute group-[:is(:hover,:focus-visible)]/add-video-button:animate-myPing"
+                    className="absolute group-[:is(:hover,:focus-visible)]:animate-myPing"
                   />
-                  <RiAddLine size={24} className="" />
+                  <RiAddLine size={24} />
                 </span>
-                <span className="text-sm font-medium tracking-wider">
-                  Add Video
-                </span>
+                <Spacer size={4} axis="row" />
+                <span>Add Video</span>
               </button>
             </div>
           </>

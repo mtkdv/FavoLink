@@ -67,7 +67,7 @@ export const AvatarInput = ({
   return (
     <div>
       <div className="ml-1">
-        <h3 className="text-xs w-fit text-cocoa-800 font-semibold tracking-wide">
+        <h3 className="text-xs w-fit font-semibold tracking-wide">
           Profile Icon
         </h3>
       </div>
@@ -134,7 +134,7 @@ export const AvatarInput = ({
                   "pl-px text-sm h-5 tracking-wide",
                   previewFile && previewFile.size > ONE_MEGA_BYTE * 2
                     ? "text-red-600"
-                    : "text-cocoa-400"
+                    : "text-teal-600"
                 )}
               >
                 {previewFile && bytesToKilobytes(previewFile.size)}
@@ -172,7 +172,7 @@ export const AvatarInput = ({
                   previewFile &&
                     !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
                     ? "text-red-600"
-                    : "text-cocoa-400"
+                    : "text-teal-600"
                 )}
               >
                 {previewFile && mimeToFileFormat(previewFile.type)}

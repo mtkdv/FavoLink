@@ -54,11 +54,11 @@
     @apply bg-white my-3 rounded-full;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-cocoa-200 rounded-full border-[3px] border-solid border-white;
+    @apply bg-juniper-300 rounded-full border-[3px] border-solid border-white;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-cocoa-300;
+    @apply bg-juniper-400;
   }
 }
 
