@@ -100,10 +100,9 @@ export const MainContent = ({
         <footer className="my-6 flex flex-col space-y-2 items-center">
           <Link
             href={pagesInfo.top.href}
-            // href={getPagesPath(["top"])}
-            className="text-4xl font-black tracking-wide drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900"
+            className="text-4xl font-light tracking-widest drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900 outline-none focus-visible:ring-2 ring-juniper-500"
           >
-            Favolink
+            FAVOLINK
           </Link>
           <p className="text-xs drop-shadow-[1px_1px_0_white]">
             Copyright &copy; 2023 All rights reserved.

@@ -41,31 +41,28 @@ export const DropDownItem = ({
           className="px-3 flex w-full h-full items-center space-x-2 cursor-not-allowed text-stone-400"
         >
           <span className="text-sm">🚧</span>
-          <span className="text-sm">{title.en}</span>
+          <span className="font-light tracking-wider">{title.en}</span>
         </Link>
       </li>
     );
   }
 
   return (
-    <li
-      key={href}
-      className="h-10 w-32 rounded-lg hover:bg-base-black/5 transition duration-300 group/item"
-    >
+    <li key={href} className="h-10 w-40 group/item">
       {/* {/^http[s]?:\/\/.+/.test(href) ? ( */}
       {isExternal(href) ? (
         <a
           target="_blank"
           rel="noopener noreferrer"
           href={href}
-          className="px-3 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-blue-400 ring-inset"
+          className="px-5 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset"
         >
           {Icon && (
             <Icon className="opacity-0 scale-0 group-hover/item:opacity-100 group-hover/item:scale-100 transition duration-300" />
           )}
           <span
             className={clsx(
-              "text-sm transition duration-300",
+              "font-light tracking-wider transition duration-300",
               Icon
                 ? "-translate-x-6 group-hover/item:translate-x-0"
                 : "group-hover/item:translate-x-1"
@@ -77,14 +74,14 @@ export const DropDownItem = ({
       ) : (
         <Link
           href={href}
-          className="px-3 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-blue-400 ring-inset"
+          className="px-5 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset"
         >
           {Icon && (
             <Icon className="opacity-0 scale-0 group-hover/item:opacity-100 group-hover/item:scale-100 transition duration-300" />
           )}
           <span
             className={clsx(
-              "text-sm transition duration-300",
+              "font-light tracking-wider transition duration-300",
               Icon
                 ? "-translate-x-6 group-hover/item:translate-x-0"
                 : "group-hover/item:translate-x-1"

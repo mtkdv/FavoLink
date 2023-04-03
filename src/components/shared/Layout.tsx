@@ -3,7 +3,7 @@ import { Sidebar } from "./Sidebar";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Flex className="h-screen bg-gradient-to-bl bg-white text-cocoa-800">
+    <Flex className="h-screen bg-gradient-to-bl bg-stone-150 text-liver">
       {/* 左 */}
       <Sidebar />
 

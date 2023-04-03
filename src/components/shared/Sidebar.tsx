@@ -21,9 +21,7 @@ export const Sidebar = () => {
             size={40}
             className="animate-[spin_10s_linear_infinite] text-cocoa-400"
           /> */}
-          <span className="text-2xl font-extrabold tracking-wider">
-            FavoLink
-          </span>
+          <span className="text-3xl font-light tracking-widest">FAVOLINK</span>
         </div>
       </div>
 
@@ -40,27 +38,22 @@ export const Sidebar = () => {
           ))}
 
           {/* Public Page */}
-          {/* {isLoading ? (
-            <li className="h-14 md:h-12 md:px-3 flex items-center max-md:justify-center">
-              <div className="h-full md:h-5 w-full md:w-24 rounded-lg md:rounded-full bg-isabelline animate-loadingPulse" />
-            </li>
-          ) : profile.slug && profile.published ? ( */}
-          {profile?.slug && profile.published ? (
+          {profile?.slug && profile.published && (
             <li className="animate-appearance">
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`${pagesInfo.user.href}${profile.slug}`}
-                className="h-14 flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
+                className="h-14 flex items-center rounded-md hover:bg-stone-300 text-liver outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
               >
                 <FaShareSquare />
                 <p className="md:hidden text-xs">Public</p>
-                <p className="max-md:hidden text-sm font-semibold tracking-wide">
+                <p className="max-md:hidden font-light tracking-wider">
                   Public Page
                 </p>
               </a>
             </li>
-          ) : null}
+          )}
 
           {/* Logout Button */}
           <li className="!mt-auto space-y-4">
@@ -69,10 +62,10 @@ export const Sidebar = () => {
             <button
               type="button"
               onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
-              className="h-14 w-full flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
+              className="h-14 w-full flex items-center rounded-md hover:bg-stone-300 text-liver outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
             >
               <IoLogOut size={20} />
-              <p className="text-xs md:text-sm md:font-semibold md:tracking-wide">
+              <p className="max-md:text-xs md:font-light md:tracking-wider">
                 Logout
               </p>
             </button>
@@ -81,7 +74,6 @@ export const Sidebar = () => {
       </nav>
 
       {/* Profile Icon */}
-      {/* <div className="mt-4 mb-14 h-14 flex items-center md:space-x-2 max-md:justify-center md:h-12 relative"> */}
       <div className="mt-4 mb-14 h-14 md:h-12">
         {isLoading ? (
           <div className="h-full flex items-center md:space-x-2 max-md:justify-center animate-pulse">
@@ -111,7 +103,7 @@ export const Sidebar = () => {
           </div> */}
               <div className="absolute opacity-0 pointer-events-none bottom-0 w-[125%] left-1/2 -translate-x-1/2 rounded-md group-hover:pointer-events-auto group-hover:bottom-full group-hover:opacity-100 transition-[opacity,bottom] duration-300 delay-300">
                 {/* Top */}
-                <div className="opacity-0 bg-white p-2 rounded-md group-hover:opacity-100 transition ring-1 ring-secondary drop-shadow-sm duration-300 delay-300">
+                <div className="opacity-0 bg-white p-2 rounded-md group-hover:opacity-100 transition drop-shadow-sm duration-300 delay-300">
                   <p className="text-sm break-all text-center">
                     {profile?.name}
                   </p>

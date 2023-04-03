@@ -23,17 +23,17 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <header className="group/header fixed top-0 w-screen z-10 h-14 pr-3.5 font-medium transition">
+      <header className="group/header fixed top-0 w-screen z-10 h-24 pr-3.5 font-medium text-liver transition">
         <div className="absolute inset-x-0 -z-10 bg-base-white/50 backdrop-blur h-full group-[:has(#hamburger:checked)]/header:bg-base-white dark:group-[&:has(#hamburger:checked)]/header:bg-base-black dark:bg-base-black/50 dark:text-base-white" />
 
-        <div className="h-full pb-px pt-0.5 max-w-5xl mx-auto flex items-center px-4">
+        <div className="absolute inset-x-0 z-10 h-full pb-px pt-0.5 max-w-5xl mx-auto flex items-center px-8">
           {/* タイトル */}
-          <h1 className="text-xl font-bold">
+          <h1 className="text-2xl font-light tracking-[0.3rem]">
             <Link
               href={pagesInfo.top.href}
-              className="p-1 outline-none focus-visible:ring-2 ring-blue-400"
+              className="p-1 outline-none focus-visible:ring-2 ring-juniper-500"
             >
-              FavoLink
+              FAVOLINK
             </Link>
           </h1>
 
@@ -75,7 +75,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
       <main
         ref={scrollTopRef}
-        className="pt-14 min-h-top-main md:min-h-md-top-main bg-white"
+        className="pt-24 min-h-top-main md:min-h-md-top-main bg-white text-liver"
       >
         {children}
 
@@ -83,15 +83,11 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
       </main>
 
       <footer className="h-30 md:h-20 bg-neutral-800 text-white">
-        {/* <div className="absolute w-full">
-          <Divider classWrapper="px-2" />
-        </div> */}
-
         <div className="h-full max-w-5xl mx-auto px-4 pt-px flex max-md:flex-col justify-center gap-y-4 md:justify-between items-center">
           <div className="flex space-x-4">
             <Link
               href={pagesInfo.terms.href}
-              className="relative group outline-none focus-visible:ring-2 ring-sky-300 ring-offset-2 ring-offset-neutral-800"
+              className="relative group outline-none focus-visible:ring-2 ring-juniper-400 ring-offset-2 ring-offset-neutral-800"
             >
               <span className="absolute bottom-0 w-full h-0.5 bg-white rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
               <span className="group-hover:text-white transition duration-300">
@@ -100,7 +96,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
             </Link>
             <Link
               href={pagesInfo.privacyPolicy.href}
-              className="relative group outline-none focus-visible:ring-2 ring-sky-300 ring-offset-2 ring-offset-neutral-800"
+              className="relative group outline-none focus-visible:ring-2 ring-juniper-400 ring-offset-2 ring-offset-neutral-800"
             >
               <span className="absolute bottom-0 w-full h-0.5 bg-white rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
               <span className="group-hover:text-white transition duration-300">

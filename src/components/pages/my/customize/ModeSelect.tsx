@@ -54,11 +54,11 @@ export const ModeSelect = ({
                   defaultChecked={custom?.mode === mode.type}
                   onChange={handleChangeMode}
                   value={mode.type}
-                  className="peer absolute top-3 right-4 outline-none appearance-none w-4 h-4 rounded-full border border-stone-300 checked:border-[5px] checked:border-cocoa-400 transition-all duration-100 cursor-pointer"
+                  className="peer absolute top-3 right-4 outline-none appearance-none w-4 h-4 rounded-full border border-stone-300 checked:border-[5px] checked:border-teal-700 transition-all duration-100 cursor-pointer"
                 />
                 <div
                   className={clsx(
-                    "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]:shadow-md transition peer-checked:ring-2 peer-checked:ring-cocoa-300 peer-checked:bg-cocoa-100 peer-checked:text-cocoa-700 flex flex-col space-y-2 justify-center pl-5"
+                    "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]:shadow-md transition peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-liver flex flex-col space-y-2 justify-center pl-5"
                   )}
                 >
                   <p className="font-semibold">{mode.title}</p>

@@ -136,7 +136,7 @@ export const LinkForm: React.FC<Props> = ({
       >
         <IoMdClose
           size={20}
-          className="text-stone-400 group-[:is(:hover,:focus-visible)]/remove:text-[#222222] transition duration-300 opacity-0 group-hover/collection-item:opacity-100"
+          className="text-stone-400 group-focus-visible/remove:opacity-100 group-[:is(:hover,:focus-visible)]/remove:text-red-400 transition duration-300 opacity-0 group-hover/video-item:opacity-100"
         />
       </button>
 
@@ -160,7 +160,7 @@ export const LinkForm: React.FC<Props> = ({
             target="_blank"
             rel="noopener noreferrer"
             href={urls.youtube}
-            className="text-blue-500 underline hover:text flex items-center text-xs hover:text-blue-700"
+            className="text-blue-500 underline hover:text flex items-center text-xs hover:text-blue-700 outline-none focus-visible:ring-2 ring-juniper-500"
           >
             {/* YouTube */}
             <RiShareBoxLine />
@@ -176,7 +176,7 @@ export const LinkForm: React.FC<Props> = ({
             form={linkFormId}
             placeholder="&nbsp;"
             {...register("url")}
-            className="peer z-10 flex-1 h-full px-3 outline-none text-stone-800 text-sm border border-stone-300 [&:is(:focus-visible,:hover)]:border-tonys-pink focus-visible:shadow-[0_0_2px_1px] [&:is(:hover,:focus-visible)]:shadow-tonys-pink/60 transition rounded-l-sm"
+            className="peer z-10 flex-1 h-full px-3 outline-none text-stone-800 text-sm border border-stone-300 [&:is(:focus-visible,:hover)]:border-juniper-500 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-juniper-400 transition rounded-l-sm"
           />
 
           {/* Video-URL Placeholder */}
