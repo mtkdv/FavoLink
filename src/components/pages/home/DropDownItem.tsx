@@ -38,7 +38,7 @@ export const DropDownItem = ({
           href={href}
           onClick={(e) => e.preventDefault()}
           tabIndex={-1}
-          className="px-3 flex w-full h-full items-center space-x-2 cursor-not-allowed text-stone-400"
+          className="px-5 flex w-full h-full items-center space-x-2 cursor-not-allowed text-stone-400"
         >
           <span className="text-sm">🚧</span>
           <span className="font-light tracking-wider">{title.en}</span>

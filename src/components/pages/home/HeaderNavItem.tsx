@@ -51,12 +51,12 @@ export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
       <Transition
         show={isOpen}
         // show={true}
-        enter="transition delay-150"
-        enterFrom="opacity-0 -translate-y-3"
+        enter="transition delay-150 duration-500 ease-out"
+        enterFrom="opacity-0 -translate-y-5"
         enterTo="opacity-1 translate-y-0"
         leave="transition"
         leaveFrom="opacity-1 translate-y-0"
-        leaveTo="opacity-0 -translate-y-3"
+        leaveTo="opacity-0 -translate-y-5"
       >
         <div className="absolute pt-4">
           {/* FIXME: leaveのdelay中にbackdrop-blurが機能しなくなる。 */}
