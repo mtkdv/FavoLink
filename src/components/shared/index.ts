@@ -1,4 +1,5 @@
 export * from "./Appearance";
+export * from "./AvatarIcon";
 export * from "./CategorizedLink";
 export * from "./DashboardBackground";
 export * from "./DashboardForm";

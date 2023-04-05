@@ -7,12 +7,13 @@ import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { MotionAbout, MotionCustomize } from "#/components/pages/home";
 import { pagesInfo, publicPath, queryKeys } from "#/const";
+import { Spacer } from "#/components/uiParts";
+import { topInfo } from "#/const/topInfo";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
 import sample18 from "/public/sample18.png";
 import sample19 from "/public/sample19.png";
 import sample20 from "/public/sample20.png";
-import { Spacer } from "#/components/uiParts";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
@@ -22,30 +23,35 @@ const Home: NextPageWithLayout = () => {
     <>
       <section className="pb-18 flex flex-col items-center overflow-x-hidden">
         <div className="mt-28 px-8 flex flex-col items-center justify-center gap-y-14">
-          <h1 className="text-6xl font-black text-center">好きな動画を共有</h1>
-          <p className="text-lg text-center">
-            好きな YouTube 動画を集めた、あなただけのページを作成し、SNS
-            で公開しよう
-          </p>
+          <h1 className="text-5xl text-center">{topInfo.heading}</h1>
+          <p className="text-lg text-center">{topInfo.paragraph}</p>
 
-          <div className="h-11">
+          <div className="h-12">
             {sessionStatus === "loading" ? null : sessionStatus ===
               "unauthenticated" ? (
               <button
                 onClick={() =>
                   queryClient.setQueryData(queryKeys.signInModal, true)
                 }
-                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance hover:opacity-80 text-xl tracking-wider"
+                className="relative group w-28 h-12 bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition"
               >
-                Login
+                <span className="absolute left-0 top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-neutral-700 opacity-0 transition duration-500 group-hover:opacity-100" />
+                <span className="absolute center text-white text-lg font-light tracking-widest">
+                  {topInfo.login}
+                </span>
               </button>
             ) : (
               <Link
                 // href={pagesInfo.my.dashboard.href}
                 href={pagesInfo.my.addVideo.href}
-                className="flex h-full items-center px-4 rounded-md bg-base-black text-base-white dark:bg-base-white dark:text-base-black outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance hover:opacity-80"
+                // className="flex px-8 h-12 items-center bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 text-white outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition hover:opacity-80"
+                className="block relative group w-40 h-12 bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition"
               >
-                ページを作成
+                <span className="absolute left-0 top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-neutral-700 opacity-0 transition duration-500 group-hover:opacity-100" />
+                {/* <span className="absolute center text-white"> */}
+                <span className="absolute w-full h-full flex justify-center items-center text-white">
+                  {topInfo.createPage}
+                </span>
               </Link>
             )}
           </div>
@@ -60,14 +66,17 @@ const Home: NextPageWithLayout = () => {
         />
       </section>
 
-      <section className="py-24 w-full relative bg-neutral-100">
+      <section className="py-24 w-full relative bg-stone-150">
         <div className="max-w-5xl mx-auto px-8 space-y-10">
           <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
             <div className="sm:col-span-5 grid place-content-center">
-              <h2 className="text-4xl font-black text-center leading-relaxed">
-                カテゴリーを作成し
-                <br />
-                動画を登録
+              <h2 className="text-4xl text-center leading-relaxed">
+                {topInfo.features[0].heading.map((heading, index) => (
+                  <>
+                    {index !== 0 && <br />}
+                    {heading}
+                  </>
+                ))}
               </h2>
             </div>
             <MotionAbout className="sm:col-span-7">
@@ -77,13 +86,22 @@ const Home: NextPageWithLayout = () => {
 
           <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
             <div className="order-2 sm:col-span-5 grid place-content-center">
-              <h2 className="text-4xl font-black text-center leading-relaxed">
-                カテゴリーは５つまで
-                <br />
-                作成可能
+              <h2 className="text-4xl text-center leading-relaxed">
+                {topInfo.features[1].heading.map((heading, index) => (
+                  <>
+                    {index !== 0 && <br />}
+                    {heading}
+                  </>
+                ))}
               </h2>
-              <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
-                動画はカテゴリーごとに６つまで登録可能
+              <Spacer size={20} axis="column" />
+              <p className="text-center dark:text-stone-200">
+                {topInfo.features[1].paragraph!.map((paragraph, index) => (
+                  <>
+                    {index !== 0 && <br />}
+                    {paragraph}
+                  </>
+                ))}
               </p>
             </div>
             <MotionAbout className="order-1 sm:col-span-7">
@@ -93,10 +111,13 @@ const Home: NextPageWithLayout = () => {
 
           <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
             <div className="sm:col-span-5 grid place-content-center">
-              <h2 className="text-4xl font-black text-center leading-relaxed">
-                気になった動画を
-                <br />
-                その場で再生
+              <h2 className="text-4xl text-center leading-relaxed">
+                {topInfo.features[2].heading.map((heading, index) => (
+                  <>
+                    {index !== 0 && <br />}
+                    {heading}
+                  </>
+                ))}
               </h2>
             </div>
             <MotionAbout className="max-sm:mt-5 sm:col-span-7 p-2">
@@ -108,15 +129,18 @@ const Home: NextPageWithLayout = () => {
 
       {/* カスタマイズ */}
       <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
-        <h2 className="text-4xl font-black">カスタマイズ</h2>
-
-        <p className="mt-5 text-center text-stone-500 dark:text-stone-200">
-          背景を自由に設定することができます。
-          <br />
-          背景に合わせてライトモード、ダークモードを選択できます。
+        <h2 className="text-4xl">{topInfo.features[3].heading}</h2>
+        <Spacer size={20} axis="column" />
+        <p className="text-center dark:text-stone-200">
+          {topInfo.features[3].paragraph!.map((paragraph, index) => (
+            <>
+              {index !== 0 && <br />}
+              {paragraph}
+            </>
+          ))}
         </p>
-
-        <div className="mt-10 max-w-2xl max-xs:space-y-12 xs:grid xs:grid-cols-11">
+        <Spacer size={40} axis="column" />
+        <div className="max-w-2xl max-xs:space-y-12 xs:grid xs:grid-cols-11">
           <MotionCustomize
             initial="offScreenLeft"
             className="max-xs:w-80 xs:col-span-5"

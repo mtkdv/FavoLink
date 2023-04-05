@@ -76,6 +76,9 @@ module.exports = {
       minWidth: {
         xl: "36rem" /** 576px */,
       },
+      ringWidth: {
+        3: "3px",
+      },
       keyframes: {
         animate: {
           "0%, 100%": { transform: "translateY(-20px)" },

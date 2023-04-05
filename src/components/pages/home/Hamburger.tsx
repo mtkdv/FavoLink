@@ -50,7 +50,7 @@ export const Hamburger = () => {
       />
       <label
         htmlFor="hamburger"
-        className="relative flex items-center justify-center w-8 h-6 overflow-hidden cursor-pointer peer-focus-visible:ring-2 ring-juniper-500"
+        className="relative flex items-center justify-center w-8 h-6 overflow-hidden cursor-pointer peer-focus-visible:ring-2 ring-juniper-500 transition"
       >
         <Bar position="top" />
         <Bar position="middle" />
