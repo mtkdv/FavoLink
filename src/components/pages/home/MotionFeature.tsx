@@ -1,22 +1,21 @@
-import { motion, Target, VariantLabels, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const variants: Variants = {
   offScreen: {
     opacity: 0,
-    y: 100,
+    y: 20,
   },
   onScreen: {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
-      bounce: 0.4,
-      duration: 0.8,
+      duration: 0.5,
+      easings: "easeOut",
     },
   },
 };
 
-export const MotionAbout = ({
+export const MotionFeature = ({
   className,
   children,
 }: {
@@ -28,7 +27,7 @@ export const MotionAbout = ({
       initial="offScreen"
       whileInView="onScreen"
       variants={variants}
-      viewport={{ once: true, amount: 0.5 }}
+      viewport={{ once: true, amount: 0.3 }}
       className={className}
     >
       {children}

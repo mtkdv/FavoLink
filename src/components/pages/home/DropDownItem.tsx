@@ -55,7 +55,7 @@ export const DropDownItem = ({
           target="_blank"
           rel="noopener noreferrer"
           href={href}
-          className="px-5 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset"
+          className="px-5 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset transition"
         >
           {Icon && (
             <Icon className="opacity-0 scale-0 group-hover/item:opacity-100 group-hover/item:scale-100 transition duration-300" />
@@ -74,7 +74,7 @@ export const DropDownItem = ({
       ) : (
         <Link
           href={href}
-          className="px-5 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset"
+          className="px-5 flex w-full h-full items-center space-x-2 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset transition"
         >
           {Icon && (
             <Icon className="opacity-0 scale-0 group-hover/item:opacity-100 group-hover/item:scale-100 transition duration-300" />

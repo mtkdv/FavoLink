@@ -44,7 +44,7 @@ export const Sidebar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`${pagesInfo.user.href}${profile.slug}`}
-                className="h-14 flex items-center rounded-md hover:bg-stone-300 text-liver outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
+                className="h-14 flex items-center rounded-md hover:bg-stone-300 text-liver-500 outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
               >
                 <FaShareSquare />
                 <p className="md:hidden text-xs">Public</p>
@@ -62,7 +62,7 @@ export const Sidebar = () => {
             <button
               type="button"
               onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
-              className="h-14 w-full flex items-center rounded-md hover:bg-stone-300 text-liver outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
+              className="h-14 w-full flex items-center rounded-md hover:bg-stone-300 text-liver-500 outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition"
             >
               <IoLogOut size={20} />
               <p className="max-md:text-xs md:font-light md:tracking-wider">
