@@ -6,24 +6,30 @@ export const topInfo = {
   createPage: "ページを作成",
   features: [
     {
-      heading: ["動画を登録して", "プロフィールを作成"],
+      headings: ["動画を登録して", "プロフィールを作成"],
+      src: "feature1" as const,
     },
     {
-      heading: ["カテゴリー別に", "動画を登録"],
-      paragraph: [
+      headings: ["カテゴリー別に", "動画を登録"],
+      paragraphs: [
         "カテゴリーは５つ、",
         "動画はカテゴリーごとに６つまで登録可能",
       ],
+      reverse: true,
+      src: "feature2" as const,
     },
     {
-      heading: ["気になった動画は", "その場で再生"],
-    },
-    {
-      heading: ["カスタマイズ"],
-      paragraph: [
-        "背景を自由に設定することができます。",
-        "背景に合わせてライトモード、ダークモードを選択できます。",
-      ],
+      headings: ["気になった動画は", "その場で再生"],
+      src: "feature3" as const,
     },
   ],
+  customize: {
+    heading: "カスタマイズ",
+    paragraphs: [
+      "背景を自由に設定することができます。",
+      "背景に合わせてライトモード、ダークモードを選択できます。",
+    ],
+  },
 };
+
+export type TopFeature = typeof topInfo.features[number];

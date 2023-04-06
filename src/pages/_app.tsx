@@ -27,7 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary>
-          {/* <Notification /> */}
+          <Notification />
           <AccessControl>
             {getLayout(<Component {...pageProps} />)}
           </AccessControl>

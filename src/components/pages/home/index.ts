@@ -5,6 +5,6 @@ export * from "./Hamburger";
 export * from "./HeaderDivider";
 export * from "./HeaderNav";
 export * from "./HeaderNavItem";
-export * from "./MotionAbout";
+export * from "./MotionFeature";
 export * from "./MotionCustomize";
 export * from "./SignInModal";

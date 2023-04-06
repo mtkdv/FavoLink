@@ -5,3 +5,4 @@ export * from "./queryKeys";
 export * from "./sideMenuList";
 export * from "./staticData";
 export * from "./terms";
+export * from "./topInfo";

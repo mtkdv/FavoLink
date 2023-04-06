@@ -5,15 +5,12 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
-import { MotionAbout, MotionCustomize } from "#/components/pages/home";
-import { pagesInfo, publicPath, queryKeys } from "#/const";
+import { MotionCustomize } from "#/components/pages/home";
+import { pagesInfo, publicPath, queryKeys, topInfo } from "#/const";
 import { Spacer } from "#/components/uiParts";
-import { topInfo } from "#/const/topInfo";
+import { Feature } from "#/components/pages/home/Feature";
 import sample12 from "/public/sample12.png";
 import sample13 from "/public/sample13.png";
-import sample18 from "/public/sample18.png";
-import sample19 from "/public/sample19.png";
-import sample20 from "/public/sample20.png";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
@@ -64,77 +61,22 @@ const Home: NextPageWithLayout = () => {
         />
       </section>
 
+      {/* 機能紹介 */}
       <section className="py-24 w-full relative bg-stone-150">
-        <div className="max-w-5xl mx-auto px-8 space-y-10">
-          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
-            <div className="sm:col-span-5 grid place-content-center">
-              <h2 className="text-3xl text-center leading-relaxed">
-                {topInfo.features[0].heading.map((heading, index) => (
-                  <>
-                    {index !== 0 && <br />}
-                    {heading}
-                  </>
-                ))}
-              </h2>
-            </div>
-            <MotionAbout className="sm:col-span-7">
-              <Image src={sample18} alt="sample" />
-            </MotionAbout>
-          </div>
-
-          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
-            <div className="order-2 sm:col-span-5 grid place-content-center">
-              <h2 className="text-3xl text-center leading-relaxed">
-                {topInfo.features[1].heading.map((heading, index) => (
-                  <>
-                    {index !== 0 && <br />}
-                    {heading}
-                  </>
-                ))}
-              </h2>
-              <Spacer size={20} axis="column" />
-              <p className="text-center">
-                {topInfo.features[1].paragraph!.map((paragraph, index) => (
-                  <>
-                    {index !== 0 && <br />}
-                    {paragraph}
-                  </>
-                ))}
-              </p>
-            </div>
-            <MotionAbout className="order-1 sm:col-span-7">
-              <Image src={sample19} alt="sample" />
-            </MotionAbout>
-          </div>
-
-          <div className="py-6 px-4 bg-white rounded-3xl sm:grid sm:grid-cols-12 sm:gap-x-2">
-            <div className="sm:col-span-5 grid place-content-center">
-              <h2 className="text-3xl text-center leading-relaxed">
-                {topInfo.features[2].heading.map((heading, index) => (
-                  <>
-                    {index !== 0 && <br />}
-                    {heading}
-                  </>
-                ))}
-              </h2>
-            </div>
-            <MotionAbout className="max-sm:mt-5 sm:col-span-7 p-2">
-              <Image src={sample20} alt="sample" className="rounded-3xl" />
-            </MotionAbout>
-          </div>
+        <div className="max-w-5xl mx-auto px-8 space-y-14">
+          {topInfo.features.map((feature) => (
+            <Feature {...{ feature }} />
+          ))}
         </div>
       </section>
 
-      {/* カスタマイズ */}
+      {/* カスタマイズ紹介 */}
       <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
-        <h2 className="text-4xl">{topInfo.features[3].heading}</h2>
+        <h2 className="text-4xl">{topInfo.customize.heading}</h2>
         <Spacer size={20} axis="column" />
-        <p className="text-center dark:text-stone-200">
-          {topInfo.features[3].paragraph!.map((paragraph, index) => (
-            <>
-              {index !== 0 && <br />}
-              {paragraph}
-            </>
+        <p className="flex flex-col text-center dark:text-stone-200">
+          {topInfo.customize.paragraphs!.map((paragraph) => (
+            <span>{paragraph}</span>
           ))}
         </p>
         <Spacer size={40} axis="column" />

@@ -16,7 +16,7 @@ const variants: Variants = {
   },
 };
 
-export const MotionAbout = ({
+export const MotionFeature = ({
   className,
   children,
 }: {
