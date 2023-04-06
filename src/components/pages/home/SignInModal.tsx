@@ -71,7 +71,7 @@ export const SignInModal = () => {
 
                 <button
                   onClick={closeModal}
-                  className="absolute bottom-full -translate-y-1 right-1 transition outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 hover:opacity-60"
+                  className="absolute bottom-full -translate-y-1 right-1 transition outline-none focus-visible:ring-2 ring-juniper-500 hover:opacity-60"
                 >
                   <TfiClose size={32} className="text-khaki-500 scale-y-75" />
                 </button>

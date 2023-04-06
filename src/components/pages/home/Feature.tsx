@@ -41,7 +41,7 @@ export const Feature = ({
         )}
       </div>
       <MotionFeature className={clsx(reverse && "order-1", "sm:col-span-7")}>
-        <Image src={featureImages[image]} alt={image} />
+        <Image src={featureImages[image]} alt={image} className="rounded-xl" />
       </MotionFeature>
     </li>
   );

@@ -80,7 +80,7 @@ const Home: NextPageWithLayout = () => {
           ))}
         </p>
         <Spacer size={40} axis="column" />
-        <div className="w-full max-w-2xl mx-auto max-xs:space-y-12 xs:grid xs:grid-cols-11">
+        <div className="w-full max-w-2xl mx-auto px-6 max-xs:space-y-12 xs:grid xs:grid-cols-11">
           <MotionCustomize
             initial="offScreenLeft"
             className="flex justify-center xs:col-span-5"
