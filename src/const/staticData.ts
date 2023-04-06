@@ -1,18 +1,23 @@
-export const urls = {
-  youtube: "https://www.youtube.com/",
-  youtubeChannel: "https://www.youtube.com/channel/",
-  // FIXME: hrefを正しいものに変更する。
-  // twitter: {
-  //   title: "Twitter",
-  //   href: "https://twitter.com/***",
-  //   icon: "FaTwitter",
-  // },
-  github: {
-    title: { en: "Github" },
-    href: "https://github.com/mtkdv/FavoLink",
-    icon: "FaGithub",
-  },
-  domain: "https://favolink.com/",
+export const origin = {
+  base: "https://favolink.vercel.app/",
+  user: "https://favolink.vercel.app/user/",
+};
+
+export const youtube = {
+  base: "https://www.youtube.com/",
+  channel: "https://www.youtube.com/channel/",
+};
+
+// twitter: {
+//   title: "Twitter",
+//   href: "https://twitter.com/***",
+//   icon: "FaTwitter",
+// },
+
+export const github = {
+  title: { en: "GitHub" },
+  href: "https://github.com/mtkdv/FavoLink",
+  icon: "FaGithub",
 } as const;
 
 export const gmail = {
