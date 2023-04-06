@@ -11,12 +11,12 @@ import feature3 from "/public/feature3.png";
 const featureImages = { feature1, feature2, feature3 };
 
 export const Feature = ({
-  feature: { headings, paragraphs, reverse, src },
+  feature: { headings, paragraphs, reverse, image },
 }: {
   feature: TopFeature;
 }) => {
   return (
-    <div className="py-6 px-4 bg-white rounded-sm sm:grid sm:grid-cols-12 sm:gap-x-2 shadow-[0_5px_25px_-5px] shadow-khaki-500/30">
+    <li className="py-6 px-4 bg-white rounded-sm sm:grid sm:grid-cols-12 sm:gap-x-2 shadow-[0_5px_25px_-5px] shadow-khaki-500/30">
       <div
         className={clsx(
           reverse && "order-2",
@@ -25,23 +25,24 @@ export const Feature = ({
       >
         <h2 className="flex flex-col text-3xl text-center leading-relaxed">
           {headings.map((heading) => (
-            <span>{heading}</span>
+            <span key={heading}>{heading}</span>
           ))}
         </h2>
 
-        <Spacer size={20} axis="column" />
-
         {paragraphs && (
-          <p className="flex flex-col text-center">
-            {paragraphs.map((paragraph) => (
-              <span>{paragraph}</span>
-            ))}
-          </p>
+          <>
+            <Spacer size={20} axis="column" />
+            <p className="flex flex-col text-center">
+              {paragraphs.map((paragraph) => (
+                <span key={paragraph}>{paragraph}</span>
+              ))}
+            </p>
+          </>
         )}
       </div>
       <MotionFeature className={clsx(reverse && "order-1", "sm:col-span-7")}>
-        <Image src={featureImages[src]} alt="sample" />
+        <Image src={featureImages[image]} alt={image} />
       </MotionFeature>
-    </div>
+    </li>
   );
 };

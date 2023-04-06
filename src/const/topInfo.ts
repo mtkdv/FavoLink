@@ -7,7 +7,7 @@ export const topInfo = {
   features: [
     {
       headings: ["動画を登録して", "プロフィールを作成"],
-      src: "feature1" as const,
+      image: "feature1" as const,
     },
     {
       headings: ["カテゴリー別に", "動画を登録"],
@@ -16,11 +16,11 @@ export const topInfo = {
         "動画はカテゴリーごとに６つまで登録可能",
       ],
       reverse: true,
-      src: "feature2" as const,
+      image: "feature2" as const,
     },
     {
       headings: ["気になった動画は", "その場で再生"],
-      src: "feature3" as const,
+      image: "feature3" as const,
     },
   ],
   customize: {

@@ -63,8 +63,9 @@ export const SignInModal = () => {
                 <Spacer size={48} axis="column" />
 
                 <div className="px-12 space-y-4">
+                  {/* FIXME: */}
                   {(["google", "twitter"] as const).map((type) => (
-                    <LoginButton {...{ type }} />
+                    <LoginButton key={type} {...{ type }} />
                   ))}
                 </div>
 

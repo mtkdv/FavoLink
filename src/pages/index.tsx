@@ -63,20 +63,20 @@ const Home: NextPageWithLayout = () => {
 
       {/* 機能紹介 */}
       <section className="py-24 w-full relative bg-stone-150">
-        <div className="max-w-5xl mx-auto px-8 space-y-14">
+        <ul className="max-w-5xl mx-auto px-8 space-y-14">
           {topInfo.features.map((feature) => (
-            <Feature {...{ feature }} />
+            <Feature key={feature.image} {...{ feature }} />
           ))}
-        </div>
+        </ul>
       </section>
 
       {/* カスタマイズ紹介 */}
       <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
-        <h2 className="text-4xl">{topInfo.customize.heading}</h2>
+        <h2 className="text-3xl">{topInfo.customize.heading}</h2>
         <Spacer size={20} axis="column" />
-        <p className="flex flex-col text-center dark:text-stone-200">
+        <p className="flex flex-col text-center">
           {topInfo.customize.paragraphs!.map((paragraph) => (
-            <span>{paragraph}</span>
+            <span key={paragraph}>{paragraph}</span>
           ))}
         </p>
         <Spacer size={40} axis="column" />
@@ -85,14 +85,14 @@ const Home: NextPageWithLayout = () => {
             initial="offScreenLeft"
             className="max-xs:w-80 xs:col-span-5"
           >
-            <Image src={sample12} alt="sample" className="rounded-xl" />
+            <Image src={sample12} alt="light-mode" className="rounded-xl" />
           </MotionCustomize>
           <div className="max-xs:hidden xs:col-span-1" />
           <MotionCustomize
             initial="offScreenRight"
             className="max-xs:w-80 xs:col-span-5"
           >
-            <Image src={sample13} alt="sample" className="rounded-xl" />
+            <Image src={sample13} alt="dark-mode" className="rounded-xl" />
           </MotionCustomize>
         </div>
       </section>
