@@ -9,8 +9,8 @@ import { MotionCustomize } from "#/components/pages/home";
 import { pagesInfo, publicPath, queryKeys, topInfo } from "#/const";
 import { Spacer } from "#/components/uiParts";
 import { Feature } from "#/components/pages/home/Feature";
-import sample12 from "/public/sample12.png";
-import sample13 from "/public/sample13.png";
+import customize1 from "/public/customize1.png";
+import customize2 from "/public/customize2.png";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
@@ -21,11 +21,11 @@ const Home: NextPageWithLayout = () => {
       <section className="pb-18 flex flex-col items-center overflow-x-hidden">
         <div className="mt-28 px-8 flex flex-col items-center justify-center gap-y-14">
           <h1 className="text-5xl text-center">{topInfo.heading}</h1>
-          <p className="text-liver-500 text-center">{topInfo.paragraph}</p>
+          <p className="text-liver-400 text-center">{topInfo.paragraph}</p>
 
           <div className="h-12">
-            {sessionStatus === "loading" ? null : sessionStatus ===
-              "unauthenticated" ? (
+            {sessionStatus !== "loading" &&
+            sessionStatus === "unauthenticated" ? (
               <button
                 onClick={() =>
                   queryClient.setQueryData(queryKeys.signInModal, true)
@@ -71,28 +71,38 @@ const Home: NextPageWithLayout = () => {
       </section>
 
       {/* カスタマイズ紹介 */}
-      <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col items-center">
-        <h2 className="text-3xl">{topInfo.customize.heading}</h2>
+      <section className="pt-18 pb-28 max-w-5xl mx-auto px-8 flex flex-col">
+        <h2 className="text-3xl text-center">{topInfo.customize.heading}</h2>
         <Spacer size={20} axis="column" />
-        <p className="flex flex-col text-center">
-          {topInfo.customize.paragraphs!.map((paragraph) => (
+        <p className="flex flex-col text-liver-400 text-center">
+          {topInfo.customize.paragraphs.map((paragraph) => (
             <span key={paragraph}>{paragraph}</span>
           ))}
         </p>
         <Spacer size={40} axis="column" />
-        <div className="max-w-2xl max-xs:space-y-12 xs:grid xs:grid-cols-11">
+        <div className="w-full max-w-2xl mx-auto max-xs:space-y-12 xs:grid xs:grid-cols-11">
           <MotionCustomize
             initial="offScreenLeft"
-            className="max-xs:w-80 xs:col-span-5"
+            className="flex justify-center xs:col-span-5"
           >
-            <Image src={sample12} alt="light-mode" className="rounded-xl" />
+            <Image
+              src={customize1}
+              width={320}
+              alt="light-mode"
+              className="rounded-xl"
+            />
           </MotionCustomize>
           <div className="max-xs:hidden xs:col-span-1" />
           <MotionCustomize
             initial="offScreenRight"
-            className="max-xs:w-80 xs:col-span-5"
+            className="flex justify-center xs:col-span-5"
           >
-            <Image src={sample13} alt="dark-mode" className="rounded-xl" />
+            <Image
+              src={customize2}
+              width={320}
+              alt="dark-mode"
+              className="rounded-xl"
+            />
           </MotionCustomize>
         </div>
       </section>

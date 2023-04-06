@@ -32,7 +32,7 @@ export const Feature = ({
         {paragraphs && (
           <>
             <Spacer size={20} axis="column" />
-            <p className="flex flex-col text-center">
+            <p className="flex flex-col text-liver-400 text-center">
               {paragraphs.map((paragraph) => (
                 <span key={paragraph}>{paragraph}</span>
               ))}
