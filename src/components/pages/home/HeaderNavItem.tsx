@@ -61,7 +61,7 @@ export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
       >
         {/* FIXME: leaveのdelay中にbackdrop-blurが機能しなくなる。 */}
         {/* <div className="rounded-lg border shadow-md bg-base-white/90 backdrop-blur-2xl p-1.5"> */}
-        <ul className="p-2 bg-white shadow-[0_5px_20px_-3px] shadow-black/20">
+        <ul className="p-2 bg-white shadow-[0_0_25px_-2px] shadow-khaki-800/30">
           {menu.items.map((item) => (
             <DropDownItem key={item.href} {...{ item }} />
           ))}

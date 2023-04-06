@@ -24,10 +24,9 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <header className="group/header fixed top-0 w-screen z-10 h-24 pr-3.5 text-liver">
+      <header className="group/header fixed top-0 w-screen z-10 h-24 pr-3.5 text-liver-500">
         <div className="absolute inset-x-0 -z-10 bg-base-white/50 backdrop-blur h-full group-[:has(#hamburger:checked)]/header:bg-base-white dark:group-[&:has(#hamburger:checked)]/header:bg-base-black dark:bg-base-black/50 dark:text-base-white" />
 
-        {/* <div className="absolute inset-x-0 z-10 h-full pb-px pt-0.5 max-w-5xl mx-auto flex items-center pl-6 pr-10 justify-between"> */}
         <div className="absolute inset-x-0 z-10 h-full pb-px pt-0.5 max-w-5xl mx-auto flex items-center pl-6 pr-10">
           {/* タイトル */}
           <h1 className="text-2xl font-light tracking-[0.3rem]">
@@ -73,7 +72,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
       <main
         ref={scrollTopRef}
-        className="pt-24 min-h-top-main md:min-h-md-top-main bg-white text-liver"
+        className="pt-24 min-h-top-main md:min-h-md-top-main bg-white text-liver-500"
       >
         {children}
 

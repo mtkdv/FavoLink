@@ -18,7 +18,7 @@ export const HeaderDivider = () => {
       leaveTo="opacity-0"
       className="absolute bottom-0 w-full pr-3.5"
     >
-      <Divider bgColor="bg-gradient-to-r from-base-white via-liver/50 to-base-white" />
+      <Divider bgColor="bg-gradient-to-r from-base-white via-liver-500/50 to-base-white" />
     </Transition>
   );
 };

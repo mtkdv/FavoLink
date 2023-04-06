@@ -58,7 +58,7 @@ export const ModeSelect = ({
                 />
                 <div
                   className={clsx(
-                    "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]:shadow-md transition peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-liver flex flex-col space-y-2 justify-center pl-5"
+                    "h-full rounded-md ring-1 ring-stone-300 peer-[:is(:hover,:focus-visible)]:shadow-md transition peer-checked:ring-2 peer-checked:ring-teal-600 peer-checked:bg-teal-50 peer-checked:text-liver-500 flex flex-col space-y-2 justify-center pl-5"
                   )}
                 >
                   <p className="font-semibold">{mode.title}</p>

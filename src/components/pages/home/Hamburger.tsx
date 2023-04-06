@@ -72,7 +72,7 @@ const Bar = ({ position }: { position: keyof typeof positions }) => {
   return (
     <span
       className={clsx(
-        "absolute bg-liver h-0.5 w-6 rounded-full shadow-md transition duration-300",
+        "absolute bg-liver-500 h-0.5 w-6 rounded-full shadow-md transition duration-300",
         positions[position]
       )}
     />
