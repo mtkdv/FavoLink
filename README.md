@@ -1,12 +1,13 @@
-<h1 style="text-align: center;">FAVOLINK</h1>
+<h1 align="center">FAVOLINK</h1>
 
 <!-- [![next.js](https://img.shields.io/badge/v13.2.1-blueviolet.svg?style=for-the-badge&logo=Next.js&labelColor=000000&logoWidth=20>)](https://github.com/vercel/next.js/) -->
 <!-- [![react](https://img.shields.io/badge/v18.2.0-blue.svg?style=for-the-badge&logo=React&labelColor=000000&logoWidth=20>)](https://github.com/facebook/react) -->
 
-<p style="display: flex; justify-content: center; gap: 10px;">
+<p align="center">
   <a href="https://github.com/vercel/next.js/">
     <img alt="" src="https://img.shields.io/badge/v13.2.1-blueviolet.svg?style=for-the-badge&logo=Next.js&labelColor=222222&logoWidth=20" />
   </a>
+  &nbsp;
   <a href="https://github.com/facebook/react">
     <img alt="" src="https://img.shields.io/badge/v18.2.0-blue.svg?style=for-the-badge&logo=React&labelColor=222222&logoWidth=20" />
   </a>
