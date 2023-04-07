@@ -21,7 +21,13 @@ export const Sidebar = () => {
             size={40}
             className="animate-[spin_10s_linear_infinite] text-cocoa-400"
           /> */}
-          <span className="text-3xl font-light tracking-widest">FAVOLINK</span>
+          {/* <span className="text-3xl font-light tracking-widest">FAVOLINK</span> */}
+          <h2
+            // className="text-3xl tracking-widest bg-clip-text text-transparent bg-gradient-to-br from-liver-500 via-liver-400 to-liver-500 outline-none focus-visible:ring-2 ring-juniper-500"
+            className="text-3xl tracking-widest outline-none focus-visible:ring-2 ring-juniper-500"
+          >
+            FAVOLINK
+          </h2>
         </div>
       </div>
 

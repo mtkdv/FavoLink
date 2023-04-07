@@ -21,7 +21,8 @@
   }
 
   .drop-shadow-white-black {
-    filter: drop-shadow(1px 1px 0 white) drop-shadow(2px 2px 0 black);
+    filter: drop-shadow(1px 1px 0 white)
+      drop-shadow(1.5px 1.5px 0 rgba(0, 0, 0, 0.1));
   }
 
   .neumorphism {

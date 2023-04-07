@@ -1,3 +1,4 @@
+import { kleeOne } from "#/lib/nextFont";
 import { Toaster } from "react-hot-toast";
 
 export const Notification = () => {
@@ -11,6 +12,7 @@ export const Notification = () => {
           // color: "#fff",
         },
         // className: "bg-accent text-white ring-2 ring-offset-[3px] ring-accent",
+        className: kleeOne.className,
         success: {
           iconTheme: {
             primary: "teal",

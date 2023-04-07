@@ -1,8 +1,9 @@
 import Router from "next/router";
-import clsx from "clsx";
-import { FaArrowLeft, FaShareSquare, FaUserCog } from "react-icons/fa";
 import Link from "next/link";
 import { Custom, Profile } from "@prisma/client";
+import clsx from "clsx";
+
+import { FaArrowLeft, FaShareSquare, FaUserCog } from "react-icons/fa";
 import { pagesInfo } from "#/const";
 
 export const PreviewHeader = ({

@@ -32,7 +32,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
           <h1 className="text-2xl font-light tracking-[0.3rem]">
             <Link
               href={pagesInfo.top.href}
-              className="p-1 outline-none focus-visible:ring-2 ring-juniper-500 transition"
+              className="text-3xl tracking-widest outline-none focus-visible:ring-2 ring-juniper-500"
             >
               FAVOLINK
             </Link>
