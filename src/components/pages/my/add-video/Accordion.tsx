@@ -64,7 +64,7 @@ export const Accordion = ({ children }: { children: React.ReactNode }) => {
         // tabIndex={-1}
         // onClick={(e) => e.preventDefault()}
         onClick={toggleAccordion}
-        className="group block absolute top-2 right-10 cursor-pointer outline-none focus-visible:ring-2 ring-cocoa-200"
+        className="group block absolute top-2 right-10 cursor-pointer outline-none focus-visible:ring-2 ring-juniper-500"
       >
         {/* Toggle Accordion Button */}
         {/* <button

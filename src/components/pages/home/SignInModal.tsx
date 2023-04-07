@@ -3,10 +3,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
-import { VscChromeClose } from "react-icons/vsc";
 import { SiTwitter } from "react-icons/si";
+import { TfiClose } from "react-icons/tfi";
 
 import { pagesInfo, queryKeys } from "#/const";
+import { Spacer } from "#/components/uiParts";
+import clsx from "clsx";
 
 export const SignInModal = () => {
   const { data: isOpen } = useQuery({
@@ -24,11 +26,9 @@ export const SignInModal = () => {
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         // open={isOpen}
-        // onClose={() => queryClient.setQueryData(queryKeys.signInModal, false)}
         onClose={closeModal}
         className="relative z-50"
       >
-        {/* <div className="fixed inset-0 bg-black/30" aria-hidden="true" /> */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -38,8 +38,7 @@ export const SignInModal = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          {/* <div className="fixed inset-0 bg-black/25" /> */}
-          <div className="fixed inset-0 bg-black/5 backdrop-blur-[1px]" />
+          <div className="fixed inset-0 bg-neutral-100/80 backdrop-blur" />
         </Transition.Child>
 
         <div className="fixed inset-y-0 w-screen pr-3.5 overflow-y-auto">
@@ -53,52 +52,28 @@ export const SignInModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="relative w-full max-w-sm rounded-2xl bg-white py-6 px-12 border-t border-t-black/10 border-l border-l-black/10 shadow-[3px_3px_5px_rgba(0,0,0,0.1)]">
-                <Dialog.Title className="text-xl font-medium text-center">
-                  <span className="relative">
-                    <span className="absolute bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 w-full h-0.5 -bottom-2"></span>
-                    <span>Log in to FavoLink</span>
+              <Dialog.Panel className="relative w-full max-w-sm bg-white py-6 shadow-[0_0_25px_-2px] shadow-khaki-500/30">
+                <Dialog.Title className="relative text-center">
+                  <span className="absolute left-0 -bottom-1 w-full h-px rounded-full bg-gradient-to-r from-white via-khaki-500 to-white" />
+                  <span className="text-liver-500 text-xl font-light tracking-wider">
+                    Log in to FAVOLINK
                   </span>
                 </Dialog.Title>
-                {/* <Dialog.Description>
-                  description
-                </Dialog.Description> */}
-                <div className="mt-12 space-y-4">
-                  <button
-                    onClick={() => {
-                      // signIn("google", { callbackUrl: pagesInfo.my.dashboard.href });
-                      signIn("google", { callbackUrl: pagesInfo.top.href });
-                      // signIn("google", {
-                      //   callbackUrl: getPagesPath(["my", "addVideo"]),
-                      // });
-                    }}
-                    type="button"
-                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  >
-                    <FcGoogle size={20} />
-                    <span>Continue with Google</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      // signIn("twitter", { callbackUrl: pagesInfo.my.dashboard.href });
-                      // signIn("twitter", { callbackUrl: pagesInfo.my.addVideo.href });
-                      signIn("twitter", { callbackUrl: pagesInfo.top.href });
-                    }}
-                    type="button"
-                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  >
-                    <SiTwitter size={20} className="text-[color:#2A9BF0]" />
-                    <span>Continue with Twitter</span>
-                  </button>
+
+                <Spacer size={48} axis="column" />
+
+                <div className="px-12 space-y-4">
+                  {/* FIXME: */}
+                  {(["google", "twitter"] as const).map((type) => (
+                    <LoginButton key={type} {...{ type }} />
+                  ))}
                 </div>
+
                 <button
-                  // onClick={() =>
-                  //   queryClient.setQueryData(queryKeys.signInModal, false)
-                  // }
                   onClick={closeModal}
-                  className="absolute top-3 right-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="absolute bottom-full -translate-y-1 right-1 transition outline-none focus-visible:ring-2 ring-juniper-500 hover:opacity-60"
                 >
-                  <VscChromeClose size={20} />
+                  <TfiClose size={32} className="text-khaki-500 scale-y-75" />
                 </button>
               </Dialog.Panel>
             </Transition.Child>
@@ -106,5 +81,31 @@ export const SignInModal = () => {
         </div>
       </Dialog>
     </Transition>
+  );
+};
+
+const iconTypes = {
+  google: FcGoogle,
+  twitter: SiTwitter,
+};
+
+const LoginButton = ({ type }: { type: "google" | "twitter" }) => {
+  const Icon = iconTypes[type];
+
+  return (
+    <button
+      onClick={() => {
+        signIn(type, { callbackUrl: pagesInfo.top.href });
+      }}
+      type="button"
+      className="flex w-full justify-center bg-white border border-khaki-500 px-4 py-2 transition hover:ring-2 hover:ring-khaki-400/30 outline-none focus-visible:ring-2 focus-visible:ring-juniper-500 focus-visible:ring-offset-2"
+    >
+      <Icon size={24} className={clsx(type === "twitter" && "text-twitter")} />
+      <Spacer size={8} axis="row" />
+      <span className="text-liver-500 font-light tracking-wider">
+        Continue with&nbsp;
+        <span className="capitalize">{type}</span>
+      </span>
+    </button>
   );
 };

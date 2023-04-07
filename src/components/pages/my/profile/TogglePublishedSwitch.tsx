@@ -28,14 +28,13 @@ export const TogglePublishedSwitch = () => {
   };
 
   return profile ? (
-    // <div className="group/pub-pri-switch flex space-x-2">
     <div className="flex justify-between">
       <div className="flex flex-col items-end">
         <h3 className="">ページの公開設定</h3>
         <p className="text-xs">
           現在の状態：
           {checked ? (
-            <span className="text-cocoa-400">公開中</span>
+            <span className="text-teal-700">公開中</span>
           ) : (
             <span className="text-stone-400">非公開</span>
           )}
@@ -54,9 +53,7 @@ export const TogglePublishedSwitch = () => {
           <div
             className={clsx(
               "h-6 w-11 rounded-full flex items-center cursor-pointer transition-colors",
-              // checked ? "bg-blue-600" : "bg-gray-200"
-              checked ? "bg-cocoa-400" : "bg-gray-200"
-              // "group-[:has(input:checked)]/pub-pri-switch:bg-blue-600 group-[:has(input:not(:checked))]/pub-pri-switch:bg-gray-200"
+              checked ? "bg-teal-600" : "bg-gray-200"
             )}
           >
             <div

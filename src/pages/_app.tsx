@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { AccessControl, ErrorBoundary, Notification } from "#/providers";
 import "#/styles/globals.css";
+import { kleeOne } from "#/lib/nextFont";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -29,7 +30,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <ErrorBoundary>
           <Notification />
           <AccessControl>
-            {getLayout(<Component {...pageProps} />)}
+            <main className={kleeOne.className}>
+              {getLayout(<Component {...pageProps} />)}
+            </main>
           </AccessControl>
         </ErrorBoundary>
       </QueryClientProvider>

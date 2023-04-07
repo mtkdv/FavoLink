@@ -24,19 +24,19 @@ export const DashboardButton = ({
       disabled={!isEnabled || isSubmitting}
       form={formId}
       className={clsx(
-        "relative group h-11 w-28 rounded-lg outline-none overflow-hidden transition bg-cocoa-400 border border-cocoa-400 flex justify-center items-center",
+        "relative group h-11 w-28 rounded-lg outline-none overflow-hidden transition bg-teal-600 border border-teal-600 flex justify-center items-center",
         isEnabled
-          ? "focus-visible:ring-2 ring-cocoa-400 ring-offset-1 hover:bg-cocoa-500"
+          ? "focus-visible:ring-2 ring-teal-600 ring-offset-1 hover:bg-teal-700"
           : "cursor-not-allowed opacity-40",
         isSubmitting && "cursor-progress"
       )}
     >
-      <span
+      {/* <span
         className={clsx(
-          "absolute bottom-0 left-0 w-full h-1/2 rounded-b-md bg-cocoa-500 transition",
-          isEnabled && "group-hover:bg-cocoa-600"
+          "absolute bottom-0 left-0 w-full h-1/2 rounded-b-md bg-teal-700 transition",
+          isEnabled && "group-hover:bg-teal-800"
         )}
-      />
+      /> */}
       {isSubmitting ? (
         <PuffLoader color="white" size={24} />
       ) : (

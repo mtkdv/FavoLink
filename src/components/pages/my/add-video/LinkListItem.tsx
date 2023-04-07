@@ -69,7 +69,7 @@ export const LinkListItem = ({
             <button
               type="button"
               onClick={() => swapVideoItem(linkIndex)}
-              className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-0.5 rounded-sm ring-1 ring-stone-300 shadow p-0.5 bg-white [&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:ring-tonys-pink transition duration-300"
+              className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-0.5 rounded-sm border border-stone-300 shadow p-0.5 bg-white [&:is(:hover,:focus-visible)]:bg-juniper-500 [&:is(:hover,:focus-visible)]:border-juniper-500 transition duration-300 outline-none"
             >
               <AiOutlineSwap
                 size={16}
@@ -112,7 +112,7 @@ export const LinkListItem = ({
                 >
                   <IoMdClose
                     size={20}
-                    className="text-stone-400 group-[:is(:hover,:focus-visible)]/remove:text-[#222222] transition duration-300 opacity-0 group-hover/video-item:opacity-100"
+                    className="text-stone-400 group-focus-visible/remove:opacity-100 group-[:is(:hover,:focus-visible)]/remove:text-red-400 transition duration-300 opacity-0 group-hover/video-item:opacity-100"
                   />
                 </button>
               </div>

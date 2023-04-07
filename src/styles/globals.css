@@ -21,7 +21,8 @@
   }
 
   .drop-shadow-white-black {
-    filter: drop-shadow(1px 1px 0 white) drop-shadow(2px 2px 0 black);
+    filter: drop-shadow(1px 1px 0 white)
+      drop-shadow(1.5px 1.5px 0 rgba(0, 0, 0, 0.1));
   }
 
   .neumorphism {
@@ -54,11 +55,15 @@
     @apply bg-white my-3 rounded-full;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-cocoa-200 rounded-full border-[3px] border-solid border-white;
+    @apply bg-juniper-300 rounded-full border-[3px] border-solid border-white;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-cocoa-300;
+    @apply bg-juniper-400;
+  }
+
+  .center {
+    @apply top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2;
   }
 }
 

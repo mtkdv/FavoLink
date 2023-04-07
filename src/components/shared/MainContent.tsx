@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 import { CategorizedLink } from "#/components/shared";
 import { Videos } from "#/types";
-import { pagesInfo, publicPath } from "#/const";
+import { pagesInfo } from "#/const";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const MainContent = ({
@@ -38,7 +38,6 @@ export const MainContent = ({
           ) : (
             <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" />
           )}
-          {/* <div className="h-full bg-gradient-to-tr from-rose-200 via-red-300 to-yellow-200" /> */}
           {/* <div className="h-full bg-white" /> */}
         </div>
 
@@ -52,7 +51,6 @@ export const MainContent = ({
           <div className="absolute top-[30%] -right-40 bg-gradient-to-bl from-white/40 to-white/0 rounded-full w-[550px] h-[550px] animate-[animate_10s_infinite]"></div>
           <div className="absolute bottom-[3%] left-10 bg-gradient-to-br from-white/40 to-white/0 rounded-full w-[400px] h-[400px] animate-[animate_6s_infinite]"></div>
         </div> */}
-
           {/* Profile, Contents */}
           <div className="relative z-10 mt max-w-3xl mx-auto">
             {/* Profile */}
@@ -97,13 +95,12 @@ export const MainContent = ({
           </div>
         </main>
 
-        <footer className="my-6 flex flex-col space-y-2 items-center">
+        <footer className="relative my-6 flex flex-col space-y-2 items-center">
           <Link
             href={pagesInfo.top.href}
-            // href={getPagesPath(["top"])}
-            className="text-4xl font-black tracking-wide drop-shadow-white-black bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-600 to-slate-900"
+            className="text-3xl tracking-widest outline-none focus-visible:ring-2 ring-juniper-500 drop-shadow-white-black"
           >
-            Favolink
+            FAVOLINK
           </Link>
           <p className="text-xs drop-shadow-[1px_1px_0_white]">
             Copyright &copy; 2023 All rights reserved.

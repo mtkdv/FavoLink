@@ -58,9 +58,9 @@ export const BackgroundSelect = ({
           <button
             type="button"
             className={clsx(
-              "flex-1 text-sm outline-none rounded-tl-md ring-inset focus-visible:ring-2 px-1",
+              "flex-1 text-sm outline-none rounded-tl-md ring-inset focus-visible:ring-2 ring-juniper-500 px-1",
               "flex justify-center items-center space-x-1 cursor-not-allowed",
-              !hasBackground ? "font-bold bg-cocoa-100" : "bg-orange-50"
+              !hasBackground ? "font-bold bg-juniper-200" : "bg-juniper-100"
             )}
           >
             {/* <FaTools /> */}
@@ -75,8 +75,8 @@ export const BackgroundSelect = ({
           <button
             type="button"
             className={clsx(
-              "flex-1 text-sm outline-none rounded-tr-md ring-inset focus-visible:ring-2 px-1",
-              hasBackground ? "font-bold bg-cocoa-100" : "bg-orange-50"
+              "flex-1 text-sm outline-none rounded-tr-md ring-inset focus-visible:ring-2 ring-juniper-500 px-1",
+              hasBackground ? "font-bold bg-juniper-200" : "bg-juniper-100"
             )}
           >
             <span className="line-clamp-1">画像アップロード</span>
@@ -130,7 +130,7 @@ export const BackgroundSelect = ({
                           <button
                             type="button"
                             onClick={() => inputRef.current?.click()}
-                            className="group max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] [&:is(:hover,:focus-visible)]:bg-black/30 transition grid place-items-center outline-none focus-visible:ring-2 ring-offset-1"
+                            className="group max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] [&:is(:hover,:focus-visible)]:bg-black/30 transition grid place-items-center outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1"
                           >
                             <FaImage
                               size={32}
@@ -146,7 +146,7 @@ export const BackgroundSelect = ({
                           className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] object-cover group-[:has(.error-message)]/has-background:ring-red-600 ring-offset-1"
                         />
                       </div>
-                      <p className="mt-2 text-sm text-center text-cocoa-400 group-[:has(.error-message)]/has-background:text-red-600">
+                      <p className="mt-2 text-sm text-center text-teal-700 group-[:has(.error-message)]/has-background:text-red-600">
                         選択中の画像
                       </p>
                     </>
@@ -156,7 +156,7 @@ export const BackgroundSelect = ({
                         <button
                           type="button"
                           onClick={() => inputRef.current?.click()}
-                          className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-stone-50 border-2 border-black/5 [&:is(:hover,:focus-visible)]:bg-black/5 [&:is(:hover,:focus-visible)]:border-none transition-[background-color,_border-style,_box-shadow] flex justify-center items-center outline-none focus-visible:ring-2 ring-offset-1"
+                          className="max-sm:w-60 max-sm:min-w-[160px] sm:w-full aspect-[2/3] bg-stone-50 border-2 border-black/5 [&:is(:hover,:focus-visible)]:bg-black/5 [&:is(:hover,:focus-visible)]:border-none transition-[background-color,_border-style,_box-shadow] flex justify-center items-center outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1"
                         >
                           <FaImage size={32} className="opacity-50" />
                         </button>
@@ -166,7 +166,7 @@ export const BackgroundSelect = ({
                           type="button"
                           onClick={() => inputRef.current?.click()}
                           // TODO: focus時
-                          className="mt-2 text-sm text-center outline-none focus-visible:ring-2"
+                          className="mt-2 text-sm text-center outline-none focus-visible:ring-2 ring-juniper-500"
                         >
                           ファイルを選択
                         </button>
@@ -180,7 +180,7 @@ export const BackgroundSelect = ({
             {/* プレビュー詳細 */}
             <div className="px-5">
               {/* ラベル */}
-              <p className="bg-cocoa-100 border border-b-0 border-stone-300 py-1 px-2 w-fit text-xs rounded-t-md">
+              <p className="bg-juniper-200 border border-b-0 border-stone-300 py-1 px-2 w-fit text-xs rounded-t-md">
                 詳細情報
               </p>
 
@@ -202,7 +202,7 @@ export const BackgroundSelect = ({
                         "pl-px text-sm h-5 tracking-wide break-all line-clamp-1",
                         previewFile && previewFile.size > ONE_MEGA_BYTE * 4
                           ? "text-red-600 error-message"
-                          : "text-cocoa-400"
+                          : "text-teal-600"
                       )}
                     >
                       {previewFile && bytesToKilobytes(previewFile.size)}
@@ -240,7 +240,7 @@ export const BackgroundSelect = ({
                         previewFile &&
                           !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
                           ? "text-red-600 error-message"
-                          : "text-cocoa-400"
+                          : "text-teal-600"
                       )}
                     >
                       {previewFile && mimeToFileFormat(previewFile.type)}

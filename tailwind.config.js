@@ -19,26 +19,46 @@ module.exports = {
       colors: {
         "base-black": "#1D1D1D",
         "base-white": "#faf9f9",
-        accent: "#e8a78e",
-        "tonys-pink": "#e8a78e",
-        isabelline: {
-          50: "#FFFBF9",
-          // light: "#fbf9f8",
-          light: "#FBF7F5",
-          DEFAULT: "#eee6e2",
+        isabelline: "#eee6e2",
+        twitter: "#2A9BF0",
+        stone: {
+          150: "#EFEEEE",
         },
-
-        cocoa: {
-          50: "#fcfbf8",
-          100: "#faf0d9",
-          200: "#f5d7b1",
-          300: "#e7ae7d",
-          400: "#da804f",
-          500: "#c55d30",
-          600: "#a8431f",
-          700: "#823219",
-          800: "#5a2313",
-          900: "#39150c",
+        liver: {
+          50: "#f7f6f5",
+          100: "#eeecec",
+          200: "#d5d0cf",
+          300: "#bbb3b1",
+          400: "#897b77",
+          500: "#56423d",
+          600: "#4d3b37",
+          700: "#41322e",
+          800: "#342825",
+          900: "#2a201e",
+        },
+        juniper: {
+          50: "#f8f9f9",
+          100: "#f1f3f4",
+          200: "#dbe2e3",
+          300: "#c5d0d1",
+          400: "#9aadaf",
+          500: "#6E8A8D",
+          600: "#637c7f",
+          700: "#53686a",
+          800: "#425355",
+          900: "#364445",
+        },
+        khaki: {
+          50: "#fcfbf9",
+          100: "#f9f7f3",
+          200: "#efeae0",
+          300: "#e5ddce",
+          400: "#d2c4a9",
+          500: "#beaa84",
+          600: "#ab9977",
+          700: "#8f8063",
+          800: "#72664f",
+          900: "#5d5341",
         },
       },
       fontFamily: {
@@ -61,7 +81,8 @@ module.exports = {
         30: "7.5rem",
         90: "22.5rem",
         "3xl": "768px",
-        "full-nav": "calc(100vh - 56px)",
+        // h24(header) * 4px => 96px
+        "full-nav": "calc(100vh - 96px)",
         // (page + header) = (34px + 16 * 4px) => 98px
         "dashboard-page-main": "calc(100vh - 98px)",
       },
@@ -71,13 +92,16 @@ module.exports = {
         // (pt-36 + mt-6 + text-4xl + space-y-2 + text-xs + pb-6)
         // = (36 * 4px + 6 * 4px + 40px + 2 * 4px + 16px + 6 * 4px) => 256px
         "main-content": "calc(100vh - 256px)",
-        // (h-30 * 4px) => 120px
+        // h-30(footer) * 4px => 120px
         "top-main": "calc(100vh - 120px)",
-        // (h-20 * 4px) => 80px
+        // h-20(md:footer) * 4px => 80px
         "md-top-main": "calc(100vh - 80px)",
       },
       minWidth: {
         xl: "36rem" /** 576px */,
+      },
+      ringWidth: {
+        3: "3px",
       },
       keyframes: {
         animate: {

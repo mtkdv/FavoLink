@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
   FullNav,
@@ -11,61 +11,58 @@ import {
   SignInModal,
 } from "#/components/pages/home";
 import { Spacer, ToTopButton } from "#/components/uiParts";
-import { pagesInfo } from "#/const";
-import { useGetProfile, useScreen } from "#/hooks";
-import silhouetteAvatar from "/public/silhouette-avatar.png";
+import { pagesInfo, queryKeys } from "#/const";
+import { useScreen } from "#/hooks";
+import { AvatarIcon } from "#/components/shared";
 
 export const TopLayout = ({ children }: { children: React.ReactNode }) => {
   const { status: sessionStatus } = useSession();
-  const { data: profile, isLoading } = useGetProfile();
   const isMdScreen = useScreen("md");
   const scrollTopRef = useRef<HTMLElement>(null);
 
+  const queryClient = useQueryClient();
+
   return (
     <>
-      <header className="group/header fixed top-0 w-screen z-10 h-14 pr-3.5 font-medium transition">
-        <div className="absolute inset-x-0 -z-10 bg-base-white/50 backdrop-blur h-full group-[:has(#hamburger:checked)]/header:bg-base-white dark:group-[&:has(#hamburger:checked)]/header:bg-base-black dark:bg-base-black/50 dark:text-base-white" />
+      <header className="group/header fixed top-0 w-screen z-10 h-24 pr-3.5 text-liver-500">
+        <div className="absolute inset-x-0 -z-10 bg-white/70 backdrop-blur h-full group-[:has(#hamburger:checked)]/header:bg-base-white dark:group-[&:has(#hamburger:checked)]/header:bg-base-black dark:bg-base-black/50 dark:text-base-white" />
 
-        <div className="h-full pb-px pt-0.5 max-w-5xl mx-auto flex items-center px-4">
+        <div className="absolute inset-x-0 z-10 h-full pb-px pt-0.5 max-w-5xl mx-auto flex items-center pl-6 pr-10">
           {/* タイトル */}
-          <h1 className="text-xl font-bold">
+          <h1 className="text-2xl font-light tracking-[0.3rem]">
             <Link
               href={pagesInfo.top.href}
-              className="p-1 outline-none focus-visible:ring-2 ring-blue-400"
+              className="text-3xl tracking-widest outline-none focus-visible:ring-2 ring-juniper-500"
             >
-              FavoLink
+              FAVOLINK
             </Link>
           </h1>
 
           <Spacer />
 
-          {sessionStatus !== "loading" && (
+          {sessionStatus !== "loading" && isMdScreen ? (
             <>
-              {isMdScreen ? (
-                <HeaderNav />
+              <HeaderNav />
+              {sessionStatus === "unauthenticated" ? (
+                <button
+                  onClick={() =>
+                    queryClient.setQueryData(queryKeys.signInModal, true)
+                  }
+                  className="relative group w-18 h-9 bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition"
+                >
+                  <span className="absolute left-0 top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-neutral-700 opacity-0 transition duration-500 group-hover:opacity-100" />
+                  <span className="absolute center text-white font-light tracking-wider">
+                    Login
+                  </span>
+                </button>
               ) : (
-                <>
-                  <Hamburger />
-                  <FullNav />
-                </>
+                sessionStatus === "authenticated" && <AvatarIcon />
               )}
-
-              {/* Avatar Icon */}
-              {sessionStatus === "authenticated" && (
-                <div className="ml-5 flex items-center shrink-0">
-                  {isLoading ? (
-                    <div className="rounded-full w-10 h-10 bg-isabelline/75 animate-loadingPulse" />
-                  ) : (
-                    <Image
-                      src={profile?.image ?? silhouetteAvatar}
-                      alt="avatar"
-                      width={40}
-                      height={40}
-                      className="rounded-full w-10 h-10 animate-appearance"
-                    />
-                  )}
-                </div>
-              )}
+            </>
+          ) : (
+            <>
+              <Hamburger />
+              <FullNav />
             </>
           )}
         </div>
@@ -75,7 +72,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
       <main
         ref={scrollTopRef}
-        className="pt-14 min-h-top-main md:min-h-md-top-main bg-white"
+        className="pt-24 min-h-top-main md:min-h-md-top-main bg-white text-liver-500"
       >
         {children}
 
@@ -83,15 +80,11 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
       </main>
 
       <footer className="h-30 md:h-20 bg-neutral-800 text-white">
-        {/* <div className="absolute w-full">
-          <Divider classWrapper="px-2" />
-        </div> */}
-
         <div className="h-full max-w-5xl mx-auto px-4 pt-px flex max-md:flex-col justify-center gap-y-4 md:justify-between items-center">
           <div className="flex space-x-4">
             <Link
               href={pagesInfo.terms.href}
-              className="relative group outline-none focus-visible:ring-2 ring-sky-300 ring-offset-2 ring-offset-neutral-800"
+              className="relative group outline-none focus-visible:ring-2 ring-juniper-400 ring-offset-2 ring-offset-neutral-800 transition"
             >
               <span className="absolute bottom-0 w-full h-0.5 bg-white rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
               <span className="group-hover:text-white transition duration-300">
@@ -100,7 +93,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
             </Link>
             <Link
               href={pagesInfo.privacyPolicy.href}
-              className="relative group outline-none focus-visible:ring-2 ring-sky-300 ring-offset-2 ring-offset-neutral-800"
+              className="relative group outline-none focus-visible:ring-2 ring-juniper-400 ring-offset-2 ring-offset-neutral-800 transition"
             >
               <span className="absolute bottom-0 w-full h-0.5 bg-white rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
               <span className="group-hover:text-white transition duration-300">

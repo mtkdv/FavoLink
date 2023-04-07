@@ -46,12 +46,12 @@ export const LinkWithIcon = ({ title, href, icon }: Props) => {
         onClick={(e) => e.preventDefault()}
         tabIndex={-1}
         className={clsx(
-          "h-14 flex items-center rounded-md outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
+          "h-14 flex items-center rounded-md outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
           "cursor-not-allowed text-stone-400"
         )}
       >
         <span className="text-xs">🚧</span>
-        <p className="text-xs md:text-sm md:font-semibold md:tracking-wide">
+        <p className="max-md:text-xs md:font-light md:tracking-wider">
           {title.en}
         </p>
       </Link>
@@ -62,12 +62,12 @@ export const LinkWithIcon = ({ title, href, icon }: Props) => {
     <Link
       href={href}
       className={clsx(
-        "h-14 flex items-center rounded-md hover:bg-cocoa-200 hover:text-cocoa-700 outline-none focus-visible:ring-2 ring-cocoa-400 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
-        router.asPath === href && "bg-cocoa-100 text-cocoa-700"
+        "h-14 flex items-center rounded-md hover:bg-stone-300 text-liver-500 outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
+        router.asPath === href && "bg-stone-200"
       )}
     >
       {Icon && <Icon />}
-      <p className="text-xs md:text-sm md:font-semibold md:tracking-wide">
+      <p className="max-md:text-xs md:font-light md:tracking-wider">
         {title.en}
       </p>
     </Link>

@@ -22,7 +22,7 @@ export const CustomizeSkeleton = () => {
       </div>
 
       {/* Main */}
-      <div className="px-6 py-4 space-y-12">
+      <div className="px-6 py-10 space-y-12">
         <div className="flex flex-col space-y-12">
           {/* ページ背景 */}
           <div className="space-y-2">
