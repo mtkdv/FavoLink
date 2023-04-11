@@ -29,7 +29,6 @@ export default async function handle(
       try {
         const profile = await prisma.profile.findUniqueOrThrow({
           where: { userId },
-          // where: { userId: "hogehoge" },
         });
         res.json(profile);
       } catch (error) {

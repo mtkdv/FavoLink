@@ -21,7 +21,7 @@ export const FullNav = () => {
           {sessionStatus === "authenticated" ? (
             <button
               onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
-              className="block py-4 px-2 w-full text-left font-light tracking-wider hover:bg-black/5 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset animate-appearance transition"
+              className="block py-4 px-2 w-full text-left font-light tracking-wider hover:bg-black/5 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset animate-appearance transition border-b border-b-black/10"
             >
               Logout
             </button>

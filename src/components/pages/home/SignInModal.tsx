@@ -6,9 +6,16 @@ import { FcGoogle } from "react-icons/fc";
 import { SiTwitter } from "react-icons/si";
 import { TfiClose } from "react-icons/tfi";
 
-import { pagesInfo, queryKeys } from "#/const";
+import {
+  OAuthProvider,
+  Provider,
+  oAuthProviders,
+  pagesInfo,
+  queryKeys,
+} from "#/const";
 import { Spacer } from "#/components/uiParts";
 import clsx from "clsx";
+import { kleeOne } from "#/lib/nextFont";
 
 export const SignInModal = () => {
   const { data: isOpen } = useQuery({
@@ -27,7 +34,7 @@ export const SignInModal = () => {
       <Dialog
         // open={isOpen}
         onClose={closeModal}
-        className="relative z-50"
+        className={clsx(kleeOne.className, "relative z-50")}
       >
         <Transition.Child
           as={Fragment}
@@ -55,7 +62,7 @@ export const SignInModal = () => {
               <Dialog.Panel className="relative w-full max-w-sm bg-white py-6 shadow-[0_0_25px_-2px] shadow-khaki-500/30">
                 <Dialog.Title className="relative text-center">
                   <span className="absolute left-0 -bottom-1 w-full h-px rounded-full bg-gradient-to-r from-white via-khaki-500 to-white" />
-                  <span className="text-liver-500 text-xl font-light tracking-wider">
+                  <span className="text-liver-500 text-xl font-light">
                     Log in to FAVOLINK
                   </span>
                 </Dialog.Title>
@@ -63,12 +70,19 @@ export const SignInModal = () => {
                 <Spacer size={48} axis="column" />
 
                 <div className="px-12 space-y-4">
-                  {/* FIXME: */}
-                  {(["google", "twitter"] as const).map((type) => (
-                    <LoginButton key={type} {...{ type }} />
+                  {oAuthProviders.map((provider) => (
+                    <OAuthLoginButton key={provider} {...{ provider }} />
                   ))}
                 </div>
 
+                <Spacer size={36} axis="column" />
+                <div className="px-12">
+                  <LoginButton provider="credentials">
+                    <span className="text-liver-500 font-light">
+                      Guest Login
+                    </span>
+                  </LoginButton>
+                </div>
                 <button
                   onClick={closeModal}
                   className="absolute bottom-full -translate-y-1 right-1 transition outline-none focus-visible:ring-2 ring-juniper-500 hover:opacity-60"
@@ -89,23 +103,40 @@ const iconTypes = {
   twitter: SiTwitter,
 };
 
-const LoginButton = ({ type }: { type: "google" | "twitter" }) => {
-  const Icon = iconTypes[type];
-
+const LoginButton = ({
+  provider,
+  children,
+}: {
+  provider: Provider;
+  children: React.ReactNode;
+}) => {
   return (
     <button
       onClick={() => {
-        signIn(type, { callbackUrl: pagesInfo.top.href });
+        signIn(provider, { callbackUrl: pagesInfo.top.href });
       }}
       type="button"
       className="flex w-full justify-center bg-white border border-khaki-500 px-4 py-2 transition hover:ring-2 hover:ring-khaki-400/30 outline-none focus-visible:ring-2 focus-visible:ring-juniper-500 focus-visible:ring-offset-2"
     >
-      <Icon size={24} className={clsx(type === "twitter" && "text-twitter")} />
-      <Spacer size={8} axis="row" />
-      <span className="text-liver-500 font-light tracking-wider">
-        Continue with&nbsp;
-        <span className="capitalize">{type}</span>
-      </span>
+      {children}
     </button>
+  );
+};
+
+const OAuthLoginButton = ({ provider }: { provider: OAuthProvider }) => {
+  const Icon = iconTypes[provider];
+
+  return (
+    <LoginButton provider={provider}>
+      <Icon
+        size={24}
+        className={clsx(provider === "twitter" && "text-twitter")}
+      />
+      <Spacer size={8} axis="row" />
+      <span className="text-liver-500 font-light">
+        Continue with&nbsp;
+        <span className="capitalize">{provider}</span>
+      </span>
+    </LoginButton>
   );
 };
