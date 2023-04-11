@@ -7,7 +7,7 @@ import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { MotionCustomize } from "#/components/pages/home";
 import { pagesInfo, publicPath, queryKeys, topInfo } from "#/const";
-import { Spacer } from "#/components/uiParts";
+import { LoginButton, Spacer } from "#/components/uiParts";
 import { Feature } from "#/components/pages/home/Feature";
 import customize1 from "/public/customize1.png";
 import customize2 from "/public/customize2.png";
@@ -26,25 +26,14 @@ const Home: NextPageWithLayout = () => {
           <div className="h-12">
             {sessionStatus !== "loading" &&
             sessionStatus === "unauthenticated" ? (
-              <button
-                onClick={() =>
-                  queryClient.setQueryData(queryKeys.signInModal, true)
-                }
-                className="relative group w-28 h-12 bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition"
-              >
-                <span className="absolute left-0 top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-neutral-700 opacity-0 transition duration-500 group-hover:opacity-100" />
-                <span className="absolute center text-white text-lg font-light tracking-widest">
-                  {topInfo.login}
-                </span>
-              </button>
+              <LoginButton size="md" />
             ) : (
               <Link
-                // href={pagesInfo.my.dashboard.href}
                 href={pagesInfo.my.addVideo.href}
-                className="block relative group w-40 h-12 bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition"
+                className="block relative group px-8 h-12 bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition"
               >
                 <span className="absolute left-0 top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-neutral-700 opacity-0 transition duration-500 group-hover:opacity-100" />
-                <span className="absolute w-full h-full flex justify-center items-center text-white">
+                <span className="relative flex h-full items-center text-white">
                   {topInfo.createPage}
                 </span>
               </Link>
