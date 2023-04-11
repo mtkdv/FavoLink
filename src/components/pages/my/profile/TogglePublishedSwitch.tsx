@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { useGetProfilePublished, usePatchProfilePublished } from "#/hooks";
 
 export const TogglePublishedSwitch = React.memo(() => {
-  console.log("TogglePublishedSwitch");
   const inputId = useId();
   const { data: profile, isLoading } = useGetProfilePublished();
   const { mutateAsync } = usePatchProfilePublished();
