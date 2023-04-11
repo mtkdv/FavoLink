@@ -1,37 +1,28 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";
 import TwitterProvider from "next-auth/providers/twitter";
-import prisma from "#/lib/prisma";
+import Credentials from "next-auth/providers/credentials";
 
-// const createProfile = (message: { user: User }) => {
-//   prisma.profile.create({
-//     data: {
-//       name: message.user.name!,
-//       image: message.user.image,
-//       user: { connect: { id: message.user.id } },
-//     },
-//   });
-// };
+import prisma from "#/lib/prisma";
+import { guestCustom, guestProfile, guestUser, guestVideos } from "#/const";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
+    session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
       }
       return session;
     },
   },
-  // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
+  // Configure one or more authentication providers
   providers: [
-    // GitHubProvider({
-    //   clientId: process.env.GITHUB_ID,
-    //   clientSecret: process.env.GITHUB_SECRET,
-    // }),
     GoogleProvider({
       // FIXME: GOOGLE_CLIENT_ID: string | undefined
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -41,26 +32,93 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.TWITTER_CLIENT_ID as string,
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
     }),
+    Credentials({
+      name: "Create Guest User",
+      credentials: {},
+      async authorize() {
+        return createGuestUser();
+      },
+    }),
     // ...add more providers here
   ],
   events: {
-    createUser: async (message) => {
+    async createUser({ user }) {
       await Promise.all([
         prisma.profile.create({
           data: {
-            name: message.user.name!,
-            image: message.user.image,
-            user: { connect: { id: message.user.id } },
+            name: user.name!,
+            image: user.image,
+            user: { connect: { id: user.id } },
           },
         }),
         prisma.custom.create({
           data: {
-            user: { connect: { id: message.user.id } },
+            user: { connect: { id: user.id } },
           },
         }),
       ]);
+    },
+    async signOut({ token }) {
+      // ゲストアカウントを削除
+      const user = await prisma.user.findUnique({
+        where: {
+          email: guestUser.email,
+        },
+      });
+      if (user && user.id === token.sub) {
+        await prisma.user.delete({
+          where: { id: user.id },
+        });
+      }
     },
   },
 };
 
 export default NextAuth(authOptions);
+
+const createGuestUser = async () => {
+  const user = await prisma.user.create({
+    data: {
+      ...guestUser,
+      profile: { create: guestProfile },
+      custom: { create: guestCustom },
+    },
+  });
+
+  await Promise.all([
+    guestVideos.map(
+      async ({ categoryName: name, categoryLinks }, categoryIndex) => {
+        const index = (categoryIndex + 1) * 1024;
+        const createdCategory = await prisma.category.create({
+          data: {
+            name,
+            index,
+            user: {
+              connect: { id: user.id },
+            },
+          },
+        });
+
+        const createdLinks = await Promise.all(
+          categoryLinks.map(async (categoryLink, linkIndex) => {
+            const index = (linkIndex + 1) * 1024;
+            await prisma.link.create({
+              data: {
+                ...categoryLink,
+                index,
+                user: {
+                  connect: { id: user.id },
+                },
+                category: {
+                  connect: { id: createdCategory.id },
+                },
+              },
+            });
+          })
+        );
+      }
+    ),
+  ]);
+
+  return user;
+};

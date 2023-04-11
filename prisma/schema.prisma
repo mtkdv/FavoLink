@@ -52,7 +52,7 @@ model User {
   categories    Category[]
   links         Link[]
   profile       Profile?
-  Custom        Custom?
+  custom        Custom?
 }
 
 model VerificationToken {
@@ -64,15 +64,14 @@ model VerificationToken {
 }
 
 model Profile {
-  id              String  @id @default(cuid())
-  name            String
-  image           String?
-  slug            String? @unique
-  description     String?
-  backgroundImage String? @db.VarChar(255)
-  published       Boolean @default(false)
-  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String  @unique
+  id          String  @id @default(cuid())
+  name        String
+  image       String?
+  slug        String? @unique
+  description String?
+  published   Boolean @default(false)
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String  @unique
 }
 
 enum Mode {
