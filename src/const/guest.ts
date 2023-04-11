@@ -1,3 +1,5 @@
+import { createRandomChars } from "#/utils";
+
 const nameAndImage = {
   name: "Cat",
   image: "https://source.unsplash.com/hxn2HjZHyQE",
@@ -8,12 +10,12 @@ export const guestUser = {
   email: "guest@example.com",
 };
 
-export const guestProfile = {
+export const guestProfile = () => ({
   ...nameAndImage,
-  slug: "my-cat-guest",
+  slug: createRandomChars(20),
   description: null,
   published: false,
-};
+});
 
 export const guestCustom = {
   backgroundImage: "https://source.unsplash.com/xgTMSz6kegE",

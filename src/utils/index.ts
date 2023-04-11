@@ -1,4 +1,5 @@
 export * from "./bytesToKilobytes";
+export * from "./createRandomChars";
 export * from "./firebaseStorage";
 export * from "./generateVideos";
 export * from "./handleError";

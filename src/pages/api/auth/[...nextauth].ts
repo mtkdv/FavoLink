@@ -80,7 +80,7 @@ const createGuestUser = async () => {
   const user = await prisma.user.create({
     data: {
       ...guestUser,
-      profile: { create: guestProfile },
+      profile: { create: guestProfile() },
       custom: { create: guestCustom },
     },
   });
