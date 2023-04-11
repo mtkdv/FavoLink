@@ -1,4 +1,4 @@
-import { Klee_One } from "@next/font/google";
+import { Klee_One } from "next/font/google";
 
 export const kleeOne = Klee_One({
   weight: ["400", "600"],
