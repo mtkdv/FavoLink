@@ -25,6 +25,24 @@ export default async function handle(
   }
 
   switch (req.method) {
+    case "GET": {
+      try {
+        const profile = await prisma.profile.findUniqueOrThrow({
+          where: { userId },
+          select: {
+            published: true,
+          },
+        });
+        res.json(profile);
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("GetProfile error", error);
+          res.status(404).json({ message: error.message });
+        }
+      }
+      break;
+    }
+
     case "PATCH": {
       const published = req.body.published as boolean;
 

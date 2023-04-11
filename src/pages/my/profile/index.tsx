@@ -94,7 +94,7 @@ const Profile: NextPageWithLayout = () => {
   const onSubmit: SubmitHandler<Schema> = async (fData) => {
     // await new Promise((r) => setTimeout(r, 3000));
     // return;
-    console.log("onSubmit");
+    // console.log("onSubmit");
 
     /** slug 重複検証 */
     if (fData.slug && fData.slug !== profile!.slug) {

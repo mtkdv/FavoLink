@@ -1,14 +1,20 @@
-import React, { useId, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { toast } from "react-hot-toast";
 import clsx from "clsx";
 
-import { useGetProfile, usePatchProfilePublished } from "#/hooks";
+import { useGetProfilePublished, usePatchProfilePublished } from "#/hooks";
 
-export const TogglePublishedSwitch = () => {
+export const TogglePublishedSwitch = React.memo(() => {
+  console.log("TogglePublishedSwitch");
   const inputId = useId();
-  const { data: profile } = useGetProfile();
+  const { data: profile, isLoading } = useGetProfilePublished();
   const { mutateAsync } = usePatchProfilePublished();
-  const [checked, setChecked] = useState(profile?.published);
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    if (profile === undefined) return;
+    setChecked(profile.published);
+  }, [profile]);
 
   const handleChange = async () => {
     setChecked((current) => !current);
@@ -27,7 +33,7 @@ export const TogglePublishedSwitch = () => {
     });
   };
 
-  return profile ? (
+  return isLoading ? null : (
     <div className="flex justify-between">
       <div className="flex flex-col items-end">
         <h3 className="">ページの公開設定</h3>
@@ -47,12 +53,12 @@ export const TogglePublishedSwitch = () => {
             id={inputId}
             checked={checked}
             onChange={handleChange}
-            className="sr-only"
+            className="sr-only peer"
           />
           {/* FIXME: スイッチのデザイン変更 */}
           <div
             className={clsx(
-              "h-6 w-11 rounded-full flex items-center cursor-pointer transition-colors",
+              "h-6 w-11 rounded-full flex items-center cursor-pointer transition duration-300 peer-focus-visible:ring-2 ring-juniper-500 ring-offset-1",
               checked ? "bg-teal-600" : "bg-gray-200"
             )}
           >
@@ -66,5 +72,5 @@ export const TogglePublishedSwitch = () => {
         </label>
       </div>
     </div>
-  ) : null;
-};
+  );
+});
