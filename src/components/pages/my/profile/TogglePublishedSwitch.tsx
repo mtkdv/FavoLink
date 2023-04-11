@@ -73,3 +73,5 @@ export const TogglePublishedSwitch = React.memo(() => {
     </div>
   );
 });
+
+TogglePublishedSwitch.displayName = "TogglePublishedSwitch";
