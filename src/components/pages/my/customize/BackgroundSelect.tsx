@@ -197,7 +197,7 @@ export const BackgroundSelect = ({
                     {/* MB, KB */}
                     <p
                       className={clsx(
-                        "h-5 break-all pl-px text-sm tracking-wide line-clamp-1",
+                        "line-clamp-1 h-5 break-all pl-px text-sm tracking-wide",
                         previewFile && previewFile.size > ONE_MEGA_BYTE * 4
                           ? "error-message text-red-600"
                           : "text-teal-600"
@@ -208,7 +208,7 @@ export const BackgroundSelect = ({
                     {/* 注意書き */}
                     <p
                       className={clsx(
-                        "break-all text-xxs line-clamp-1",
+                        "line-clamp-1 break-all text-xxs",
                         previewFile && previewFile.size > ONE_MEGA_BYTE * 4
                           ? "text-red-600"
                           : "text-stone-500"
@@ -234,7 +234,7 @@ export const BackgroundSelect = ({
                     {/* JPEG or PNG */}
                     <p
                       className={clsx(
-                        "h-5 break-all pl-px text-sm tracking-wide line-clamp-1",
+                        "line-clamp-1 h-5 break-all pl-px text-sm tracking-wide",
                         previewFile &&
                           !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
                           ? "error-message text-red-600"
@@ -246,7 +246,7 @@ export const BackgroundSelect = ({
                     {/* 注意書き */}
                     <p
                       className={clsx(
-                        "break-all text-xxs line-clamp-1",
+                        "line-clamp-1 break-all text-xxs",
                         previewFile &&
                           !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
                           ? "text-red-600"

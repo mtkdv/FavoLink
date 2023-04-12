@@ -121,7 +121,7 @@ export const Sidebar = () => {
                 </div>
               </div>
 
-              <p className="relative z-10 break-all text-center text-sm line-clamp-1">
+              <p className="relative z-10 line-clamp-1 break-all text-center text-sm">
                 {profile?.name}
               </p>
             </div>

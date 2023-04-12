@@ -98,7 +98,7 @@ export const LinkListItem = ({
             <div className="flex flex-1 flex-col justify-between py-[3px]">
               <div className="flex items-start space-x-1">
                 {/* Title */}
-                <p className="flex-1 break-all text-sm line-clamp-2">
+                <p className="line-clamp-2 flex-1 break-all text-sm">
                   {getValues(
                     `videos.${categoryIndex}.categoryLinks.${linkIndex}.title`
                   )}
@@ -138,7 +138,7 @@ export const LinkListItem = ({
                     className="transition-transform hover:scale-110"
                   />
                 </div>
-                <p className="flex-1 break-all text-xs text-base-black/70 transition-colors duration-300 line-clamp-1 hover:text-base-black">
+                <p className="line-clamp-1 flex-1 break-all text-xs text-base-black/70 transition-colors duration-300 hover:text-base-black">
                   {getValues(
                     `videos.${categoryIndex}.categoryLinks.${linkIndex}.channelTitle`
                   )}

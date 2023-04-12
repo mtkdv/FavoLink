@@ -62,7 +62,7 @@ export const ModeSelect = ({
                   )}
                 >
                   <p className="font-semibold">{mode.title}</p>
-                  <p className="break-all text-xs line-clamp-1">{mode.text}</p>
+                  <p className="line-clamp-1 break-all text-xs">{mode.text}</p>
                 </div>
               </label>
             </li>

@@ -57,7 +57,7 @@ export const CategorizedLink = ({
                           className="transition-transform hover:scale-105"
                         />
                       </div>
-                      <h3 className="drop-shadow-md line-clamp-2">
+                      <h3 className="line-clamp-2 drop-shadow-md">
                         {link.title}
                       </h3>
                     </button>
@@ -78,7 +78,7 @@ export const CategorizedLink = ({
                       </div>
                       <p
                         className={clsx(
-                          "flex-1 text-xs line-clamp-1",
+                          "line-clamp-1 flex-1 text-xs",
                           custom.mode === "LIGHT"
                             ? "text-black/70 hover:text-base-black"
                             : "text-white/70 hover:text-white"

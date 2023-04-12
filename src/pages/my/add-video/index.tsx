@@ -126,7 +126,7 @@ const AddVideo: NextPageWithLayout = () => {
       {errors.videos && errors.videos.message && (
         <div className="mt-4 flex items-center space-x-1.5 px-1 text-red-600">
           <FaExclamationTriangle />
-          <p className="break-all text-sm line-clamp-1">
+          <p className="line-clamp-1 break-all text-sm">
             {errors.videos.message}
           </p>
         </div>

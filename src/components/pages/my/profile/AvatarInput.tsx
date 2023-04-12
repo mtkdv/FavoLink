@@ -111,7 +111,7 @@ export const AvatarInput = ({
         <div className="flex grow flex-col justify-between">
           {/* File Name */}
           <div className="px-2">
-            <p className="h-5 break-all text-sm tracking-wide text-stone-600 line-clamp-1">
+            <p className="line-clamp-1 h-5 break-all text-sm tracking-wide text-stone-600">
               {previewFile?.name}
             </p>
           </div>
@@ -142,7 +142,7 @@ export const AvatarInput = ({
               {/* Note */}
               <p
                 className={clsx(
-                  "break-all text-xxs line-clamp-1",
+                  "line-clamp-1 break-all text-xxs",
                   previewFile && previewFile.size > ONE_MEGA_BYTE * 2
                     ? "error-message text-red-600"
                     : "text-stone-500"
@@ -180,7 +180,7 @@ export const AvatarInput = ({
               {/* Note */}
               <p
                 className={clsx(
-                  "break-all text-xxs line-clamp-1",
+                  "line-clamp-1 break-all text-xxs",
                   previewFile &&
                     !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
                     ? "error-message text-red-600"

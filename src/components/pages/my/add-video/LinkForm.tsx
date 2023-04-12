@@ -201,7 +201,7 @@ export const LinkForm: React.FC<Props> = ({
         {errors.url && (
           <div className="flex h-[25px] items-center space-x-1.5 px-1 text-red-600">
             <FaExclamationTriangle />
-            <p className="break-all text-sm line-clamp-1">
+            <p className="line-clamp-1 break-all text-sm">
               {errors.url.message}
             </p>
           </div>

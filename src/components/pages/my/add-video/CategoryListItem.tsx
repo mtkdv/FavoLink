@@ -179,7 +179,7 @@ export const CategoryListItem = ({
         {errors.videos && errors.videos[categoryIndex]?.categoryName && (
           <div className="flex items-center space-x-1.5 px-1 text-red-600">
             <FaExclamationTriangle />
-            <p className="break-all text-sm line-clamp-1">
+            <p className="line-clamp-1 break-all text-sm">
               {errors.videos[categoryIndex]?.categoryName?.message}
             </p>
           </div>
@@ -205,7 +205,7 @@ export const CategoryListItem = ({
               <Spacer size={8} axis="column" />
               <div className="flex items-center space-x-1.5 px-1 text-red-600">
                 <FaExclamationTriangle />
-                <p className="break-all text-sm line-clamp-1">
+                <p className="line-clamp-1 break-all text-sm">
                   {errors.videos[categoryIndex]?.categoryLinks?.message}
                 </p>
               </div>

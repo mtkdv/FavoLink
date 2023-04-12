@@ -75,7 +75,7 @@ export const MainContent = ({
                 {/* Name */}
                 <p
                   className={clsx(
-                    "break-all text-center font-semibold tracking-wide line-clamp-2",
+                    "line-clamp-2 break-all text-center font-semibold tracking-wide",
                     custom.mode === "LIGHT" ? "text-base-black" : "text-white"
                   )}
                 >
