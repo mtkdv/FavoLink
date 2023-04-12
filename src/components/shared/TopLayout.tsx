@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
-import { useQueryClient } from "@tanstack/react-query";
 
 import {
   FullNav,
@@ -11,16 +10,14 @@ import {
   SignInModal,
 } from "#/components/pages/home";
 import { LoginButton, Spacer, ToTopButton } from "#/components/uiParts";
-import { pagesInfo, queryKeys } from "#/const";
+import { pagesInfo } from "#/const";
 import { useScreen } from "#/hooks";
 import { AvatarIcon } from "#/components/shared";
 
 export const TopLayout = ({ children }: { children: React.ReactNode }) => {
   const { status: sessionStatus } = useSession();
-  const isMdScreen = useScreen("md");
+  const { isScreen: isMdScreen, isLoading } = useScreen("md");
   const scrollTopRef = useRef<HTMLElement>(null);
-
-  const queryClient = useQueryClient();
 
   return (
     <>
@@ -40,7 +37,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
           <Spacer />
 
-          {sessionStatus !== "loading" && isMdScreen ? (
+          {sessionStatus !== "loading" && isLoading ? null : isMdScreen ? (
             <>
               <HeaderNav />
               {sessionStatus === "unauthenticated" ? (
