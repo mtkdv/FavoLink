@@ -66,7 +66,7 @@ export const TogglePublishedSwitch = React.memo(() => {
                 "h-4 w-4 rounded-full bg-white transition",
                 checked ? "translate-x-6" : "translate-x-1"
               )}
-            ></div>
+            />
           </div>
         </label>
       </div>
