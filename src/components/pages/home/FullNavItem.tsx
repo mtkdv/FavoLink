@@ -25,7 +25,7 @@ export const FullNavItem = ({ menu }: { menu: MenuItem }) => {
                   href={href}
                   onClick={(e) => e.preventDefault()}
                   tabIndex={-1}
-                  className="flex py-4 px-2 font-light tracking-wider outline-none items-center space-x-1 cursor-not-allowed text-neutral-400"
+                  className="flex cursor-not-allowed items-center space-x-1 px-2 py-4 font-light tracking-wider text-neutral-400 outline-none"
                 >
                   <span>🚧</span>
                   <span>{title.en}</span>
@@ -41,14 +41,14 @@ export const FullNavItem = ({ menu }: { menu: MenuItem }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   href={href}
-                  className="block py-4 px-2 font-light tracking-wider hover:bg-black/5 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset transition duration-300"
+                  className="block px-2 py-4 font-light tracking-wider outline-none ring-inset ring-juniper-500 transition duration-300 hover:bg-black/5 focus-visible:ring-2"
                 >
                   {title.en}
                 </a>
               ) : (
                 <Link
                   href={href}
-                  className="block py-4 px-2 font-light tracking-wider hover:bg-black/5 outline-none focus-visible:ring-2 ring-juniper-500 ring-inset transition duration-300"
+                  className="block px-2 py-4 font-light tracking-wider outline-none ring-inset ring-juniper-500 transition duration-300 hover:bg-black/5 focus-visible:ring-2"
                 >
                   {title.en}
                 </Link>

@@ -64,7 +64,7 @@ export const Accordion = ({ children }: { children: React.ReactNode }) => {
         // tabIndex={-1}
         // onClick={(e) => e.preventDefault()}
         onClick={toggleAccordion}
-        className="group block absolute top-2 right-10 cursor-pointer outline-none focus-visible:ring-2 ring-juniper-500"
+        className="group absolute right-10 top-2 block cursor-pointer outline-none ring-juniper-500 focus-visible:ring-2"
       >
         {/* Toggle Accordion Button */}
         {/* <button
@@ -74,7 +74,7 @@ export const Accordion = ({ children }: { children: React.ReactNode }) => {
           > */}
         <RxCaretUp
           size={24}
-          className="transition duration-500 group-focus-visible:opacity-100 group-[.is-opened]/details:-rotate-180 opacity-0 group-hover/collection-item:opacity-100"
+          className="opacity-0 transition duration-500 group-hover/collection-item:opacity-100 group-focus-visible:opacity-100 group-[.is-opened]/details:-rotate-180"
         />
         {/* </button> */}
       </summary>

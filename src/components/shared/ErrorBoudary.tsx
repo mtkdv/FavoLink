@@ -30,14 +30,14 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
     if (this.state.hasError) {
       return (
         // <NextError statusCode={404} title="hogege" />
-        <div className="h-screen w-full flex justify-center items-center">
+        <div className="flex h-screen w-full items-center justify-center">
           <h1>Error: Failed to fetch data.</h1>
           <button
             onClick={() => {
               this.setState({ hasError: false });
               // this.props.onReset();
             }}
-            className="border-2 rounded py-2 px-3"
+            className="rounded border-2 px-3 py-2"
           >
             retry
           </button>

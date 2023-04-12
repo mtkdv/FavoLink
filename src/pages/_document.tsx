@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="ja" className="font-custom">
       <Head />
-      <body className="bg-base-white text-base-black dark:bg-base-black dark:text-base-white selection:bg-juniper-400 selection:text-white animate-appearance">
+      <body className="animate-appearance bg-base-white text-base-black selection:bg-juniper-400 selection:text-white dark:bg-base-black dark:text-base-white">
         <Main />
         <NextScript />
       </body>

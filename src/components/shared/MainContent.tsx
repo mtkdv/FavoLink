@@ -25,7 +25,7 @@ export const MainContent = ({
       {/* {isLoadingAll && <Loader color="red" className="h-screen" />} */}
       <div className="animate-appearance">
         {/* ページ背景 */}
-        <div className="fixed top-0 w-screen h-screen">
+        <div className="fixed top-0 h-screen w-screen">
           {custom.backgroundImage ? (
             <Image
               src={custom.backgroundImage}
@@ -52,30 +52,30 @@ export const MainContent = ({
           <div className="absolute bottom-[3%] left-10 bg-gradient-to-br from-white/40 to-white/0 rounded-full w-[400px] h-[400px] animate-[animate_6s_infinite]"></div>
         </div> */}
           {/* Profile, Contents */}
-          <div className="relative z-10 mt max-w-3xl mx-auto">
+          <div className="mt relative z-10 mx-auto max-w-3xl">
             {/* Profile */}
             <div
               className={clsx(
-                "relative w-full h-32 space-y-4 border border-white/25 border-t-white/50 border-l-white/50 rounded-2xl shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm",
+                "relative h-32 w-full space-y-4 rounded-2xl border border-white/25 border-l-white/50 border-t-white/50 shadow-[0_5px_15px_-5px] shadow-black/20 backdrop-blur-sm",
                 custom.mode === "LIGHT" ? "bg-white/20" : "bg-black/20"
               )}
             >
-              <div className="absolute left-1/2 w-full px-6 -translate-x-1/2 -top-10 space-y-6">
+              <div className="absolute -top-10 left-1/2 w-full -translate-x-1/2 space-y-6 px-6">
                 {/* Avatar */}
-                <div className="flex justify-center min-w-max">
+                <div className="flex min-w-max justify-center">
                   <Image
                     src={profile.image ?? silhouetteAvatar}
                     alt="avatar"
                     width={80}
                     height={80}
-                    className="rounded-full w-20 h-20 drop-shadow-md"
+                    className="h-20 w-20 rounded-full drop-shadow-md"
                   />
                 </div>
 
                 {/* Name */}
                 <p
                   className={clsx(
-                    "text-center font-semibold tracking-wide line-clamp-2 break-all",
+                    "break-all text-center font-semibold tracking-wide line-clamp-2",
                     custom.mode === "LIGHT" ? "text-base-black" : "text-white"
                   )}
                 >
@@ -95,10 +95,10 @@ export const MainContent = ({
           </div>
         </main>
 
-        <footer className="relative my-6 flex flex-col space-y-2 items-center">
+        <footer className="relative my-6 flex flex-col items-center space-y-2">
           <Link
             href={pagesInfo.top.href}
-            className="text-3xl tracking-widest outline-none focus-visible:ring-2 ring-juniper-500 drop-shadow-white-black"
+            className="drop-shadow-white-black text-3xl tracking-widest outline-none ring-juniper-500 focus-visible:ring-2"
           >
             FAVOLINK
           </Link>

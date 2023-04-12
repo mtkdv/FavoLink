@@ -24,9 +24,9 @@ export const DashboardButton = ({
       disabled={!isEnabled || isSubmitting}
       form={formId}
       className={clsx(
-        "relative group h-11 w-28 rounded-lg outline-none overflow-hidden transition bg-teal-600 border border-teal-600 flex justify-center items-center",
+        "group relative flex h-11 w-28 items-center justify-center overflow-hidden rounded-lg border border-teal-600 bg-teal-600 outline-none transition",
         isEnabled
-          ? "focus-visible:ring-2 ring-teal-600 ring-offset-1 hover:bg-teal-700"
+          ? "ring-teal-600 ring-offset-1 hover:bg-teal-700 focus-visible:ring-2"
           : "cursor-not-allowed opacity-40",
         isSubmitting && "cursor-progress"
       )}
@@ -40,7 +40,7 @@ export const DashboardButton = ({
       {isSubmitting ? (
         <PuffLoader color="white" size={24} />
       ) : (
-        <span className="text-sm tracking-wider font-semibold drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)] text-white">
+        <span className="text-sm font-semibold tracking-wider text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
           変更を保存
         </span>
       )}

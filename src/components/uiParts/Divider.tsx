@@ -32,7 +32,7 @@ export const Divider: FC<Props> = ({
     <div className={classWrapper}>
       <div
         className={clsx(
-          "rounded-full mx-auto",
+          "mx-auto rounded-full",
           width ?? "w-full",
           height ?? "h-px",
           bgColor ?? "bg-stone-300",

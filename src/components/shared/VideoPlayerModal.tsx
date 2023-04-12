@@ -34,7 +34,7 @@ export const VideoPlayerModal = () => {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full justify-center items-center px-6">
+          <div className="flex min-h-full items-center justify-center px-6">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"

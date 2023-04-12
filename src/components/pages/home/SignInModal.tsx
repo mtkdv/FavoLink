@@ -48,7 +48,7 @@ export const SignInModal = () => {
           <div className="fixed inset-0 bg-neutral-100/80 backdrop-blur" />
         </Transition.Child>
 
-        <div className="fixed inset-y-0 w-screen pr-3.5 overflow-y-auto">
+        <div className="fixed inset-y-0 w-screen overflow-y-auto pr-3.5">
           <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={Fragment}
@@ -61,15 +61,15 @@ export const SignInModal = () => {
             >
               <Dialog.Panel className="relative w-full max-w-sm bg-white py-6 shadow-[0_0_25px_-2px] shadow-khaki-500/30">
                 <Dialog.Title className="relative text-center">
-                  <span className="absolute left-0 -bottom-1 w-full h-px rounded-full bg-gradient-to-r from-white via-khaki-500 to-white" />
-                  <span className="text-liver-500 text-xl font-light">
+                  <span className="absolute -bottom-1 left-0 h-px w-full rounded-full bg-gradient-to-r from-white via-khaki-500 to-white" />
+                  <span className="text-xl font-light text-liver-500">
                     Log in to FAVOLINK
                   </span>
                 </Dialog.Title>
 
                 <Spacer size={48} axis="column" />
 
-                <div className="px-12 space-y-4">
+                <div className="space-y-4 px-12">
                   {oAuthProviders.map((provider) => (
                     <OAuthLoginButton key={provider} {...{ provider }} />
                   ))}
@@ -78,16 +78,16 @@ export const SignInModal = () => {
                 <Spacer size={36} axis="column" />
                 <div className="px-12">
                   <LoginButton provider="credentials">
-                    <span className="text-liver-500 font-light">
+                    <span className="font-light text-liver-500">
                       Guest Login
                     </span>
                   </LoginButton>
                 </div>
                 <button
                   onClick={closeModal}
-                  className="absolute bottom-full -translate-y-1 right-1 transition outline-none focus-visible:ring-2 ring-juniper-500 hover:opacity-60"
+                  className="absolute bottom-full right-1 -translate-y-1 outline-none ring-juniper-500 transition hover:opacity-60 focus-visible:ring-2"
                 >
-                  <TfiClose size={32} className="text-khaki-500 scale-y-75" />
+                  <TfiClose size={32} className="scale-y-75 text-khaki-500" />
                 </button>
               </Dialog.Panel>
             </Transition.Child>
@@ -116,7 +116,7 @@ const LoginButton = ({
         signIn(provider, { callbackUrl: pagesInfo.top.href });
       }}
       type="button"
-      className="flex w-full justify-center bg-white border border-khaki-500 px-4 py-2 transition hover:ring-2 hover:ring-khaki-400/30 outline-none focus-visible:ring-2 focus-visible:ring-juniper-500 focus-visible:ring-offset-2"
+      className="flex w-full justify-center border border-khaki-500 bg-white px-4 py-2 outline-none transition hover:ring-khaki-400/30 focus-visible:ring-juniper-500 focus-visible:ring-offset-2 [&:is(:hover,:focus-visible)]:ring-2"
     >
       {children}
     </button>
@@ -133,7 +133,7 @@ const OAuthLoginButton = ({ provider }: { provider: OAuthProvider }) => {
         className={clsx(provider === "twitter" && "text-twitter")}
       />
       <Spacer size={8} axis="row" />
-      <span className="text-liver-500 font-light">
+      <span className="font-light text-liver-500">
         Continue with&nbsp;
         <span className="capitalize">{provider}</span>
       </span>

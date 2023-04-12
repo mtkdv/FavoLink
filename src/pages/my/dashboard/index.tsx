@@ -26,7 +26,7 @@ const Dashboard: NextPageWithLayout = () => {
 
   if (isLoading) {
     return (
-      <div className="absolute w-full h-full flex justify-center items-center">
+      <div className="absolute flex h-full w-full items-center justify-center">
         <p>Loading...</p>
       </div>
     );
@@ -37,7 +37,7 @@ const Dashboard: NextPageWithLayout = () => {
       <p>dashboard</p>
       <ul className="mt-10 space-y-2">
         {data?.map((user) => (
-          <li key={user.id} className="border rounded grid grid-cols-12">
+          <li key={user.id} className="grid grid-cols-12 rounded border">
             <p className="col-span-1 pl-2">{user.id}</p>
             <p className="col-span-5 border-l pl-2">{user.name}</p>
             <p className="col-span-6 border-l pl-2">{user.email}</p>

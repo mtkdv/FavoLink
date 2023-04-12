@@ -18,7 +18,7 @@ export const SettingsButton = () => {
     <Link
       href={pagesInfo.my.profile.href}
       className={clsx(
-        "absolute group top-3 right-6 p-3 border border-white rounded-full shadow-[0_2px_8px_-2px] shadow-black/30 hover:shadow-lg backdrop-blur-sm transition outline-none focus-visible:ring-2 ring-juniper-500",
+        "group absolute right-6 top-3 rounded-full border border-white p-3 shadow-[0_2px_8px_-2px] shadow-black/30 outline-none ring-juniper-500 backdrop-blur-sm transition hover:shadow-lg focus-visible:ring-2",
         data.custom.mode === "LIGHT"
           ? "bg-white/20 hover:bg-white/40"
           : "bg-black/20 hover:bg-white"

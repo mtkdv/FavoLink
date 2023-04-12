@@ -52,12 +52,12 @@ export const TogglePublishedSwitch = React.memo(() => {
             id={inputId}
             checked={checked}
             onChange={handleChange}
-            className="sr-only peer"
+            className="peer sr-only"
           />
           {/* FIXME: スイッチのデザイン変更 */}
           <div
             className={clsx(
-              "h-6 w-11 rounded-full flex items-center cursor-pointer transition duration-300 peer-focus-visible:ring-2 ring-juniper-500 ring-offset-1",
+              "flex h-6 w-11 cursor-pointer items-center rounded-full ring-juniper-500 ring-offset-1 transition duration-300 peer-focus-visible:ring-2",
               checked ? "bg-teal-600" : "bg-gray-200"
             )}
           >

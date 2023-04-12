@@ -46,11 +46,11 @@ export const Hamburger = () => {
         id="hamburger"
         checked={isChecked}
         onChange={() => setIsChecked((pre) => !pre)}
-        className="sr-only peer"
+        className="peer sr-only"
       />
       <label
         htmlFor="hamburger"
-        className="relative flex items-center justify-center w-8 h-6 overflow-hidden cursor-pointer peer-focus-visible:ring-2 ring-juniper-500 transition"
+        className="relative flex h-6 w-8 cursor-pointer items-center justify-center overflow-hidden ring-juniper-500 transition peer-focus-visible:ring-2"
       >
         <Bar position="top" />
         <Bar position="middle" />
@@ -72,7 +72,7 @@ const Bar = ({ position }: { position: keyof typeof positions }) => {
   return (
     <span
       className={clsx(
-        "absolute bg-liver-500 h-0.5 w-6 rounded-full shadow-md transition duration-300",
+        "absolute h-0.5 w-6 rounded-full bg-liver-500 shadow-md transition duration-300",
         positions[position]
       )}
     />

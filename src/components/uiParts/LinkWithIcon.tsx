@@ -46,7 +46,7 @@ export const LinkWithIcon = ({ title, href, icon }: Props) => {
         onClick={(e) => e.preventDefault()}
         tabIndex={-1}
         className={clsx(
-          "h-14 flex items-center rounded-md outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
+          "flex h-14 items-center rounded-md outline-none ring-juniper-500 transition focus-visible:ring-2 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3",
           "cursor-not-allowed text-stone-400"
         )}
       >
@@ -62,7 +62,7 @@ export const LinkWithIcon = ({ title, href, icon }: Props) => {
     <Link
       href={href}
       className={clsx(
-        "h-14 flex items-center rounded-md hover:bg-stone-300 text-liver-500 outline-none focus-visible:ring-2 ring-juniper-500 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3 transition",
+        "flex h-14 items-center rounded-md text-liver-500 outline-none ring-juniper-500 transition hover:bg-stone-300 focus-visible:ring-2 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3",
         router.asPath === href && "bg-stone-200"
       )}
     >

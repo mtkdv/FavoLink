@@ -52,10 +52,10 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-white my-3 rounded-full;
+    @apply my-3 rounded-full bg-white;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-juniper-300 rounded-full border-[3px] border-solid border-white;
+    @apply rounded-full border-[3px] border-solid border-white bg-juniper-300;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -63,7 +63,7 @@
   }
 
   .center {
-    @apply top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2;
+    @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
   }
 }
 

@@ -32,10 +32,10 @@ export const NameInput = ({
 
   return (
     <div className="group">
-      <div className="ml-1 flex justify-between items-end">
+      <div className="ml-1 flex items-end justify-between">
         <Label htmlFor={inputId}>
           Display Name
-          <span className="text-red-400 leading-none">*</span>
+          <span className="leading-none text-red-400">*</span>
         </Label>
         <ProfileInputCounter name="name" control={control} maxLength={30} />
       </div>
@@ -56,10 +56,10 @@ export const NameInput = ({
       <Spacer size={8} axis="column" />
 
       <div className="ml-1 flex space-x-2">
-        <p className="w-7 self-start text-center rounded-sm bg-rose-400 text-xxxs text-white shrink-0">
+        <p className="w-7 shrink-0 self-start rounded-sm bg-rose-400 text-center text-xxxs text-white">
           必須
         </p>
-        <div className="flex-1 text-stone-500 text-xs leading-none">
+        <div className="flex-1 text-xs leading-none text-stone-500">
           <p>
             <span
               className={clsx(

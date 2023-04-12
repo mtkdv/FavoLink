@@ -15,15 +15,15 @@ export const DashboardBackground = ({
   return (
     <>
       {/* -mx-6 は DashboardMain の mx-6 を打ち消すため。 */}
-      <div className="-mx-6 sticky top-16 h-dashboard-page-main overflow-hidden">
+      <div className="sticky top-16 -mx-6 h-dashboard-page-main overflow-hidden">
         <div
           className={clsx(
-            "h-full bg-no-repeat bg-center-90 bg-contain w-3xl py-5 bg-origin-content bg-white/80 bg-blend-lighten",
+            "h-full w-3xl bg-white/80 bg-contain bg-center-90 bg-no-repeat bg-origin-content py-5 bg-blend-lighten",
             bgImages[bgImage]
           )}
         />
       </div>
-      <div className="-mt-dashboard-page-main relative z-10">{children}</div>
+      <div className="relative z-10 -mt-dashboard-page-main">{children}</div>
     </>
   );
 };

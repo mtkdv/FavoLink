@@ -32,7 +32,7 @@ export const DescriptionTextarea = ({
 
   return (
     <div className="group">
-      <div className="ml-1 flex justify-between items-end">
+      <div className="ml-1 flex items-end justify-between">
         <Label htmlFor={textareaId}>Selected Video Description</Label>
         <ProfileInputCounter
           name="description"
@@ -59,10 +59,10 @@ export const DescriptionTextarea = ({
 
       {/* Desc Note & Error Message */}
       <div className="ml-1 flex space-x-2">
-        <p className="w-7 self-start text-center rounded-sm bg-teal-600 text-xxxs tracking-wide text-white shrink-0">
+        <p className="w-7 shrink-0 self-start rounded-sm bg-teal-600 text-center text-xxxs tracking-wide text-white">
           Note
         </p>
-        <div className="text-stone-500 text-xs leading-none flex-1">
+        <div className="flex-1 text-xs leading-none text-stone-500">
           <p>
             <span
               className={clsx(

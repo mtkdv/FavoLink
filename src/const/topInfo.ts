@@ -32,4 +32,4 @@ export const topInfo = {
   },
 };
 
-export type TopFeature = typeof topInfo.features[number];
+export type TopFeature = (typeof topInfo.features)[number];

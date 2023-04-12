@@ -6,7 +6,7 @@ import { LegalMain } from "#/components/shared/LegalMain";
 const Terms: NextPageWithLayout = () => {
   return (
     <LegalMain docs={terms}>
-      <p className="px-8 mt-12">以上</p>
+      <p className="mt-12 px-8">以上</p>
     </LegalMain>
   );
 };

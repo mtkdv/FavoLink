@@ -8,7 +8,7 @@ export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <div
       role="alert"
-      className="h-screen flex flex-col items-center animate-appearance pt-[10%]"
+      className="flex h-screen animate-appearance flex-col items-center pt-[10%]"
     >
       <UndrawNotFound />
       {/* <p>Something went wrong:</p>

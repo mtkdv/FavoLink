@@ -9,10 +9,10 @@ export const LegalMain = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="pb-28 max-w-5xl mx-auto text-base-black">
+    <div className="mx-auto max-w-5xl pb-28 text-base-black">
       <div>
         <div className="py-20">
-          <h2 className="text-3xl text-center">{docs.title}</h2>
+          <h2 className="text-center text-3xl">{docs.title}</h2>
         </div>
         <div className="px-8">
           <p className="flex justify-end space-x-2">
@@ -30,7 +30,7 @@ export const LegalMain = ({
           <p>{docs.desc}</p>
         </div>
 
-        <ol className="px-8 mt-16 space-y-14">
+        <ol className="mt-16 space-y-14 px-8">
           {docs.articles.map((article, articleIndex) => (
             <li key={article.heading}>
               <h3 className="text-2xl">
@@ -43,17 +43,17 @@ export const LegalMain = ({
                 <p className="mt-5 whitespace-pre-wrap">{article.desc}</p>
               )}
               {article.paragraphs && (
-                <ol className="mt-5 ml-6 space-y-2 list-decimal">
+                <ol className="ml-6 mt-5 list-decimal space-y-2">
                   {article.paragraphs.map((paragraph) => (
                     <li key={paragraph.desc}>
                       <p>{paragraph.desc}</p>
                       {paragraph.items && (
-                        <ol className="my-5 ml-6 space-y-2 list-decimal">
+                        <ol className="my-5 ml-6 list-decimal space-y-2">
                           {paragraph.items.map((item) => (
                             <li key={item.desc}>
                               <p>{item.desc}</p>
                               {item.subitems && (
-                                <ol className="my-5 ml-6 space-y-2 list-decimal">
+                                <ol className="my-5 ml-6 list-decimal space-y-2">
                                   {item.subitems.map((subitem) => (
                                     <li key={subitem.desc}>
                                       <p>{subitem.desc}</p>

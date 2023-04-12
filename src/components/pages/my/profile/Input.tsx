@@ -23,7 +23,7 @@ export const Input = ({
       placeholder="&nbsp;"
       type="text"
       className={clsx(
-        "input-count peer w-full h-full px-3 bg-white/50 outline-none text-stone-600 tracking-wider border border-stone-300 [&:is(:hover,:focus-visible)]:border-juniper-500 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-juniper-400 transition group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300",
+        "input-count peer h-full w-full border border-stone-300 bg-white/50 px-3 tracking-wider text-stone-600 outline-none transition focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-juniper-400 group-[:has(.error-message)]:border-red-600 group-[:has(.error-message)]:shadow-red-300 [&:is(:hover,:focus-visible)]:border-juniper-500",
         className
       )}
       {...register(name)}

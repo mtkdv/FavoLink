@@ -10,7 +10,7 @@ export const PlaceHolder = ({
   return (
     <p
       className={clsx(
-        "absolute left-3.5 text-stone-500 font-light tracking-wider transition duration-300 pointer-events-none peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0",
+        "pointer-events-none absolute left-3.5 font-light tracking-wider text-stone-500 transition duration-300 peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0",
         className
       )}
     >

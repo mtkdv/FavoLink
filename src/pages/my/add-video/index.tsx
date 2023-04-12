@@ -124,9 +124,9 @@ const AddVideo: NextPageWithLayout = () => {
       {/* FIXME: 表示位置 */}
       {/* Error Message（コレクション名の重複など） */}
       {errors.videos && errors.videos.message && (
-        <div className="mt-4 px-1 flex items-center space-x-1.5 text-red-600">
+        <div className="mt-4 flex items-center space-x-1.5 px-1 text-red-600">
           <FaExclamationTriangle />
-          <p className="text-sm line-clamp-1 break-all">
+          <p className="break-all text-sm line-clamp-1">
             {errors.videos.message}
           </p>
         </div>

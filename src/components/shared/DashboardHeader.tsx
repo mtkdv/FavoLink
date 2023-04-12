@@ -9,8 +9,8 @@ export const DashboardHeader = ({
 }) => {
   return (
     <header className="sticky top-0 z-30 h-16 bg-white">
-      <div className="w-full max-w-3xl mx-auto h-full px-6 flex justify-between items-center">
-        <h2 className="mt-4 text-lg font-bold w-fit flex items-center">
+      <div className="mx-auto flex h-full w-full max-w-3xl items-center justify-between px-6">
+        <h2 className="mt-4 flex w-fit items-center text-lg font-bold">
           {pageTitle}
         </h2>
 

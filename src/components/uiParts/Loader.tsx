@@ -13,7 +13,7 @@ export const Loader = ({
   return (
     <div
       className={clsx(
-        "w-full h-full flex justify-center items-center",
+        "flex h-full w-full items-center justify-center",
         className
       )}
     >

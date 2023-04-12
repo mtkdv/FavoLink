@@ -15,7 +15,7 @@ export const ProfileInputCounter = ({
   maxLength: number;
 }) => {
   return (
-    <div className="opacity-0 text-xxs group-[:has(.input-count:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100 group-[:has(.error-message)]:opacity-100 transition-opacity duration-300">
+    <div className="text-xxs opacity-0 transition-opacity duration-300 group-[:has(.error-message)]:opacity-100 group-[:has(.input-count:is(:focus-visible,:not(:placeholder-shown)))]:opacity-100">
       <InputCounter {...{ name, control, minLength, maxLength }} />
     </div>
   );
