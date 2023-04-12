@@ -116,8 +116,8 @@ export const Sidebar = () => {
                 </div>
                 {/* Bottom Arrow */}
                 <div className="relative flex justify-center">
-                  <span className="border-t-secondary border-[11px] border-x-transparent border-b-transparent drop-shadow-sm"></span>
-                  <span className="absolute left-1/2 -translate-x-1/2 border-[10px] border-x-transparent border-b-transparent border-t-white"></span>
+                  <span className="border-t-secondary border-[11px] border-x-transparent border-b-transparent drop-shadow-sm" />
+                  <span className="absolute left-1/2 -translate-x-1/2 border-[10px] border-x-transparent border-b-transparent border-t-white" />
                 </div>
               </div>
 
