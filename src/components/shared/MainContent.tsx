@@ -98,7 +98,7 @@ export const MainContent = ({
         <footer className="relative my-6 flex flex-col items-center space-y-2">
           <Link
             href={pagesInfo.top.href}
-            className="drop-shadow-white-black text-3xl tracking-widest outline-none ring-juniper-500 focus-visible:ring-2"
+            className="text-3xl tracking-widest outline-none ring-juniper-500 drop-shadow-white-black focus-visible:ring-2"
           >
             FAVOLINK
           </Link>

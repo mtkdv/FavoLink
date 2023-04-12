@@ -61,6 +61,13 @@ export default {
           900: "#5d5341",
         },
       },
+      dropShadow: {
+        "white-black": [
+          `1px 1px 0 ${colors.white}`,
+          // `1.5px 1.5px 0 rgba(${colors.black} / 0.1)`,
+          `1.5px 1.5px 0 rgb(0 0 0 / 0.1)`,
+        ],
+      },
       fontFamily: {
         custom: [
           "Helvetica Neue",
