@@ -26,6 +26,9 @@ export const usePatchProfileBaseInfo = () => {
 
       return res.data;
     },
-    onSettled: () => queryClient.invalidateQueries(queryKeys.getProfile),
+    onSettled: () => {
+      queryClient.invalidateQueries(queryKeys.getProfileBaseInfo);
+      queryClient.invalidateQueries(queryKeys.getProfile);
+    },
   });
 };

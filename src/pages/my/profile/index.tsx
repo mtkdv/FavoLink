@@ -24,7 +24,7 @@ import {
   TogglePublishedSwitch,
 } from "#/components/pages/my/profile";
 import { DashboardButton, Divider, Spacer } from "#/components/uiParts";
-import { useGetProfile, usePatchProfileBaseInfo } from "#/hooks";
+import { useGetProfileBaseInfo, usePatchProfileBaseInfo } from "#/hooks";
 import { schema } from "#/schema/profile";
 import { uploadAndGetUrl } from "#/utils";
 import { pagesInfo } from "#/const";
@@ -56,7 +56,7 @@ const fileSchema = z.custom<File>().superRefine((file, ctx) => {
 export type FileSchema = z.infer<typeof fileSchema>;
 
 const Profile: NextPageWithLayout = () => {
-  const { data: profile, isLoading } = useGetProfile();
+  const { data: profile, isLoading } = useGetProfileBaseInfo();
   const [previewFile, setPreviewFile] = useState<File>();
   const [defaultFile, setDefaultFile] = useState(previewFile);
   const { mutateAsync } = usePatchProfileBaseInfo();

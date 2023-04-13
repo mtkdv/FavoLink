@@ -5,20 +5,23 @@ import { Profile } from "@prisma/client";
 
 import { queryKeys } from "#/const";
 
-type ProfilePublished = Pick<Profile, "published">;
+type ProfileBaseInfo = Pick<Profile, "name" | "image" | "slug" | "description">;
 
-export const useGetProfilePublished = () => {
+export const useGetProfileBaseInfo = () => {
   const { data: session } = useSession();
 
-  return useQuery<ProfilePublished, AxiosError>({
-    queryKey: queryKeys.getProfilePublished,
+  return useQuery<ProfileBaseInfo, AxiosError>({
+    queryKey: queryKeys.getProfileBaseInfo,
     queryFn: async () => {
-      const res = await axios.get<ProfilePublished>(
+      const res = await axios.get<ProfileBaseInfo>(
         `/api/users/${session!.user!.id}/profile`,
         {
           params: {
             select: {
-              published: true,
+              name: true,
+              image: true,
+              slug: true,
+              description: true,
             },
           },
         }

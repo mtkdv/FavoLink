@@ -26,8 +26,10 @@ export const usePatchProfilePublished = () => {
       );
       return res.data;
     },
-    onSettled: () =>
-      queryClient.invalidateQueries(queryKeys.getProfilePublished),
+    onSettled: () => {
+      queryClient.invalidateQueries(queryKeys.getProfilePublished);
+      queryClient.invalidateQueries(queryKeys.getProfile);
+    },
   });
   return profileMutation;
 };

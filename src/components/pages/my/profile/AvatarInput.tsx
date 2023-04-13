@@ -8,7 +8,7 @@ import { Divider } from "#/components/uiParts";
 import { queryKeys } from "#/const";
 import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/profile";
 import { bytesToKilobytes, mimeToFileFormat } from "#/utils";
-import { useGetProfile } from "#/hooks";
+import { useGetProfileBaseInfo } from "#/hooks";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const AvatarInput = ({
@@ -19,7 +19,7 @@ export const AvatarInput = ({
   setPreviewFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }) => {
   const inputId = useId();
-  const { data: profile } = useGetProfile();
+  const { data: profile } = useGetProfileBaseInfo();
   const [previewUrl, setPreviewUrl] = useState<string>();
 
   const { data: formId } = useQuery<string>({
