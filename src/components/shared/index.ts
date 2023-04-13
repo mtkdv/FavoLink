@@ -6,6 +6,7 @@ export * from "./DashboardForm";
 export * from "./DashboardHeader";
 export * from "./DashboardMain";
 export * from "./ErrorBoudary";
+export * from "./FadeInOut";
 export * from "./Layout";
 export * from "./MainContent";
 export * from "./Sidebar";

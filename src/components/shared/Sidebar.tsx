@@ -2,14 +2,23 @@ import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { FaShareSquare } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
+import { useEffect, useState } from "react";
 
 import { Divider, LinkWithIcon } from "#/components/uiParts";
 import { useGetProfile } from "#/hooks";
 import { pagesInfo, sideMenuList } from "#/const";
+import { FadeInOut } from "#/components/shared";
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const Sidebar = () => {
   const { data: profile, isLoading } = useGetProfile();
+
+  const [isShow, setIsShow] = useState(false);
+
+  useEffect(() => {
+    if (!profile) return;
+    setIsShow(profile.slug !== null && profile.published);
+  }, [profile]);
 
   return (
     <div className="scrollbar-hidden flex h-screen w-20 flex-col overflow-y-scroll px-2 pt-4 md:w-60 md:px-6">
@@ -44,12 +53,12 @@ export const Sidebar = () => {
           ))}
 
           {/* Public Page */}
-          {profile?.slug && profile.published && (
-            <li className="animate-appearance">
+          <FadeInOut show={isShow}>
+            <li>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`${pagesInfo.user.href}${profile.slug}`}
+                href={`${pagesInfo.user.href}${profile?.slug}`}
                 className="flex h-14 items-center rounded-md text-liver-500 outline-none ring-juniper-500 transition hover:bg-stone-300 focus-visible:ring-2 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3"
               >
                 <FaShareSquare />
@@ -59,7 +68,7 @@ export const Sidebar = () => {
                 </p>
               </a>
             </li>
-          )}
+          </FadeInOut>
 
           {/* Logout Button */}
           <li className="!mt-auto space-y-4">
