@@ -50,8 +50,8 @@
 <!-- prettier-ignore -->
 | トップページ・ログイン | ダッシュボード |
 | :---: | :---: |
-| ![top-login](https://gyazo.com/2727c5f319616ed9341e4f9a02f73a4a.gif) | ![dashboard](https://gyazo.com/48124e8b04d69e7cb5e0cade89d68b39.gif) |
-| Google、Twitterアカウントによる認証をサポート。 | サイドバーには各種編集ページへのリンク、右枠にはそれぞれのページが表示される。 |
+| ![top-login](https://gyazo.com/02dc63c9c94d7798cda383b8eda588d5.gif) | ![dashboard](https://gyazo.com/48124e8b04d69e7cb5e0cade89d68b39.gif) |
+| Google、Twitter、ゲストアカウントによる認証をサポート。 | サイドバーには各種編集ページへのリンク、右枠にはそれぞれのページが表示される。 |
 
 <br>
 
