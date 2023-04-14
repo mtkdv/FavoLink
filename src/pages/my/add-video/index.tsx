@@ -1,11 +1,15 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "react-hot-toast";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { z } from "zod";
 
-import { NextPageWithLayout } from "#/pages/_app";
+import {
+  AddCategoryButton,
+  AddVideoSkeleton,
+  CategoryListItem,
+} from "#/components/pages/my/add-video";
 import {
   Appearance,
   DashboardBackground,
@@ -14,15 +18,11 @@ import {
   DashboardMain,
   Layout,
 } from "#/components/shared";
-import {
-  AddCategoryButton,
-  AddVideoSkeleton,
-  CategoryListItem,
-} from "#/components/pages/my/add-video";
 import { DashboardButton, Flex, Spacer } from "#/components/uiParts";
-import { useUpsertUserVideo, useListUserVideo, useFormatData } from "#/hooks";
-import { schema } from "#/schema/addVideo";
 import { pagesInfo } from "#/const";
+import { useUpsertUserVideo, useListUserVideo, useFormatData } from "#/hooks";
+import { NextPageWithLayout } from "#/pages/_app";
+import { schema } from "#/schema/addVideo";
 
 const addVideoInfo = pagesInfo.my.addVideo;
 

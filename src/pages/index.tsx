@@ -9,6 +9,7 @@ import { MotionCustomize } from "#/components/pages/home";
 import { pagesInfo, publicPath, queryKeys, topInfo } from "#/const";
 import { LoginButton, Spacer } from "#/components/uiParts";
 import { Feature } from "#/components/pages/home/Feature";
+
 import customize1 from "/public/customize1.png";
 import customize2 from "/public/customize2.png";
 

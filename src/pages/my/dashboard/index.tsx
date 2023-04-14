@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-import { NextPageWithLayout } from "#/pages/_app";
 import { Layout } from "#/components/shared/Layout";
+import { NextPageWithLayout } from "#/pages/_app";
 
 type JsonUser = {
   id: number;

@@ -1,5 +1,5 @@
-import { MainContent } from "#/components/shared";
 import { SettingsButton } from "#/components/pages/[slug]";
+import { MainContent } from "#/components/shared";
 import { Loader } from "#/components/uiParts";
 import { useQueryPublicResources } from "#/hooks";
 

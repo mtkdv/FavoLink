@@ -1,6 +1,7 @@
-import { PagesPath } from "#/const";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
+import { PagesPath } from "#/const";
 
 export const AccessControl = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();

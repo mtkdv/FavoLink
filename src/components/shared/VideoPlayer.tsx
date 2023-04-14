@@ -1,6 +1,6 @@
-import dynamic from "next/dynamic";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 
 import { queryKeys } from "#/const";
 

@@ -1,6 +1,7 @@
-import { Schema } from "#/pages/my/profile/index";
 import clsx from "clsx";
 import { Control, useWatch } from "react-hook-form";
+
+import { Schema } from "#/pages/my/profile/index";
 
 type InputCounterProps = {
   isValid: boolean;

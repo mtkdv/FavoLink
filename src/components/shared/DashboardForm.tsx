@@ -1,10 +1,10 @@
-import { useId } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useId } from "react";
 import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 
 import { FormQueryKeys, queryKeys } from "#/const";
-import { Schema as ProfileSchema } from "#/pages/my/profile";
 import { Schema as AddVideoSchema } from "#/pages/my/add-video";
+import { Schema as ProfileSchema } from "#/pages/my/profile";
 
 type Props = FormProps | ProfileProps | AddVideoProps;
 

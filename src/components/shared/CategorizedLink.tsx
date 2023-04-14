@@ -1,11 +1,11 @@
-import Image from "next/image";
-import { useQueryClient } from "@tanstack/react-query";
 import { Custom } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
+import Image from "next/image";
 
 import { VideoPlayerModal } from "#/components/shared";
-import { Videos } from "#/types";
 import { queryKeys, youtube } from "#/const";
+import { Videos } from "#/types";
 
 export const CategorizedLink = ({
   videos,

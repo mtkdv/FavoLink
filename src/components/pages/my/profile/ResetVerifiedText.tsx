@@ -1,6 +1,7 @@
-import { Schema } from "#/pages/my/profile/index";
 import { SetStateAction, useEffect } from "react";
 import { Control, useWatch } from "react-hook-form";
+
+import { Schema } from "#/pages/my/profile/index";
 
 type Props = {
   setVerifiedText: React.Dispatch<SetStateAction<string>>;

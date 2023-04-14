@@ -1,6 +1,7 @@
-import { Spacer } from "#/components/uiParts";
 import { useRef } from "react";
 import { RxCaretUp } from "react-icons/rx";
+
+import { Spacer } from "#/components/uiParts";
 
 export const Accordion = ({ children }: { children: React.ReactNode }) => {
   const detailsRef = useRef<HTMLDetailsElement>(null);

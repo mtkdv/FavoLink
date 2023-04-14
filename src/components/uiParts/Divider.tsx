@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { FC, useMemo } from "react";
+import { useEffect, useState, FC, useMemo } from "react";
 
 type Props = {
   classWrapper?: string | undefined;

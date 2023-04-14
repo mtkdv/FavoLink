@@ -1,9 +1,13 @@
+import { Mode } from "@prisma/client";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Mode } from "@prisma/client";
 import { z } from "zod";
 
-import { NextPageWithLayout } from "#/pages/_app";
+import {
+  BackgroundSelect,
+  CustomizeSkeleton,
+  ModeSelect,
+} from "#/components/pages/my/customize";
 import {
   Appearance,
   DashboardForm,
@@ -11,16 +15,12 @@ import {
   DashboardMain,
   Layout,
 } from "#/components/shared";
-import {
-  BackgroundSelect,
-  CustomizeSkeleton,
-  ModeSelect,
-} from "#/components/pages/my/customize";
-import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/customize";
-import { uploadAndGetUrl } from "#/utils";
-import { useGetCustom, usePatchCustom } from "#/hooks";
-import { pagesInfo } from "#/const";
 import { DashboardButton, Spacer } from "#/components/uiParts";
+import { pagesInfo } from "#/const";
+import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/customize";
+import { useGetCustom, usePatchCustom } from "#/hooks";
+import { NextPageWithLayout } from "#/pages/_app";
+import { uploadAndGetUrl } from "#/utils";
 
 const customizePage = pagesInfo.my.customize;
 

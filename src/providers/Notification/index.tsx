@@ -1,5 +1,6 @@
-import { kleeOne } from "#/lib/nextFont";
 import { Toaster } from "react-hot-toast";
+
+import { kleeOne } from "#/lib/nextFont";
 
 export const Notification = () => {
   return (

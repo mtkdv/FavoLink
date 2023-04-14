@@ -1,12 +1,11 @@
+import clsx from "clsx";
 import Link from "next/link";
-import { RiMagicFill, RiUser5Fill } from "react-icons/ri";
-import { IoLogoYoutube } from "react-icons/io5";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaTwitter, FaGithub } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
-import { FaTwitter, FaGithub } from "react-icons/fa";
+import { IoLogoYoutube } from "react-icons/io5";
+import { RiMagicFill, RiUser5Fill } from "react-icons/ri";
 
 import { Item } from "#/const/menuList";
-import clsx from "clsx";
 import { isExternal } from "#/utils";
 
 const iconObj = {

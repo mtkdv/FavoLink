@@ -1,12 +1,13 @@
-import type { NextPage } from "next";
-import type { AppProps, AppType } from "next/app";
+import "#/styles/globals.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-import { AccessControl, ErrorBoundary, Notification } from "#/providers";
-import "#/styles/globals.css";
 import { kleeOne } from "#/lib/nextFont";
+import { AccessControl, ErrorBoundary, Notification } from "#/providers";
+
+import type { NextPage } from "next";
+import type { AppProps, AppType } from "next/app";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;

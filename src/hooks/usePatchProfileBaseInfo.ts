@@ -1,10 +1,10 @@
+import { Profile } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { Profile } from "@prisma/client";
 
-import { ProfileFormData } from "#/types";
 import { queryKeys } from "#/const";
+import { ProfileFormData } from "#/types";
 
 export const usePatchProfileBaseInfo = () => {
   const { data: session } = useSession();

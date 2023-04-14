@@ -1,14 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
 import { FaImage } from "react-icons/fa";
 
 import { Divider } from "#/components/uiParts";
-import { bytesToKilobytes, mimeToFileFormat } from "#/utils";
+import { queryKeys } from "#/const";
 import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/customize";
 import { useGetCustom } from "#/hooks";
-import { queryKeys } from "#/const";
+import { bytesToKilobytes, mimeToFileFormat } from "#/utils";
 
 export const BackgroundSelect = ({
   previewUrl,

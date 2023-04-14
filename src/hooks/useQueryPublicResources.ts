@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
-import { PublicResources } from "#/types";
 import { queryKeys } from "#/const";
+import { PublicResources } from "#/types";
 
 export const useQueryPublicResources = () => {
   const router = useRouter();

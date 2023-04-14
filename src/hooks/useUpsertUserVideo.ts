@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-import { Schema } from "#/pages/my/add-video";
 import { queryKeys } from "#/const";
+import { Schema } from "#/pages/my/add-video";
 
 export const useUpsertUserVideo = () => {
   const { data: session } = useSession();

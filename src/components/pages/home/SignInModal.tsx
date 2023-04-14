@@ -1,11 +1,13 @@
-import { Fragment } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 import { signIn } from "next-auth/react";
+import { Fragment } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { SiTwitter } from "react-icons/si";
 import { TfiClose } from "react-icons/tfi";
 
+import { Spacer } from "#/components/uiParts";
 import {
   OAuthProvider,
   Provider,
@@ -13,8 +15,6 @@ import {
   pagesInfo,
   queryKeys,
 } from "#/const";
-import { Spacer } from "#/components/uiParts";
-import clsx from "clsx";
 import { kleeOne } from "#/lib/nextFont";
 
 export const SignInModal = () => {

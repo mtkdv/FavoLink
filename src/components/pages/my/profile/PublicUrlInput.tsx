@@ -1,7 +1,7 @@
-import { useId } from "react";
-import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useId } from "react";
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 
 import {
   Input,
@@ -10,10 +10,10 @@ import {
   ProfileInputCounter,
   UrlPrefix,
 } from "#/components/pages/my/profile";
+import { Spacer } from "#/components/uiParts";
 import { queryKeys } from "#/const";
 import { SLUG_ERROR_CODE } from "#/const/profile";
 import { Schema } from "#/pages/my/profile";
-import { Spacer } from "#/components/uiParts";
 
 export const PublicUrlInput = ({
   control,

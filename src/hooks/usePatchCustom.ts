@@ -1,10 +1,10 @@
+import { Custom } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { Custom } from "@prisma/client";
 
-import { CustomFormData } from "#/types";
 import { queryKeys } from "#/const";
+import { CustomFormData } from "#/types";
 
 export const usePatchCustom = () => {
   const { data: session } = useSession();

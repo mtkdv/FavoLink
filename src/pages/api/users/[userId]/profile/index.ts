@@ -1,11 +1,12 @@
-import type { NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
 import { Prisma } from "@prisma/client";
+import { getServerSession } from "next-auth";
 
 import prisma from "#/lib/prisma";
 import { authOptions } from "#/pages/api/auth/[...nextauth]";
-import { deserializeQueryParams } from "#/utils";
 import { NextApiRequestWithReqQuery } from "#/types";
+import { deserializeQueryParams } from "#/utils";
+
+import type { NextApiResponse } from "next";
 
 export default async function handle(
   req: NextApiRequestWithReqQuery,

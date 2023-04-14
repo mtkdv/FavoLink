@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { CategorizedLink } from "#/components/shared";
 import { Videos } from "#/types";
 import { pagesInfo } from "#/const";
+
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const MainContent = ({

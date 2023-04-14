@@ -1,7 +1,7 @@
+import { Custom } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { Custom } from "@prisma/client";
 
 import { queryKeys } from "#/const";
 

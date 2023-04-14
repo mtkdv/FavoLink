@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import prisma from "#/lib/prisma";
 import { generateVideos } from "#/utils";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function PublicResources(
   req: NextApiRequest,

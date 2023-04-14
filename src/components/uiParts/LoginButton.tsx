@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 
 import { queryKeys, topInfo } from "#/const";
-import clsx from "clsx";
 
 export const LoginButton = ({ size }: { size: keyof typeof sizes }) => {
   const queryClient = useQueryClient();

@@ -8,6 +8,7 @@ import { Divider, LinkWithIcon } from "#/components/uiParts";
 import { useGetProfile } from "#/hooks";
 import { pagesInfo, sideMenuList } from "#/const";
 import { FadeInOut } from "#/components/shared";
+
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const Sidebar = () => {

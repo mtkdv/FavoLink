@@ -1,11 +1,11 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
-import Credentials from "next-auth/providers/credentials";
 
-import prisma from "#/lib/prisma";
 import { guestCustom, guestProfile, guestUser, guestVideos } from "#/const";
+import prisma from "#/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session

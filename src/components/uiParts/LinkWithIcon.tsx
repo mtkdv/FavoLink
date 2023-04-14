@@ -1,14 +1,14 @@
+import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import clsx from "clsx";
+import { FaEye } from "react-icons/fa";
+import { IoLogoYoutube } from "react-icons/io5";
 import {
   RiHomeSmileFill,
   RiDashboardFill,
   RiUser5Fill,
   RiMagicFill,
 } from "react-icons/ri";
-import { IoLogoYoutube } from "react-icons/io5";
-import { FaEye } from "react-icons/fa";
 
 import { pagesInfo } from "#/const";
 

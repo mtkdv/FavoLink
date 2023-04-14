@@ -1,7 +1,7 @@
-import { NextPageWithLayout } from "#/pages/_app";
+import { LegalMain } from "#/components/shared/LegalMain";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { terms } from "#/const";
-import { LegalMain } from "#/components/shared/LegalMain";
+import { NextPageWithLayout } from "#/pages/_app";
 
 const Terms: NextPageWithLayout = () => {
   return (

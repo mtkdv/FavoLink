@@ -1,9 +1,9 @@
-import { signOut, useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
+import { signOut, useSession } from "next-auth/react";
 
-import { menuList, pagesInfo, queryKeys } from "#/const";
 import { FullNavItem } from "#/components/pages/home";
 import { LoginButton } from "#/components/uiParts";
+import { menuList, pagesInfo, queryKeys } from "#/const";
 
 export const FullNav = () => {
   const { status: sessionStatus } = useSession();

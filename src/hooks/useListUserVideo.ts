@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 
-import { Videos } from "#/types";
 import { queryKeys } from "#/const";
+import { Videos } from "#/types";
 
 export const useListUserVideo = () => {
   const { data: session } = useSession();

@@ -9,6 +9,7 @@ import { queryKeys } from "#/const";
 import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/profile";
 import { bytesToKilobytes, mimeToFileFormat } from "#/utils";
 import { useGetProfileBaseInfo } from "#/hooks";
+
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const AvatarInput = ({

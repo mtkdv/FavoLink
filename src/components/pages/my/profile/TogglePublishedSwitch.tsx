@@ -1,6 +1,6 @@
+import clsx from "clsx";
 import React, { useEffect, useId, useState } from "react";
 import { toast } from "react-hot-toast";
-import clsx from "clsx";
 
 import { useGetProfilePublished, usePatchProfilePublished } from "#/hooks";
 

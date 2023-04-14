@@ -5,6 +5,7 @@ import { Transition } from "@headlessui/react";
 
 import { useGetProfile } from "#/hooks";
 import { pagesInfo } from "#/const";
+
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const AvatarIcon = () => {

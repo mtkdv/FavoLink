@@ -1,10 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
 import prisma from "#/lib/prisma";
 import { authOptions } from "#/pages/api/auth/[...nextauth]";
 import { Schema } from "#/pages/my/add-video";
 import { generateVideos } from "#/utils";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handle(
   req: NextApiRequest,
