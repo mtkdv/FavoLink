@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
       await Promise.all([
         prisma.profile.create({
           data: {
-            name: user.name!,
+            name: user.name ?? "",
             image: user.image,
             user: { connect: { id: user.id } },
           },
@@ -99,7 +99,7 @@ const createGuestUser = async () => {
           },
         });
 
-        const createdLinks = await Promise.all(
+        await Promise.all(
           categoryLinks.map(async (categoryLink, linkIndex) => {
             const index = (linkIndex + 1) * 1024;
             await prisma.link.create({

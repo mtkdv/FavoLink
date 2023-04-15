@@ -20,6 +20,7 @@ export const PublicUrlInput = ({
   register,
   errors,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<Schema, any>;
   register: UseFormRegister<Schema>;
   errors: FieldErrors<Schema>;

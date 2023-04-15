@@ -97,7 +97,7 @@ const Profile: NextPageWithLayout = () => {
     // console.log("onSubmit");
 
     /** slug 重複検証 */
-    if (fData.slug && fData.slug !== profile!.slug) {
+    if (fData.slug && profile && fData.slug !== profile.slug) {
       try {
         await axios.get(`/api/query/profiles`, {
           params: {

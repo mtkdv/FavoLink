@@ -1,20 +1,20 @@
 import { Profile } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useSession } from "next-auth/react";
 
 import { queryKeys } from "#/const";
+import { useUserId } from "#/hooks";
 
 type ProfilePublished = Pick<Profile, "published">;
 
 export const useGetProfilePublished = () => {
-  const { data: session } = useSession();
+  const userId = useUserId();
 
   return useQuery<ProfilePublished, AxiosError>({
     queryKey: queryKeys.getProfilePublished,
     queryFn: async () => {
       const res = await axios.get<ProfilePublished>(
-        `/api/users/${session!.user!.id}/profile`,
+        `/api/users/${userId}/profile`,
         {
           params: {
             select: {
@@ -26,7 +26,7 @@ export const useGetProfilePublished = () => {
 
       return res.data;
     },
-    enabled: !!session && !!session.user,
+    enabled: !!userId,
     useErrorBoundary: true,
   });
 };

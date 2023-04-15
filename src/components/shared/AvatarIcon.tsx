@@ -16,10 +16,6 @@ export const AvatarIcon = () => {
     setIsOpen((pre) => !pre);
   };
 
-  const handleOpenMenu = () => {
-    setIsOpen(true);
-  };
-
   const handleCloseMenu = () => {
     setIsOpen(false);
   };
@@ -30,7 +26,6 @@ export const AvatarIcon = () => {
         <div className="h-12 w-12 animate-loadingPulse rounded-full bg-isabelline/75" />
       ) : (
         <div
-          // onMouseEnter={handleOpenMenu}
           onMouseLeave={handleCloseMenu}
           className="relative animate-appearance"
         >

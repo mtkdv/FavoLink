@@ -10,6 +10,7 @@ export const ProfileInputCounter = ({
   maxLength,
 }: {
   name: keyof Schema;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<Schema, any>;
   minLength?: number;
   maxLength: number;

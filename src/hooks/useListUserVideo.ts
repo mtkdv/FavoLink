@@ -1,24 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useSession } from "next-auth/react";
 
 import { queryKeys } from "#/const";
+import { useUserId } from "#/hooks";
 import { Videos } from "#/types";
 
 export const useListUserVideo = () => {
-  const { data: session } = useSession();
+  const userId = useUserId();
 
   return useQuery<Videos, AxiosError>({
     queryKey: queryKeys.listUserVideo,
     queryFn: async () => {
-      const res = await axios.get(`/api/users/${session!.user!.id}/videos`);
+      const res = await axios.get(`/api/users/${userId}/videos`);
 
       // Loading Test
       await new Promise((r) => setTimeout(r, 1000));
 
       return res.data;
     },
-    enabled: !!session && !!session.user,
+    enabled: !!userId,
     useErrorBoundary: true,
   });
 };

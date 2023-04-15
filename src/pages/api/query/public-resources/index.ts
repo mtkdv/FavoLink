@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 import prisma from "#/lib/prisma";
 import { generateVideos } from "#/utils";
 
@@ -56,9 +58,11 @@ export default async function PublicResources(
         ]);
 
         res.json({ profile, custom, videos });
-      } catch (error: any) {
-        // FIXME:
-        res.status(404).json({ message: error.message });
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("GetProfile error", error);
+          res.status(404).json({ message: error.message });
+        }
       }
       break;
     }

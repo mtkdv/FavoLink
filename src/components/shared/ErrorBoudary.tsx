@@ -1,4 +1,3 @@
-import NextError from "next/error";
 import React from "react";
 
 interface ErrorBoundaryProps {

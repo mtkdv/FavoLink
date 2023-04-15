@@ -23,6 +23,8 @@ export const BackgroundSelect = ({
 }) => {
   const { data: custom } = useGetCustom();
   const inputRef = useRef<HTMLInputElement>(null);
+  // TODO: 背景を色で選択するタブを追加。
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hasBackground, setHasBackground] = useState(true);
   const { data: formId } = useQuery({
     queryKey: queryKeys.form.customize,

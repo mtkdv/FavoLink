@@ -9,7 +9,10 @@ import { AccessControl, ErrorBoundary, Notification } from "#/providers";
 import type { NextPage } from "next";
 import type { AppProps, AppType } from "next/app";
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = Record<string, never>, IP = P> = NextPage<
+  P,
+  IP
+> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
 

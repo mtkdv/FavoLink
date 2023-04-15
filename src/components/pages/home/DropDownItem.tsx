@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { FaEye, FaTwitter, FaGithub } from "react-icons/fa";
+import { FaEye, FaGithub } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
 import { IoLogoYoutube } from "react-icons/io5";
 import { RiMagicFill, RiUser5Fill } from "react-icons/ri";

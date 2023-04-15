@@ -41,6 +41,7 @@ export const CategoryListItem = ({
   remove: UseFieldArrayRemove;
   register: UseFormRegister<Schema>;
   errors: Partial<FieldErrorsImpl<Schema>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<Schema, any>;
   getValues: UseFormGetValues<Schema>;
   setValue: UseFormSetValue<Schema>;

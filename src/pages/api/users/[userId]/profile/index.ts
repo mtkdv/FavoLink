@@ -14,12 +14,12 @@ export default async function handle(
 ) {
   const session = await getServerSession(req, res, authOptions);
 
-  if (!session) {
+  if (!session || !session.user) {
     res.status(401).json({ code: 401, message: "You must be logged in." });
     return;
   }
 
-  const { id } = session.user!;
+  const { id } = session.user;
   const { userId, select } = deserializeQueryParams(req.query);
 
   if (id !== userId) {
