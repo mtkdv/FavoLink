@@ -1,11 +1,11 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
-import Credentials from "next-auth/providers/credentials";
 
-import prisma from "#/lib/prisma";
 import { guestCustom, guestProfile, guestUser, guestVideos } from "#/const";
+import prisma from "#/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
       await Promise.all([
         prisma.profile.create({
           data: {
-            name: user.name!,
+            name: user.name ?? "",
             image: user.image,
             user: { connect: { id: user.id } },
           },
@@ -99,7 +99,7 @@ const createGuestUser = async () => {
           },
         });
 
-        const createdLinks = await Promise.all(
+        await Promise.all(
           categoryLinks.map(async (categoryLink, linkIndex) => {
             const index = (linkIndex + 1) * 1024;
             await prisma.link.create({

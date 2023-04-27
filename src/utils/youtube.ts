@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 type ListVideos = {
   items: {
@@ -56,7 +56,7 @@ export const listVideos = async (id: string): Promise<ListVideosResponse> => {
       channelTitle: res.data.items[0].snippet.channelTitle,
     };
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    if (isAxiosError(error)) {
       console.error(error);
       return { type: "error", code: error.code, message: error.message };
     } else if (error instanceof Error) {
@@ -119,7 +119,7 @@ export const listChannels = async (
       channelThumbnailUrl: res.data.items[0].snippet.thumbnails.medium.url,
     };
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    if (isAxiosError(error)) {
       console.error(error);
       return { type: "error", code: error.code, message: error.message };
     } else if (error instanceof Error) {

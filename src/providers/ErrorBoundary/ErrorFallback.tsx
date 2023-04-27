@@ -1,10 +1,8 @@
-import { isAxiosError } from "axios";
-import { FallbackProps } from "react-error-boundary";
+import type { FallbackProps } from "react-error-boundary";
+
 import UndrawNotFound from "/public/undraw_page_not_found_re_e9o6.svg";
 
 export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
-  // console.log("isAxiosError(error) =>", isAxiosError(error));
-
   return (
     <div
       role="alert"

@@ -1,9 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
 import { Prisma } from "@prisma/client";
+import { getServerSession } from "next-auth";
 
 import prisma from "#/lib/prisma";
 import { authOptions } from "#/pages/api/auth/[...nextauth]";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 // Slug重複検証
 export default async function handle(

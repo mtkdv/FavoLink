@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useId } from "react";
 import {
   Control,
@@ -10,17 +11,16 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
-import { IoMdClose } from "react-icons/io";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 import { RiAddLine } from "react-icons/ri";
 import { TfiExchangeVertical } from "react-icons/tfi";
 
-import { Schema } from "#/pages/my/add-video";
 import { Accordion, LinkListItem } from "#/components/pages/my/add-video";
-import { queryKeys } from "#/const";
 import { Spacer } from "#/components/uiParts";
+import { queryKeys } from "#/const";
 import { useLayoutAnimation } from "#/hooks";
+import { Schema } from "#/pages/my/add-video";
 // import { InputCounter } from "#/components/pages/my/profile/InputCounter";
 
 export const CategoryListItem = ({
@@ -41,6 +41,7 @@ export const CategoryListItem = ({
   remove: UseFieldArrayRemove;
   register: UseFormRegister<Schema>;
   errors: Partial<FieldErrorsImpl<Schema>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<Schema, any>;
   getValues: UseFormGetValues<Schema>;
   setValue: UseFormSetValue<Schema>;

@@ -12,3 +12,4 @@ export * from "./usePatchProfilePublished";
 export * from "./useQueryPublicResources";
 export * from "./useScreen";
 export * from "./useUpsertUserVideo";
+export * from "./useUserId";

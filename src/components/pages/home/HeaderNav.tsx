@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 
-import { menuList } from "#/const";
 import { HeaderNavItem } from "#/components/pages/home";
+import { menuList } from "#/const";
 
 export const HeaderNav = () => {
   const { status: sessionStatus } = useSession();

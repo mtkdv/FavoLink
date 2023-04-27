@@ -1,7 +1,7 @@
-import { useId } from "react";
-import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useId } from "react";
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 
 import {
   Input,
@@ -9,16 +9,17 @@ import {
   PlaceHolder,
   ProfileInputCounter,
 } from "#/components/pages/my/profile";
+import { Spacer } from "#/components/uiParts";
 import { queryKeys } from "#/const";
 import { NAME_ERROR_CODE } from "#/const/profile";
 import { Schema } from "#/pages/my/profile";
-import { Spacer } from "#/components/uiParts";
 
 export const NameInput = ({
   control,
   register,
   errors,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<Schema, any>;
   register: UseFormRegister<Schema>;
   errors: FieldErrors<Schema>;

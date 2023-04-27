@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 import { MenuItem } from "#/const/menuList";
-import Link from "next/link";
 import { isExternal } from "#/utils";
 
 export const FullNavItem = ({ menu }: { menu: MenuItem }) => {

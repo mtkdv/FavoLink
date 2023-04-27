@@ -1,8 +1,8 @@
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
 
-import { handleError } from "#/utils/handleError";
 import { ErrorFallback } from "#/providers/ErrorBoundary/ErrorFallback";
+import { handleError } from "#/utils/handleError";
 
 export const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
   return (

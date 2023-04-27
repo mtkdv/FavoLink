@@ -1,20 +1,10 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import axios from "axios";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/profile";
-import { NextPageWithLayout } from "#/pages/_app";
-import {
-  Appearance,
-  DashboardBackground,
-  DashboardForm,
-  DashboardHeader,
-  DashboardMain,
-  Layout,
-} from "#/components/shared";
 import {
   AvatarInput,
   DescriptionTextarea,
@@ -23,11 +13,21 @@ import {
   PublicUrlInput,
   TogglePublishedSwitch,
 } from "#/components/pages/my/profile";
+import {
+  Appearance,
+  DashboardBackground,
+  DashboardForm,
+  DashboardHeader,
+  DashboardMain,
+  Layout,
+} from "#/components/shared";
 import { DashboardButton, Divider, Spacer } from "#/components/uiParts";
+import { pagesInfo } from "#/const";
+import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/profile";
 import { useGetProfileBaseInfo, usePatchProfileBaseInfo } from "#/hooks";
+import { NextPageWithLayout } from "#/pages/_app";
 import { schema } from "#/schema/profile";
 import { uploadAndGetUrl } from "#/utils";
-import { pagesInfo } from "#/const";
 
 const profilePage = pagesInfo.my.profile;
 
@@ -97,7 +97,7 @@ const Profile: NextPageWithLayout = () => {
     // console.log("onSubmit");
 
     /** slug 重複検証 */
-    if (fData.slug && fData.slug !== profile!.slug) {
+    if (fData.slug && profile && fData.slug !== profile.slug) {
       try {
         await axios.get(`/api/query/profiles`, {
           params: {
@@ -139,7 +139,7 @@ const Profile: NextPageWithLayout = () => {
       description,
     };
 
-    mutateAsync(data, {
+    void mutateAsync(data, {
       onSuccess: () => toast.success("プロフィールを更新しました"),
       onError(error, variables, context) {
         console.log("profile onSubmit onError:", error);

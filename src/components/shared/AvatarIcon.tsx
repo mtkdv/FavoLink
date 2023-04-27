@@ -5,6 +5,7 @@ import { Transition } from "@headlessui/react";
 
 import { useGetProfile } from "#/hooks";
 import { pagesInfo } from "#/const";
+
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const AvatarIcon = () => {
@@ -13,10 +14,6 @@ export const AvatarIcon = () => {
 
   const toggleMenu = () => {
     setIsOpen((pre) => !pre);
-  };
-
-  const handleOpenMenu = () => {
-    setIsOpen(true);
   };
 
   const handleCloseMenu = () => {
@@ -29,7 +26,6 @@ export const AvatarIcon = () => {
         <div className="h-12 w-12 animate-loadingPulse rounded-full bg-isabelline/75" />
       ) : (
         <div
-          // onMouseEnter={handleOpenMenu}
           onMouseLeave={handleCloseMenu}
           className="relative animate-appearance"
         >
@@ -59,7 +55,9 @@ export const AvatarIcon = () => {
           >
             <div className="bg-white p-2 shadow-[0_5px_20px_-3px] shadow-black/20">
               <button
-                onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
+                onClick={() =>
+                  void signOut({ callbackUrl: pagesInfo.top.href })
+                }
                 className="flex h-10 w-30 animate-appearance items-center px-5 font-light tracking-wider outline-none ring-inset ring-juniper-500 transition duration-300 hover:translate-x-1 focus-visible:ring-2"
               >
                 Logout

@@ -1,11 +1,13 @@
-import { Fragment } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 import { signIn } from "next-auth/react";
+import { Fragment } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { SiTwitter } from "react-icons/si";
 import { TfiClose } from "react-icons/tfi";
 
+import { Spacer } from "#/components/uiParts";
 import {
   OAuthProvider,
   Provider,
@@ -13,8 +15,6 @@ import {
   pagesInfo,
   queryKeys,
 } from "#/const";
-import { Spacer } from "#/components/uiParts";
-import clsx from "clsx";
 import { kleeOne } from "#/lib/nextFont";
 
 export const SignInModal = () => {
@@ -113,7 +113,7 @@ const LoginButton = ({
   return (
     <button
       onClick={() => {
-        signIn(provider, { callbackUrl: pagesInfo.top.href });
+        void signIn(provider, { callbackUrl: pagesInfo.top.href });
       }}
       type="button"
       className="flex w-full justify-center border border-khaki-500 bg-white px-4 py-2 outline-none transition hover:ring-khaki-400/30 focus-visible:ring-juniper-500 focus-visible:ring-offset-2 [&:is(:hover,:focus-visible)]:ring-2"

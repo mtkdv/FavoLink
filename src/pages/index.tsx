@@ -1,20 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useQueryClient } from "@tanstack/react-query";
 
 import { NextPageWithLayout } from "#/pages/_app";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { MotionCustomize } from "#/components/pages/home";
-import { pagesInfo, publicPath, queryKeys, topInfo } from "#/const";
+import { pagesInfo, publicPath, topInfo } from "#/const";
 import { LoginButton, Spacer } from "#/components/uiParts";
 import { Feature } from "#/components/pages/home/Feature";
+
 import customize1 from "/public/customize1.png";
 import customize2 from "/public/customize2.png";
 
 const Home: NextPageWithLayout = () => {
   const { status: sessionStatus } = useSession();
-  const queryClient = useQueryClient();
 
   return (
     <>

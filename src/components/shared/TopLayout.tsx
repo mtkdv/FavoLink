@@ -1,6 +1,6 @@
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRef } from "react";
-import { useSession } from "next-auth/react";
 
 import {
   FullNav,
@@ -9,10 +9,10 @@ import {
   HeaderNav,
   SignInModal,
 } from "#/components/pages/home";
+import { AvatarIcon } from "#/components/shared";
 import { LoginButton, Spacer, ToTopButton } from "#/components/uiParts";
 import { pagesInfo } from "#/const";
 import { useScreen } from "#/hooks";
-import { AvatarIcon } from "#/components/shared";
 
 export const TopLayout = ({ children }: { children: React.ReactNode }) => {
   const { status: sessionStatus } = useSession();

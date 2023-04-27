@@ -3,7 +3,7 @@ type HasSize = {
   axis: "row" | "column";
 };
 
-type Props = {} | HasSize;
+type Props = Record<string, never> | HasSize;
 
 const hasSize = (props: Props): props is HasSize => {
   return Object.hasOwn(props, "size");

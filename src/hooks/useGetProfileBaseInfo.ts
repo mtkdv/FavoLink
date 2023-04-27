@@ -1,20 +1,23 @@
+import { Profile } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useSession } from "next-auth/react";
-import { Profile } from "@prisma/client";
 
 import { queryKeys } from "#/const";
+import { useUserId } from "#/hooks";
 
-type ProfileBaseInfo = Pick<Profile, "name" | "image" | "slug" | "description">;
+export type ProfileBaseInfo = Pick<
+  Profile,
+  "name" | "image" | "slug" | "description"
+>;
 
 export const useGetProfileBaseInfo = () => {
-  const { data: session } = useSession();
+  const userId = useUserId();
 
   return useQuery<ProfileBaseInfo, AxiosError>({
     queryKey: queryKeys.getProfileBaseInfo,
     queryFn: async () => {
       const res = await axios.get<ProfileBaseInfo>(
-        `/api/users/${session!.user!.id}/profile`,
+        `/api/users/${userId}/profile`,
         {
           params: {
             select: {
@@ -27,9 +30,17 @@ export const useGetProfileBaseInfo = () => {
         }
       );
 
+      await new Promise((r) => setTimeout(r, 1000));
+
       return res.data;
     },
-    enabled: !!session && !!session.user,
+    enabled: !!userId,
     useErrorBoundary: true,
   });
+
+  // const isLoading = <T>(data: T | undefined): data is T => {
+  //   return isLoadingDefault;
+  // };
+
+  // return { data, isLoading };
 };

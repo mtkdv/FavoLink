@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { TopFeature } from "#/const";
 import { Spacer } from "#/components/uiParts";
 import { MotionFeature } from "#/components/pages/home";
+
 import feature1 from "/public/feature1.png";
 import feature2 from "/public/feature2.png";
 import feature3 from "/public/feature3.png";

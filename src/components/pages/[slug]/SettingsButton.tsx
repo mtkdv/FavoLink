@@ -1,11 +1,11 @@
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { FaUserCog } from "react-icons/fa";
 
-import { PublicResources } from "#/types";
 import { pagesInfo, queryKeys } from "#/const";
+import { PublicResources } from "#/types";
 
 export const SettingsButton = () => {
   const { data: session } = useSession();
