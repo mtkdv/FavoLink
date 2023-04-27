@@ -58,7 +58,7 @@ const AddVideo: NextPageWithLayout = () => {
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     // await new Promise((r) => setTimeout(r, 3000));
 
-    mutateAsync(data, {
+    await mutateAsync(data, {
       onSuccess: () => toast.success("変更を反映しました。"),
     });
   };

@@ -8,10 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:check": "eslint --ignore-path .gitignore .",
-    "lint:fix": "eslint --fix --ignore-path .gitignore .",
-    "format:check": "prettier --check --ignore-path .gitignore .",
-    "format:write": "prettier --write --ignore-path .gitignore ."
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
   },
   "dependencies": {
     "@headlessui/react": "^1.7.12",

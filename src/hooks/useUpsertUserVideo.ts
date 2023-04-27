@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { queryKeys } from "#/const";
 import { useUserId } from "#/hooks/useUserId";
@@ -10,16 +10,24 @@ export const useUpsertUserVideo = () => {
   const queryClient = useQueryClient();
 
   // TODO: レスポンスを修正後、型修正。
-  const videoMutation = useMutation<unknown, unknown, Schema>({
+  const videoMutation = useMutation<
+    // mutationFnの返り値の型
+    Schema,
+    AxiosError<{
+      code: string;
+      message: string;
+    }>,
+    // mutationFnの引数の型
+    Schema
+  >({
     mutationFn: async (data) => {
-      const res = await axios.put(`/api/users/${userId}/videos`, data);
-
-      // await new Promise((r) => setTimeout(r, 3000));
+      // FIXME: putの返り値は現在Schemaではない。no-unsafe-return回避目的。
+      const res = await axios.put<Schema>(`/api/users/${userId}/videos`, data);
 
       return res.data;
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(queryKeys.listUserVideo);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(queryKeys.listUserVideo);
     },
   });
   return videoMutation;

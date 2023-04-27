@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 import { queryKeys } from "#/const";
-import { useUserId } from "#/hooks";
+import { useUserId } from "#/hooks/useUserId";
 
 export const useGetProfile = () => {
   const userId = useUserId();

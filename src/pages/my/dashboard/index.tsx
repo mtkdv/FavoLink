@@ -14,7 +14,7 @@ const Dashboard: NextPageWithLayout = () => {
   const { data, isLoading } = useQuery<JsonUser[]>({
     queryKey: ["GetUsers"],
     queryFn: async () => {
-      const { data } = await axios.get(
+      const { data } = await axios.get<JsonUser[]>(
         `https://jsonplaceholder.typicode.com/users`
       );
       // await new Promise((r) => setTimeout(r, 5000));

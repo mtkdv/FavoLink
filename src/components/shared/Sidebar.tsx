@@ -59,7 +59,8 @@ export const Sidebar = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`${pagesInfo.user.href}${profile?.slug}`}
+                // FIXME: restrict-template-expressions
+                href={`${pagesInfo.user.href}${profile?.slug ?? ""}`}
                 className="flex h-14 items-center rounded-md text-liver-500 outline-none ring-juniper-500 transition hover:bg-stone-300 focus-visible:ring-2 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3"
               >
                 <FaShareSquare />
@@ -77,7 +78,7 @@ export const Sidebar = () => {
 
             <button
               type="button"
-              onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
+              onClick={() => void signOut({ callbackUrl: pagesInfo.top.href })}
               className="flex h-14 w-full items-center rounded-md text-liver-500 outline-none ring-juniper-500 transition hover:bg-stone-300 focus-visible:ring-2 max-md:flex-col max-md:justify-center max-md:space-y-1 md:h-12 md:space-x-2 md:px-3"
             >
               <IoLogOut size={20} />

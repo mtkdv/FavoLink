@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import prisma from "#/lib/prisma";
 import { authOptions } from "#/pages/api/auth/[...nextauth]";
 import { Schema } from "#/pages/my/add-video";
+import { RequestPathParameters } from "#/schema/api";
 import { generateVideos } from "#/utils";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -20,7 +21,7 @@ export default async function handle(
   }
 
   const { id } = session.user;
-  const userId = req.query.userId as string;
+  const { userId } = RequestPathParameters.parse(req.query);
 
   if (id !== userId) {
     res.status(403).json({ code: "403", message: "You are not authorized." });

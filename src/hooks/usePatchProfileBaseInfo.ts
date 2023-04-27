@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 import { queryKeys } from "#/const";
-import { useUserId } from "#/hooks";
+import { useUserId } from "#/hooks/useUserId";
 import { ProfileFormData } from "#/types";
 
 export const usePatchProfileBaseInfo = () => {
@@ -26,9 +26,11 @@ export const usePatchProfileBaseInfo = () => {
 
       return res.data;
     },
-    onSettled: () => {
-      queryClient.invalidateQueries(queryKeys.getProfileBaseInfo);
-      queryClient.invalidateQueries(queryKeys.getProfile);
+    onSettled: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries(queryKeys.getProfileBaseInfo),
+        queryClient.invalidateQueries(queryKeys.getProfile),
+      ]);
     },
   });
 };

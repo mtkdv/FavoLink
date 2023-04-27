@@ -10,7 +10,7 @@ export const Accordion = ({ children }: { children: React.ReactNode }) => {
   const getKeyFrames = (content: HTMLDivElement, action: "open" | "close") => {
     const keyFrames = [
       {
-        height: content.offsetHeight + "px",
+        height: `${content.offsetHeight} px`,
         opacity: 1,
       },
       {

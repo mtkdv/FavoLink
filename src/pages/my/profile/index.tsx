@@ -139,7 +139,7 @@ const Profile: NextPageWithLayout = () => {
       description,
     };
 
-    mutateAsync(data, {
+    void mutateAsync(data, {
       onSuccess: () => toast.success("プロフィールを更新しました"),
       onError(error, variables, context) {
         console.log("profile onSubmit onError:", error);

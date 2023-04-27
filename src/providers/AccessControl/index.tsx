@@ -37,6 +37,7 @@ const Redirect = (opts: RedirectBaseOptions) => {
   if (opts.type === "back") {
     router.back();
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     router[opts.type](opts.destination);
   }
 

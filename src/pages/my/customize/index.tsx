@@ -102,7 +102,7 @@ const Customize: NextPageWithLayout = () => {
       mode,
     };
 
-    mutateAsync(data, {
+    await mutateAsync(data, {
       onSuccess(data, variables, context) {
         setIsSubmitSuccessful(true);
         toast.success("変更を保存しました。");

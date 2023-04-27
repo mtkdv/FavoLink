@@ -22,7 +22,7 @@ export const TogglePublishedSwitch = React.memo(() => {
       published: !checked,
     };
 
-    mutateAsync(data, {
+    await mutateAsync(data, {
       onSuccess: (data) => {
         toast.success(data.published ? "公開しました。" : "非公開にしました。");
       },

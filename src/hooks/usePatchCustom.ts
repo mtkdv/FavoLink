@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 import { queryKeys } from "#/const";
-import { useUserId } from "#/hooks";
+import { useUserId } from "#/hooks/useUserId";
 import { CustomFormData } from "#/types";
 
 export const usePatchCustom = () => {
@@ -26,7 +26,9 @@ export const usePatchCustom = () => {
 
       return res.data;
     },
-    onSettled: () => queryClient.invalidateQueries(queryKeys.getCustom),
+    onSettled: async () => {
+      await queryClient.invalidateQueries(queryKeys.getCustom);
+    },
     // useErrorBoundary(error) {
     //   if (!error.response) {
     //     return true;

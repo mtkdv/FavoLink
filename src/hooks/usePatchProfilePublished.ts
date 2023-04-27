@@ -3,7 +3,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 import { queryKeys } from "#/const";
-import { useUserId } from "#/hooks";
+import { useUserId } from "#/hooks/useUserId";
+
+type Data = {
+  published: boolean;
+};
 
 export const usePatchProfilePublished = () => {
   const userId = useUserId();
@@ -15,9 +19,7 @@ export const usePatchProfilePublished = () => {
       code: string;
       message: string;
     }>,
-    {
-      published: boolean;
-    }
+    Data
   >({
     mutationFn: async (data) => {
       const res = await axios.patch<Profile>(
@@ -26,9 +28,11 @@ export const usePatchProfilePublished = () => {
       );
       return res.data;
     },
-    onSettled: () => {
-      queryClient.invalidateQueries(queryKeys.getProfilePublished);
-      queryClient.invalidateQueries(queryKeys.getProfile);
+    onSettled: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries(queryKeys.getProfilePublished),
+        queryClient.invalidateQueries(queryKeys.getProfile),
+      ]);
     },
   });
   return profileMutation;
