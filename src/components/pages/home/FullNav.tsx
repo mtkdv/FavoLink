@@ -19,7 +19,7 @@ export const FullNav = () => {
         <li className="">
           {sessionStatus === "authenticated" ? (
             <button
-              onClick={() => void signOut({ callbackUrl: pagesInfo.top.href })}
+              onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
               className="block w-full animate-appearance border-b border-b-black/10 px-2 py-4 text-left font-light tracking-wider outline-none ring-inset ring-juniper-500 transition hover:bg-black/5 focus-visible:ring-2"
             >
               Logout
