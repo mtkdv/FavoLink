@@ -55,9 +55,7 @@ export const AvatarIcon = () => {
           >
             <div className="bg-white p-2 shadow-[0_5px_20px_-3px] shadow-black/20">
               <button
-                onClick={() =>
-                  void signOut({ callbackUrl: pagesInfo.top.href })
-                }
+                onClick={() => signOut({ callbackUrl: pagesInfo.top.href })}
                 className="flex h-10 w-30 animate-appearance items-center px-5 font-light tracking-wider outline-none ring-inset ring-juniper-500 transition duration-300 hover:translate-x-1 focus-visible:ring-2"
               >
                 Logout

@@ -113,7 +113,8 @@ const LoginButton = ({
   return (
     <button
       onClick={() => {
-        void signIn(provider, { callbackUrl: pagesInfo.top.href });
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        signIn(provider, { callbackUrl: pagesInfo.top.href });
       }}
       type="button"
       className="flex w-full justify-center border border-khaki-500 bg-white px-4 py-2 outline-none transition hover:ring-khaki-400/30 focus-visible:ring-juniper-500 focus-visible:ring-offset-2 [&:is(:hover,:focus-visible)]:ring-2"
