@@ -1,6 +1,7 @@
-import { PagesPath } from "#/const";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
+import { PagesPath } from "#/const";
 
 export const AccessControl = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -36,6 +37,7 @@ const Redirect = (opts: RedirectBaseOptions) => {
   if (opts.type === "back") {
     router.back();
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     router[opts.type](opts.destination);
   }
 

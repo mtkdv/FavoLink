@@ -16,10 +16,10 @@ export const AddCategoryButton = ({
       disabled={!isEnabled}
       onClick={appendCategory}
       className={clsx(
-        "group h-11 rounded-lg pl-1.5 pr-3 bg-white outline-none text-teal-600 border border-teal-600 transition duration-300 flex items-center",
+        "group flex h-11 items-center rounded-lg border border-teal-600 bg-white pl-1.5 pr-3 text-teal-600 outline-none transition duration-300",
         isEnabled
           ? "[&:is(:hover,:focus-visible)]:bg-teal-600 [&:is(:hover,:focus-visible)]:text-white"
-          : "cursor-not-allowed opacity-40 border-neutral-400 text-neutral-500"
+          : "cursor-not-allowed border-neutral-400 text-neutral-500 opacity-40"
       )}
     >
       <span className="relative">

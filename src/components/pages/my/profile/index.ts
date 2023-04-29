@@ -13,4 +13,3 @@ export * from "./ResetVerifiedText";
 export * from "./Textarea";
 export * from "./TogglePublishedSwitch";
 export * from "./UrlPrefix";
-export * from "./ValidateButton";

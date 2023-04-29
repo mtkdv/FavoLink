@@ -29,11 +29,11 @@ export const ToTopButton = ({
     >
       <button
         onClick={handleScrollTop}
-        className="group/to-top fixed bottom-36 md:bottom-24 right-5 w-10 h-10 rounded-full bg-base-white text-base-black flex items-center justify-center overflow-hidden border border-zinc-500 shadow-md [&:is(:hover,:focus-visible)]:bg-base-black [&:is(:hover,:focus-visible)]:text-base-white transition duration-200 outline-none [&:is(:hover,:focus-visible)]:scale-110"
+        className="group/to-top fixed bottom-36 right-5 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-zinc-500 bg-base-white text-base-black shadow-md outline-none transition duration-200 md:bottom-24 [&:is(:hover,:focus-visible)]:scale-110 [&:is(:hover,:focus-visible)]:bg-base-black [&:is(:hover,:focus-visible)]:text-base-white"
       >
         <FaChevronUp
           size={24}
-          className="group-hover/to-top:-scale-x-100 transition duration-200"
+          className="transition duration-200 group-hover/to-top:-scale-x-100"
         />
       </button>
     </Transition>

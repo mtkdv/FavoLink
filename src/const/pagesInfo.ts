@@ -87,7 +87,7 @@ type PageInfo = {
 // 現在不使用。
 export const getPagesPath = ([segment1, segment2]:
   | [keyof Omit<typeof pagesInfo, "my">]
-  | ["my", keyof typeof pagesInfo["my"]]): PagesPath => {
+  | ["my", keyof (typeof pagesInfo)["my"]]): PagesPath => {
   return segment1 === "my"
     ? pagesInfo[segment1][segment2].href
     : pagesInfo[segment1].href;

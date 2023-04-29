@@ -9,6 +9,7 @@ const screens = {
 };
 
 export const useScreen = (screen: keyof typeof screens) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isScreen, setIsScreen] = useState(false);
 
   const handleResize = () => {
@@ -34,11 +35,13 @@ export const useScreen = (screen: keyof typeof screens) => {
     //   isScreen
     // );
 
+    setIsLoading(false);
+
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  return isScreen;
+  return { isScreen, isLoading };
 };

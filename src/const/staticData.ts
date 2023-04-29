@@ -6,6 +6,7 @@ export const origin = {
 export const youtube = {
   base: "https://www.youtube.com/",
   channel: "https://www.youtube.com/channel/",
+  placeholder: "https://www.youtube.com/watch?v=***********",
 };
 
 // twitter: {

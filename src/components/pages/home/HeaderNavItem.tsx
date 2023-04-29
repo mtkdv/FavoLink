@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useSession } from "next-auth/react";
 import { Transition } from "@headlessui/react";
-import { RxCaretDown } from "react-icons/rx";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { RxCaretDown } from "react-icons/rx";
 
-import { MenuItem } from "#/const/menuList";
 import { DropDownItem } from "#/components/pages/home";
+import { MenuItem } from "#/const/menuList";
 
 export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +37,7 @@ export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
     >
       <button
         onClick={toggleMenu}
-        className="h-9 flex space-x-0.5 items-center pl-3 pr-2 outline-none focus-visible:ring-2 ring-juniper-500 transition"
+        className="flex h-9 items-center space-x-0.5 pl-3 pr-2 outline-none ring-juniper-500 transition focus-visible:ring-2"
       >
         <span className="font-light tracking-wider">{menu.title}</span>
         <RxCaretDown
@@ -61,7 +61,7 @@ export const HeaderNavItem = ({ menu }: { menu: MenuItem }) => {
       >
         {/* FIXME: leaveのdelay中にbackdrop-blurが機能しなくなる。 */}
         {/* <div className="rounded-lg border shadow-md bg-base-white/90 backdrop-blur-2xl p-1.5"> */}
-        <ul className="p-2 bg-white shadow-[0_0_25px_-2px] shadow-khaki-800/30">
+        <ul className="bg-white p-2 shadow-[0_0_25px_-2px] shadow-khaki-800/30">
           {menu.items.map((item) => (
             <DropDownItem key={item.href} {...{ item }} />
           ))}

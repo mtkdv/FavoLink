@@ -1,15 +1,15 @@
 import { useId } from "react";
-import { z } from "zod";
 import { SubmitHandler, useForm, UseFormSetValue } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { SlMagnifierAdd } from "react-icons/sl";
 import { RiShareBoxLine } from "react-icons/ri";
+import { SlMagnifierAdd } from "react-icons/sl";
+import { z } from "zod";
 
+import { youtube } from "#/const";
 import { Schema } from "#/pages/my/add-video";
 import { getYouTubeVideoIdFromUrl, listChannels, listVideos } from "#/utils";
-import { youtube } from "#/const";
 
 const schemaVF = z.object({
   url: z
@@ -132,11 +132,11 @@ export const LinkForm: React.FC<Props> = ({
       <button
         type="button"
         onClick={() => removeVideo(linkIndex)}
-        className="absolute right-2 top-2 group/remove outline-none"
+        className="group/remove absolute right-2 top-2 outline-none"
       >
         <IoMdClose
           size={20}
-          className="text-stone-400 group-focus-visible/remove:opacity-100 group-[:is(:hover,:focus-visible)]/remove:text-red-400 transition duration-300 opacity-0 group-hover/video-item:opacity-100"
+          className="text-stone-400 opacity-0 transition duration-300 group-hover/video-item:opacity-100 group-focus-visible/remove:opacity-100 group-[:is(:hover,:focus-visible)]/remove:text-red-400"
         />
       </button>
 
@@ -144,14 +144,14 @@ export const LinkForm: React.FC<Props> = ({
       <form
         onSubmit={handleSubmit(onUpdate)}
         id={linkFormId}
-        className="h-full w-full flex flex-col justify-center space-y-2 px-3"
+        className="flex h-full w-full flex-col justify-center space-y-2 px-3"
       >
         {/* Video-URL Label, a */}
-        <div className="flex space-x-2 w-fit">
+        <div className="flex w-fit space-x-2">
           <label
             // htmlFor={`url-input-${categoryIndex}-${linkIndex}`}
             htmlFor={linkInputId}
-            className="ml-1 w-fit text-xs text-stone-600 font-semibold tracking-wide"
+            className="ml-1 w-fit text-xs font-semibold tracking-wide text-stone-600"
           >
             YouTube Video URL
           </label>
@@ -160,7 +160,7 @@ export const LinkForm: React.FC<Props> = ({
             target="_blank"
             rel="noopener noreferrer"
             href={youtube.base}
-            className="text-blue-500 underline hover:text flex items-center text-xs hover:text-blue-700 outline-none focus-visible:ring-2 ring-juniper-500"
+            className="flex items-center text-xs text-blue-500 underline outline-none ring-juniper-500 hover:text-blue-700 focus-visible:ring-2"
           >
             {/* YouTube */}
             <RiShareBoxLine />
@@ -168,7 +168,7 @@ export const LinkForm: React.FC<Props> = ({
         </div>
 
         {/* Video-URL Input, Placeholder, Button */}
-        <div className="relative group/url-input h-9 rounded-sm flex">
+        <div className="group/url-input relative flex h-9 rounded-sm">
           {/* Video-URL input */}
           <input
             autoFocus
@@ -176,23 +176,22 @@ export const LinkForm: React.FC<Props> = ({
             form={linkFormId}
             placeholder="&nbsp;"
             {...register("url")}
-            className="peer z-10 flex-1 h-full px-3 outline-none text-stone-800 text-sm border border-stone-300 [&:is(:focus-visible,:hover)]:border-juniper-500 focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-juniper-400 transition rounded-l-sm"
+            className="peer z-10 h-full flex-1 rounded-l-sm border border-stone-300 px-3 text-sm text-stone-800 outline-none transition focus-visible:shadow-[0_0_2px_1px] focus-visible:shadow-juniper-400 [&:is(:focus-visible,:hover)]:border-juniper-500"
           />
 
           {/* Video-URL Placeholder */}
-          {/* <p className="absolute z-20 top-1/2 -translate-y-1/2 left-3 text-sm text-stone-400 tracking-wider transition duration-300 pointer-events-none peer-[:is(:focus-visible,:not(:placeholder-shown))]:-scale-x-100 peer-[:is(:focus-visible,:not(:placeholder-shown))]:opacity-0"> */}
-          <p className="absolute z-20 top-1/2 -translate-y-1/2 left-3.5 text-sm text-stone-400 tracking-wider transition duration-300 pointer-events-none peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0">
-            https://www.youtube.com/watch?v=***********
+          <p className="pointer-events-none absolute left-3.5 top-1/2 z-20 -translate-y-1/2 text-sm tracking-wider text-stone-400 transition duration-300 peer-[:not(:placeholder-shown)]:-scale-x-100 peer-[:not(:placeholder-shown)]:opacity-0">
+            {youtube.placeholder}
           </p>
 
           {/* Video-URL Button */}
           <button
             form={linkFormId}
-            className="group/url-button w-12 h-full bg-zinc-100 rounded-r-sm border-y border-r border-stone-300 grid place-items-center outline-none"
+            className="group/url-button grid h-full w-12 place-items-center rounded-r-sm border-y border-r border-stone-300 bg-zinc-100 outline-none"
           >
             <SlMagnifierAdd
               size={20}
-              className="text-stone-400 group-[:is(:hover,:focus-visible)]/url-button:text-slate-500 group-[:is(:hover,:focus-visible)]/url-button:scale-105 transition"
+              className="text-stone-400 transition group-[:is(:hover,:focus-visible)]/url-button:scale-105 group-[:is(:hover,:focus-visible)]/url-button:text-slate-500"
             />
           </button>
         </div>
@@ -200,9 +199,9 @@ export const LinkForm: React.FC<Props> = ({
         {/* TODO:  */}
         {/* Video-URL Error Message */}
         {errors.url && (
-          <div className="h-[25px] px-1 flex items-center space-x-1.5 text-red-600">
+          <div className="flex h-[25px] items-center space-x-1.5 px-1 text-red-600">
             <FaExclamationTriangle />
-            <p className="text-sm line-clamp-1 break-all">
+            <p className="line-clamp-1 break-all text-sm">
               {errors.url.message}
             </p>
           </div>

@@ -1,14 +1,19 @@
-import React, { useId, useState } from "react";
-import { toast } from "react-hot-toast";
 import clsx from "clsx";
+import React, { useEffect, useId, useState } from "react";
+import { toast } from "react-hot-toast";
 
-import { useGetProfile, usePatchProfilePublished } from "#/hooks";
+import { useGetProfilePublished, usePatchProfilePublished } from "#/hooks";
 
-export const TogglePublishedSwitch = () => {
+export const TogglePublishedSwitch = React.memo(() => {
   const inputId = useId();
-  const { data: profile } = useGetProfile();
+  const { data: profile, isLoading } = useGetProfilePublished();
   const { mutateAsync } = usePatchProfilePublished();
-  const [checked, setChecked] = useState(profile?.published);
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    if (profile === undefined) return;
+    setChecked(profile.published);
+  }, [profile]);
 
   const handleChange = async () => {
     setChecked((current) => !current);
@@ -17,7 +22,7 @@ export const TogglePublishedSwitch = () => {
       published: !checked,
     };
 
-    mutateAsync(data, {
+    await mutateAsync(data, {
       onSuccess: (data) => {
         toast.success(data.published ? "公開しました。" : "非公開にしました。");
       },
@@ -27,7 +32,7 @@ export const TogglePublishedSwitch = () => {
     });
   };
 
-  return profile ? (
+  return isLoading ? null : (
     <div className="flex justify-between">
       <div className="flex flex-col items-end">
         <h3 className="">ページの公開設定</h3>
@@ -47,12 +52,12 @@ export const TogglePublishedSwitch = () => {
             id={inputId}
             checked={checked}
             onChange={handleChange}
-            className="sr-only"
+            className="peer sr-only"
           />
           {/* FIXME: スイッチのデザイン変更 */}
           <div
             className={clsx(
-              "h-6 w-11 rounded-full flex items-center cursor-pointer transition-colors",
+              "flex h-6 w-11 cursor-pointer items-center rounded-full ring-juniper-500 ring-offset-1 transition duration-300 peer-focus-visible:ring-2",
               checked ? "bg-teal-600" : "bg-gray-200"
             )}
           >
@@ -61,10 +66,12 @@ export const TogglePublishedSwitch = () => {
                 "h-4 w-4 rounded-full bg-white transition",
                 checked ? "translate-x-6" : "translate-x-1"
               )}
-            ></div>
+            />
           </div>
         </label>
       </div>
     </div>
-  ) : null;
-};
+  );
+});
+
+TogglePublishedSwitch.displayName = "TogglePublishedSwitch";

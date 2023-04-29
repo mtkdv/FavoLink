@@ -1,12 +1,12 @@
-import { NextPageWithLayout } from "#/pages/_app";
+import { LegalMain } from "#/components/shared/LegalMain";
 import { TopLayout } from "#/components/shared/TopLayout";
 import { terms } from "#/const";
-import { LegalMain } from "#/components/shared/LegalMain";
+import { NextPageWithLayout } from "#/pages/_app";
 
 const Terms: NextPageWithLayout = () => {
   return (
     <LegalMain docs={terms}>
-      <p className="px-8 mt-12">以上</p>
+      <p className="mt-12 px-8">以上</p>
     </LegalMain>
   );
 };

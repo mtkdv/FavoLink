@@ -1,7 +1,6 @@
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRef } from "react";
-import { useSession } from "next-auth/react";
-import { useQueryClient } from "@tanstack/react-query";
 
 import {
   FullNav,
@@ -10,29 +9,27 @@ import {
   HeaderNav,
   SignInModal,
 } from "#/components/pages/home";
-import { Spacer, ToTopButton } from "#/components/uiParts";
-import { pagesInfo, queryKeys } from "#/const";
-import { useScreen } from "#/hooks";
 import { AvatarIcon } from "#/components/shared";
+import { LoginButton, Spacer, ToTopButton } from "#/components/uiParts";
+import { pagesInfo } from "#/const";
+import { useScreen } from "#/hooks";
 
 export const TopLayout = ({ children }: { children: React.ReactNode }) => {
   const { status: sessionStatus } = useSession();
-  const isMdScreen = useScreen("md");
+  const { isScreen: isMdScreen, isLoading } = useScreen("md");
   const scrollTopRef = useRef<HTMLElement>(null);
-
-  const queryClient = useQueryClient();
 
   return (
     <>
-      <header className="group/header fixed top-0 w-screen z-10 h-24 pr-3.5 text-liver-500">
-        <div className="absolute inset-x-0 -z-10 bg-white/70 backdrop-blur h-full group-[:has(#hamburger:checked)]/header:bg-base-white dark:group-[&:has(#hamburger:checked)]/header:bg-base-black dark:bg-base-black/50 dark:text-base-white" />
+      <header className="group/header fixed top-0 z-10 h-24 w-screen pr-3.5 text-liver-500">
+        <div className="absolute inset-x-0 -z-10 h-full bg-white/70 backdrop-blur group-[:has(#hamburger:checked)]/header:bg-base-white dark:bg-base-black/50 dark:text-base-white dark:group-[&:has(#hamburger:checked)]/header:bg-base-black" />
 
-        <div className="absolute inset-x-0 z-10 h-full pb-px pt-0.5 max-w-5xl mx-auto flex items-center pl-6 pr-10">
+        <div className="absolute inset-x-0 z-10 mx-auto flex h-full max-w-5xl items-center pb-px pl-6 pr-10 pt-0.5">
           {/* タイトル */}
           <h1 className="text-2xl font-light tracking-[0.3rem]">
             <Link
               href={pagesInfo.top.href}
-              className="text-3xl tracking-widest outline-none focus-visible:ring-2 ring-juniper-500"
+              className="text-3xl tracking-widest outline-none ring-juniper-500 focus-visible:ring-2"
             >
               FAVOLINK
             </Link>
@@ -40,21 +37,11 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
           <Spacer />
 
-          {sessionStatus !== "loading" && isMdScreen ? (
+          {sessionStatus !== "loading" && isLoading ? null : isMdScreen ? (
             <>
               <HeaderNav />
               {sessionStatus === "unauthenticated" ? (
-                <button
-                  onClick={() =>
-                    queryClient.setQueryData(queryKeys.signInModal, true)
-                  }
-                  className="relative group w-18 h-9 bg-gradient-to-t from-neutral-900 via-neutral-700 to-neutral-600 outline-none focus-visible:ring-2 ring-juniper-500 ring-offset-1 animate-appearance transition"
-                >
-                  <span className="absolute left-0 top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-neutral-700 opacity-0 transition duration-500 group-hover:opacity-100" />
-                  <span className="absolute center text-white font-light tracking-wider">
-                    Login
-                  </span>
-                </button>
+                <LoginButton size="sm" />
               ) : (
                 sessionStatus === "authenticated" && <AvatarIcon />
               )}
@@ -72,31 +59,31 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
 
       <main
         ref={scrollTopRef}
-        className="pt-24 min-h-top-main md:min-h-md-top-main bg-white text-liver-500"
+        className="min-h-top-main bg-white pt-24 text-liver-500 md:min-h-md-top-main"
       >
         {children}
 
         <ToTopButton refCurrent={scrollTopRef.current} />
       </main>
 
-      <footer className="h-30 md:h-20 bg-neutral-800 text-white">
-        <div className="h-full max-w-5xl mx-auto px-4 pt-px flex max-md:flex-col justify-center gap-y-4 md:justify-between items-center">
+      <footer className="h-30 bg-neutral-800 text-white md:h-20">
+        <div className="mx-auto flex h-full max-w-5xl items-center justify-center gap-y-4 px-4 pt-px max-md:flex-col md:justify-between">
           <div className="flex space-x-4">
             <Link
               href={pagesInfo.terms.href}
-              className="relative group outline-none focus-visible:ring-2 ring-juniper-400 ring-offset-2 ring-offset-neutral-800 transition"
+              className="group relative outline-none ring-juniper-400 ring-offset-2 ring-offset-neutral-800 transition focus-visible:ring-2"
             >
-              <span className="absolute bottom-0 w-full h-0.5 bg-white rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
-              <span className="group-hover:text-white transition duration-300">
+              <span className="absolute bottom-0 h-0.5 w-full origin-right scale-x-0 rounded-full bg-white transition duration-300 group-hover:origin-left group-hover:scale-x-100" />
+              <span className="transition duration-300 group-hover:text-white">
                 利用規約
               </span>
             </Link>
             <Link
               href={pagesInfo.privacyPolicy.href}
-              className="relative group outline-none focus-visible:ring-2 ring-juniper-400 ring-offset-2 ring-offset-neutral-800 transition"
+              className="group relative outline-none ring-juniper-400 ring-offset-2 ring-offset-neutral-800 transition focus-visible:ring-2"
             >
-              <span className="absolute bottom-0 w-full h-0.5 bg-white rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition duration-300" />
-              <span className="group-hover:text-white transition duration-300">
+              <span className="absolute bottom-0 h-0.5 w-full origin-right scale-x-0 rounded-full bg-white transition duration-300 group-hover:origin-left group-hover:scale-x-100" />
+              <span className="transition duration-300 group-hover:text-white">
                 プライバシーポリシー
               </span>
             </Link>
@@ -110,7 +97,7 @@ export const TopLayout = ({ children }: { children: React.ReactNode }) => {
             </Link>
           </div>
           <div className="">
-            <p className="text-neutral-300 text-sm">
+            <p className="text-sm text-neutral-300">
               Copyright &copy; 2023 FavoLink. All rights reserved.
             </p>
           </div>

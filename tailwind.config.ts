@@ -1,8 +1,9 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors");
+import colors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+export default {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     // "./components/**/*.{js,ts,jsx,tsx}",
@@ -60,6 +61,13 @@ module.exports = {
           800: "#72664f",
           900: "#5d5341",
         },
+      },
+      dropShadow: {
+        "white-black": [
+          `1px 1px 0 ${colors.white}`,
+          // `1.5px 1.5px 0 rgba(${colors.black} / 0.1)`,
+          `1.5px 1.5px 0 rgb(0 0 0 / 0.1)`,
+        ],
       },
       fontFamily: {
         custom: [
@@ -177,14 +185,14 @@ module.exports = {
             transform: "translateX(100%)",
           },
         },
-        skeleton2: {
-          "0%": {
-            backgroundPosition: 0,
-          },
-          "0%": {
-            backgroundPosition: "200%",
-          },
-        },
+        // skeleton2: {
+        //   "0%": {
+        //     backgroundPosition: 0,
+        //   },
+        //   "0%": {
+        //     backgroundPosition: "200%",
+        //   },
+        // },
         toTop: {
           "0%": {
             transform: "translateY(0%)",
@@ -217,6 +225,6 @@ module.exports = {
       ...defaultTheme.screens,
     },
   },
-  plugins: [require("@tailwindcss/line-clamp")],
+  // plugins: [require("@tailwindcss/line-clamp")],
   darkMode: "class",
-};
+} satisfies Config;

@@ -1,11 +1,11 @@
 export const AddVideoSkeleton = () => {
   return (
-    <div className="flex flex-col animate-appearance animate-loadingPulse max-w-3xl mx-auto">
+    <div className="mx-auto flex max-w-3xl animate-appearance animate-loadingPulse flex-col">
       {/* Header */}
-      <div className="sticky top-0 z-20 h-16 bg-base-white flex flex-col justify-end">
-        <div className="px-4 space-y-2">
+      <div className="sticky top-0 z-20 flex h-16 flex-col justify-end bg-base-white">
+        <div className="space-y-2 px-4">
           <div className="relative">
-            <div className="absolute right-2 bottom-0 flex justify-end space-x-4">
+            <div className="absolute bottom-0 right-2 flex justify-end space-x-4">
               {/* Add Collection Button */}
               <div className="flex justify-center">
                 <div className="h-9 w-32 rounded-sm bg-isabelline/75" />
@@ -19,12 +19,12 @@ export const AddVideoSkeleton = () => {
           </div>
 
           {/* Divider */}
-          <div className="rounded-full mx-auto w-full h-0.5 bg-isabelline/75" />
+          <div className="mx-auto h-0.5 w-full rounded-full bg-isabelline/75" />
         </div>
       </div>
 
       {/* Main */}
-      <ul className="px-6 pt-14 pb-6 space-y-6">
+      <ul className="space-y-6 px-6 pb-6 pt-14">
         <CategoryListItemSkeleton>
           <LinkListItemSkeleton />
           <LinkListItemSkeleton />
@@ -46,7 +46,7 @@ const CategoryListItemSkeleton = ({
   children: React.ReactNode;
 }) => {
   return (
-    <li className="px-3 py-6 rounded-md border-2 border-isabelline/75 flex flex-col">
+    <li className="flex flex-col rounded-md border-2 border-isabelline/75 px-3 py-6">
       {/* Collection Inputs */}
       <div className="space-y-2">
         {/* Collection Label */}
@@ -63,10 +63,10 @@ const CategoryListItemSkeleton = ({
 
 const LinkListItemSkeleton = () => {
   return (
-    <li className="relative h-24 flex items-center rounded-sm border-2 border-isabelline/75">
-      <div className="w-full px-1 flex space-x-2">
+    <li className="relative flex h-24 items-center rounded-sm border-2 border-isabelline/75">
+      <div className="flex w-full space-x-2 px-1">
         {/* Left */}
-        <div className="shrink-0 w-40 h-[90px] bg-isabelline/75" />
+        <div className="h-[90px] w-40 shrink-0 bg-isabelline/75" />
       </div>
     </li>
   );

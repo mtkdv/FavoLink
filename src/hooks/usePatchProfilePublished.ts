@@ -1,12 +1,16 @@
 import { Profile } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useSession } from "next-auth/react";
 
 import { queryKeys } from "#/const";
+import { useUserId } from "#/hooks/useUserId";
+
+type Data = {
+  published: boolean;
+};
 
 export const usePatchProfilePublished = () => {
-  const { data: session } = useSession();
+  const userId = useUserId();
   const queryClient = useQueryClient();
 
   const profileMutation = useMutation<
@@ -15,18 +19,21 @@ export const usePatchProfilePublished = () => {
       code: string;
       message: string;
     }>,
-    {
-      published: boolean;
-    }
+    Data
   >({
     mutationFn: async (data) => {
       const res = await axios.patch<Profile>(
-        `/api/users/${session!.user!.id}/profile/_published`,
+        `/api/users/${userId}/profile/_published`,
         data
       );
       return res.data;
     },
-    onSettled: () => queryClient.invalidateQueries(queryKeys.getProfile),
+    onSettled: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries(queryKeys.getProfilePublished),
+        queryClient.invalidateQueries(queryKeys.getProfile),
+      ]);
+    },
   });
   return profileMutation;
 };

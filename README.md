@@ -5,11 +5,18 @@
 
 <p align="center">
   <a href="https://github.com/vercel/next.js/">
-    <img alt="" src="https://img.shields.io/badge/v13.2.1-blueviolet.svg?style=for-the-badge&logo=Next.js&labelColor=222222&logoWidth=20" />
+    <img alt="Next.js" src="https://img.shields.io/badge/v13.2.1-blueviolet.svg?style=for-the-badge&logo=Next.js&labelColor=333333&logoWidth=20" />
   </a>
   &nbsp;
   <a href="https://github.com/facebook/react">
-    <img alt="" src="https://img.shields.io/badge/v18.2.0-blue.svg?style=for-the-badge&logo=React&labelColor=222222&logoWidth=20" />
+    <img alt="React" src="https://img.shields.io/badge/v18.2.0-blue.svg?style=for-the-badge&logo=React&labelColor=333333&logoWidth=20" />
+  </a>
+  &nbsp;
+  <a href="https://gitmoji.dev">
+    <img
+      src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=for-the-badge&labelColor=333333"
+      alt="Gitmoji"
+    />
   </a>
 </p>
 
@@ -17,7 +24,7 @@
 
 **https://favolink.vercel.app/**
 
-## FAVOLINKに関して
+## FAVOLINK に関して
 
 ### 概要
 
@@ -40,13 +47,15 @@
 
 ## ページと機能
 
+<!-- prettier-ignore -->
 | トップページ・ログイン | ダッシュボード |
 | :---: | :---: |
-| ![top-login](https://gyazo.com/2727c5f319616ed9341e4f9a02f73a4a.gif) | ![dashboard](https://gyazo.com/48124e8b04d69e7cb5e0cade89d68b39.gif) |
-| Google、Twitterアカウントによる認証をサポート。 | サイドバーには各種編集ページへのリンク、右枠にはそれぞれのページが表示される。 |
+| ![top-login](https://gyazo.com/02dc63c9c94d7798cda383b8eda588d5.gif) | ![dashboard](https://gyazo.com/48124e8b04d69e7cb5e0cade89d68b39.gif) |
+| Google、Twitter、ゲストアカウントによる認証をサポート。 | サイドバーには各種編集ページへのリンク、右枠にはそれぞれのページが表示される。 |
 
 <br>
 
+<!-- prettier-ignore -->
 | プロフィール編集ページ | カスタマイズページ |
 | :---: | :---: |
 | ![dashboard](https://gyazo.com/abd721ede9f7e5392cfad6390d44308a.gif) | ![customize](https://gyazo.com/b5f579538ece489d81b925d0832d5f1c.gif) |
@@ -54,6 +63,7 @@
 
 <br>
 
+<!-- prettier-ignore -->
 | 動画リスト編集ページ（登録） | 動画リスト編集ページ（並び替え） |
 | :---: | :---: |
 | ![add-video(submit)](https://gyazo.com/f4cebff24935349dd6df1d86ab421801.gif) | ![add-video(order)](https://gyazo.com/91814ba69dda9e09e6b5f6b282b9b194.gif) |
@@ -61,6 +71,7 @@
 
 <br>
 
+<!-- prettier-ignore -->
 | プレビューページ | 公開ページ |
 | :---: | :---: |
 | ![preview](https://gyazo.com/f86d11097d8eab9ec0520108aac9e608.gif) | ![public](https://gyazo.com/7ca1c07a34703eea78ceaf9f99a6c302.gif) |

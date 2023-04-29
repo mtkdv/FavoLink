@@ -1,11 +1,15 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "react-hot-toast";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { z } from "zod";
 
-import { NextPageWithLayout } from "#/pages/_app";
+import {
+  AddCategoryButton,
+  AddVideoSkeleton,
+  CategoryListItem,
+} from "#/components/pages/my/add-video";
 import {
   Appearance,
   DashboardBackground,
@@ -14,15 +18,11 @@ import {
   DashboardMain,
   Layout,
 } from "#/components/shared";
-import {
-  AddCategoryButton,
-  AddVideoSkeleton,
-  CategoryListItem,
-} from "#/components/pages/my/add-video";
 import { DashboardButton, Flex, Spacer } from "#/components/uiParts";
-import { useUpsertUserVideo, useListUserVideo, useFormatData } from "#/hooks";
-import { schema } from "#/schema/addVideo";
 import { pagesInfo } from "#/const";
+import { useUpsertUserVideo, useListUserVideo, useFormatData } from "#/hooks";
+import { NextPageWithLayout } from "#/pages/_app";
+import { schema } from "#/schema/addVideo";
 
 const addVideoInfo = pagesInfo.my.addVideo;
 
@@ -58,7 +58,7 @@ const AddVideo: NextPageWithLayout = () => {
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     // await new Promise((r) => setTimeout(r, 3000));
 
-    mutateAsync(data, {
+    await mutateAsync(data, {
       onSuccess: () => toast.success("変更を反映しました。"),
     });
   };
@@ -124,9 +124,9 @@ const AddVideo: NextPageWithLayout = () => {
       {/* FIXME: 表示位置 */}
       {/* Error Message（コレクション名の重複など） */}
       {errors.videos && errors.videos.message && (
-        <div className="mt-4 px-1 flex items-center space-x-1.5 text-red-600">
+        <div className="mt-4 flex items-center space-x-1.5 px-1 text-red-600">
           <FaExclamationTriangle />
-          <p className="text-sm line-clamp-1 break-all">
+          <p className="line-clamp-1 break-all text-sm">
             {errors.videos.message}
           </p>
         </div>

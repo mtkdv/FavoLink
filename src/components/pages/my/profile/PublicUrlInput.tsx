@@ -1,7 +1,7 @@
-import { useId } from "react";
-import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useId } from "react";
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 
 import {
   Input,
@@ -10,16 +10,17 @@ import {
   ProfileInputCounter,
   UrlPrefix,
 } from "#/components/pages/my/profile";
+import { Spacer } from "#/components/uiParts";
 import { queryKeys } from "#/const";
 import { SLUG_ERROR_CODE } from "#/const/profile";
 import { Schema } from "#/pages/my/profile";
-import { Spacer } from "#/components/uiParts";
 
 export const PublicUrlInput = ({
   control,
   register,
   errors,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<Schema, any>;
   register: UseFormRegister<Schema>;
   errors: FieldErrors<Schema>;
@@ -33,7 +34,7 @@ export const PublicUrlInput = ({
 
   return (
     <div className="group">
-      <div className="ml-1 flex justify-between items-end">
+      <div className="ml-1 flex items-end justify-between">
         <Label htmlFor={inputId}>Public URL</Label>
         <ProfileInputCounter
           name="slug"
@@ -45,7 +46,7 @@ export const PublicUrlInput = ({
 
       <Spacer size={8} axis="column" />
 
-      <div className="h-10 flex">
+      <div className="flex h-10">
         <UrlPrefix />
 
         <div className="relative flex-1">
@@ -65,13 +66,13 @@ export const PublicUrlInput = ({
       <Spacer size={8} axis="column" />
 
       <div className="ml-1 flex space-x-2">
-        <p className="w-7 self-start text-center rounded-sm bg-teal-600 text-xxxs tracking-wide text-white shrink-0">
+        <p className="w-7 shrink-0 self-start rounded-sm bg-teal-600 text-center text-xxxs tracking-wide text-white">
           Note
         </p>
         <div
           className={clsx(
             // "text-xs leading-none flex-1 space-y-1.5 h-12",
-            "relative text-stone-500 text-xs leading-none flex-1 space-y-1.5"
+            "relative flex-1 space-y-1.5 text-xs leading-none text-stone-500"
             // errors.slug?.message &&
             //   SLUG_ERROR_CODES.includes(errors.slug.message)
             //   ? "text-red-600"

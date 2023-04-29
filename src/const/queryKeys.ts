@@ -6,6 +6,8 @@ export const queryKeys = {
   },
   getCustom: ["getCustom"],
   getProfile: ["getProfile"],
+  getProfileBaseInfo: ["getProfileBaseInfo"],
+  getProfilePublished: ["getProfilePublished"],
   listUserVideo: ["listUserVideo"],
   playVideoData: ["playVideoData"],
   publicResources: ["publicResources"],

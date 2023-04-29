@@ -1,24 +1,31 @@
-import type { NextPage } from "next";
-import type { AppProps, AppType } from "next/app";
+import "#/styles/globals.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-import { AccessControl, ErrorBoundary, Notification } from "#/providers";
-import "#/styles/globals.css";
 import { kleeOne } from "#/lib/nextFont";
+import { AccessControl, ErrorBoundary, Notification } from "#/providers";
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+import type { NextPage } from "next";
+import type { AppProps } from "next/app";
+
+export type NextPageWithLayout<P = Record<string, never>, IP = P> = NextPage<
+  P,
+  IP
+> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
 
-type AppPropsWithLayout = AppProps & {
+type AppPropsWithLayout = AppPropsWithSession & {
   Component: NextPageWithLayout;
 };
 
+type AppPropsWithSession = AppProps<{ session: Session | null }>;
+
 const queryClient = new QueryClient();
 
-const MyApp: AppType<{ session: Session | null }> = ({
+// const MyApp: AppType<{ session: Session | null }> = ({
+const MyApp = ({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {

@@ -8,7 +8,8 @@ import { Divider } from "#/components/uiParts";
 import { queryKeys } from "#/const";
 import { ACCEPTED_IMAGE_TYPES, ONE_MEGA_BYTE } from "#/const/profile";
 import { bytesToKilobytes, mimeToFileFormat } from "#/utils";
-import { useGetProfile } from "#/hooks";
+import { useGetProfileBaseInfo } from "#/hooks";
+
 import silhouetteAvatar from "/public/silhouette-avatar.png";
 
 export const AvatarInput = ({
@@ -19,7 +20,7 @@ export const AvatarInput = ({
   setPreviewFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }) => {
   const inputId = useId();
-  const { data: profile } = useGetProfile();
+  const { data: profile } = useGetProfileBaseInfo();
   const [previewUrl, setPreviewUrl] = useState<string>();
 
   const { data: formId } = useQuery<string>({
@@ -67,31 +68,31 @@ export const AvatarInput = ({
   return (
     <div>
       <div className="ml-1">
-        <h3 className="text-xs w-fit font-semibold tracking-wide">
+        <h3 className="w-fit text-xs font-semibold tracking-wide">
           Profile Icon
         </h3>
       </div>
 
-      <div className="mt-2 rounded-md bg-white/50 border border-stone-300 px-2 py-3 flex space-x-2 [&:has(.error-message)]:border-red-600 ">
+      <div className="mt-2 flex space-x-2 rounded-md border border-stone-300 bg-white/50 px-2 py-3 [&:has(.error-message)]:border-red-600 ">
         {/* 左: Inputs */}
-        <div className="group/avatar-inputs relative flex items-center shrink-0">
+        <div className="group/avatar-inputs relative flex shrink-0 items-center">
           <Image
             src={previewUrl ?? profile?.image ?? silhouetteAvatar}
             alt="avatar-inputs"
             width={112}
             height={112}
-            className="rounded-full w-28 h-28 object-cover shadow-md"
+            className="h-28 w-28 rounded-full object-cover shadow-md"
           />
 
           {/* Avatar Label */}
-          <div className="absolute w-full h-full clip-path-circle">
+          <div className="clip-path-circle absolute h-full w-full">
             <label
               htmlFor={inputId}
-              className="absolute group bottom-0 w-full h-2/5 bg-black/30 grid place-items-center cursor-pointer hover:bg-black/40 group-[:has(:focus-visible)]/avatar-inputs:bg-black/40 transition"
+              className="group absolute bottom-0 grid h-2/5 w-full cursor-pointer place-items-center bg-black/30 transition hover:bg-black/40 group-[:has(:focus-visible)]/avatar-inputs:bg-black/40"
             >
               <TbCameraPlus
                 size={20}
-                className="text-white group-hover:scale-105 group-[:has(:focus-visible)]/avatar-inputs:scale-105 transition"
+                className="text-white transition group-hover:scale-105 group-[:has(:focus-visible)]/avatar-inputs:scale-105"
               />
             </label>
           </div>
@@ -108,10 +109,10 @@ export const AvatarInput = ({
         </div>
 
         {/* 右: 詳細、エラーメッセージ  */}
-        <div className="grow flex flex-col justify-between">
+        <div className="flex grow flex-col justify-between">
           {/* File Name */}
           <div className="px-2">
-            <p className="line-clamp-1 break-all h-5 text-stone-600 text-sm tracking-wide">
+            <p className="line-clamp-1 h-5 break-all text-sm tracking-wide text-stone-600">
               {previewFile?.name}
             </p>
           </div>
@@ -122,7 +123,7 @@ export const AvatarInput = ({
           <div className="flex space-x-3 px-2">
             {/* 左 */}
             <div className="w-11 shrink-0">
-              <p className="text-xs tracking-wide text-right leading-5 translate-y-[0.7px] text-stone-500">
+              <p className="translate-y-[0.7px] text-right text-xs leading-5 tracking-wide text-stone-500">
                 Size:
               </p>
             </div>
@@ -131,7 +132,7 @@ export const AvatarInput = ({
               {/* MB, KB */}
               <p
                 className={clsx(
-                  "pl-px text-sm h-5 tracking-wide",
+                  "h-5 pl-px text-sm tracking-wide",
                   previewFile && previewFile.size > ONE_MEGA_BYTE * 2
                     ? "text-red-600"
                     : "text-teal-600"
@@ -142,9 +143,9 @@ export const AvatarInput = ({
               {/* Note */}
               <p
                 className={clsx(
-                  "text-xxs line-clamp-1 break-all",
+                  "line-clamp-1 break-all text-xxs",
                   previewFile && previewFile.size > ONE_MEGA_BYTE * 2
-                    ? "text-red-600 error-message"
+                    ? "error-message text-red-600"
                     : "text-stone-500"
                 )}
               >
@@ -159,7 +160,7 @@ export const AvatarInput = ({
           <div className="flex space-x-3 px-2">
             {/* L */}
             <div className="w-11 shrink-0">
-              <p className="text-xs tracking-wide text-right leading-5 translate-y-[0.7px] text-stone-500">
+              <p className="translate-y-[0.7px] text-right text-xs leading-5 tracking-wide text-stone-500">
                 Format:
               </p>
             </div>
@@ -168,7 +169,7 @@ export const AvatarInput = ({
               {/* JPEG or PNG */}
               <p
                 className={clsx(
-                  "pl-px text-sm h-5 tracking-wide",
+                  "h-5 pl-px text-sm tracking-wide",
                   previewFile &&
                     !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
                     ? "text-red-600"
@@ -180,10 +181,10 @@ export const AvatarInput = ({
               {/* Note */}
               <p
                 className={clsx(
-                  "text-xxs line-clamp-1 break-all",
+                  "line-clamp-1 break-all text-xxs",
                   previewFile &&
                     !ACCEPTED_IMAGE_TYPES.includes(previewFile.type)
-                    ? "text-red-600 error-message"
+                    ? "error-message text-red-600"
                     : "text-stone-500"
                 )}
               >

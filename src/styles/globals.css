@@ -20,11 +20,6 @@
     clip-path: circle(50%);
   }
 
-  .drop-shadow-white-black {
-    filter: drop-shadow(1px 1px 0 white)
-      drop-shadow(1.5px 1.5px 0 rgba(0, 0, 0, 0.1));
-  }
-
   .neumorphism {
     box-shadow: 10px 10px 30px rgba(18, 47, 61, 0.5),
       -10px -10px 30px rgba(248, 253, 255, 0.9),
@@ -52,10 +47,10 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-white my-3 rounded-full;
+    @apply my-3 rounded-full bg-white;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-juniper-300 rounded-full border-[3px] border-solid border-white;
+    @apply rounded-full border-[3px] border-solid border-white bg-juniper-300;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -63,7 +58,7 @@
   }
 
   .center {
-    @apply top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2;
+    @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
   }
 }
 

@@ -1,25 +1,27 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { Custom, Prisma } from "@prisma/client";
 
 import prisma from "#/lib/prisma";
 import { authOptions } from "#/pages/api/auth/[...nextauth]";
+import { RequestPathParameters } from "#/schema/api";
 import { CustomFormData } from "#/types";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse<(Custom | null) | { code: string; message: string }>
-  // res: NextApiResponse
+  // res: NextApiResponse<(Custom | null) | { code: string; message: string }>
+  res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
 
-  if (!session) {
-    res.status(401).json({ code: "401", message: "You must be logged in." });
+  if (!session || !session.user) {
+    res.status(401).json({ code: 401, message: "You must be logged in." });
     return;
   }
 
-  const { id } = session.user!;
-  const userId = req.query.userId as string;
+  const { id } = session.user;
+  const { userId } = RequestPathParameters.parse(req.query);
 
   if (id !== userId) {
     res.status(403).json({ code: "403", message: "You are not authorized." });
