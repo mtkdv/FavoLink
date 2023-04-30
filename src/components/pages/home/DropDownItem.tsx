@@ -32,7 +32,7 @@ export const DropDownItem = ({
   // FIXME: /contactが未実装の間。
   if (title.en === "Contact") {
     return (
-      <li key={href} className="group/item h-10 w-32 rounded-lg">
+      <li className="group/item h-10 w-32 rounded-lg">
         <Link
           href={href}
           onClick={(e) => e.preventDefault()}
@@ -47,7 +47,7 @@ export const DropDownItem = ({
   }
 
   return (
-    <li key={href} className="group/item h-10 w-40">
+    <li className="group/item h-10 w-40">
       {/* {/^http[s]?:\/\/.+/.test(href) ? ( */}
       {isExternal(href) ? (
         <a
