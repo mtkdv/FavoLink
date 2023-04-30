@@ -167,7 +167,7 @@ User {
 VerificationToken {
   String identifier
   String token
-  DataTime expires
+  DateTime expires
 }
 
 Profile {
@@ -176,7 +176,6 @@ Profile {
   String image
   String slug
   String description
-  String backgroundImage
   Boolean published
 }
 

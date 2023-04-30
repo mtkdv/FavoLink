@@ -20,7 +20,7 @@ export const usePatchProfileBaseInfo = () => {
   >({
     mutationFn: async (data) => {
       const res = await axios.patch<Profile>(
-        `/api/users/${userId}/profile/_baseinfo`,
+        `/api/users/${userId}/profile/_baseInfo`,
         data
       );
 
