@@ -110,7 +110,20 @@ const LoginButton = ({
   provider: Provider;
   children: React.ReactNode;
 }) => {
-  return (
+  return provider === "twitter" ? (
+    // Twitterログインを一時的に不可にする
+    <button
+      disabled={provider === "twitter"}
+      onClick={() => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        signIn(provider, { callbackUrl: pagesInfo.top.href });
+      }}
+      type="button"
+      className="flex w-full cursor-not-allowed justify-center border border-khaki-500 bg-white px-4 py-2 opacity-50 outline-none"
+    >
+      {children}
+    </button>
+  ) : (
     <button
       onClick={() => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
