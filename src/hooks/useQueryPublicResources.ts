@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
-import { PublicResources } from "#/types";
 import { queryKeys } from "#/const";
+import { PublicResources } from "#/types";
 
 export const useQueryPublicResources = () => {
   const router = useRouter();
@@ -17,15 +17,14 @@ export const useQueryPublicResources = () => {
   >({
     queryKey: queryKeys.publicResources,
     queryFn: async () => {
-      const res = await axios.get(`/api/query/public-resources`, {
-        params: {
-          slug: router.query.slug,
-        },
-      });
-
-      // loading test
-      // FIXME: remove
-      // await new Promise((r) => setTimeout(r, 2000));
+      const res = await axios.get<PublicResources>(
+        `/api/query/public-resources`,
+        {
+          params: {
+            slug: router.query.slug,
+          },
+        }
+      );
 
       return res.data;
     },

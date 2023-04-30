@@ -1,7 +1,10 @@
-export const privacyPolicy: PrivacyPolicy = {
+import { Legal } from "#/types";
+
+export const privacyPolicy: Legal = {
   title: "プライバシーポリシー",
   createdAt: "2023年3月12日",
-  desc: "Favolink（以下、「当方」といいます。）は、本ウェブサイト上で提供するサービス（以下,「本サービス」といいます。）における、ユーザーの個人情報の取扱いについて、以下の通り、プライバシーポリシー（以下、「本ポリシー」といいます。）を定めます。",
+  updatedAt: "2023年4月11日",
+  desc: "FAVOLINK（以下、「当方」といいます。）は、本ウェブサイト上で提供するサービス（以下、「本サービス」といいます。）における、ユーザーの個人情報の取扱いについて、以下の通り、プライバシーポリシー（以下、「本ポリシー」といいます。）を定めます。",
   articles: [
     {
       heading: "個人情報",
@@ -167,24 +170,4 @@ export const privacyPolicy: PrivacyPolicy = {
       desc: "本ポリシーに関するお問い合わせは、下記の窓口までお願いいたします。",
     },
   ],
-};
-
-type PrivacyPolicy = {
-  title: string;
-  createdAt: string;
-  updatedAt?: string;
-  desc: string;
-  articles: {
-    heading: string;
-    desc?: string;
-    paragraphs?: {
-      desc: string;
-      items?: {
-        desc: string;
-        subitems?: {
-          desc: string;
-        }[];
-      }[];
-    }[];
-  }[];
 };

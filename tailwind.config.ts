@@ -1,8 +1,9 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors");
+import colors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+export default {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     // "./components/**/*.{js,ts,jsx,tsx}",
@@ -18,66 +19,55 @@ module.exports = {
       },
       colors: {
         "base-black": "#1D1D1D",
-        // "base-white": "#FFFEFC",
         "base-white": "#faf9f9",
-        primary: "#FBF7F5",
-        // 20 2 98
-        secondary: "#EEE6E2",
-        // 20 5 93
-        // accent: "#EEE9E7",
-        // accent: "#c1a5a3",
-        // accent: "#d78e85",
-        // accent: "#f9869d",
-        // accent: "#DFDAD6",
-        // accent: "#FCEDD9",
-        // accent: "#E6BDAD",
-        // accent: "#B6A0A1",
-        // accent: "#5E4145",
-        // accent: "#463f3a",
-
-        // accent: "#FFFCF8",
-        // accent: "#63594D",
-
-        // accent: "#DD8D43",
-
-        accent: "#e8a78e",
-        "tonys-pink": "#e8a78e",
-        isabelline: {
-          // light: "#fbf9f8",
-          light: "#FBF7F5",
-          DEFAULT: "#eee6e2",
-          // dark: "#706c6a",
+        isabelline: "#eee6e2",
+        twitter: "#2A9BF0",
+        stone: {
+          150: "#EFEEEE",
         },
-
-        "brand-light": "#fbe9e2",
-        brand: "#e8a78e",
-        "brand-dark": "#6d5146",
-
-        cta: "#8ee8d4",
-        cocoa: {
-          50: "#fcfbf8",
-          100: "#faf0d9",
-          200: "#f5d7b1",
-          300: "#e7ae7d",
-          400: "#da804f",
-          500: "#c55d30",
-          600: "#a8431f",
-          700: "#823219",
-          800: "#5a2313",
-          900: "#39150c",
+        liver: {
+          50: "#f7f6f5",
+          100: "#eeecec",
+          200: "#d5d0cf",
+          300: "#bbb3b1",
+          400: "#897b77",
+          500: "#56423d",
+          600: "#4d3b37",
+          700: "#41322e",
+          800: "#342825",
+          900: "#2a201e",
         },
-        newOrange: {
-          50: "#fff8f1",
-          100: "#fbecdf",
-          200: "#f6d7bf",
-          300: "#e5ad8b",
-          400: "#d67a4a",
-          500: "#c4540b",
-          600: "#9c4303",
-          700: "#713707",
-          800: "#4a2702",
-          900: "#2c1b01",
+        juniper: {
+          50: "#f8f9f9",
+          100: "#f1f3f4",
+          200: "#dbe2e3",
+          300: "#c5d0d1",
+          400: "#9aadaf",
+          500: "#6E8A8D",
+          600: "#637c7f",
+          700: "#53686a",
+          800: "#425355",
+          900: "#364445",
         },
+        khaki: {
+          50: "#fcfbf9",
+          100: "#f9f7f3",
+          200: "#efeae0",
+          300: "#e5ddce",
+          400: "#d2c4a9",
+          500: "#beaa84",
+          600: "#ab9977",
+          700: "#8f8063",
+          800: "#72664f",
+          900: "#5d5341",
+        },
+      },
+      dropShadow: {
+        "white-black": [
+          `1px 1px 0 ${colors.white}`,
+          // `1.5px 1.5px 0 rgba(${colors.black} / 0.1)`,
+          `1.5px 1.5px 0 rgb(0 0 0 / 0.1)`,
+        ],
       },
       fontFamily: {
         custom: [
@@ -96,19 +86,30 @@ module.exports = {
       spacing: {
         18: "4.5rem",
         22: "5.5rem",
+        30: "7.5rem",
         90: "22.5rem",
         "3xl": "768px",
-        nav: "calc(100vh - 56px)",
-        // (my-4 + border) = (16px * 2 + 1px * 2) => 34px
-        page: "calc(100vh - 34px)",
+        // h24(header) * 4px => 96px
+        "full-nav": "calc(100vh - 96px)",
         // (page + header) = (34px + 16 * 4px) => 98px
-        "page-main": "calc(100vh - 98px)",
+        "dashboard-page-main": "calc(100vh - 98px)",
       },
       minHeight: {
-        page: "calc(100vh - 34px)",
+        // (my-4 + border) = (16px * 2 + 1px * 2) => 34px
+        "dashboard-page": "calc(100vh - 34px)",
         // (pt-36 + mt-6 + text-4xl + space-y-2 + text-xs + pb-6)
         // = (36 * 4px + 6 * 4px + 40px + 2 * 4px + 16px + 6 * 4px) => 256px
         "main-content": "calc(100vh - 256px)",
+        // h-30(footer) * 4px => 120px
+        "top-main": "calc(100vh - 120px)",
+        // h-20(md:footer) * 4px => 80px
+        "md-top-main": "calc(100vh - 80px)",
+      },
+      minWidth: {
+        xl: "36rem" /** 576px */,
+      },
+      ringWidth: {
+        3: "3px",
       },
       keyframes: {
         animate: {
@@ -184,12 +185,26 @@ module.exports = {
             transform: "translateX(100%)",
           },
         },
-        skeleton2: {
+        // skeleton2: {
+        //   "0%": {
+        //     backgroundPosition: 0,
+        //   },
+        //   "0%": {
+        //     backgroundPosition: "200%",
+        //   },
+        // },
+        toTop: {
           "0%": {
-            backgroundPosition: 0,
+            transform: "translateY(0%)",
           },
-          "0%": {
-            backgroundPosition: "200%",
+          "50%": {
+            transform: "translateY(-120%)",
+          },
+          "51%": {
+            transform: "translateY(120%)",
+          },
+          "100%": {
+            transform: "translateY(0%)",
           },
         },
       },
@@ -202,6 +217,7 @@ module.exports = {
         appearance: "appearance 0.7s linear",
         skeleton: "skeleton 1.2s linear infinite",
         skeleton2: "skeleton2 1.2s linear infinite",
+        toTop: "toTop 0.s ease-in",
       },
     },
     screens: {
@@ -209,6 +225,6 @@ module.exports = {
       ...defaultTheme.screens,
     },
   },
-  plugins: [require("@tailwindcss/line-clamp")],
+  // plugins: [require("@tailwindcss/line-clamp")],
   darkMode: "class",
-};
+} satisfies Config;

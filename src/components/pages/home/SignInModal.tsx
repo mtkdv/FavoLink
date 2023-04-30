@@ -1,12 +1,21 @@
-import { Fragment } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 import { signIn } from "next-auth/react";
+import { Fragment } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { VscChromeClose } from "react-icons/vsc";
 import { SiTwitter } from "react-icons/si";
+import { TfiClose } from "react-icons/tfi";
 
-import { pagesInfo, queryKeys } from "#/const";
+import { Spacer } from "#/components/uiParts";
+import {
+  OAuthProvider,
+  Provider,
+  oAuthProviders,
+  pagesInfo,
+  queryKeys,
+} from "#/const";
+import { kleeOne } from "#/lib/nextFont";
 
 export const SignInModal = () => {
   const { data: isOpen } = useQuery({
@@ -24,11 +33,9 @@ export const SignInModal = () => {
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         // open={isOpen}
-        // onClose={() => queryClient.setQueryData(queryKeys.signInModal, false)}
         onClose={closeModal}
-        className="relative z-50"
+        className={clsx(kleeOne.className, "relative z-50")}
       >
-        {/* <div className="fixed inset-0 bg-black/30" aria-hidden="true" /> */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -38,11 +45,10 @@ export const SignInModal = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          {/* <div className="fixed inset-0 bg-black/25" /> */}
-          <div className="fixed inset-0 bg-black/5 backdrop-blur-[1px]" />
+          <div className="fixed inset-0 bg-neutral-100/80 backdrop-blur" />
         </Transition.Child>
 
-        <div className="fixed inset-y-0 w-screen pr-3.5 overflow-y-auto">
+        <div className="fixed inset-y-0 w-screen overflow-y-auto pr-3.5">
           <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={Fragment}
@@ -53,52 +59,35 @@ export const SignInModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="relative w-full max-w-sm rounded-2xl bg-white py-6 px-12 border-t border-t-black/10 border-l border-l-black/10 shadow-[3px_3px_5px_rgba(0,0,0,0.1)]">
-                <Dialog.Title className="text-xl font-medium text-center">
-                  <span className="relative">
-                    <span className="absolute bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 w-full h-0.5 -bottom-2"></span>
-                    <span>Log in to FavoLink</span>
+              <Dialog.Panel className="relative w-full max-w-sm bg-white py-6 shadow-[0_0_25px_-2px] shadow-khaki-500/30">
+                <Dialog.Title className="relative text-center">
+                  <span className="absolute -bottom-1 left-0 h-px w-full rounded-full bg-gradient-to-r from-white via-khaki-500 to-white" />
+                  <span className="text-xl font-light text-liver-500">
+                    Log in to FAVOLINK
                   </span>
                 </Dialog.Title>
-                {/* <Dialog.Description>
-                  description
-                </Dialog.Description> */}
-                <div className="mt-12 space-y-4">
-                  <button
-                    onClick={() => {
-                      // signIn("google", { callbackUrl: pagesInfo.my.dashboard.href });
-                      signIn("google", { callbackUrl: pagesInfo.top.href });
-                      // signIn("google", {
-                      //   callbackUrl: getPagesPath(["my", "addVideo"]),
-                      // });
-                    }}
-                    type="button"
-                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  >
-                    <FcGoogle size={20} />
-                    <span>Continue with Google</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      // signIn("twitter", { callbackUrl: pagesInfo.my.dashboard.href });
-                      // signIn("twitter", { callbackUrl: pagesInfo.my.addVideo.href });
-                      signIn("twitter", { callbackUrl: pagesInfo.top.href });
-                    }}
-                    type="button"
-                    className="flex w-full space-x-1 justify-center rounded-md border border-transparent bg-white ring-1 ring-black/30 px-4 py-2 text-sm font-medium hover:bg-stone-100/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  >
-                    <SiTwitter size={20} className="text-[color:#2A9BF0]" />
-                    <span>Continue with Twitter</span>
-                  </button>
+
+                <Spacer size={48} axis="column" />
+
+                <div className="space-y-4 px-12">
+                  {oAuthProviders.map((provider) => (
+                    <OAuthLoginButton key={provider} {...{ provider }} />
+                  ))}
+                </div>
+
+                <Spacer size={36} axis="column" />
+                <div className="px-12">
+                  <LoginButton provider="credentials">
+                    <span className="font-light text-liver-500">
+                      Guest Login
+                    </span>
+                  </LoginButton>
                 </div>
                 <button
-                  // onClick={() =>
-                  //   queryClient.setQueryData(queryKeys.signInModal, false)
-                  // }
                   onClick={closeModal}
-                  className="absolute top-3 right-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="absolute bottom-full right-1 -translate-y-1 outline-none ring-juniper-500 transition hover:opacity-60 focus-visible:ring-2"
                 >
-                  <VscChromeClose size={20} />
+                  <TfiClose size={32} className="scale-y-75 text-khaki-500" />
                 </button>
               </Dialog.Panel>
             </Transition.Child>
@@ -106,5 +95,49 @@ export const SignInModal = () => {
         </div>
       </Dialog>
     </Transition>
+  );
+};
+
+const iconTypes = {
+  google: FcGoogle,
+  twitter: SiTwitter,
+};
+
+const LoginButton = ({
+  provider,
+  children,
+}: {
+  provider: Provider;
+  children: React.ReactNode;
+}) => {
+  return (
+    <button
+      onClick={() => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        signIn(provider, { callbackUrl: pagesInfo.top.href });
+      }}
+      type="button"
+      className="flex w-full justify-center border border-khaki-500 bg-white px-4 py-2 outline-none transition hover:ring-khaki-400/30 focus-visible:ring-juniper-500 focus-visible:ring-offset-2 [&:is(:hover,:focus-visible)]:ring-2"
+    >
+      {children}
+    </button>
+  );
+};
+
+const OAuthLoginButton = ({ provider }: { provider: OAuthProvider }) => {
+  const Icon = iconTypes[provider];
+
+  return (
+    <LoginButton provider={provider}>
+      <Icon
+        size={24}
+        className={clsx(provider === "twitter" && "text-twitter")}
+      />
+      <Spacer size={8} axis="row" />
+      <span className="font-light text-liver-500">
+        Continue with&nbsp;
+        <span className="capitalize">{provider}</span>
+      </span>
+    </LoginButton>
   );
 };

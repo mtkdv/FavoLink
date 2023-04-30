@@ -1,6 +1,6 @@
 import { IconKeys } from "#/components/pages/home/DropDownItem";
 import { pagesInfo } from "#/const/pagesInfo";
-import { urls } from "#/const/urls";
+import { github } from "#/const/staticData";
 
 export type MenuList = MenuItem[];
 
@@ -10,7 +10,9 @@ export type MenuItem = {
 };
 
 export type Item = {
-  title: string;
+  title: {
+    en: string;
+  };
   href: string;
   icon?: IconKeys;
   // icon?: string;
@@ -28,7 +30,7 @@ export const menuList: MenuList = [
   },
   {
     title: "Contact",
-    items: [pagesInfo.contact, urls.github],
+    items: [pagesInfo.contact, github],
   },
   {
     title: "Legal",

@@ -6,28 +6,27 @@ import {
   UseFormGetValues,
   UseFormSetValue,
 } from "react-hook-form";
-import { IoMdClose } from "react-icons/io";
 import { AiOutlineSwap } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 
-import { Schema } from "#/pages/my/add-video";
 import { LinkForm } from "#/components/pages/my/add-video";
+import { useLayoutAnimation } from "#/hooks";
+import { Schema } from "#/pages/my/add-video";
 
-type Props = {
-  getValues: UseFormGetValues<Schema>;
-  categoryIndex: number;
-  linkIndex: number;
-  move: UseFieldArrayMove;
-  remove: UseFieldArrayRemove;
-  setValue: UseFormSetValue<Schema>;
-};
-
-export const LinkListItem: React.FC<Props> = ({
+export const LinkListItem = ({
   getValues,
   categoryIndex,
   linkIndex,
   move,
   remove,
   setValue,
+}: {
+  getValues: UseFormGetValues<Schema>;
+  categoryIndex: number;
+  linkIndex: number;
+  move: UseFieldArrayMove;
+  remove: UseFieldArrayRemove;
+  setValue: UseFormSetValue<Schema>;
 }) => {
   const [hasValues, setHasValues] = useState(() => {
     return !!getValues(
@@ -43,8 +42,14 @@ export const LinkListItem: React.FC<Props> = ({
     move(fromIndex, fromIndex - 1);
   };
 
+  // Layout Animation
+  const { liRef } = useLayoutAnimation(linkIndex);
+
   return (
-    <li className="group/video-item relative h-24 flex items-center rounded-sm ring-1 ring-stone-300 bg-white/50 hover:ring-stone-400">
+    <li
+      ref={liRef}
+      className="group/video-item relative flex h-24 items-center rounded-sm border border-stone-300 bg-white/50 hover:border-stone-400"
+    >
       {!hasValues ? (
         // Link Add Form
         <LinkForm
@@ -64,20 +69,20 @@ export const LinkListItem: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => swapVideoItem(linkIndex)}
-              className="absolute group/swap z-10 left-1/2 -translate-x-1/2 bottom-full translate-y-0.5 rounded-sm ring-1 ring-stone-300 shadow p-0.5 bg-white [&:is(:hover,:focus-visible)]:bg-tonys-pink [&:is(:hover,:focus-visible)]:ring-tonys-pink transition duration-300"
+              className="group/swap absolute bottom-full left-1/2 z-10 -translate-x-1/2 translate-y-0.5 rounded-sm border border-stone-300 bg-white p-0.5 shadow outline-none transition duration-300 [&:is(:hover,:focus-visible)]:border-juniper-500 [&:is(:hover,:focus-visible)]:bg-juniper-500"
             >
               <AiOutlineSwap
                 size={16}
                 transform="rotate(90)"
-                className="text-stone-400 group-[:is(:hover,:focus-visible)]/swap:text-white transition duration-300"
+                className="text-stone-400 transition duration-300 group-[:is(:hover,:focus-visible)]/swap:text-white"
               />
             </button>
           )}
 
-          <div className="w-full px-1 flex space-x-2">
+          <div className="flex w-full space-x-2 px-1">
             {/* Left */}
             {/* <div className="overflow-hidden shrink-0 border-r border-r-stone-300"> */}
-            <div className="overflow-hidden shrink-0 ring-1 ring-stone-300">
+            <div className="shrink-0 overflow-hidden ring-1 ring-stone-300">
               <Image
                 src={getValues(
                   `videos.${categoryIndex}.categoryLinks.${linkIndex}.thumbnailUrl`
@@ -85,15 +90,15 @@ export const LinkListItem: React.FC<Props> = ({
                 alt="thumbnail"
                 width={160}
                 height={90}
-                className="hover:scale-105 transition-transform"
+                className="transition-transform hover:scale-105"
               />
             </div>
 
             {/* Right: Title, Channel */}
-            <div className="py-[3px] flex-1 flex flex-col justify-between">
+            <div className="flex flex-1 flex-col justify-between py-[3px]">
               <div className="flex items-start space-x-1">
                 {/* Title */}
-                <p className="flex-1 line-clamp-2 text-sm break-all">
+                <p className="line-clamp-2 flex-1 break-all text-sm">
                   {getValues(
                     `videos.${categoryIndex}.categoryLinks.${linkIndex}.title`
                   )}
@@ -107,7 +112,7 @@ export const LinkListItem: React.FC<Props> = ({
                 >
                   <IoMdClose
                     size={20}
-                    className="text-stone-400 group-[:is(:hover,:focus-visible)]/remove:text-[#222222] transition duration-300 opacity-0 group-hover/video-item:opacity-100"
+                    className="text-stone-400 opacity-0 transition duration-300 group-hover/video-item:opacity-100 group-focus-visible/remove:opacity-100 group-[:is(:hover,:focus-visible)]/remove:text-red-400"
                   />
                 </button>
               </div>
@@ -130,10 +135,10 @@ export const LinkListItem: React.FC<Props> = ({
                     alt="channelThumbnail"
                     width={33}
                     height={33}
-                    className="hover:scale-110 transition-transform"
+                    className="transition-transform hover:scale-110"
                   />
                 </div>
-                <p className="text-xs line-clamp-1 flex-1 break-all text-base-black/70 hover:text-base-black transition-colors duration-300">
+                <p className="line-clamp-1 flex-1 break-all text-xs text-base-black/70 transition-colors duration-300 hover:text-base-black">
                   {getValues(
                     `videos.${categoryIndex}.categoryLinks.${linkIndex}.channelTitle`
                   )}

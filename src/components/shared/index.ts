@@ -1,5 +1,12 @@
+export * from "./Appearance";
+export * from "./AvatarIcon";
 export * from "./CategorizedLink";
-export * from "./ErrorBoudary";
+export * from "./DashboardBackground";
+export * from "./DashboardForm";
+export * from "./DashboardHeader";
+export * from "./DashboardMain";
+// export * from "./ErrorBoudary";
+export * from "./FadeInOut";
 export * from "./Layout";
 export * from "./MainContent";
 export * from "./Sidebar";

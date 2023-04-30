@@ -1,6 +1,6 @@
-import { Fragment } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Fragment } from "react";
 
 import { VideoPlayer } from "#/components/shared/VideoPlayer";
 import { queryKeys } from "#/const";
@@ -34,7 +34,7 @@ export const VideoPlayerModal = () => {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full justify-center items-center px-6">
+          <div className="flex min-h-full items-center justify-center px-6">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"

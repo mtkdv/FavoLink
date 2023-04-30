@@ -23,7 +23,7 @@ const createCustomRecordsForExistingUsers = async () => {
       },
     });
 
-    console.log(`Created custom record for user ${user.name}`);
+    console.log(`Created custom record for user ${user.name ?? ""}`);
   }
 };
 

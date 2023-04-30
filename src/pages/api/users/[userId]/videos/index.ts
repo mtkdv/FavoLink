@@ -1,10 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
 
 import prisma from "#/lib/prisma";
 import { authOptions } from "#/pages/api/auth/[...nextauth]";
 import { Schema } from "#/pages/my/add-video";
+import { RequestPathParameters } from "#/schema/api";
 import { generateVideos } from "#/utils";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handle(
   req: NextApiRequest,
@@ -12,13 +15,13 @@ export default async function handle(
 ) {
   const session = await getServerSession(req, res, authOptions);
 
-  if (!session) {
+  if (!session || !session.user) {
     res.status(401).json({ code: "401", message: "You must be logged in." });
     return;
   }
 
-  const { id } = session.user!;
-  const userId = req.query.userId as string;
+  const { id } = session.user;
+  const { userId } = RequestPathParameters.parse(req.query);
 
   if (id !== userId) {
     res.status(403).json({ code: "403", message: "You are not authorized." });
@@ -50,9 +53,11 @@ export default async function handle(
 
         const videos = generateVideos({ categories, links });
         res.json(videos);
-      } catch (error: any) {
-        // FIXME:
-        res.status(404).json({ message: error.message });
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("GetProfile error", error);
+          res.status(404).json({ message: error.message });
+        }
       }
       break;
     }

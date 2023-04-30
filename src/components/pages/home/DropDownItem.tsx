@@ -1,12 +1,11 @@
+import clsx from "clsx";
 import Link from "next/link";
-import { RiMagicFill, RiUser5Fill } from "react-icons/ri";
-import { IoLogoYoutube } from "react-icons/io5";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaGithub } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
-import { FaTwitter, FaGithub } from "react-icons/fa";
+import { IoLogoYoutube } from "react-icons/io5";
+import { RiMagicFill, RiUser5Fill } from "react-icons/ri";
 
 import { Item } from "#/const/menuList";
-import clsx from "clsx";
 import { isExternal } from "#/utils";
 
 const iconObj = {
@@ -30,70 +29,64 @@ export const DropDownItem = ({
   const iconKey = iconKeys.find((iconKey) => iconKey === icon);
   const Icon = iconKey ? iconObj[iconKey] : undefined;
 
-  // FIXME: /contactが未実装の間、以下をレンダリング。
-  if (title === "Contact") {
+  // FIXME: /contactが未実装の間。
+  if (title.en === "Contact") {
     return (
-      <li
-        key={href}
-        className="h-10 w-32 rounded-lg hover:bg-base-black/5 transition duration-300 group/item"
-      >
+      <li key={href} className="group/item h-10 w-32 rounded-lg">
         <Link
           href={href}
           onClick={(e) => e.preventDefault()}
           tabIndex={-1}
-          className="px-3 flex w-full h-full items-center space-x-2 cursor-not-allowed text-stone-400"
+          className="flex h-full w-full cursor-not-allowed items-center space-x-2 px-5 text-stone-400"
         >
           <span className="text-sm">🚧</span>
-          <span className="text-sm transition duration-300">{title}</span>
+          <span className="font-light tracking-wider">{title.en}</span>
         </Link>
       </li>
     );
   }
 
   return (
-    <li
-      key={href}
-      className="h-10 w-32 rounded-lg hover:bg-base-black/5 transition duration-300 group/item"
-    >
+    <li key={href} className="group/item h-10 w-40">
       {/* {/^http[s]?:\/\/.+/.test(href) ? ( */}
       {isExternal(href) ? (
         <a
           target="_blank"
           rel="noopener noreferrer"
           href={href}
-          className="px-3 flex w-full h-full items-center space-x-2"
+          className="flex h-full w-full items-center space-x-2 px-5 outline-none ring-inset ring-juniper-500 transition focus-visible:ring-2"
         >
           {Icon && (
-            <Icon className="opacity-0 scale-0 group-hover/item:opacity-100 group-hover/item:scale-100 transition duration-300" />
+            <Icon className="scale-0 opacity-0 transition duration-300 group-hover/item:scale-100 group-hover/item:opacity-100" />
           )}
           <span
             className={clsx(
-              "text-sm transition duration-300",
+              "font-light tracking-wider transition duration-300",
               Icon
                 ? "-translate-x-6 group-hover/item:translate-x-0"
                 : "group-hover/item:translate-x-1"
             )}
           >
-            {title}
+            {title.en}
           </span>
         </a>
       ) : (
         <Link
           href={href}
-          className="px-3 flex w-full h-full items-center space-x-2"
+          className="flex h-full w-full items-center space-x-2 px-5 outline-none ring-inset ring-juniper-500 transition focus-visible:ring-2"
         >
           {Icon && (
-            <Icon className="opacity-0 scale-0 group-hover/item:opacity-100 group-hover/item:scale-100 transition duration-300" />
+            <Icon className="scale-0 opacity-0 transition duration-300 group-hover/item:scale-100 group-hover/item:opacity-100" />
           )}
           <span
             className={clsx(
-              "text-sm transition duration-300",
+              "font-light tracking-wider transition duration-300",
               Icon
                 ? "-translate-x-6 group-hover/item:translate-x-0"
                 : "group-hover/item:translate-x-1"
             )}
           >
-            {title}
+            {title.en}
           </span>
         </Link>
       )}

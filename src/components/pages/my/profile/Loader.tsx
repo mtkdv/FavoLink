@@ -1,7 +1,7 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-export const Loader = (props: any) => (
+export const Loader = () => (
   <ContentLoader
     speed={2}
     // width={494.73}
@@ -10,7 +10,7 @@ export const Loader = (props: any) => (
     viewBox="0 0 494.73 937.51"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
-    {...props}
+    // {...props}
   >
     {/* <rect x="23" y="64" rx="6" ry="6" width="90%" height="136" /> */}
     <rect x="23" y="64" rx="6" ry="6" width="90%" height="14.5%" />

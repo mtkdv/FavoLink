@@ -1,7 +1,10 @@
-export const terms: Terms = {
+import { Legal } from "#/types";
+
+export const terms: Legal = {
   title: "利用規約",
   createdAt: "2023年3月8日",
-  desc: "この利用規約（以下、「本規約」といいます。）は、Favolink（以下、「当方」といいます。）が本ウェブサイト上で提供するサービス（以下、「本サービス」といいます。）の利用条件を定めるものです。本サービスのユーザー（以下、「ユーザー」といいます。）は、本規約に同意した上で、本サービスをご利用いただきます。",
+  updatedAt: "2023年4月11日",
+  desc: "この利用規約（以下、「本規約」といいます。）は、FAVOLINK（以下、「当方」といいます。）が本ウェブサイト上で提供するサービス（以下、「本サービス」といいます。）の利用条件を定めるものです。本サービスのユーザー（以下、「ユーザー」といいます。）は、本規約に同意した上で、本サービスをご利用いただきます。",
   articles: [
     {
       heading: "適用",
@@ -204,24 +207,4 @@ export const terms: Terms = {
       ],
     },
   ],
-};
-
-type Terms = {
-  title: string;
-  createdAt: string;
-  updatedAt?: string;
-  desc: string;
-  articles: {
-    heading: string;
-    desc?: string;
-    paragraphs?: {
-      desc: string;
-      items?: {
-        desc: string;
-        subitems?: {
-          desc: string;
-        }[];
-      }[];
-    }[];
-  }[];
 };

@@ -26,6 +26,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "pbs.twimg.com",
       },
+      {
+        protocol: "https",
+        hostname: "source.unsplash.com",
+      },
     ],
     // disableStaticImages: true,
   },
@@ -39,6 +43,5 @@ const nextConfig = {
     return config;
   },
 };
-// lh3.googleusercontent.com
 
 module.exports = nextConfig;

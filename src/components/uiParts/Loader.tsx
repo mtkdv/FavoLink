@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { PacmanLoader, RingLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 
 export const Loader = ({
   className,
@@ -13,11 +13,10 @@ export const Loader = ({
   return (
     <div
       className={clsx(
-        "w-full h-full flex justify-center items-center",
+        "flex h-full w-full items-center justify-center",
         className
       )}
     >
-      {/* <PacmanLoader color={color} /> */}
       <RingLoader color={color ?? "teal"} size={size ?? 120} />
     </div>
   );
