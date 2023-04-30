@@ -3,13 +3,15 @@ import { getServerSession } from "next-auth";
 
 import prisma from "#/lib/prisma";
 import { authOptions } from "#/pages/api/auth/[...nextauth]";
-import { NextApiRequestWithReqQuery } from "#/types";
-import { deserializeQueryParams } from "#/utils";
+import { RequestPathParameters } from "#/schema/api";
+// import { NextApiRequestWithReqQuery } from "#/types";
+// import { deserializeQueryParams } from "#/utils";
 
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handle(
-  req: NextApiRequestWithReqQuery,
+  // req: NextApiRequestWithReqQuery,
+  req: NextApiRequest,
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
@@ -20,7 +22,8 @@ export default async function handle(
   }
 
   const { id } = session.user;
-  const { userId, select } = deserializeQueryParams(req.query);
+  // const { userId, select } = deserializeQueryParams(req.query);
+  const { userId } = RequestPathParameters.parse(req.query);
 
   if (id !== userId) {
     res.status(403).json({ code: 403, message: "You are not authorized." });
@@ -32,7 +35,7 @@ export default async function handle(
       try {
         const profile = await prisma.profile.findUniqueOrThrow({
           where: { userId },
-          select,
+          // select,
         });
         res.json(profile);
       } catch (error) {

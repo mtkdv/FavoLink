@@ -14,14 +14,7 @@ export const useGetProfilePublished = () => {
     queryKey: queryKeys.getProfilePublished,
     queryFn: async () => {
       const res = await axios.get<ProfilePublished>(
-        `/api/users/${userId}/profile`,
-        {
-          params: {
-            select: {
-              published: true,
-            },
-          },
-        }
+        `/api/users/${userId}/profile/_published`
       );
 
       return res.data;

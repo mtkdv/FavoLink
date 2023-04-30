@@ -26,13 +26,7 @@ export default async function handle(
   }
 
   const { id } = session.user;
-  // const userId = req.query.userId as string;
-  // const [userId] = [req.query.userId].flat()
-  // console.log("req.query: ", req.query);
-  // const userId = RequestPathParameters.parse(req.query);
   const { userId } = RequestPathParameters.parse(req.query);
-
-  const { published } = RequestBody.parse(req.body);
 
   if (id !== userId) {
     res.status(403).json({ code: 403, message: "You are not authorized." });
@@ -40,7 +34,27 @@ export default async function handle(
   }
 
   switch (req.method) {
+    case "GET": {
+      try {
+        const profile = await prisma.profile.findUniqueOrThrow({
+          where: { userId },
+          select: {
+            published: true,
+          },
+        });
+        res.json(profile);
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("GetProfile error", error);
+          res.status(404).json({ message: error.message });
+        }
+      }
+      break;
+    }
+
     case "PATCH": {
+      const { published } = RequestBody.parse(req.body);
+
       try {
         const profile = await prisma.profile.update({
           where: { userId },
