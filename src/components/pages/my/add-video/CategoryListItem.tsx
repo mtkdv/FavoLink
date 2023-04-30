@@ -96,7 +96,6 @@ export const CategoryListItem = ({
       //   position.y = rect.top;
       // }}
       id={categoryField.categoryName}
-      key={categoryField.id}
       className="group/collection-item relative rounded-lg border border-stone-300 bg-white/80 px-3 py-6 hover:border-stone-400"
     >
       {/* Move Category Up Down */}
