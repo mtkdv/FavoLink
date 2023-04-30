@@ -17,17 +17,7 @@ export const useGetProfileBaseInfo = () => {
     queryKey: queryKeys.getProfileBaseInfo,
     queryFn: async () => {
       const res = await axios.get<ProfileBaseInfo>(
-        `/api/users/${userId}/profile`,
-        {
-          params: {
-            select: {
-              name: true,
-              image: true,
-              slug: true,
-              description: true,
-            },
-          },
-        }
+        `/api/users/${userId}/profile/_baseInfo`
       );
 
       await new Promise((r) => setTimeout(r, 1000));
