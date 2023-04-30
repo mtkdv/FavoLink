@@ -28,7 +28,29 @@ export default async function handle(
   }
 
   switch (req.method) {
+    case "GET": {
+      try {
+        const profile = await prisma.profile.findUniqueOrThrow({
+          where: { userId },
+          select: {
+            name: true,
+            image: true,
+            slug: true,
+            description: true,
+          },
+        });
+        res.json(profile);
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error("GetProfile error", error);
+          res.status(404).json({ message: error.message });
+        }
+      }
+      break;
+    }
+
     case "PATCH": {
+      // FIXME: zodを使用する。
       const { image, name, slug, description } = req.body as ProfileFormData;
       // console.log("image:", image); //=> undefined
       // https://www.prisma.io/docs/concepts/components/prisma-client/null-and-undefined
