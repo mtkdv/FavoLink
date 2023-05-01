@@ -59,17 +59,9 @@ export const authOptions: NextAuthOptions = {
       ]);
     },
     async signOut({ token }) {
-      // ゲストアカウントを削除
-      const user = await prisma.user.findUnique({
-        where: {
-          email: guestUser.email,
-        },
+      await prisma.user.delete({
+        where: { id: token.sub },
       });
-      if (user && user.id === token.sub) {
-        await prisma.user.delete({
-          where: { id: user.id },
-        });
-      }
     },
   },
 };
@@ -79,11 +71,13 @@ export default NextAuth(authOptions);
 const createGuestUser = async () => {
   const user = await prisma.user.create({
     data: {
-      ...guestUser,
+      ...guestUser(),
       profile: { create: guestProfile() },
       custom: { create: guestCustom },
     },
   });
+
+  // const user = guestUser();
 
   await Promise.all([
     guestVideos.map(
