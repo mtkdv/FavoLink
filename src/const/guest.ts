@@ -5,10 +5,16 @@ const nameAndImage = {
   image: "https://source.unsplash.com/hxn2HjZHyQE",
 };
 
-export const guestUser = {
+export const guestUser = () => ({
   ...nameAndImage,
-  email: "guest@example.com",
-};
+  email: createRandomChars(20),
+});
+
+// export const guestUser = () => ({
+//   id: createRandomChars(25),
+//   ...nameAndImage,
+//   email: createRandomChars(20),
+// });
 
 export const guestProfile = () => ({
   ...nameAndImage,
