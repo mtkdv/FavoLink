@@ -50,7 +50,7 @@
 <!-- prettier-ignore -->
 | トップページ・ログイン | ダッシュボード |
 | :---: | :---: |
-| ![top-login](https://gyazo.com/02dc63c9c94d7798cda383b8eda588d5.gif) | ![dashboard](https://gyazo.com/48124e8b04d69e7cb5e0cade89d68b39.gif) |
+| ![top-login](https://gyazo.com/e470c9af4b659f099ea5a92abc3973db.gif) | ![dashboard](https://gyazo.com/48124e8b04d69e7cb5e0cade89d68b39.gif) |
 | Google、Twitter、ゲストアカウントによる認証。<br>※ 2023/4/30現在、Twitter認証を一時的に停止しています。 | サイドバーには各種編集ページへのリンク、右枠にはそれぞれのページが表示される。 |
 
 <br>
