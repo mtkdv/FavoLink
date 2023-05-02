@@ -7,7 +7,7 @@ const nameAndImage = {
 
 export const guestUser = () => ({
   ...nameAndImage,
-  email: createRandomChars(20),
+  email: `${createRandomChars(20)}@guestUser.com`,
 });
 
 // export const guestUser = () => ({
