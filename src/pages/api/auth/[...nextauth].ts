@@ -59,9 +59,12 @@ export const authOptions: NextAuthOptions = {
       ]);
     },
     async signOut({ token }) {
-      await prisma.user.delete({
-        where: { id: token.sub },
-      });
+      // ゲストアカウントはsignOut時に削除する
+      if (token.email?.endsWith("@guestUser.com")) {
+        await prisma.user.delete({
+          where: { id: token.sub },
+        });
+      }
     },
   },
 };
