@@ -74,7 +74,7 @@
 <!-- prettier-ignore -->
 | プレビューページ | 公開ページ |
 | :---: | :---: |
-| ![preview](https://gyazo.com/f86d11097d8eab9ec0520108aac9e608.gif) | ![public](https://gyazo.com/7ca1c07a34703eea78ceaf9f99a6c302.gif) |
+| ![preview](https://user-images.githubusercontent.com/89004483/235828866-626c93cd-f997-43ce-9505-0c1b338533a0.gif) | ![public](https://gyazo.com/7ca1c07a34703eea78ceaf9f99a6c302.gif) |
 | 公開前の状態を確認できる。サムネイルをクリックすると、ダイアログで動画を再生する。 | 自身のプロフィールページを開いた場合にのみ、右上に編集ページへのボタンが表示される。 |
 
 ## 使用技術
