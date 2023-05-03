@@ -82,7 +82,8 @@ const createGuestUser = async () => {
 
   // const user = guestUser();
 
-  await Promise.all([
+  // const guestUserVideos = await Promise.all(
+  await Promise.all(
     guestVideos.map(
       async ({ categoryName: name, categoryLinks }, categoryIndex) => {
         const index = (categoryIndex + 1) * 1024;
@@ -96,10 +97,10 @@ const createGuestUser = async () => {
           },
         });
 
-        await Promise.all(
+        const createdLinks = await Promise.all(
           categoryLinks.map(async (categoryLink, linkIndex) => {
             const index = (linkIndex + 1) * 1024;
-            await prisma.link.create({
+            return await prisma.link.create({
               data: {
                 ...categoryLink,
                 index,
@@ -113,9 +114,13 @@ const createGuestUser = async () => {
             });
           })
         );
+
+        return { createdCategory, createdLinks };
       }
-    ),
-  ]);
+    )
+  );
+
+  // console.log("guestUserVideos=> ", guestUserVideos);
 
   return user;
 };
