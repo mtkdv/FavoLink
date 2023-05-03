@@ -23,8 +23,8 @@ const Home: NextPageWithLayout = () => {
           <p className="text-center text-liver-400">{topInfo.paragraph}</p>
 
           <div className="h-12">
-            {sessionStatus !== "loading" &&
-            sessionStatus === "unauthenticated" ? (
+            {sessionStatus === "loading" ? null : sessionStatus ===
+              "unauthenticated" ? (
               <LoginButton size="md" />
             ) : (
               <Link
