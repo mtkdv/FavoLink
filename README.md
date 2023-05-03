@@ -1,22 +1,16 @@
 <h1 align="center">FAVOLINK</h1>
 
-<!-- [![next.js](https://img.shields.io/badge/v13.2.1-blueviolet.svg?style=for-the-badge&logo=Next.js&labelColor=000000&logoWidth=20>)](https://github.com/vercel/next.js/) -->
-<!-- [![react](https://img.shields.io/badge/v18.2.0-blue.svg?style=for-the-badge&logo=React&labelColor=000000&logoWidth=20>)](https://github.com/facebook/react) -->
-
 <p align="center">
+  <a href="https://github.com/facebook/react">
+    <img alt="React" src="https://img.shields.io/badge/v18.2.0-197EA4.svg?style=for-the-badge&logo=React&labelColor=333333&logoWidth=20" />
+  </a>
+  &nbsp;
   <a href="https://github.com/vercel/next.js/">
     <img alt="Next.js" src="https://img.shields.io/badge/v13.2.1-blueviolet.svg?style=for-the-badge&logo=Next.js&labelColor=333333&logoWidth=20" />
   </a>
   &nbsp;
-  <a href="https://github.com/facebook/react">
-    <img alt="React" src="https://img.shields.io/badge/v18.2.0-blue.svg?style=for-the-badge&logo=React&labelColor=333333&logoWidth=20" />
-  </a>
-  &nbsp;
-  <a href="https://gitmoji.dev">
-    <img
-      src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=for-the-badge&labelColor=333333"
-      alt="Gitmoji"
-    />
+  <a href="https://github.com/microsoft/TypeScript">
+    <img alt="React" src="https://img.shields.io/static/v1?label&message=v4.9.5&color=3178C6&style=for-the-badge&logo=TypeScript&labelColor=333333&logoWidth=20" />
   </a>
 </p>
 
