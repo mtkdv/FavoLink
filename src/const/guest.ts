@@ -74,7 +74,7 @@ export const guestVideos = [
     categoryName: "Year in Search",
     categoryLinks: [
       {
-        videoId: "2o5m1ovfl3c",
+        videoId: "4WXs3sKu41I",
         title: "Google — Year in Search 2022",
         thumbnailUrl: "https://i.ytimg.com/vi/4WXs3sKu41I/mqdefault.jpg",
         channelId: "UCK8sQmJBp8GCxrOtXWBpyEA",
