@@ -18,7 +18,7 @@
 
 **https://favolink.vercel.app/**
 
-## FAVOLINK に関して
+## FAVOLINKに関して
 
 ### 概要
 
@@ -26,7 +26,7 @@
 
 ### 作成した動機・目的
 
-あらゆる SNS アカウントをまとめたり、趣味や好きなものを列挙するプロフィールアプリは、現状でも多く存在する。<br>
+あらゆるSNSアカウントをまとめたり、趣味や好きなものを列挙するプロフィールアプリは、現状でも多く存在する。<br>
 しかし、好きな動画を紹介することで、自分をアピールするサービスは無いように感じていた。
 
 ### 既存のサービスでは解決できないこと
@@ -108,14 +108,14 @@
 - YouTube Data API v3
 - react-player
 
-#### インフラ、DB 関連
+#### インフラ、DB関連
 
 - Vercel
 - Prisma
 - PlanetScale
 - Cloud Storage for Firebase
 
-## ER 図
+## ER図
 
 ```mermaid
 erDiagram
