@@ -73,6 +73,8 @@
 
 ## 使用技術
 
+使用技術は、有名なものや新しいもの、学習したいものを優先して取り入れるようにしました。
+
 - Next.js 13.2.1
 - React 18.2.0
 - TypeScript 4.9.5
@@ -199,3 +201,20 @@ Link {
   Int index
 }
 ```
+
+## Link
+
+### 進捗状況
+
+- [GitHub Projects](https://github.com/users/mtkdv/projects/5/views/1)
+
+### Wiki
+
+- [API設計](https://github.com/mtkdv/FavoLink/wiki/API-Design)
+- [Git/GitHubの運用](https://github.com/mtkdv/FavoLink/wiki/Git-&-GitHub)
+- [Vercelの設定](https://github.com/mtkdv/FavoLink/wiki/Vercel)
+
+### 記事を執筆しました（当アプリの開発に関連したもの）
+
+- [GitHubでGIFが表示されない時はcamoが原因かも](https://zenn.dev/hmbb/articles/github-gif-camo)
+- [NextAuth.jsでTwitterログインを実装したものの、現在は使用できなくなってしまった話](https://zenn.dev/hmbb/articles/nextauth-twitter-login)
